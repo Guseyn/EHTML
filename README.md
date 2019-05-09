@@ -1,2 +1,2 @@
-# hyper-html
-HTML Framework that allows you write less js (or no js at all)
+# EHTML
+HTML Framework that allows you write no JavaScript code at all.
