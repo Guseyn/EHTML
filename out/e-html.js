@@ -34,22 +34,22 @@ var _require2 = require('@page-libs/dom'),
     UnwrappedChildrenOfParent = _require2.UnwrappedChildrenOfParent,
     ElementWithInnerHTML = _require2.ElementWithInnerHTML;
 
-var HTTMLRes =
+var EHTML =
 /*#__PURE__*/
 function (_HTMLElement) {
-  _inherits(HTTMLRes, _HTMLElement);
+  _inherits(EHTML, _HTMLElement);
 
-  function HTTMLRes() {
+  function EHTML() {
     var _this;
 
-    _classCallCheck(this, HTTMLRes);
+    _classCallCheck(this, EHTML);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(HTTMLRes).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this));
     _this.rendered = false;
     return _this;
   }
 
-  _createClass(HTTMLRes, [{
+  _createClass(EHTML, [{
     key: "render",
     value: function render() {
       if (!this.rendered) {
@@ -72,7 +72,7 @@ function (_HTMLElement) {
     }
   }]);
 
-  return HTTMLRes;
+  return EHTML;
 }(_wrapNativeSuper(HTMLElement));
 
-window.customElements.define('html-res', HTTMLRes);
+window.customElements.define('e-html', EHTML);

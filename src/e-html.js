@@ -1,7 +1,7 @@
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
 
-class HTTMLRes extends HTMLElement {
+class EHTML extends HTMLElement {
   constructor () {
     super()
     this.rendered = false
@@ -32,4 +32,4 @@ class HTTMLRes extends HTMLElement {
   }
 }
 
-window.customElements.define('html-res', HTTMLRes)
+window.customElements.define('e-html', EHTML)
