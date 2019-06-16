@@ -31,26 +31,34 @@ var _require = require('@page-libs/ajax'),
     ResponseBody = _require.ResponseBody;
 
 var _require2 = require('@page-libs/dom'),
+    UnwrappedChildrenOfParent = _require2.UnwrappedChildrenOfParent,
     ElementWithInnerHTML = _require2.ElementWithInnerHTML;
 
-var EHTML =
+var HTTMLRes =
 /*#__PURE__*/
 function (_HTMLElement) {
-  _inherits(EHTML, _HTMLElement);
+  _inherits(HTTMLRes, _HTMLElement);
 
-  function EHTML() {
-    _classCallCheck(this, EHTML);
+  function HTTMLRes() {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this));
+    _classCallCheck(this, HTTMLRes);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(HTTMLRes).call(this));
+    _this.rendered = false;
+    return _this;
   }
 
-  _createClass(EHTML, [{
+  _createClass(HTTMLRes, [{
     key: "render",
     value: function render() {
-      new ElementWithInnerHTML(this.parentElement, new ResponseBody(new ResponseFromAjaxRequest({
-        url: this.getAttribute('data-src'),
-        method: 'GET'
-      }))).call();
+      if (!this.rendered) {
+        new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest({
+          url: this.getAttribute('data-src'),
+          method: 'GET'
+        })))).call();
+        this.rendered = true;
+      }
     }
   }, {
     key: "connectedCallback",
@@ -64,7 +72,7 @@ function (_HTMLElement) {
     }
   }]);
 
-  return EHTML;
+  return HTTMLRes;
 }(_wrapNativeSuper(HTMLElement));
 
-window.customElements.define('e-html', EHTML);
+window.customElements.define('html-res', HTTMLRes);
