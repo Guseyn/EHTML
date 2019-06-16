@@ -33,7 +33,8 @@
     "@cuties/spawn": "^1.0.2",
     "@cuties/wall": "^1.1.2",
     "@page-libs/ajax": "^1.1.4",
-    "@page-libs/dom": "^1.1.1",
+    "@page-libs/cutie": "^1.1.2",
+    "@page-libs/dom": "^1.1.3",
     "test-executor": "^1.2.4"
   },
   "devDependencies": {
