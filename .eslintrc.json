@@ -16,6 +16,9 @@
   "rules": {
     "no-useless-constructor": [
       "off", "always"
+    ],
+    "no-template-curly-in-string": [
+      "off", "always"
     ]
   }
 }
