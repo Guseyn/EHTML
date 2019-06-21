@@ -1,8 +1,8 @@
-// const { AsyncObject } = require('@page-libs/cutie')
+/* const { AsyncObject } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
-// const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
-// const RequestBodyWithAppliedLocalStorageValues = require('./async/RequestBodyWithAppliedLocalStorageValues')
+const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
+const RequestBodyWithAppliedLocalStorageValues = require('./async/RequestBodyWithAppliedLocalStorageValues') */
 
 // TODO: not finished
 /* class RequestOptions extends AsyncObject {
@@ -19,7 +19,20 @@ const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/
       }
     }
   }
-} */
+}
+
+class CacheWithDataObject extends AsyncObject {
+  constructor (cache, name, value) {
+    super(cache, name, value)
+  }
+
+  syncCall () {
+    return (cache, name, value) => {
+      cache[name] = value
+      return cache
+    }
+  }
+}
 
 class EJSON extends HTMLElement {
   constructor () {
@@ -36,10 +49,16 @@ class EJSON extends HTMLElement {
       new UnwrappedChildrenOfParent(
         new ElementWithInnerHTML(
           this, new ResponseBody(
-            new ResponseFromAjaxRequest({
-              url: this.getAttribute('data-src'),
-              method: this.getAttribute('data-method')
-            }, this.getAttribute('data-request-body'))
+            new ResponseFromAjaxRequest(
+              new RequestOptions(
+                this.getAttribute('data-src'),
+                this.getAttribute('data-method'),
+                this.getAttribute('data-headers')
+              ),
+              new RequestBodyWithAppliedLocalStorageValues(
+                this.getAttribute('data-request-body')
+              )
+            )
           )
         )
       ).call()
@@ -52,4 +71,4 @@ class EJSON extends HTMLElement {
   }
 }
 
-window.customElements.define('e-json', EJSON)
+window.customElements.define('e-json', EJSON) */

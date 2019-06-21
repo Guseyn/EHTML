@@ -21,7 +21,7 @@ const mapper = (url) => {
 }
 
 new SpawnedCommand('grunt').after(
-  new ExecutedLint(process, './src', './test').after(
+  // new ExecutedLint(process, './src', './test').after(
     new WatcherWithEventTypeAndFilenameListener('./src', { persistent: true, recursive: true, encoding: 'utf8' }, (eventType, fileName) => {
       if (eventType === 'change') {
         new SpawnedCommand('grunt').after(
@@ -40,5 +40,5 @@ new SpawnedCommand('grunt').after(
         )
       )
     )
-  )
+  // )
 ).call()
