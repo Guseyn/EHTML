@@ -29,6 +29,10 @@ new DeepStrictEqualAssertion(
             {
               nodeType: Node.TEXT_NODE,
               nodeValue: 'Email: ${user.email}'
+            },
+            {
+              nodeType: Node.TEXT_NODE,
+              nodeValue: 'Email: ${admin.email}'
             }
           ]
         }
@@ -65,6 +69,10 @@ new DeepStrictEqualAssertion(
           {
             nodeType: Node.TEXT_NODE,
             nodeValue: 'Email: test@email'
+          },
+          {
+            nodeType: Node.TEXT_NODE,
+            nodeValue: 'Email: ${admin.email}'
           }
         ]
       }

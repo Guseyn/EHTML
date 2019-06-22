@@ -1,25 +1,17 @@
-/* const { AsyncObject } = require('@page-libs/cutie')
+const { browserified, as, AsyncObject } = require('@page-libs/cutie')
+const { CreatedOptions } = browserified(
+  require('@cuties/object')
+)
+const { ParsedJSON } = browserified(
+  require('@cuties/json')
+)
+const { StringFromBuffer } = browserified(
+  require('@cuties/buffer')
+)
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
+const { UnwrappedChildrenOfParent } = require('@page-libs/dom')
 const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
-const RequestBodyWithAppliedLocalStorageValues = require('./async/RequestBodyWithAppliedLocalStorageValues') */
-
-// TODO: not finished
-/* class RequestOptions extends AsyncObject {
-  constructor (url, method, headers) {
-    super(url, method, headers)
-  }
-
-  syncCall () {
-    return (url, method, headers) => {
-      return {
-        url: url,
-        method: method,
-        headers: headers
-      }
-    }
-  }
-}
+const ElementWithAppliedValuesInTextNodes = require('./async/ElementWithAppliedValuesInTextNodes')
 
 class CacheWithDataObject extends AsyncObject {
   constructor (cache, name, value) {
@@ -38,6 +30,7 @@ class EJSON extends HTMLElement {
   constructor () {
     super()
     this.rendered = false
+    this.cache = {}
   }
 
   static get observedAttributes () {
@@ -46,18 +39,36 @@ class EJSON extends HTMLElement {
 
   render () {
     if (!this.rendered) {
-      new UnwrappedChildrenOfParent(
-        new ElementWithInnerHTML(
-          this, new ResponseBody(
+      new ParsedJSON(
+        new StringFromBuffer(
+          new ResponseBody(
             new ResponseFromAjaxRequest(
-              new RequestOptions(
-                this.getAttribute('data-src'),
-                this.getAttribute('data-method'),
-                this.getAttribute('data-headers')
+              new CreatedOptions(
+                'url', new AttributeWithAppliedLocalStorageVariables(
+                  this.getAttribute('data-src')
+                ),
+                'method', this.getAttribute('data-method') || 'GET',
+                'headers', new ParsedJSON(
+                  new AttributeWithAppliedLocalStorageVariables(
+                    this.getAttribute('data-headers') || '{}'
+                  )
+                )
               ),
-              new RequestBodyWithAppliedLocalStorageValues(
+              new AttributeWithAppliedLocalStorageVariables(
                 this.getAttribute('data-request-body')
               )
+            )
+          )
+        )
+      ).as('response').after(
+        new CacheWithDataObject(
+          this.cache,
+          this.getAttribute('data-object'),
+          as('response')
+        ).after(
+          new UnwrappedChildrenOfParent(
+            new ElementWithAppliedValuesInTextNodes(
+              this, this.cache
             )
           )
         )
@@ -71,4 +82,4 @@ class EJSON extends HTMLElement {
   }
 }
 
-window.customElements.define('e-json', EJSON) */
+window.customElements.define('e-json', EJSON)

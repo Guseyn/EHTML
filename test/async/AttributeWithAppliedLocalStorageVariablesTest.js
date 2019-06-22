@@ -6,3 +6,8 @@ new StrictEqualAssertion(
   new AttributeWithAppliedLocalStorageVariables('/api/user/${localStorage.userId}'),
   '/api/user/userId'
 ).call()
+
+new StrictEqualAssertion(
+  new AttributeWithAppliedLocalStorageVariables(null),
+  ''
+).call()

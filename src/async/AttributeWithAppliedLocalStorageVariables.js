@@ -7,6 +7,7 @@ class AttributeWithAppliedLocalStorageVariables extends AsyncObject {
 
   syncCall () {
     return (attribute) => {
+      attribute = attribute || ''
       return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
         return window.localStorage.getItem(p1)
       })
