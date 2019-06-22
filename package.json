@@ -27,14 +27,17 @@
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "dependencies": {
     "@cuties/assert": "^1.2.2",
+    "@cuties/buffer": "^1.2.3",
     "@cuties/cutie": "^1.7.5",
     "@cuties/fs": "^1.2.4",
+    "@cuties/https": "^1.1.4",
     "@cuties/json": "^1.1.1",
+    "@cuties/object": "^1.1.6",
     "@cuties/rest": "^1.2.11",
     "@cuties/spawn": "^1.0.2",
     "@cuties/wall": "^1.1.2",
     "@page-libs/ajax": "^1.1.4",
-    "@page-libs/cutie": "^1.1.2",
+    "@page-libs/cutie": "^1.1.3",
     "@page-libs/dom": "^1.1.3",
     "test-executor": "^1.2.4"
   },

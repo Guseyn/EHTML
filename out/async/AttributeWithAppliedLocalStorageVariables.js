@@ -36,6 +36,7 @@ function (_AsyncObject) {
     key: "syncCall",
     value: function syncCall() {
       return function (attribute) {
+        attribute = attribute || '';
         return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
           return window.localStorage.getItem(p1);
         });

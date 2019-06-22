@@ -29,7 +29,7 @@ function (_AsyncObject) {
   function RequestBodyWithAppliedLocalStorageValues(body) {
     _classCallCheck(this, RequestBodyWithAppliedLocalStorageValues);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(RequestBodyWithAppliedLocalStorageValues).call(this, body));
+    return _possibleConstructorReturn(this, _getPrototypeOf(RequestBodyWithAppliedLocalStorageValues).call(this, JSON.parse(body)));
   }
 
   _createClass(RequestBodyWithAppliedLocalStorageValues, [{
@@ -38,7 +38,7 @@ function (_AsyncObject) {
       var _this = this;
 
       return function (body) {
-        return _this.bodyWithAppliedLocalStorageValues(body);
+        return JSON.stringify(_this.bodyWithAppliedLocalStorageValues(body));
       };
     }
   }, {

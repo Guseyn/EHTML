@@ -26,13 +26,24 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var _require = require('@page-libs/ajax'),
-    ResponseFromAjaxRequest = _require.ResponseFromAjaxRequest,
-    ResponseBody = _require.ResponseBody;
+var _require = require('@page-libs/cutie'),
+    browserified = _require.browserified;
 
-var _require2 = require('@page-libs/dom'),
-    UnwrappedChildrenOfParent = _require2.UnwrappedChildrenOfParent,
-    ElementWithInnerHTML = _require2.ElementWithInnerHTML;
+var _browserified = browserified(require('@cuties/object')),
+    CreatedOptions = _browserified.CreatedOptions;
+
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
+
+var _require2 = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
+
+var _require3 = require('@page-libs/dom'),
+    UnwrappedChildrenOfParent = _require3.UnwrappedChildrenOfParent,
+    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
+
+var AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables');
 
 var EHTML =
 /*#__PURE__*/
@@ -53,10 +64,7 @@ function (_HTMLElement) {
     key: "render",
     value: function render() {
       if (!this.rendered) {
-        new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest({
-          url: this.getAttribute('data-src'),
-          method: 'GET'
-        })))).call();
+        new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))))))).call();
         this.rendered = true;
       }
     }
@@ -68,7 +76,7 @@ function (_HTMLElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-src'];
+      return ['data-src', 'data-headers'];
     }
   }]);
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>html-res</title>
+    <script src="/../examples/js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-json data-src="/../user1" data-method="GET" data-object="user1">
+      <div>
+        User name1: ${user1.name}
+      </div>
+      <div>User email1: ${user1.email}</div>
+      <e-json data-src="/../user2" data-method="GET" data-object="user2">
+        <div>
+          User name2: ${user2.name} <span> and User name1: ${user1.name} </span>
+        </div>
+        <div>User email2: ${user2.email}</div>
+      </e-json>
+    </e-json>
+  </body>
+
+</html>
