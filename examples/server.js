@@ -1,11 +1,13 @@
 'use strict'
 
 const path = require('path')
+const { AsyncObject } = require('@cuties/cutie')
 const { ExecutedLint } = require('@cuties/wall')
 const { SpawnedCommand } = require('@cuties/spawn')
 const {
   Backend,
   RestApi,
+  RequestParams,
   Endpoint,
   ServingFilesEndpoint,
   NotFoundEndpoint
@@ -23,13 +25,14 @@ const {
 } = require('@cuties/fs')
 const { ReadDataByPath } = require('@cuties/fs')
 const { StringifiedJSON } = require('@cuties/json')
+const { Value } = require('@cuties/object')
 
 const mapper = (url) => {
   let parts = url.split('/').filter(part => part !== '')
   return path.join(...parts)
 }
 
-class GetUser1Endpoint extends Endpoint {
+class GetUserEndpoint extends Endpoint {
   constructor (regexp) {
     super(regexp, 'GET')
   }
@@ -44,38 +47,31 @@ class GetUser1Endpoint extends Endpoint {
           'Content-Type', 'application/json'
         ),
         new StringifiedJSON(
-          {
-            name: 'Guseyn1',
-            email: 'guseynism1@gmail.com'
-          }
+          new User(
+            new Value(
+              new RequestParams(
+                request
+              ), 'id'
+            )
+          )
         )
       )
     )
   }
 }
 
-class GetUser2Endpoint extends Endpoint {
-  constructor (regexp) {
-    super(regexp, 'GET')
+class User extends AsyncObject {
+  constructor (id) {
+    super(id)
   }
 
-  body (request, response) {
-    return new EndedResponse(
-      new WrittenResponse(
-        new ResponseWithHeader(
-          new ResponseWithStatusMessage(
-            new ResponseWithStatusCode(response, 200), 'ok'
-          ),
-          'Content-Type', 'application/json'
-        ),
-        new StringifiedJSON(
-          {
-            name: 'Guseyn2',
-            email: 'guseynism2@gmail.com'
-          }
-        )
-      )
-    )
+  syncCall () {
+    return (id) => {
+      return {
+        name: `Name${id}`,
+        email: `${id}@email.com`
+      }
+    }
   }
 }
 
@@ -94,8 +90,7 @@ new SpawnedCommand('grunt').after(
           8000, 
           '127.0.0.1',
           new RestApi(
-            new GetUser1Endpoint(/^\/user1/),
-            new GetUser2Endpoint(/^\/user2/),
+            new GetUserEndpoint(/^\/user\?id=(\d+)/),
             new ServingFilesEndpoint(
               new RegExp(/^(\/|)/),
               mapper,

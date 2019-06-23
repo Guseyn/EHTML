@@ -1,5 +1,5 @@
-const { browserified, as, AsyncObject } = require('@page-libs/cutie')
-const { CreatedOptions } = browserified(
+const { browserified, as } = require('@page-libs/cutie')
+const { CreatedOptions, TheSameObjectWithValue } = browserified(
   require('@cuties/object')
 )
 const { ParsedJSON } = browserified(
@@ -12,19 +12,6 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent } = require('@page-libs/dom')
 const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
 const ElementWithAppliedValuesInTextNodes = require('./async/ElementWithAppliedValuesInTextNodes')
-
-class CacheWithDataObject extends AsyncObject {
-  constructor (cache, name, value) {
-    super(cache, name, value)
-  }
-
-  syncCall () {
-    return (cache, name, value) => {
-      cache[name] = value
-      return cache
-    }
-  }
-}
 
 class EJSON extends HTMLElement {
   constructor () {
@@ -61,7 +48,7 @@ class EJSON extends HTMLElement {
           )
         )
       ).as('response').after(
-        new CacheWithDataObject(
+        new TheSameObjectWithValue(
           this.cache,
           this.getAttribute('data-object'),
           as('response')
