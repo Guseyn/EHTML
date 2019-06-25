@@ -14,7 +14,8 @@ class ElementWithAppliedValuesInTextNodes extends AsyncObject {
   applyValuesToChildren (element, values) {
     element.childNodes.forEach((child) => {
       if (child.nodeType === Node.TEXT_NODE) {
-        child.nodeValue = child.nodeValue.replace(/\$\{(.+)\.(.+)\}/g, (match, p1, p2, offset, string) => {
+        child.nodeValue = child.nodeValue.replace(/\$\{(\S*)\.(\S*)\}/g, (match, p1, p2, offset, string) => {
+          console.log(match)
           return values[p1] ? values[p1][p2] : `$\{${p1}.${p2}}`
         })
       } else {
