@@ -8,6 +8,7 @@ const {
   Backend,
   RestApi,
   RequestParams,
+  RequestBody,
   Endpoint,
   ServingFilesEndpoint,
   NotFoundEndpoint
@@ -24,7 +25,8 @@ const {
   WatcherWithEventTypeAndFilenameListener
 } = require('@cuties/fs')
 const { ReadDataByPath } = require('@cuties/fs')
-const { StringifiedJSON } = require('@cuties/json')
+const { StringFromBuffer } = require('@cuties/buffer')
+const { StringifiedJSON, ParsedJSON } = require('@cuties/json')
 const { Value } = require('@cuties/object')
 
 const mapper = (url) => {
@@ -60,6 +62,36 @@ class GetUserEndpoint extends Endpoint {
   }
 }
 
+class SaveUserEndpoint extends Endpoint {
+  constructor (regexp) {
+    super(regexp, 'POST')
+  }
+
+  body (request, response) {
+    return new EndedResponse(
+      new WrittenResponse(
+        new ResponseWithHeader(
+          new ResponseWithStatusMessage(
+            new ResponseWithStatusCode(response, 200), 'ok'
+          ),
+          'Content-Type', 'application/json'
+        ),
+        new StringifiedJSON(
+          new SavedUser(
+            new ParsedJSON(
+              new StringFromBuffer(
+                new RequestBody(
+                  request
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  }
+}
+
 class User extends AsyncObject {
   constructor (id) {
     super(id)
@@ -68,9 +100,23 @@ class User extends AsyncObject {
   syncCall () {
     return (id) => {
       return {
+        id: id,
         name: `Name${id}`,
         email: `${id}@email.com`
       }
+    }
+  }
+}
+
+class SavedUser extends AsyncObject {
+  constructor (data) {
+    super(data)
+  }
+
+  syncCall () {
+    return (data) => {
+      data.id = 3
+      return data
     }
   }
 }
@@ -91,6 +137,7 @@ new SpawnedCommand('grunt').after(
           '127.0.0.1',
           new RestApi(
             new GetUserEndpoint(/^\/user\?id=(\d+)/),
+            new SaveUserEndpoint(/^\/save_user/),
             new ServingFilesEndpoint(
               new RegExp(/^(\/|)/),
               mapper,

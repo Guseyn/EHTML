@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
@@ -11,15 +12,19 @@
   <body class="main">
     <e-json data-src="/../user?id=1" data-method="GET" data-object="user1">
       <div>
-        User name1: ${user1.name}
+        User with id ${user1.id}
       </div>
-      <div>User email1: ${user1.email}</div>
+      <div>Email of User with id ${user1.id} is ${user1.email}</div>
       <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
         <div>
-          User name2: ${user2.name} <span> and User name1: ${user1.name} </span>
+          Name of user with id ${user2.id} is ${user2.name} <span> and name of user with id ${user1.id} is ${user1.name} </span>
         </div>
-        <div>User email2: ${user2.email}</div>
+        <div>And email of User with id ${user2.id} is ${user2.email}</div>
       </e-json>
+    </e-json>
+    <e-json data-src="/../save_user" data-method="POST" data-object="savedUser" 
+            data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'>
+      User with id ${savedUser.id} with name ${savedUser.name} and email ${savedUser.email}
     </e-json>
   </body>
 

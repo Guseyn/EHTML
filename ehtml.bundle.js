@@ -6350,7 +6350,8 @@ function (_AsyncObject) {
 
       element.childNodes.forEach(function (child) {
         if (child.nodeType === Node.TEXT_NODE) {
-          child.nodeValue = child.nodeValue.replace(/\$\{(.+)\.(.+)\}/g, function (match, p1, p2, offset, string) {
+          child.nodeValue = child.nodeValue.replace(/\$\{(\S*)\.(\S*)\}/g, function (match, p1, p2, offset, string) {
+            console.log(match);
             return values[p1] ? values[p1][p2] : "${".concat(p1, ".").concat(p2, "}");
           });
         } else {
