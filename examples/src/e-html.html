@@ -5,13 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>html-res</title>
+    <style>
+      .outer {
+        padding: 50px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+      }
+      .inner {
+        padding: 40px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+      }
+    </style>
     <script src="/../examples/js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
-    <div class="outer" style="background: red; width: 100px; height: 100px;">
-      <e-html data-src="/../examples/html/inner-green.html"></e-html>
-      <e-html data-src="/../examples/html/inner-blue.html"></e-html>
+    <div class="outer" style="background: #FF0000; padding: 50px;">
+      <e-html data-src="/../examples/html/inner-orange.html"></e-html>
     </div>
   </body>
 
