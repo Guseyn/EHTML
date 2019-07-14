@@ -49,7 +49,7 @@ var _require3 = require('@page-libs/dom'),
 
 var AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables');
 
-var ElementWithAppliedValuesInTextNodes = require('./async/ElementWithAppliedValuesInTextNodes');
+var AppliedDataTextAndValueAttributesForChildNodes = require('./async/AppliedDataTextAndValueAttributesForChildNodes');
 
 var EJSON =
 /*#__PURE__*/
@@ -71,7 +71,7 @@ function (_HTMLElement) {
     key: "render",
     value: function render() {
       if (!this.rendered) {
-        new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))), new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-request-body')))))).as('response').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('response')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedValuesInTextNodes(this, this.cache)))).call();
+        new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))), new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-request-body')))))).as('response').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('response')).after(new UnwrappedChildrenOfParent(new AppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
         this.rendered = true;
       }
     }
