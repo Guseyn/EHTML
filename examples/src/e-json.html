@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+<!-- http://127.0.0.1:8000/examples/src/e-json.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
@@ -11,20 +12,20 @@
 
   <body class="main">
     <e-json data-src="/../user?id=1" data-method="GET" data-object="user1">
-      <div>
-        User with id ${user1.id}
-      </div>
-      <div>Email of User with id ${user1.id} is ${user1.email}</div>
+      <div data-text="User with id ${user1.id}"></div>
+      <div data-text="Email of the user with id ${user1.id} is ${user1.email}"></div>
       <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
-        <div>
-          Name of user with id ${user2.id} is ${user2.name} <span> and name of user with id ${user1.id} is ${user1.name} </span>
+        <div data-text="Name of the user with id ${user2.id} is ${user2.name}">
+           <span data-text="and name of the user with id ${user1.id} is ${user1.name}"></span>
         </div>
-        <div>And email of User with id ${user2.id} is ${user2.email}</div>
+        <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}"></textarea>
+        <div data-text="And email of the user with id ${user2.id} is ${user2.email}"></div>
       </e-json>
     </e-json>
     <e-json data-src="/../save_user" data-method="POST" data-object="savedUser" 
             data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'>
-      User with id ${savedUser.id} with name ${savedUser.name} and email ${savedUser.email}
+      <div data-text="User with id ${savedUser.id} with name ${savedUser.name} and email ${savedUser.email}"></div>
+      <input type="text" data-value="new user with id: ${savedUser.id}">
     </e-json>
   </body>
 
