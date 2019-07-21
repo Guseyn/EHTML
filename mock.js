@@ -65,8 +65,6 @@ class ObjWithNoFuncs extends AsyncObject {
   syncCall () {
     return (elm) => {
       this.objWithNoFuncs(elm)
-
-    console.log(require('util').inspect(elm, false, null, true /* enable colors */))
       return elm
     }
   }
