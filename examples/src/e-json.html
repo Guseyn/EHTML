@@ -12,20 +12,40 @@
 
   <body class="main">
     <e-json data-src="/../user?id=1" data-method="GET" data-object="user1">
-      <div data-text="User with id ${user1.id}"></div>
-      <div data-text="Email of the user with id ${user1.id} is ${user1.email}"></div>
-      <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
-        <div data-text="Name of the user with id ${user2.id} is ${user2.name}">
-           <span data-text="and name of the user with id ${user1.id} is ${user1.name}"></span>
-        </div>
-        <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}"></textarea>
-        <div data-text="And email of the user with id ${user2.id} is ${user2.email}"></div>
-      </e-json>
+      <div style="border: 1px solid black; padding: 10px;">
+        <div data-text="First user info:"></div>
+        <div data-text="id: ${user1.id}"></div>
+        <div data-text="name: ${user1.id}"></div>
+        <div data-text="email: ${user1.id}"></div>
+        <hr/>
+        <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
+          <div data-text="Second user info (in the first user info block):">
+            <div data-text="id: ${user2.id}"></div>
+            <div data-text="name: ${user2.id}"></div>
+            <div data-text="email: ${user2.id}"></div>
+          </div>
+          <hr/>
+          <div data-text="So we can get info of the first user again:">
+            <div data-text="id: ${user1.id}"></div>
+            <div data-text="name: ${user1.id}"></div>
+            <div data-text="email: ${user1.id}"></div>
+          </div>
+          <hr/>
+          <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
+        </e-json>
+      </div>
     </e-json>
     <e-json data-src="/../save_user" data-method="POST" data-object="savedUser" 
             data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'>
-      <div data-text="User with id ${savedUser.id} with name ${savedUser.name} and email ${savedUser.email}"></div>
-      <input type="text" data-value="new user with id: ${savedUser.id}">
+      <div style="border: 1px solid black; padding: 10px; margin-top: 10px">
+        <div data-text="We've just got new saved user:">
+          <div data-text="id: ${savedUser.id}"></div>
+          <div data-text="name: ${savedUser.id}"></div>
+          <div data-text="email: ${savedUser.id}"></div>
+        </div>
+        <div>We can put info of new user in input tag</div>
+        <input type="text" data-value="id: ${savedUser.id}">
+      </div>
     </e-json>
   </body>
 
