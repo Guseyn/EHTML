@@ -34,6 +34,8 @@ const mapper = (url) => {
   return path.join(...parts)
 }
 
+// API ENDPOINTS
+
 class GetUserEndpoint extends Endpoint {
   constructor (regexp) {
     super(regexp, 'GET')
@@ -120,6 +122,8 @@ class SavedUser extends AsyncObject {
     }
   }
 }
+
+// SERVER
 
 new SpawnedCommand('grunt').after(
   new ExecutedLint(process, './src', './test').after(
