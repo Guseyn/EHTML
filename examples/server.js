@@ -9,6 +9,7 @@ const {
   RestApi,
   RequestParams,
   RequestBody,
+  RequestWithProgress,
   Endpoint,
   ServingFilesEndpoint,
   NotFoundEndpoint
@@ -18,7 +19,8 @@ const {
   WrittenResponse,
   ResponseWithHeader,
   ResponseWithStatusMessage,
-  ResponseWithStatusCode
+  ResponseWithStatusCode,
+  ResponseWithWrittenHead
 } = require('@cuties/http')
 const {
   CopiedFile,
@@ -94,6 +96,29 @@ class SaveUserEndpoint extends Endpoint {
   }
 }
 
+class SimpleProgressEndpoint extends Endpoint {
+  constructor (regexpUrl, type) {
+    super(regexpUrl, type)
+  }
+
+  body (request, response) {
+    return new EndedResponse(
+      new WrittenResponse(
+        new ResponseWithWrittenHead(
+          response, 200, 'ok', {
+            'Content-Type': 'text/plain'
+          }
+        ),
+        new RequestBody(
+          new RequestWithProgress(request, response)
+        )
+      ), ' is delivered'
+    )
+  }
+}
+
+//
+
 class User extends AsyncObject {
   constructor (id) {
     super(id)
@@ -140,8 +165,9 @@ new SpawnedCommand('grunt').after(
           8000, 
           '127.0.0.1',
           new RestApi(
-            new GetUserEndpoint(/^\/user\?id=(\d+)/),
-            new SaveUserEndpoint(/^\/save_user/),
+            new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/)),
+            new SaveUserEndpoint(new RegExp(/^\/save_user/)),
+            new SimpleProgressEndpoint(new RegExp(/^\/progress/), 'POST'),
             new ServingFilesEndpoint(
               new RegExp(/^(\/|)/),
               mapper,

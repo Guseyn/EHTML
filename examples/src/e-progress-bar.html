@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- http://127.0.0.1:8000/examples/src/e-progress-bar.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-progress-bar</title>
+    <script src="/../examples/js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <form id="the-form" action="/../progress" enctype="multipart/form-data">
+      <input id="the-file" name="file" type="file">
+      <input type="submit" value="Upload" />
+    </form>
+  </body>
+  <script type="text/javascript">
+    var form = document.getElementById('the-form')
+    var fileInput = document.getElementById('the-file')
+
+    form.onsubmit = function() {
+      var file = fileInput.files[0]
+      var formData = new FormData()
+      formData.append('file', file)
+
+      var xhr = new XMLHttpRequest()
+      var lastPos = 0
+      // Add any event handlers here...
+      xhr.open('POST', form.getAttribute('action'), true)
+      xhr.onprogress = function () {
+        console.log("PROGRESS:", xhr.responseText + '\n')
+      }
+      xhr.send(formData)
+
+      return false // To avoid actual submission of the form
+    }
+  </script>
+
+</html>
