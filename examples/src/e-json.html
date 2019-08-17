@@ -1,13 +1,13 @@
 
 <!DOCTYPE html>
-<!-- http://127.0.0.1:8000/examples/src/e-json.html -->
+<!-- http://127.0.0.1:8000/e-json.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>e-json</title>
-    <script src="/../examples/js/ehtml.bundle.min.js" type="text/javascript"></script>
+    <title>html-res</title>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
@@ -17,21 +17,22 @@
         <div data-text="id: ${user1.id}"></div>
         <div data-text="name: ${user1.id}"></div>
         <div data-text="email: ${user1.id}"></div>
-        <hr/>
+        <br/>
         <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
-          <div data-text="Second user info (in the first user info block):">
+          <div data-text="Second user info (in the first user info block):" style="border: 1px solid black; padding: 10px;">
             <div data-text="id: ${user2.id}"></div>
             <div data-text="name: ${user2.id}"></div>
             <div data-text="email: ${user2.id}"></div>
+            <br/>
+            <div data-text="So we can get info of the first user again:">
+              <div data-text="id: ${user1.id}"></div>
+              <div data-text="name: ${user1.id}"></div>
+              <div data-text="email: ${user1.id}"></div>
+            </div>
+            <br/>
+            <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
           </div>
-          <hr/>
-          <div data-text="So we can get info of the first user again:">
-            <div data-text="id: ${user1.id}"></div>
-            <div data-text="name: ${user1.id}"></div>
-            <div data-text="email: ${user1.id}"></div>
-          </div>
-          <hr/>
-          <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
+          <br/>
         </e-json>
       </div>
     </e-json>
