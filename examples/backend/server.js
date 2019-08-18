@@ -21,7 +21,7 @@ const mapperForSrc = (url) => {
 const watcherEvent = (eventType, fileName) => {
   if (eventType === 'change') {
     new SpawnedCommand('grunt').after(
-      new CopiedFile('ehtml.bundle.min.js', './examples/js/ehtml.bundle.min.js')
+      new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js')
     ).call()
   }
 }

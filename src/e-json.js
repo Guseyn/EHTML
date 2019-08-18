@@ -11,7 +11,7 @@ const { StringFromBuffer } = browserified(
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent } = require('@page-libs/dom')
 const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
-const AppliedDataTextAndValueAttributesForChildNodes = require('./async/AppliedDataTextAndValueAttributesForChildNodes')
+const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 
 class EJSON extends HTMLElement {
   constructor () {
@@ -54,7 +54,7 @@ class EJSON extends HTMLElement {
           as('response')
         ).after(
           new UnwrappedChildrenOfParent(
-            new AppliedDataTextAndValueAttributesForChildNodes(
+            new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
               this, this.cache
             )
           )

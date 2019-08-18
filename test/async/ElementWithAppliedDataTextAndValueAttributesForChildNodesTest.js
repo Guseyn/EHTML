@@ -2,12 +2,12 @@ const {
   elementWithAttribute,
   ObjWithNoFuncs
 } = require('./../../mock.js')
-const AppliedDataTextAndValueAttributesForChildNodes = require('./../../src/async/AppliedDataTextAndValueAttributesForChildNodes')
+const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../../src/async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const { DeepStrictEqualAssertion } = require('@cuties/assert')
 
 new DeepStrictEqualAssertion(
   new ObjWithNoFuncs(
-    new AppliedDataTextAndValueAttributesForChildNodes(
+    new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
       {
         childNodes: [
           elementWithAttribute('data-text', 'Name: ${user.name}, another name: ${anotherUser.name}'),
@@ -26,7 +26,8 @@ new DeepStrictEqualAssertion(
           age: 'test age',
           email: 'test@email'
         }
-      })
+      }
+    )
   ),
   {
     childNodes: [

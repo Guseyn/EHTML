@@ -1,7 +1,7 @@
 const { AsyncObject } = require('@page-libs/cutie')
 const paramRegExp = /\$\{(\S*)\.(\S*)\}/g
 
-class AppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
+class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
   constructor (element, values) {
     super(element, values)
   }
@@ -50,4 +50,4 @@ class AppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
   }
 }
 
-module.exports = AppliedDataTextAndValueAttributesForChildNodes
+module.exports = ElementWithAppliedDataTextAndValueAttributesForChildNodes
