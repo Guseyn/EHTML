@@ -41,7 +41,7 @@
     "@cuties/wall": "^1.1.2",
     "@page-libs/ajax": "^1.1.4",
     "@page-libs/cutie": "^1.1.3",
-    "@page-libs/dom": "^1.1.3",
+    "@page-libs/dom": "^1.1.4",
     "test-executor": "^1.2.4"
   },
   "devDependencies": {

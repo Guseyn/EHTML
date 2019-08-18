@@ -26,52 +26,41 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified,
-    as = _require.as;
+var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
 
-var _browserified = browserified(require('@cuties/object')),
-    CreatedOptions = _browserified.CreatedOptions,
-    TheSameObjectWithValue = _browserified.TheSameObjectWithValue;
-
-var _browserified2 = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified2.ParsedJSON;
-
-var _browserified3 = browserified(require('@cuties/buffer')),
-    StringFromBuffer = _browserified3.StringFromBuffer;
-
-var _require2 = require('@page-libs/ajax'),
-    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
-
-var _require3 = require('@page-libs/dom'),
-    UnwrappedChildrenOfParent = _require3.UnwrappedChildrenOfParent;
-
-var AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables');
-
-var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./async/ElementWithAppliedDataTextAndValueAttributesForChildNodes');
-
-var EJSON =
+var EGoogleOauthButton =
 /*#__PURE__*/
 function (_HTMLElement) {
-  _inherits(EJSON, _HTMLElement);
+  _inherits(EGoogleOauthButton, _HTMLElement);
 
-  function EJSON() {
+  function EGoogleOauthButton() {
     var _this;
 
-    _classCallCheck(this, EJSON);
+    _classCallCheck(this, EGoogleOauthButton);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EJSON).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EGoogleOauthButton).call(this));
     _this.rendered = false;
-    _this.cache = {};
     return _this;
   }
 
-  _createClass(EJSON, [{
+  _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
       if (!this.rendered) {
-        new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))), new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-request-body')))))).as('response').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('response')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
+        var googleSignInMetaElm = document.createElement('meta');
+        googleSignInMetaElm.setAttribute('name', 'google-signin-client_id');
+        googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'));
+        var googleApiScriptElm = document.createElement('script');
+        googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
+        document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
+        /* eslint-disable no-undef */
+
+        this.onclick = function () {
+          console.log(gapi);
+        };
+        /* eslint-enable no-undef */
+
+
         this.rendered = true;
       }
     }
@@ -83,11 +72,11 @@ function (_HTMLElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-src', 'data-method', 'data-headers', 'data-request-body', 'data-object'];
+      return ['data-client-id'];
     }
   }]);
 
-  return EJSON;
+  return EGoogleOauthButton;
 }(_wrapNativeSuper(HTMLElement));
 
-window.customElements.define('e-json', EJSON);
+window.customElements.define('e-google-oauth-button', EGoogleOauthButton);
