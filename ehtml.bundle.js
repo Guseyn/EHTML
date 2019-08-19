@@ -6899,27 +6899,58 @@ function (_HTMLElement) {
     key: "render",
     value: function render() {
       if (!this.rendered) {
-        var googleSignInMetaElm = document.createElement('meta');
-        googleSignInMetaElm.setAttribute('name', 'google-signin-client_id');
-        googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'));
-        var googleApiScriptElm = document.createElement('script');
-        googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
-        document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
-        /* eslint-disable no-undef */
-
-        this.onclick = function () {
-          console.log(gapi);
-        };
-        /* eslint-enable no-undef */
-
-
+        document.head.prepend(this.metaElm(), this.scriptElm());
+        this.replaceWithButton(this);
         this.rendered = true;
       }
     }
   }, {
+    key: "metaElm",
+    value: function metaElm() {
+      var googleSignInMetaElm = document.createElement('meta');
+      googleSignInMetaElm.setAttribute('name', 'google-signin-client_id');
+      googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'));
+      return googleSignInMetaElm;
+    }
+  }, {
+    key: "scriptElm",
+    value: function scriptElm() {
+      var googleApiScriptElm = document.createElement('script');
+      googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
+      return googleApiScriptElm;
+    }
+  }, {
+    key: "replaceWithButton",
+    value: function replaceWithButton(googleOauthButton) {
+      var button = document.createElement('button');
+      this.copyAttributes(button, googleOauthButton);
+      this.moveChildren(button, googleOauthButton);
+      return button;
+    }
+  }, {
+    key: "copyAttributes",
+    value: function copyAttributes(toElm, fromElm) {
+      fromElm.getAttributeNames().forEach(function (name) {
+        toElm.setAttribute(name, fromElm.getAttribute(name));
+      });
+    }
+  }, {
+    key: "moveChildren",
+    value: function moveChildren(toElm, fromElm) {
+      while (fromElm.firstChild) {
+        var child = fromElm.removeChild(fromElm.firstChild);
+        toElm.appendChild(child);
+      }
+
+      fromElm.parentNode.replaceChild(toElm, fromElm);
+    }
+  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this.render();
+      var self = this;
+      setTimeout(function () {
+        self.render();
+      });
     }
   }], [{
     key: "observedAttributes",
@@ -7007,7 +7038,10 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this.render();
+      var self = this;
+      setTimeout(function () {
+        self.render();
+      });
     }
   }], [{
     key: "observedAttributes",
@@ -7095,14 +7129,17 @@ function (_HTMLElement) {
     key: "render",
     value: function render() {
       if (!this.rendered) {
-        new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))), new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-request-body')))))).as('response').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('response')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
+        new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-src')), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-headers') || '{}'))), new AttributeWithAppliedLocalStorageVariables(this.getAttribute('data-request-body')))))).as('RESPONSE').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('RESPONSE')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
         this.rendered = true;
       }
     }
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this.render();
+      var self = this;
+      setTimeout(function () {
+        self.render();
+      });
     }
   }], [{
     key: "observedAttributes",

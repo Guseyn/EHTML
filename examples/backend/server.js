@@ -38,7 +38,7 @@ new SpawnedCommand('grunt').after(
             new GetUserEndpoint(/^\/user\?id=(\d+)/),
             new SaveUserEndpoint(/^\/save_user/),
             new ServingFilesEndpoint(
-              new RegExp(/^\/(html|js)/),
+              new RegExp(/^\/(html|js|images)/),
               mapperForStatic,
               {},
               new NotFoundEndpoint(new RegExp(/\/not-found/))

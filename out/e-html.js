@@ -71,7 +71,10 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this.render();
+      var self = this;
+      setTimeout(function () {
+        self.render();
+      });
     }
   }], [{
     key: "observedAttributes",

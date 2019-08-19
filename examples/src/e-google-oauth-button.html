@@ -7,17 +7,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>e-google-oauth-button</title>
     <style>
+      .customSignIn {
+        background: white;
+        color: #444;
+        width: 196px;
+        border-radius: 5px;
+        border: thin solid #888;
+        box-shadow: 1px 1px 1px grey;
+        white-space: nowrap;
+        display: block;
+        padding: 0;
+        text-align: left;
+      }
 
+      .customSignIn:hover {
+        cursor: pointer;
+      }
+
+      #google-icon {
+        background: url('/../images/g-logo.png') transparent 5px 50% no-repeat;
+      }
+
+      span.icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 48px;
+        height: 48px;
+      }
+
+      span.icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 48px;
+        height: 48px;
+      }
+
+      span.buttonText {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: bold;
+        margin-left: 5px;
+        font-family: 'Roboto', sans-serif;
+      }
     </style>
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
-    <e-google-oauth-button style="width:100px; height:100px; border:1px solid black; float:left;" data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com">
-        <span></span>
-        <div>
-          <span></span>
-        </div>
+    <e-google-oauth-button class="customSignIn" data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com">
+        <span id="google-icon" class="icon"></span>
+        <span class="buttonText">Sign in with Google</span>
     </e-google-oauth-button>
   </body>
 
