@@ -12,23 +12,51 @@ class EGoogleOauthButton extends HTMLElement {
 
   render () {
     if (!this.rendered) {
-      const googleSignInMetaElm = document.createElement('meta')
-      googleSignInMetaElm.setAttribute('name', 'google-signin-client_id')
-      googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'))
-      const googleApiScriptElm = document.createElement('script')
-      googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC)
-      document.head.prepend(googleSignInMetaElm, googleApiScriptElm)
-      /* eslint-disable no-undef */
-      this.onclick = () => {
-        console.log(gapi)
-      }
-      /* eslint-enable no-undef */
+      document.head.prepend(this.metaElm(), this.scriptElm())
+      this.replaceWithButton(this)
       this.rendered = true
     }
   }
 
+  metaElm () {
+    const googleSignInMetaElm = document.createElement('meta')
+    googleSignInMetaElm.setAttribute('name', 'google-signin-client_id')
+    googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'))
+    return googleSignInMetaElm
+  }
+
+  scriptElm () {
+    const googleApiScriptElm = document.createElement('script')
+    googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC)
+    return googleApiScriptElm
+  }
+
+  replaceWithButton (googleOauthButton) {
+    const button = document.createElement('button')
+    this.copyAttributes(button, googleOauthButton)
+    this.moveChildren(button, googleOauthButton)
+    return button
+  }
+
+  copyAttributes (toElm, fromElm) {
+    fromElm.getAttributeNames().forEach(name => {
+      toElm.setAttribute(name, fromElm.getAttribute(name))
+    })
+  }
+
+  moveChildren (toElm, fromElm) {
+    while (fromElm.firstChild) {
+      const child = fromElm.removeChild(fromElm.firstChild)
+      toElm.appendChild(child)
+    }
+    fromElm.parentNode.replaceChild(toElm, fromElm)
+  }
+
   connectedCallback () {
-    this.render()
+    const self = this
+    setTimeout(() => {
+      self.render()
+    })
   }
 }
 

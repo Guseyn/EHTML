@@ -47,11 +47,11 @@ class EJSON extends HTMLElement {
             )
           )
         )
-      ).as('response').after(
+      ).as('RESPONSE').after(
         new TheSameObjectWithValue(
           this.cache,
           this.getAttribute('data-object'),
-          as('response')
+          as('RESPONSE')
         ).after(
           new UnwrappedChildrenOfParent(
             new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
@@ -65,7 +65,10 @@ class EJSON extends HTMLElement {
   }
 
   connectedCallback () {
-    this.render()
+    const self = this
+    setTimeout(() => {
+      self.render()
+    })
   }
 }
 

@@ -45,7 +45,10 @@ class EHTML extends HTMLElement {
   }
 
   connectedCallback () {
-    this.render()
+    const self = this
+    setTimeout(() => {
+      self.render()
+    })
   }
 }
 
