@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -12,45 +12,104 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
-
-function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-
-function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var _require = require('@page-libs/cutie'),
+    browserified = _require.browserified;
+
+var _require2 = require('@page-libs/cutie'),
+    AsyncObject = _require2.AsyncObject;
+
+var _require3 = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require3.ResponseFromAjaxRequest,
+    ResponseBody = _require3.ResponseBody;
+
+var _browserified = browserified(require('@cuties/object')),
+    Value = _browserified.Value;
+
+var HTMLTunedElement = require('./HTMLTunedElement');
 
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
 
+var LocalStorageWithSetValue =
+/*#__PURE__*/
+function (_AsyncObject) {
+  _inherits(LocalStorageWithSetValue, _AsyncObject);
+
+  function LocalStorageWithSetValue(localStorage, key, value) {
+    _classCallCheck(this, LocalStorageWithSetValue);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(LocalStorageWithSetValue).call(this, localStorage, key, value));
+  }
+
+  _createClass(LocalStorageWithSetValue, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (localStorage, key, value) {
+        localStorage.setItem(key, value);
+        return localStorage;
+      };
+    }
+  }]);
+
+  return LocalStorageWithSetValue;
+}(AsyncObject);
+
 var EGoogleOauthButton =
 /*#__PURE__*/
-function (_HTMLElement) {
-  _inherits(EGoogleOauthButton, _HTMLElement);
+function (_HTMLTunedElement) {
+  _inherits(EGoogleOauthButton, _HTMLTunedElement);
 
   function EGoogleOauthButton() {
-    var _this;
-
     _classCallCheck(this, EGoogleOauthButton);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EGoogleOauthButton).call(this));
-    _this.rendered = false;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(EGoogleOauthButton).call(this));
   }
 
   _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
-      if (!this.rendered) {
-        document.head.prepend(this.metaElm(), this.scriptElm());
-        this.replaceWithButton(this);
-        this.rendered = true;
-      }
+      var metaElm = this.metaElm();
+      var scriptElm = this.scriptElm();
+      document.head.prepend(metaElm, scriptElm);
+      var button = this.replaceWithButton(this);
+      var instance = this;
+
+      scriptElm.onload = function () {
+        button.style['display'] = '';
+        instance.initGoogleOauth(button);
+      };
+
+      this.rendered = true;
+    }
+  }, {
+    key: "initGoogleOauth",
+    value: function initGoogleOauth(button) {
+      var instance = this; // eslint-disable-next-line no-undef
+
+      gapi.load('auth2', function () {
+        // eslint-disable-next-line no-undef
+        var auth2 = gapi.auth2.init({
+          client_id: instance.getAttribute('data-client-id'),
+          cookiepolicy: instance.getAttribute('cookiepolicy') || 'single_host_origin',
+          scope: instance.getAttribute('scope') || 'profile'
+        });
+        auth2.attachClickHandler(button, {}, function (googleUser) {
+          new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ResponseBody(new ResponseFromAjaxRequest({
+            url: instance.getAttribute('data-redirect-url') || '/',
+            method: 'POST',
+            body: {
+              googleToken: googleUser.getAuthResponse().id_token
+            }
+          })), instance.getAttribute('data-response-jwt-key') || 'jwt')).call();
+        }, function (error) {
+          console.log(JSON.stringify(error, undefined, 2));
+        });
+      });
     }
   }, {
     key: "metaElm",
@@ -71,6 +130,7 @@ function (_HTMLElement) {
     key: "replaceWithButton",
     value: function replaceWithButton(googleOauthButton) {
       var button = document.createElement('button');
+      button.style['display'] = 'none';
       this.copyAttributes(button, googleOauthButton);
       this.moveChildren(button, googleOauthButton);
       return button;
@@ -92,22 +152,14 @@ function (_HTMLElement) {
 
       fromElm.parentNode.replaceChild(toElm, fromElm);
     }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      var self = this;
-      setTimeout(function () {
-        self.render();
-      });
-    }
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-client-id'];
+      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key'];
     }
   }]);
 
   return EGoogleOauthButton;
-}(_wrapNativeSuper(HTMLElement));
+}(HTMLTunedElement);
 
 window.customElements.define('e-google-oauth-button', EGoogleOauthButton);

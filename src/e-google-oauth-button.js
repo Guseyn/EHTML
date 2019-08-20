@@ -1,21 +1,83 @@
+'use strict'
+
+const { browserified } = require('@page-libs/cutie')
+const { AsyncObject } = require('@page-libs/cutie')
+const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const { Value } = browserified(require('@cuties/object'))
+const HTMLTunedElement = require('./HTMLTunedElement')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
-class EGoogleOauthButton extends HTMLElement {
+class LocalStorageWithSetValue extends AsyncObject {
+  constructor (localStorage, key, value) {
+    super(localStorage, key, value)
+  }
+
+  syncCall () {
+    return (localStorage, key, value) => {
+      localStorage.setItem(key, value)
+      return localStorage
+    }
+  }
+}
+
+class EGoogleOauthButton extends HTMLTunedElement {
   constructor () {
     super()
-    this.rendered = false
   }
 
   static get observedAttributes () {
-    return ['data-client-id']
+    return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key']
   }
 
   render () {
-    if (!this.rendered) {
-      document.head.prepend(this.metaElm(), this.scriptElm())
-      this.replaceWithButton(this)
-      this.rendered = true
+    const metaElm = this.metaElm()
+    const scriptElm = this.scriptElm()
+    document.head.prepend(metaElm, scriptElm)
+    const button = this.replaceWithButton(this)
+    const instance = this
+    scriptElm.onload = () => {
+      button.style['display'] = ''
+      instance.initGoogleOauth(button)
     }
+    this.rendered = true
+  }
+
+  initGoogleOauth (button) {
+    const instance = this
+    // eslint-disable-next-line no-undef
+    gapi.load('auth2', () => {
+      // eslint-disable-next-line no-undef
+      const auth2 = gapi.auth2.init({
+        client_id: instance.getAttribute('data-client-id'),
+        cookiepolicy: instance.getAttribute('cookiepolicy') || 'single_host_origin',
+        scope: instance.getAttribute('scope') || 'profile'
+      })
+      auth2.attachClickHandler(button, {},
+        (googleUser) => {
+          new LocalStorageWithSetValue(
+            localStorage,
+            instance.getAttribute('data-local-storage-jwt-key') || 'jwt',
+            new Value(
+              new ResponseBody(
+                new ResponseFromAjaxRequest(
+                  {
+                    url: instance.getAttribute('data-redirect-url') || '/',
+                    method: 'POST',
+                    body: {
+                      googleToken: googleUser.getAuthResponse().id_token
+                    }
+                  }
+                )
+              ),
+              instance.getAttribute('data-response-jwt-key') || 'jwt'
+            )
+          ).call()
+        },
+        (error) => {
+          console.log(JSON.stringify(error, undefined, 2))
+        }
+      )
+    })
   }
 
   metaElm () {
@@ -33,6 +95,7 @@ class EGoogleOauthButton extends HTMLElement {
 
   replaceWithButton (googleOauthButton) {
     const button = document.createElement('button')
+    button.style['display'] = 'none'
     this.copyAttributes(button, googleOauthButton)
     this.moveChildren(button, googleOauthButton)
     return button
@@ -50,13 +113,6 @@ class EGoogleOauthButton extends HTMLElement {
       toElm.appendChild(child)
     }
     fromElm.parentNode.replaceChild(toElm, fromElm)
-  }
-
-  connectedCallback () {
-    const self = this
-    setTimeout(() => {
-      self.render()
-    })
   }
 }
 
