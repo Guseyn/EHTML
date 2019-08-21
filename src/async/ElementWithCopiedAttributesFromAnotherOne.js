@@ -1,3 +1,5 @@
+'use strict'
+
 const { AsyncObject } = require('@page-libs/cutie')
 
 class ElementWithCopiedAttributesFromAnotherOne extends AsyncObject {

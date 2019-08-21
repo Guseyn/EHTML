@@ -1,24 +1,12 @@
 'use strict'
 
 const { browserified } = require('@page-libs/cutie')
-const { AsyncObject } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { Value } = browserified(require('@cuties/object'))
+const { ParsedJSON } = browserified(require('@cuties/json'))
 const HTMLTunedElement = require('./HTMLTunedElement')
+const LocalStorageWithSetValue = require('./async/LocalStorageWithSetValue')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
-
-class LocalStorageWithSetValue extends AsyncObject {
-  constructor (localStorage, key, value) {
-    super(localStorage, key, value)
-  }
-
-  syncCall () {
-    return (localStorage, key, value) => {
-      localStorage.setItem(key, value)
-      return localStorage
-    }
-  }
-}
 
 class EGoogleOauthButton extends HTMLTunedElement {
   constructor () {
@@ -26,7 +14,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key']
+    return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key', 'data-request-token-key']
   }
 
   render () {
@@ -49,24 +37,26 @@ class EGoogleOauthButton extends HTMLTunedElement {
       // eslint-disable-next-line no-undef
       const auth2 = gapi.auth2.init({
         client_id: instance.getAttribute('data-client-id'),
-        cookiepolicy: instance.getAttribute('cookiepolicy') || 'single_host_origin',
-        scope: instance.getAttribute('scope') || 'profile'
+        cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
+        scope: instance.getAttribute('data-scope') || 'profile'
       })
       auth2.attachClickHandler(button, {},
         (googleUser) => {
+          const body = {}
+          body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
           new LocalStorageWithSetValue(
             localStorage,
             instance.getAttribute('data-local-storage-jwt-key') || 'jwt',
             new Value(
-              new ResponseBody(
-                new ResponseFromAjaxRequest(
-                  {
-                    url: instance.getAttribute('data-redirect-url') || '/',
-                    method: 'POST',
-                    body: {
-                      googleToken: googleUser.getAuthResponse().id_token
-                    }
-                  }
+              new ParsedJSON(
+                new ResponseBody(
+                  new ResponseFromAjaxRequest(
+                    {
+                      url: instance.getAttribute('data-redirect-url') || '/',
+                      method: 'POST'
+                    },
+                    JSON.stringify(body)
+                  )
                 )
               ),
               instance.getAttribute('data-response-jwt-key') || 'jwt'

@@ -21,43 +21,21 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     browserified = _require.browserified;
 
-var _require2 = require('@page-libs/cutie'),
-    AsyncObject = _require2.AsyncObject;
-
-var _require3 = require('@page-libs/ajax'),
-    ResponseFromAjaxRequest = _require3.ResponseFromAjaxRequest,
-    ResponseBody = _require3.ResponseBody;
+var _require2 = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
 
 var _browserified = browserified(require('@cuties/object')),
     Value = _browserified.Value;
 
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
+
 var HTMLTunedElement = require('./HTMLTunedElement');
 
+var LocalStorageWithSetValue = require('./async/LocalStorageWithSetValue');
+
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
-
-var LocalStorageWithSetValue =
-/*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(LocalStorageWithSetValue, _AsyncObject);
-
-  function LocalStorageWithSetValue(localStorage, key, value) {
-    _classCallCheck(this, LocalStorageWithSetValue);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(LocalStorageWithSetValue).call(this, localStorage, key, value));
-  }
-
-  _createClass(LocalStorageWithSetValue, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function (localStorage, key, value) {
-        localStorage.setItem(key, value);
-        return localStorage;
-      };
-    }
-  }]);
-
-  return LocalStorageWithSetValue;
-}(AsyncObject);
 
 var EGoogleOauthButton =
 /*#__PURE__*/
@@ -95,17 +73,16 @@ function (_HTMLTunedElement) {
         // eslint-disable-next-line no-undef
         var auth2 = gapi.auth2.init({
           client_id: instance.getAttribute('data-client-id'),
-          cookiepolicy: instance.getAttribute('cookiepolicy') || 'single_host_origin',
-          scope: instance.getAttribute('scope') || 'profile'
+          cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
+          scope: instance.getAttribute('data-scope') || 'profile'
         });
         auth2.attachClickHandler(button, {}, function (googleUser) {
-          new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ResponseBody(new ResponseFromAjaxRequest({
+          var body = {};
+          body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
+          new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
             url: instance.getAttribute('data-redirect-url') || '/',
-            method: 'POST',
-            body: {
-              googleToken: googleUser.getAuthResponse().id_token
-            }
-          })), instance.getAttribute('data-response-jwt-key') || 'jwt')).call();
+            method: 'POST'
+          }, JSON.stringify(body)))), instance.getAttribute('data-response-jwt-key') || 'jwt')).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
@@ -155,7 +132,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key'];
+      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key', 'data-request-token-key'];
     }
   }]);
 
