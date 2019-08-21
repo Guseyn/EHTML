@@ -21,30 +21,27 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var AttributeWithAppliedLocalStorageVariables =
+var ValueFromLocalStorage =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(AttributeWithAppliedLocalStorageVariables, _AsyncObject);
+  _inherits(ValueFromLocalStorage, _AsyncObject);
 
-  function AttributeWithAppliedLocalStorageVariables(attribute) {
-    _classCallCheck(this, AttributeWithAppliedLocalStorageVariables);
+  function ValueFromLocalStorage(localStorage, key) {
+    _classCallCheck(this, ValueFromLocalStorage);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AttributeWithAppliedLocalStorageVariables).call(this, attribute));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ValueFromLocalStorage).call(this, localStorage, key));
   }
 
-  _createClass(AttributeWithAppliedLocalStorageVariables, [{
+  _createClass(ValueFromLocalStorage, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (attribute) {
-        attribute = attribute || '';
-        return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-          return localStorage.getItem(p1);
-        });
+      return function (localStorage, key) {
+        return localStorage.getItem(key);
       };
     }
   }]);
 
-  return AttributeWithAppliedLocalStorageVariables;
+  return ValueFromLocalStorage;
 }(AsyncObject);
 
-module.exports = AttributeWithAppliedLocalStorageVariables;
+module.exports = ValueFromLocalStorage;

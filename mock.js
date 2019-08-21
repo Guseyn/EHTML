@@ -6,19 +6,21 @@ const getNextId = () => {
   return id++
 }
 
-global.window = {
-  localStorage: {
-    getItem: (key) => {
-      return key
-    }
-  }
-}
-
 global.document = {
   createTextNode: (text) => {
     return {
       nodeValue: text
     }
+  }
+}
+
+global.localStorage = {
+  items: [],
+  getItem: (key) => {
+    return global.localStorage.items[key]
+  },
+  setItem: (key, value) => {
+    global.localStorage.items[key] = value
   }
 }
 

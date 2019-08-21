@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- http://localhost/e-google-oauth-button.html -->
+<!-- http://localhost:8000/e-google-oauth-button.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
@@ -55,7 +55,15 @@
   </head>
 
   <body class="main">
-    <e-google-oauth-button class="customSignIn" data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com">
+    <e-google-oauth-button 
+      class="customSignIn"
+      data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com"
+      data-redirect-url="/../google"
+      data-cookiepolicy="single_host_origin"
+      data-scope="profile"
+      data-local-storage-jwt-key="jwt"
+      data-response-jwt-key="jwt"
+      data-request-token-key="googleToken">
         <span id="google-icon" class="icon"></span>
         <span class="buttonText">Sign in with Google</span>
     </e-google-oauth-button>

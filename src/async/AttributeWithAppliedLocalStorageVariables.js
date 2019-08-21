@@ -1,3 +1,5 @@
+'use strict'
+
 const { AsyncObject } = require('@page-libs/cutie')
 
 class AttributeWithAppliedLocalStorageVariables extends AsyncObject {
@@ -9,7 +11,7 @@ class AttributeWithAppliedLocalStorageVariables extends AsyncObject {
     return (attribute) => {
       attribute = attribute || ''
       return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-        return window.localStorage.getItem(p1)
+        return localStorage.getItem(p1)
       })
     }
   }
