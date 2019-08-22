@@ -24,6 +24,16 @@ global.localStorage = {
   }
 }
 
+global.memoryStorage = {
+  items: [],
+  getItem: (key) => {
+    return global.localStorage.items[key]
+  },
+  setItem: (key, value) => {
+    global.localStorage.items[key] = value
+  }
+}
+
 const elementWithAttribute = (attrName, value, ...children) => {
   const attrs = {}
   attrs[attrName] = value
