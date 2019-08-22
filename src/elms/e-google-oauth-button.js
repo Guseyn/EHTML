@@ -4,8 +4,8 @@ const { browserified } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { Value } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
-const HTMLTunedElement = require('./HTMLTunedElement')
-const LocalStorageWithSetValue = require('./async/LocalStorageWithSetValue')
+const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
+const HTMLTunedElement = require('./../objects/HTMLTunedElement')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
 class EGoogleOauthButton extends HTMLTunedElement {

@@ -5,8 +5,9 @@ const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
-const AttributeWithAppliedLocalStorageVariables = require('./async/AttributeWithAppliedLocalStorageVariables')
-const HTMLTunedElement = require('./HTMLTunedElement')
+const AttributeWithAppliedLocalStorageVariables = require('./../async/AttributeWithAppliedLocalStorageVariables')
+const AttributeWithAppliedMemoryStorageVariables = require('./../async/AttributeWithAppliedMemoryStorageVariables')
+const HTMLTunedElement = require('./../objects/HTMLTunedElement')
 
 class EHTML extends HTMLTunedElement {
   constructor () {
@@ -24,12 +25,16 @@ class EHTML extends HTMLTunedElement {
           new ResponseFromAjaxRequest(
             new CreatedOptions(
               'url', new AttributeWithAppliedLocalStorageVariables(
-                this.getAttribute('data-src')
+                new AttributeWithAppliedMemoryStorageVariables(
+                  this.getAttribute('data-src')
+                )
               ),
               'method', 'GET',
               'headers', new ParsedJSON(
                 new AttributeWithAppliedLocalStorageVariables(
-                  this.getAttribute('data-headers') || '{}'
+                  new AttributeWithAppliedMemoryStorageVariables(
+                    this.getAttribute('data-headers') || '{}'
+                  )
                 )
               )
             )
