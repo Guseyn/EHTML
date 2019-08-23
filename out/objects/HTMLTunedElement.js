@@ -42,6 +42,21 @@ function (_HTMLElement) {
   }
 
   _createClass(HTMLTunedElement, [{
+    key: "replaceWith",
+    value: function replaceWith(elm) {
+      var instance = this;
+      instance.getAttributeNames().forEach(function (name) {
+        elm.setAttribute(name, instance.getAttribute(name));
+      });
+
+      while (instance.firstChild) {
+        var child = instance.removeChild(instance.firstChild);
+        elm.appendChild(child);
+      }
+
+      instance.parentNode.replaceChild(elm, instance);
+    }
+  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var instance = this;

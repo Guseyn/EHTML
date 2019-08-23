@@ -18,20 +18,21 @@ class EGoogleOauthButton extends HTMLTunedElement {
   }
 
   render () {
-    const metaElm = this.metaElm()
-    const scriptElm = this.scriptElm()
-    document.head.prepend(metaElm, scriptElm)
-    const button = this.replaceWithButton(this)
+    const googleSignInMetaElm = this.googleSignInMetaElm()
+    const googleApiScriptElm = this.googleApiScriptElm()
+    document.head.prepend(googleSignInMetaElm, googleApiScriptElm)
+    const googleOauthButtonElm = this.googleOauthButtonElm()
+    this.replaceWith(googleOauthButtonElm)
     const instance = this
-    scriptElm.onload = () => {
-      button.style['display'] = ''
-      instance.initGoogleOauth(button)
+    googleApiScriptElm.onload = () => {
+      instance.initGoogleOauth(googleOauthButtonElm)
     }
     this.rendered = true
   }
 
-  initGoogleOauth (button) {
+  initGoogleOauth (googleOauthButtonElm) {
     const instance = this
+    googleOauthButtonElm.style['display'] = ''
     // eslint-disable-next-line no-undef
     gapi.load('auth2', () => {
       // eslint-disable-next-line no-undef
@@ -40,7 +41,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
         cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
         scope: instance.getAttribute('data-scope') || 'profile'
       })
-      auth2.attachClickHandler(button, {},
+      auth2.attachClickHandler(googleOauthButtonElm, {},
         (googleUser) => {
           const body = {}
           body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
@@ -70,39 +71,23 @@ class EGoogleOauthButton extends HTMLTunedElement {
     })
   }
 
-  metaElm () {
+  googleSignInMetaElm () {
     const googleSignInMetaElm = document.createElement('meta')
     googleSignInMetaElm.setAttribute('name', 'google-signin-client_id')
     googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'))
     return googleSignInMetaElm
   }
 
-  scriptElm () {
+  googleApiScriptElm () {
     const googleApiScriptElm = document.createElement('script')
     googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC)
     return googleApiScriptElm
   }
 
-  replaceWithButton (googleOauthButton) {
+  googleOauthButtonElm () {
     const button = document.createElement('button')
     button.style['display'] = 'none'
-    this.copyAttributes(button, googleOauthButton)
-    this.moveChildren(button, googleOauthButton)
     return button
-  }
-
-  copyAttributes (toElm, fromElm) {
-    fromElm.getAttributeNames().forEach(name => {
-      toElm.setAttribute(name, fromElm.getAttribute(name))
-    })
-  }
-
-  moveChildren (toElm, fromElm) {
-    while (fromElm.firstChild) {
-      const child = fromElm.removeChild(fromElm.firstChild)
-      toElm.appendChild(child)
-    }
-    fromElm.parentNode.replaceChild(toElm, fromElm)
   }
 }
 
