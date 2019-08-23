@@ -51,23 +51,24 @@ function (_HTMLTunedElement) {
   _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
-      var metaElm = this.metaElm();
-      var scriptElm = this.scriptElm();
-      document.head.prepend(metaElm, scriptElm);
-      var button = this.replaceWithButton(this);
+      var googleSignInMetaElm = this.googleSignInMetaElm();
+      var googleApiScriptElm = this.googleApiScriptElm();
+      document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
+      var googleOauthButtonElm = this.googleOauthButtonElm();
+      this.replaceWith(googleOauthButtonElm);
       var instance = this;
 
-      scriptElm.onload = function () {
-        button.style['display'] = '';
-        instance.initGoogleOauth(button);
+      googleApiScriptElm.onload = function () {
+        instance.initGoogleOauth(googleOauthButtonElm);
       };
 
       this.rendered = true;
     }
   }, {
     key: "initGoogleOauth",
-    value: function initGoogleOauth(button) {
-      var instance = this; // eslint-disable-next-line no-undef
+    value: function initGoogleOauth(googleOauthButtonElm) {
+      var instance = this;
+      googleOauthButtonElm.style['display'] = ''; // eslint-disable-next-line no-undef
 
       gapi.load('auth2', function () {
         // eslint-disable-next-line no-undef
@@ -76,7 +77,7 @@ function (_HTMLTunedElement) {
           cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
           scope: instance.getAttribute('data-scope') || 'profile'
         });
-        auth2.attachClickHandler(button, {}, function (googleUser) {
+        auth2.attachClickHandler(googleOauthButtonElm, {}, function (googleUser) {
           var body = {};
           body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
           new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
@@ -89,45 +90,26 @@ function (_HTMLTunedElement) {
       });
     }
   }, {
-    key: "metaElm",
-    value: function metaElm() {
+    key: "googleSignInMetaElm",
+    value: function googleSignInMetaElm() {
       var googleSignInMetaElm = document.createElement('meta');
       googleSignInMetaElm.setAttribute('name', 'google-signin-client_id');
       googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'));
       return googleSignInMetaElm;
     }
   }, {
-    key: "scriptElm",
-    value: function scriptElm() {
+    key: "googleApiScriptElm",
+    value: function googleApiScriptElm() {
       var googleApiScriptElm = document.createElement('script');
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
       return googleApiScriptElm;
     }
   }, {
-    key: "replaceWithButton",
-    value: function replaceWithButton(googleOauthButton) {
+    key: "googleOauthButtonElm",
+    value: function googleOauthButtonElm() {
       var button = document.createElement('button');
       button.style['display'] = 'none';
-      this.copyAttributes(button, googleOauthButton);
-      this.moveChildren(button, googleOauthButton);
       return button;
-    }
-  }, {
-    key: "copyAttributes",
-    value: function copyAttributes(toElm, fromElm) {
-      fromElm.getAttributeNames().forEach(function (name) {
-        toElm.setAttribute(name, fromElm.getAttribute(name));
-      });
-    }
-  }, {
-    key: "moveChildren",
-    value: function moveChildren(toElm, fromElm) {
-      while (fromElm.firstChild) {
-        var child = fromElm.removeChild(fromElm.firstChild);
-        toElm.appendChild(child);
-      }
-
-      fromElm.parentNode.replaceChild(toElm, fromElm);
     }
   }], [{
     key: "observedAttributes",
