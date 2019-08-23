@@ -45,4 +45,4 @@ class EHTML extends HTMLTunedElement {
   }
 }
 
-window.customElements.define('e-html', EHTML)
+module.exports = EHTML

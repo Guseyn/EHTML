@@ -37,11 +37,11 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-json-request', 'data-button'];
+      return ['data-json-request', 'data-request-button'];
     }
   }]);
 
   return EForm;
 }(HTMLTunedElement);
 
-window.customElements.define('e-form', EForm);
+module.exports = EForm;

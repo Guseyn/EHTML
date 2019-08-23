@@ -77,4 +77,4 @@ function (_HTMLTunedElement) {
   return EJSON;
 }(HTMLTunedElement);
 
-window.customElements.define('e-json', EJSON);
+module.exports = EJSON;
