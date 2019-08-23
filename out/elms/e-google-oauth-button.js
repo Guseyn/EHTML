@@ -51,17 +51,17 @@ function (_HTMLTunedElement) {
   _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
+      var instance = this;
       var googleSignInMetaElm = this.googleSignInMetaElm();
       var googleApiScriptElm = this.googleApiScriptElm();
       document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
       var googleOauthButtonElm = this.googleOauthButtonElm();
-      this.replaceWith(googleOauthButtonElm);
-      var instance = this;
 
       googleApiScriptElm.onload = function () {
         instance.initGoogleOauth(googleOauthButtonElm);
       };
 
+      this.replaceWith(googleOauthButtonElm);
       this.rendered = true;
     }
   }, {
@@ -121,4 +121,4 @@ function (_HTMLTunedElement) {
   return EGoogleOauthButton;
 }(HTMLTunedElement);
 
-window.customElements.define('e-google-oauth-button', EGoogleOauthButton);
+module.exports = EGoogleOauthButton;

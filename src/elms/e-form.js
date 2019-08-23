@@ -16,4 +16,4 @@ class EForm extends HTMLTunedElement {
   }
 }
 
-window.customElements.define('e-form', EForm)
+module.exports = EForm

@@ -65,4 +65,4 @@ class EJSON extends HTMLTunedElement {
   }
 }
 
-window.customElements.define('e-json', EJSON)
+module.exports = EJSON

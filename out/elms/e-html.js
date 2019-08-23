@@ -67,4 +67,4 @@ function (_HTMLTunedElement) {
   return EHTML;
 }(HTMLTunedElement);
 
-window.customElements.define('e-html', EHTML);
+module.exports = EHTML;

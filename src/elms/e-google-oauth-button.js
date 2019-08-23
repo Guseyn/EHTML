@@ -18,15 +18,15 @@ class EGoogleOauthButton extends HTMLTunedElement {
   }
 
   render () {
+    const instance = this
     const googleSignInMetaElm = this.googleSignInMetaElm()
     const googleApiScriptElm = this.googleApiScriptElm()
     document.head.prepend(googleSignInMetaElm, googleApiScriptElm)
     const googleOauthButtonElm = this.googleOauthButtonElm()
-    this.replaceWith(googleOauthButtonElm)
-    const instance = this
     googleApiScriptElm.onload = () => {
       instance.initGoogleOauth(googleOauthButtonElm)
     }
+    this.replaceWith(googleOauthButtonElm)
     this.rendered = true
   }
 
@@ -91,4 +91,4 @@ class EGoogleOauthButton extends HTMLTunedElement {
   }
 }
 
-window.customElements.define('e-google-oauth-button', EGoogleOauthButton)
+module.exports = EGoogleOauthButton
