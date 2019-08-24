@@ -1,17 +1,78 @@
 <!DOCTYPE html>
-<!-- http://localhost:8000/e-html.html -->
+<!-- http://localhost:8000/e-form.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>e-form</title>
+    <style type="text/css">
+      legend {
+        background-color: #000;
+        color: #fff;
+        padding: 3px 6px;
+      }
+
+      .output {
+        font: 1rem 'Fira Sans', sans-serif;
+      }
+
+      input {
+        margin-top: 1em;
+      }
+
+    </style>
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
-    <e-form>
-      
+    <e-form data-request-url="/form" data-request-button="#send">
+      <fieldset name="number">
+        <legend>Choose your number</legend>
+
+        <input type="radio" id="one" name="number">
+        <label for="one">One</label><br/>
+
+        <input type="radio" id="two" name="number">
+        <label for="two">Two</label><br/>
+
+        <input type="radio" id="three" name="number">
+        <label for="three">Three</label>
+      </fieldset>
+
+      <input type="checkbox" name="isTrue"><br/>
+      <input type="color" name="color"><br/>
+      <input type="date" name="date"><br/>
+      <input type="datetime-local" name="dateTimeLocal"><br/>
+      <input type="email" name="email"><br/>
+      <input type="file" name="file"><br/>
+      <input type="hidden" name="hidden"><br/>
+      <input type="month" name="month"><br/>
+      <input type="number" name="number"><br/>
+      <input type="password" name="password"><br/>
+      <input type="radio" id="four" name="number"><label for="four">Four</label><br/><br/>
+      <input type="range" name="range"><br/>
+      <input type="reset" name="reset"><br/>
+      <input type="search" name="search"><br/>
+      <input type="tel" name="tel"><br/>
+      <input type="text" name="text"><br/>
+      <input type="time" name="time"><br/>
+      <input type="url" name="url"><br/>
+      <input type="week" name="week"><br/><br/>
+
+      <label for="pet-select">Choose a color:</label>
+      <select id="pet-select" name="color">
+        <option value="red" name="color">Red</option>
+        <option value="green" name="color">Green</option>
+        <option value="blue" name="color">Blue</option>
+      </select><br/><br/>
+
+      <textarea id="text" name="text" rows="5" cols="33">Text...</textarea><br/>
+
+      <e-local-storage-value></e-local-storage-value>
+      <e-memory-storage-value></e-memory-storage-value>
+
+      <button id="send"></button>
     </e-form>
   </body>
 
