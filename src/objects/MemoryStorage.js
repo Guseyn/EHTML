@@ -2,18 +2,31 @@
 
 class MemoryStorage {
   constructor () {
-    this.items = []
+    this.items = {}
   }
 
-  getItem (key) {
-    return this.items[key]
+  getItem (keyPath) {
+    const keyParts = keyPath.split('.')
+    const key = keyParts[0]
+    const pathOfValue = keyParts.splice(1).join('.')
+    if (pathOfValue.length === 0) {
+      return this.items[key]
+    }
+    // eslint-disable-next-line no-eval
+    return eval(`this.items['${key}'].${pathOfValue}`)
   }
 
-  setItem (key, value) {
-    this.items[key] = value
+  setItem (keyPath, value) {
+    const keyParts = keyPath.split('.')
+    const key = keyParts[0]
+    const pathOfValue = keyParts.splice(1).join('.')
+    if (pathOfValue.length === 0) {
+      this.items[key] = value
+    } else {
+      // eslint-disable-next-line no-eval
+      eval(`this.items['${key}'].${pathOfValue} = value`)
+    }
   }
 }
-
-window.memoryStorage = new MemoryStorage()
 
 module.exports = MemoryStorage

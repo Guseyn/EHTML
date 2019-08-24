@@ -16,7 +16,8 @@ class EMemoryStorageValue extends HTMLTunedElement {
   }
 
   value () {
-    return localStorage.getItem(this.getAttribute('data-key'))
+    // eslint-disable-next-line no-undef
+    return memoryStorage.getItem(this.getAttribute('data-key'))
   }
 }
 

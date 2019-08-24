@@ -6665,17 +6665,8 @@ function (_AsyncObject) {
       return function (attribute) {
         attribute = attribute || '';
         return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-          var keyParts = p1.split('.');
-          var key = keyParts[0];
-          var pathOfValue = keyParts.splice(1).join('.');
-
-          if (pathOfValue.length === 0) {
-            // eslint-disable-next-line no-undef
-            return memoryStorage.getItem(p1);
-          } // eslint-disable-next-line no-eval
-
-
-          return eval("memoryStorage.getItem('".concat(key, "').").concat(pathOfValue));
+          // eslint-disable-next-line no-undef
+          return memoryStorage.getItem(p1);
         });
       };
     }
@@ -7928,7 +7919,8 @@ function (_HTMLTunedElement) {
   }, {
     key: "value",
     value: function value() {
-      return localStorage.getItem(this.getAttribute('data-key'));
+      // eslint-disable-next-line no-undef
+      return memoryStorage.getItem(this.getAttribute('data-key'));
     }
   }], [{
     key: "observedAttributes",
@@ -8046,25 +8038,49 @@ function () {
   function MemoryStorage() {
     _classCallCheck(this, MemoryStorage);
 
-    this.items = [];
+    this.items = {};
   }
 
   _createClass(MemoryStorage, [{
     key: "getItem",
-    value: function getItem(key) {
-      return this.items[key];
+    value: function getItem(keyPath) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        return this.items[key];
+      } // eslint-disable-next-line no-eval
+
+
+      return eval("this.items['".concat(key, "'].").concat(pathOfValue));
     }
   }, {
     key: "setItem",
-    value: function setItem(key, value) {
-      this.items[key] = value;
+    value: function setItem(keyPath, value) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        this.items[key] = value;
+      } else {
+        // eslint-disable-next-line no-eval
+        eval("this.items['".concat(key, "'].").concat(pathOfValue, " = value"));
+      }
     }
   }]);
 
   return MemoryStorage;
 }();
 
-window.memoryStorage = new MemoryStorage();
 module.exports = MemoryStorage;
 
-},{}]},{},[148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,147,170,171]);
+},{}],172:[function(require,module,exports){
+"use strict";
+
+var MemoryStorage = require('./MemoryStorage');
+
+window.memoryStorage = new MemoryStorage();
+
+},{"./MemoryStorage":171}]},{},[148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,147,172,170,171]);

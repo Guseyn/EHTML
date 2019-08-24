@@ -12,23 +12,40 @@ function () {
   function MemoryStorage() {
     _classCallCheck(this, MemoryStorage);
 
-    this.items = [];
+    this.items = {};
   }
 
   _createClass(MemoryStorage, [{
     key: "getItem",
-    value: function getItem(key) {
-      return this.items[key];
+    value: function getItem(keyPath) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        return this.items[key];
+      } // eslint-disable-next-line no-eval
+
+
+      return eval("this.items['".concat(key, "'].").concat(pathOfValue));
     }
   }, {
     key: "setItem",
-    value: function setItem(key, value) {
-      this.items[key] = value;
+    value: function setItem(keyPath, value) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        this.items[key] = value;
+      } else {
+        // eslint-disable-next-line no-eval
+        eval("this.items['".concat(key, "'].").concat(pathOfValue, " = value"));
+      }
     }
   }]);
 
   return MemoryStorage;
 }();
 
-window.memoryStorage = new MemoryStorage();
 module.exports = MemoryStorage;

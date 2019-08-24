@@ -37,7 +37,8 @@ function (_HTMLTunedElement) {
   }, {
     key: "value",
     value: function value() {
-      return localStorage.getItem(this.getAttribute('data-key'));
+      // eslint-disable-next-line no-undef
+      return memoryStorage.getItem(this.getAttribute('data-key'));
     }
   }], [{
     key: "observedAttributes",

@@ -1,6 +1,8 @@
 'use strict'
 
 const { AsyncObject } = require('@cuties/cutie')
+const MemoryStorage = require('./src/objects/MemoryStorage')
+
 let id = 0
 const getNextId = () => {
   return id++
@@ -24,15 +26,7 @@ global.localStorage = {
   }
 }
 
-global.memoryStorage = {
-  items: [],
-  getItem: (key) => {
-    return global.localStorage.items[key]
-  },
-  setItem: (key, value) => {
-    global.localStorage.items[key] = value
-  }
-}
+global.memoryStorage = new MemoryStorage()
 
 const elementWithAttribute = (attrName, value, ...children) => {
   const attrs = {}
