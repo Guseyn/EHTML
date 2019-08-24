@@ -1,7 +1,7 @@
 'use strict'
 
 const { AsyncObject } = require('@page-libs/cutie')
-const paramRegExp = /\$\{(\S*)\.(\S*)\}/g
+const paramRegExp = /\$\{(\S*)\}/g
 
 class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
   constructor (element, values) {
@@ -15,11 +15,11 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
   }
 
   applyValuesToChildren (element, values) {
-    element.childNodes.forEach((child, index) => {
+    element.childNodes.forEach((child) => {
       if (child.getAttribute) {
         if (child.getAttribute('data-text')) {
           this.updateAttribute(child, 'data-text', values)
-          if (this.readyToBeApplied(element, child, 'data-text', index)) {
+          if (this.readyToBeApplied(child, 'data-text')) {
             const textNode = document.createTextNode(child.getAttribute('data-text'))
             if (child.childNodes.length === 0) {
               child.appendChild(textNode)
@@ -30,7 +30,7 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
           }
         } else if (child.getAttribute('data-value')) {
           this.updateAttribute(child, 'data-value', values)
-          if (this.readyToBeApplied(element, child, 'data-value', index)) {
+          if (this.readyToBeApplied(child, 'data-value')) {
             child.value = child.getAttribute('data-value')
             child.removeAttribute('data-value')
           }
@@ -42,13 +42,18 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
   }
 
   updateAttribute (element, attrName, values) {
-    element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, (match, p1, p2, offset, string) => {
-      return values[p1] ? values[p1][p2] : `$\{${p1}.${p2}}`
+    element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, (match, p1, offset, string) => {
+      try {
+        // eslint-disable-next-line no-eval
+        return eval(`values.${p1}`)
+      } catch (e) {
+        return match
+      }
     }))
   }
 
-  readyToBeApplied (element, child, attrName, index) {
-    return !paramRegExp.test(child.getAttribute(attrName)) || element.childNodes.length - 1 === index
+  readyToBeApplied (child, attrName) {
+    return !paramRegExp.test(child.getAttribute(attrName))
   }
 }
 

@@ -8,7 +8,7 @@ class EForm extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-json-request', 'data-request-button']
+    return ['data-request-url', 'data-request-button']
   }
 
   render () {

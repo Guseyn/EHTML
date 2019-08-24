@@ -10,21 +10,26 @@ new DeepStrictEqualAssertion(
     new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
       {
         childNodes: [
-          elementWithAttribute('data-text', 'Name: ${user.name}, another name: ${anotherUser.name}'),
-          elementWithAttribute('data-value', 'Name: ${user.name}, another name: ${anotherUser.name}'),
+          elementWithAttribute('data-text', 'Name: ${user.name}, user account: ${user.account.name}'),
+          elementWithAttribute('data-value', 'Name: ${user.name}, user account: ${user.account.name}'),
           elementWithAttribute(
             'data-text', 'Age: ${user.age}',
             elementWithAttribute('data-text', 'Email: ${user.email}'),
+            elementWithAttribute('data-value', 'User name: ${user.name}, another user name: ${anotherUser.name}'),
             elementWithAttribute('data-value', 'Email: ${user.email}')
           ),
           elementWithAttribute('data-attr', 'value'),
-          elementWithAttribute('data-text', 'Email: ${admin.email}')
+          elementWithAttribute('data-text', 'Email: ${user.email}'),
+          elementWithAttribute('data-text', 'User name: ${user.name}, another user name: ${anotherUser.name}')
         ]
       }, {
         user: {
           name: 'test name',
           age: 'test age',
-          email: 'test@email'
+          email: 'test@email',
+          account: {
+            name: 'acc'
+          }
         }
       }
     )
@@ -33,18 +38,22 @@ new DeepStrictEqualAssertion(
     childNodes: [
       {
         id: 0,
-        attrs: { 'data-text': 'Name: test name, another name: ${anotherUser.name}' },
+        attrs: { },
         value: '',
-        childNodes: []
+        childNodes: [
+          {
+            nodeValue: 'Name: test name, user account: acc'
+          }
+        ]
       },
       {
         id: 1,
-        attrs: { 'data-value': 'Name: test name, another name: ${anotherUser.name}' },
-        value: '',
+        attrs: { },
+        value: 'Name: test name, user account: acc',
         childNodes: []
       },
       {
-        id: 4,
+        id: 5,
         attrs: {},
         value: '',
         childNodes:
@@ -54,15 +63,27 @@ new DeepStrictEqualAssertion(
             id: 2,
             attrs: {},
             value: '',
-            childNodes: [ { nodeValue: 'Email: test@email' } ]
+            childNodes: [
+              {
+                nodeValue: 'Email: test@email'
+              }
+            ]
           },
           {
-            id: 3, attrs: {}, value: 'Email: test@email', childNodes: []
+            id: 3,
+            attrs: {
+              'data-value': 'User name: test name, another user name: ${anotherUser.name}'
+            },
+            value: '',
+            childNodes: [ ]
+          },
+          {
+            id: 4, attrs: {}, value: 'Email: test@email', childNodes: []
           }
         ]
       },
       {
-        id: 5,
+        id: 6,
         attrs: {
           'data-attr': 'value'
         },
@@ -70,10 +91,22 @@ new DeepStrictEqualAssertion(
         childNodes: []
       },
       {
-        id: 6,
+        id: 7,
         attrs: {},
         value: '',
-        childNodes: [ { nodeValue: 'Email: ${admin.email}' } ]
+        childNodes: [
+          {
+            nodeValue: 'Email: test@email'
+          }
+        ]
+      },
+      {
+        id: 8,
+        attrs: {
+          'data-text': 'User name: test name, another user name: ${anotherUser.name}'
+        },
+        value: '',
+        childNodes: [ ]
       }
     ]
   }

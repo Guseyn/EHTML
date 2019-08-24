@@ -21,7 +21,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var paramRegExp = /\$\{(\S*)\.(\S*)\}/g;
+var paramRegExp = /\$\{(\S*)\}/g;
 
 var ElementWithAppliedDataTextAndValueAttributesForChildNodes =
 /*#__PURE__*/
@@ -48,12 +48,12 @@ function (_AsyncObject) {
     value: function applyValuesToChildren(element, values) {
       var _this2 = this;
 
-      element.childNodes.forEach(function (child, index) {
+      element.childNodes.forEach(function (child) {
         if (child.getAttribute) {
           if (child.getAttribute('data-text')) {
             _this2.updateAttribute(child, 'data-text', values);
 
-            if (_this2.readyToBeApplied(element, child, 'data-text', index)) {
+            if (_this2.readyToBeApplied(child, 'data-text')) {
               var textNode = document.createTextNode(child.getAttribute('data-text'));
 
               if (child.childNodes.length === 0) {
@@ -67,7 +67,7 @@ function (_AsyncObject) {
           } else if (child.getAttribute('data-value')) {
             _this2.updateAttribute(child, 'data-value', values);
 
-            if (_this2.readyToBeApplied(element, child, 'data-value', index)) {
+            if (_this2.readyToBeApplied(child, 'data-value')) {
               child.value = child.getAttribute('data-value');
               child.removeAttribute('data-value');
             }
@@ -81,14 +81,19 @@ function (_AsyncObject) {
   }, {
     key: "updateAttribute",
     value: function updateAttribute(element, attrName, values) {
-      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, p2, offset, string) {
-        return values[p1] ? values[p1][p2] : "${".concat(p1, ".").concat(p2, "}");
+      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          // eslint-disable-next-line no-eval
+          return eval("values.".concat(p1));
+        } catch (e) {
+          return match;
+        }
       }));
     }
   }, {
     key: "readyToBeApplied",
-    value: function readyToBeApplied(element, child, attrName, index) {
-      return !paramRegExp.test(child.getAttribute(attrName)) || element.childNodes.length - 1 === index;
+    value: function readyToBeApplied(child, attrName) {
+      return !paramRegExp.test(child.getAttribute(attrName));
     }
   }]);
 

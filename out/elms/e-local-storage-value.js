@@ -20,28 +20,33 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var HTMLTunedElement = require('./../objects/HTMLTunedElement');
 
-var EForm =
+var ELocalStorageValue =
 /*#__PURE__*/
 function (_HTMLTunedElement) {
-  _inherits(EForm, _HTMLTunedElement);
+  _inherits(ELocalStorageValue, _HTMLTunedElement);
 
-  function EForm() {
-    _classCallCheck(this, EForm);
+  function ELocalStorageValue() {
+    _classCallCheck(this, ELocalStorageValue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EForm).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ELocalStorageValue).call(this));
   }
 
-  _createClass(EForm, [{
+  _createClass(ELocalStorageValue, [{
     key: "render",
     value: function render() {}
+  }, {
+    key: "value",
+    value: function value() {
+      return localStorage.getItem(this.getAttribute('data-key'));
+    }
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-button'];
+      return ['data-key'];
     }
   }]);
 
-  return EForm;
+  return ELocalStorageValue;
 }(HTMLTunedElement);
 
-module.exports = EForm;
+module.exports = ELocalStorageValue;
