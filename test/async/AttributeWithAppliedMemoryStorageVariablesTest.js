@@ -17,6 +17,14 @@ new StrictEqualAssertion(
   '/api/user/userId'
 ).call()
 
+// eslint-disable-next-line no-undef
+memoryStorage.setItem('user.id', 'id')
+
+new StrictEqualAssertion(
+  new AttributeWithAppliedMemoryStorageVariables('/api/user/${memoryStorage.user.id}'),
+  '/api/user/id'
+).call()
+
 new StrictEqualAssertion(
   new AttributeWithAppliedMemoryStorageVariables(null),
   ''

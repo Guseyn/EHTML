@@ -38,17 +38,8 @@ function (_AsyncObject) {
       return function (attribute) {
         attribute = attribute || '';
         return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-          var keyParts = p1.split('.');
-          var key = keyParts[0];
-          var pathOfValue = keyParts.splice(1).join('.');
-
-          if (pathOfValue.length === 0) {
-            // eslint-disable-next-line no-undef
-            return memoryStorage.getItem(p1);
-          } // eslint-disable-next-line no-eval
-
-
-          return eval("memoryStorage.getItem('".concat(key, "').").concat(pathOfValue));
+          // eslint-disable-next-line no-undef
+          return memoryStorage.getItem(p1);
         });
       };
     }
