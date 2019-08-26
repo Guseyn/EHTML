@@ -18,9 +18,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement');
+var HTMLTunedElement = require('./../objects/HTMLTunedElement'); // const RequestFromAjaxRequest = require('@page-libs/ajax')
 
-var RequestFromAjaxRequest = require('@page-libs/ajax');
 
 var EForm =
 /*#__PURE__*/
@@ -34,6 +33,11 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(EForm, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return ['data-request-url', 'data-request-headers'];
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;

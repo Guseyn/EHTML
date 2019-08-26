@@ -53,10 +53,15 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(EHTML, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return ['data-src', 'data-headers'];
+    }
+  }, {
     key: "render",
     value: function render() {
       console.log('ok2');
-      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-src'))), 'method', 'GET', 'headers', new ParsedJSON(this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-headers') || '{}')))))))).call();
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
   }], [{
     key: "observedAttributes",
