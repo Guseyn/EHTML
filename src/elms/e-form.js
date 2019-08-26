@@ -1,7 +1,7 @@
 'use strict'
 
 const HTMLTunedElement = require('./../objects/HTMLTunedElement')
-const RequestFromAjaxRequest = require('@page-libs/ajax')
+// const RequestFromAjaxRequest = require('@page-libs/ajax')
 
 class EForm extends HTMLTunedElement {
   constructor () {
