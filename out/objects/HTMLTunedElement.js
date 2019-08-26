@@ -78,23 +78,11 @@ function (_HTMLElement) {
     key: "connectedCallback",
     value: function connectedCallback() {
       var instance = this;
-
-      var childrenConnectedCallback = function childrenConnectedCallback() {
+      setTimeout(function () {
         if (!instance.rendered) {
           instance.render();
           instance.rendered = true;
         }
-      };
-
-      var observer = new MutationObserver(childrenConnectedCallback);
-      var config = {
-        attributes: false,
-        childList: true,
-        subtree: true
-      };
-      observer.observe(instance, config);
-      setTimeout(function () {
-        observer.disconnect();
       });
     }
   }]);
