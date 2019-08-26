@@ -19,31 +19,23 @@ class EJSON extends HTMLTunedElement {
     return ['data-src', 'data-method', 'data-headers', 'data-request-body', 'data-object']
   }
 
+  attributesWithStorageVariables () {
+    return ['data-src', 'data-headers', 'data-request-body']
+  }
+
   render () {
     new ParsedJSON(
       new StringFromBuffer(
         new ResponseBody(
           new ResponseFromAjaxRequest(
             new CreatedOptions(
-              'url', this.attributeWithAppliedLocalStorageVariables(
-                this.attributeWithAppliedMemoryStorageVariables(
-                  this.getAttribute('data-src')
-                )
-              ),
+              'url', this.getAttribute('data-src'),
               'method', this.getAttribute('data-method') || 'GET',
               'headers', new ParsedJSON(
-                this.attributeWithAppliedLocalStorageVariables(
-                  this.attributeWithAppliedMemoryStorageVariables(
-                    this.getAttribute('data-headers') || '{}'
-                  )
-                )
+                this.getAttribute('data-headers') || '{}'
               )
             ),
-            this.attributeWithAppliedLocalStorageVariables(
-              this.attributeWithAppliedMemoryStorageVariables(
-                this.getAttribute('data-request-body')
-              )
-            )
+            this.getAttribute('data-request-body')
           )
         )
       )
