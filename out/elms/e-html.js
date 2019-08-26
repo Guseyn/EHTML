@@ -43,14 +43,19 @@ function (_HTMLTunedElement) {
   _inherits(EHTML, _HTMLTunedElement);
 
   function EHTML() {
+    var _this;
+
     _classCallCheck(this, EHTML);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this));
+    _this.rendered = false;
+    return _this;
   }
 
   _createClass(EHTML, [{
     key: "render",
     value: function render() {
+      console.log('ok2');
       new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-src'))), 'method', 'GET', 'headers', new ParsedJSON(this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-headers') || '{}')))))))).call();
     }
   }], [{

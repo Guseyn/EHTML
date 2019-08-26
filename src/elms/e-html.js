@@ -10,6 +10,7 @@ const HTMLTunedElement = require('./../objects/HTMLTunedElement')
 class EHTML extends HTMLTunedElement {
   constructor () {
     super()
+    this.rendered = false
   }
 
   static get observedAttributes () {
@@ -17,6 +18,7 @@ class EHTML extends HTMLTunedElement {
   }
 
   render () {
+    console.log('ok2')
     new UnwrappedChildrenOfParent(
       new ElementWithInnerHTML(
         this, new ResponseBody(

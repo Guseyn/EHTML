@@ -8,11 +8,11 @@ class ELocalStorageValue extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-key']
+    return ['name', 'data-key']
   }
 
   render () {
-
+    this.name = this.getAttribute('name')
   }
 
   value () {

@@ -1,12 +1,12 @@
 'use strict'
 
-const defineElm = (elmName, ELM_PROTOTYPE) => {
-  if (!customElements.get(elmName)) {
-    window.customElements.define(elmName, ELM_PROTOTYPE)
-  }
+const definedElm = (elmName, ELM_PROTOTYPE) => {
+  window.customElements.define(elmName, ELM_PROTOTYPE)
 }
 
-defineElm('e-form', require('./e-form'))
-defineElm('e-google-oauth-button', require('./e-google-oauth-button'))
-defineElm('e-html', require('./e-html'))
-defineElm('e-json', require('./e-json'))
+definedElm('e-form', require('./e-form'))
+definedElm('e-google-oauth-button', require('./e-google-oauth-button'))
+definedElm('e-html', require('./e-html'))
+definedElm('e-json', require('./e-json'))
+definedElm('e-local-storage-value', require('./e-local-storage-value'))
+definedElm('e-memory-storage-value', require('./e-memory-storage-value'))
