@@ -17,6 +17,10 @@ class EHTML extends HTMLTunedElement {
     return ['data-src', 'data-headers']
   }
 
+  attributesWithStorageVariables () {
+    return ['data-src', 'data-headers']
+  }
+
   render () {
     console.log('ok2')
     new UnwrappedChildrenOfParent(
@@ -24,18 +28,10 @@ class EHTML extends HTMLTunedElement {
         this, new ResponseBody(
           new ResponseFromAjaxRequest(
             new CreatedOptions(
-              'url', this.attributeWithAppliedLocalStorageVariables(
-                this.attributeWithAppliedMemoryStorageVariables(
-                  this.getAttribute('data-src')
-                )
-              ),
+              'url', this.getAttribute('data-src'),
               'method', 'GET',
               'headers', new ParsedJSON(
-                this.attributeWithAppliedLocalStorageVariables(
-                  this.attributeWithAppliedMemoryStorageVariables(
-                    this.getAttribute('data-headers') || '{}'
-                  )
-                )
+                this.getAttribute('data-headers') || '{}'
               )
             )
           )

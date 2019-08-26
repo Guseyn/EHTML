@@ -6,6 +6,10 @@ class HTMLTunedElement extends HTMLElement {
     this.rendered = false
   }
 
+  attributesWithStorageVariables () {
+    return []
+  }
+
   replacedWith (elm) {
     const instance = this
     instance.getAttributeNames().forEach(name => {
@@ -36,6 +40,17 @@ class HTMLTunedElement extends HTMLElement {
 
   connectedCallback () {
     const instance = this
+    const attributesWithStorageVariables = this.attributesWithStorageVariables()
+    attributesWithStorageVariables.forEach(attr => {
+      this.setAttribute(
+        attr,
+        this.attributeWithAppliedLocalStorageVariables(
+          this.attributeWithAppliedMemoryStorageVariables(
+            this.getAttribute(attr)
+          )
+        )
+      )
+    })
     setTimeout(() => {
       if (!instance.rendered) {
         instance.render()
