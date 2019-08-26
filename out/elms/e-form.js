@@ -20,6 +20,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var HTMLTunedElement = require('./../objects/HTMLTunedElement');
 
+var RequestFromAjaxRequest = require('@page-libs/ajax');
+
 var EForm =
 /*#__PURE__*/
 function (_HTMLTunedElement) {
@@ -39,27 +41,166 @@ function (_HTMLTunedElement) {
       var form = this; // .replacedWith(document.createElement('form'))
 
       var inputs = form.getElementsByTagName('input');
-      var fieldsets = form.getElementsByTagName('fieldset'); // const selects = form.getElementsByTagName('select')
-      // const textareas = form.getElementsByTagName('textarea')
-      // const localStorageValues = form.getElementsByTagName('e-local-storage-value')
-      // const memoryStorageValues = form.getElementsByTagName('e-memory-storage-value')
-
+      var fileInputs = this.filteredFileInputs(inputs);
+      var selects = form.getElementsByTagName('select');
+      var textareas = form.getElementsByTagName('textarea');
+      var localStorageValues = form.getElementsByTagName('e-local-storage-value');
+      var memoryStorageValues = form.getElementsByTagName('e-memory-storage-value');
       var requestButton = document.getElementById(form.getAttribute('data-request-button').split('#')[1]);
+      var requestBody = {};
+      this.tuneFileInputs(fileInputs, requestBody, requestButton);
       requestButton.addEventListener('click', function () {
-        var requestBody = {};
+        _this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
 
-        _this.retrievedValuesFromElmsForRequestBody(fieldsets, requestBody);
+        _this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
 
-        _this.retrievedValuesFromElmsForRequestBody(inputs, requestBody);
+        _this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
+
+        _this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
+
+        _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
+
+        console.log(requestBody);
       });
     }
   }, {
-    key: "retrievedValuesFromElmsForRequestBody",
-    value: function retrievedValuesFromElmsForRequestBody(elms, requestBody) {
-      console.log(requestBody);
-      Object.keys(elms).forEach(function (index) {
-        console.log(elms[index].value);
+    key: "retrievedValuesFromInputsForRequestBody",
+    value: function retrievedValuesFromInputsForRequestBody(inputs, requestBody) {
+      for (var index = 0; index < inputs.length; index++) {
+        var input = inputs[index];
+
+        if (!input.name) {
+          throw new Error("input ".concat(input, " has no name"));
+        }
+
+        if (input.type.toLowerCase() === 'radio') {
+          if (input.checked) {
+            requestBody[input.name] = input.value;
+          }
+        } else {
+          requestBody[input.name] = input.value;
+        }
+      }
+    }
+  }, {
+    key: "retrievedValuesFromSelectsForRequestBody",
+    value: function retrievedValuesFromSelectsForRequestBody(selects, requestBody) {
+      for (var index = 0; index < selects.length; index++) {
+        var select = selects[index];
+
+        if (!select.name) {
+          throw new Error("select ".concat(select, " has no name"));
+        }
+
+        requestBody[select.name] = select.value;
+      }
+    }
+  }, {
+    key: "retrievedValuesFromTextareasForRequestBody",
+    value: function retrievedValuesFromTextareasForRequestBody(textareas, requestBody) {
+      for (var index = 0; index < textareas.length; index++) {
+        var textarea = textareas[index];
+
+        if (!textarea.name) {
+          throw new Error("textarea ".concat(textarea, " has no name"));
+        }
+
+        requestBody[textarea.name] = textarea.value;
+      }
+    }
+  }, {
+    key: "retrievedValuesFromLocalStorageForRequestBody",
+    value: function retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody) {
+      for (var index = 0; index < localStorageValues.length; index++) {
+        var localStorageValue = localStorageValues[index];
+
+        if (!localStorageValue.name) {
+          throw new Error("localStorageValue ".concat(localStorageValue, " has no name"));
+        }
+
+        requestBody[localStorageValue.name] = localStorageValue.value();
+      }
+    }
+  }, {
+    key: "retrievedValuesFromMemoryStorageForRequestBody",
+    value: function retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody) {
+      for (var index = 0; index < memoryStorageValues.length; index++) {
+        var memoryStorageValue = memoryStorageValues[index];
+
+        if (!memoryStorageValue.name) {
+          throw new Error("memoryStorageValue ".concat(memoryStorageValue, " has no name"));
+        }
+
+        requestBody[memoryStorageValue.name] = memoryStorageValue.value();
+      }
+    }
+  }, {
+    key: "tuneFileInputs",
+    value: function tuneFileInputs(fileInputs, requestBody, requestButton) {
+      for (var index = 0; index < fileInputs.length; index++) {
+        this.tuneFileInput(fileInputs[index], requestBody, requestButton);
+      }
+    }
+  }, {
+    key: "tuneFileInput",
+    value: function tuneFileInput(fileInput, requestBody, requestButton) {
+      var _this2 = this;
+
+      fileInput.addEventListener('change', function () {
+        _this2.readFilesContentForRequestBody(fileInput, requestBody, requestButton);
       });
+    }
+  }, {
+    key: "readFilesContentForRequestBody",
+    value: function readFilesContentForRequestBody(fileInput, requestBody, requestButton) {
+      requestBody[fileInput.name] = [];
+
+      for (var index = 0; index < fileInput.files.length; index++) {
+        this.readFileContentForRequestBody(fileInput, requestBody, requestButton, index);
+      }
+    }
+  }, {
+    key: "readFileContentForRequestBody",
+    value: function readFileContentForRequestBody(fileInput, requestBody, requestButton, index) {
+      var file = fileInput.files[index];
+      var reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+
+      reader.onloadstart = function () {
+        requestButton.setAttribute('disabled', true);
+      };
+
+      reader.onload = function () {
+        file.content = reader.result;
+        requestBody[fileInput.name][index] = file;
+        requestButton.removeAttribute('disabled');
+      };
+
+      reader.onabort = function () {
+        requestButton.removeAttribute('disabled');
+      };
+
+      reader.onprogress = function () {};
+
+      reader.onerror = function () {
+        throw new Error("cound not read file ".concat(file.name));
+      };
+    }
+  }, {
+    key: "filteredFileInputs",
+    value: function filteredFileInputs(inputs) {
+      var fileInputs = {
+        length: 0
+      };
+
+      for (var index = 0; index < inputs.length; index++) {
+        if (inputs[index].type.toLowerCase() === 'file') {
+          fileInputs[fileInputs.length] = inputs[index];
+          fileInputs.length += 1;
+        }
+      }
+
+      return fileInputs;
     }
   }], [{
     key: "observedAttributes",

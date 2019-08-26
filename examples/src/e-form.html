@@ -17,7 +17,7 @@
         font: 1rem 'Fira Sans', sans-serif;
       }
 
-      input {
+      input, fieldset {
         margin-top: 1em;
       }
 
@@ -27,30 +27,29 @@
 
   <body class="main">
     <e-form data-request-url="/form" data-request-button="#send">
-      <fieldset name="number">
-        <legend>Choose your number</legend>
-
-        <input type="radio" id="one" name="number">
-        <label for="one">One</label><br/>
-
-        <input type="radio" id="two" name="number">
-        <label for="two">Two</label><br/>
-
-        <input type="radio" id="three" name="number">
-        <label for="three">Three</label>
-      </fieldset>
-
       <input type="checkbox" name="isTrue"><br/>
       <input type="color" name="color"><br/>
       <input type="date" name="date"><br/>
       <input type="datetime-local" name="dateTimeLocal"><br/>
       <input type="email" name="email"><br/>
-      <input type="file" name="file"><br/>
+      <input type="file" name="files1" multiple><br/>
+      <input type="file" name="files2" multiple><br/>
       <input type="hidden" name="hidden"><br/>
       <input type="month" name="month"><br/>
       <input type="number" name="number"><br/>
       <input type="password" name="password"><br/>
-      <input type="radio" id="four" name="number"><label for="four">Four</label><br/><br/>
+      <fieldset name="number">
+        <legend>Choose your number</legend>
+
+        <input type="radio" id="one" name="number" value="one">
+        <label for="one">One</label><br/>
+
+        <input type="radio" id="two" name="number" value="two">
+        <label for="two">Two</label><br/>
+
+        <input type="radio" id="three" name="number" value="tree">
+        <label for="three">Three</label>
+      </fieldset>
       <input type="range" name="range"><br/>
       <input type="search" name="search"><br/>
       <input type="tel" name="tel"><br/>
@@ -68,8 +67,8 @@
 
       <textarea id="text" name="text" rows="5" cols="33">Text...</textarea><br/>
 
-      <e-local-storage-value></e-local-storage-value>
-      <e-memory-storage-value></e-memory-storage-value>
+      <e-local-storage-value name="localValue" data-key="localValue"></e-local-storage-value>
+      <e-memory-storage-value name="memoryValue" data-key="memoryValue"></e-memory-storage-value>
 
       <button id="send">Send request</button>
     </e-form>

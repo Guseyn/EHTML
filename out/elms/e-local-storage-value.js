@@ -33,7 +33,9 @@ function (_HTMLTunedElement) {
 
   _createClass(ELocalStorageValue, [{
     key: "render",
-    value: function render() {}
+    value: function render() {
+      this.name = this.getAttribute('name');
+    }
   }, {
     key: "value",
     value: function value() {
@@ -42,7 +44,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-key'];
+      return ['name', 'data-key'];
     }
   }]);
 
