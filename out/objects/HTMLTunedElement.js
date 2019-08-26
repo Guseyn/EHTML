@@ -42,6 +42,11 @@ function (_HTMLElement) {
   }
 
   _createClass(HTMLTunedElement, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return [];
+    }
+  }, {
     key: "replacedWith",
     value: function replacedWith(elm) {
       var instance = this;
@@ -77,7 +82,13 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
+      var _this2 = this;
+
       var instance = this;
+      var attributesWithStorageVariables = this.attributesWithStorageVariables();
+      attributesWithStorageVariables.forEach(function (attr) {
+        _this2.setAttribute(attr, _this2.attributeWithAppliedLocalStorageVariables(_this2.attributeWithAppliedMemoryStorageVariables(_this2.getAttribute(attr))));
+      });
       setTimeout(function () {
         if (!instance.rendered) {
           instance.render();

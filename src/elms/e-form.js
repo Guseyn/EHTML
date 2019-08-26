@@ -12,6 +12,10 @@ class EForm extends HTMLTunedElement {
     return ['data-request-url', 'data-request-headers', 'data-request-button']
   }
 
+  attributesWithStorageVariables () {
+    return [ 'data-request-url', 'data-request-headers' ]
+  }
+
   render () {
     const form = this // .replacedWith(document.createElement('form'))
     const inputs = form.getElementsByTagName('input')

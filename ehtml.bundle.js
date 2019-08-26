@@ -6653,9 +6653,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement');
+var HTMLTunedElement = require('./../objects/HTMLTunedElement'); // const RequestFromAjaxRequest = require('@page-libs/ajax')
 
-var RequestFromAjaxRequest = require('@page-libs/ajax');
 
 var EForm =
 /*#__PURE__*/
@@ -6669,6 +6668,11 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(EForm, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return ['data-request-url', 'data-request-headers'];
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -6849,7 +6853,7 @@ function (_HTMLTunedElement) {
 
 module.exports = EForm;
 
-},{"./../objects/HTMLTunedElement":159,"@page-libs/ajax":120}],154:[function(require,module,exports){
+},{"./../objects/HTMLTunedElement":159}],154:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7031,10 +7035,15 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(EHTML, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return ['data-src', 'data-headers'];
+    }
+  }, {
     key: "render",
     value: function render() {
       console.log('ok2');
-      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-src'))), 'method', 'GET', 'headers', new ParsedJSON(this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-headers') || '{}')))))))).call();
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
   }], [{
     key: "observedAttributes",
@@ -7284,6 +7293,11 @@ function (_HTMLElement) {
   }
 
   _createClass(HTMLTunedElement, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return [];
+    }
+  }, {
     key: "replacedWith",
     value: function replacedWith(elm) {
       var instance = this;
@@ -7319,7 +7333,13 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
+      var _this2 = this;
+
       var instance = this;
+      var attributesWithStorageVariables = this.attributesWithStorageVariables();
+      attributesWithStorageVariables.forEach(function (attr) {
+        _this2.setAttribute(attr, _this2.attributeWithAppliedLocalStorageVariables(_this2.attributeWithAppliedMemoryStorageVariables(_this2.getAttribute(attr))));
+      });
       setTimeout(function () {
         if (!instance.rendered) {
           instance.render();
