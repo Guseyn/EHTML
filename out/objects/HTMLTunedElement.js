@@ -26,6 +26,20 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var RedirectAction = require('./../async/RedirectAction');
+
+var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
+
+var MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue');
+
+var HiddenElms = require('./../async/HiddenElms');
+
+var ShownElms = require('./../async/ShownElms');
+
+var DisabledElms = require('./../async/DisabledElms');
+
+var EnabledElms = require('./../async/EnabledElms');
+
 var HTMLTunedElement =
 /*#__PURE__*/
 function (_HTMLElement) {
@@ -39,7 +53,8 @@ function (_HTMLElement) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(HTMLTunedElement).call(this));
     _this.rendered = false;
     return _this;
-  }
+  } // PUBLIC
+
 
   _createClass(HTMLTunedElement, [{
     key: "attributesWithStorageVariables",
@@ -61,14 +76,67 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
+    } // actions
+
+  }, {
+    key: "redirect",
+    value: function redirect(url) {
+      return new RedirectAction(url);
     }
+  }, {
+    key: "saveToLocalStorage",
+    value: function saveToLocalStorage(key, value) {
+      return new LocalStorageWithSetValue(key, value);
+    }
+  }, {
+    key: "saveToMemoryStorage",
+    value: function saveToMemoryStorage(key, value) {
+      return new MemoryStorageWithSetValue(key, value);
+    }
+  }, {
+    key: "hideElms",
+    value: function hideElms() {
+      for (var _len = arguments.length, elmIds = new Array(_len), _key = 0; _key < _len; _key++) {
+        elmIds[_key] = arguments[_key];
+      }
+
+      return _construct(HiddenElms, elmIds);
+    }
+  }, {
+    key: "showElms",
+    value: function showElms() {
+      for (var _len2 = arguments.length, elmIds = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        elmIds[_key2] = arguments[_key2];
+      }
+
+      return _construct(ShownElms, elmIds);
+    }
+  }, {
+    key: "disableElms",
+    value: function disableElms() {
+      for (var _len3 = arguments.length, elmIds = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        elmIds[_key3] = arguments[_key3];
+      }
+
+      return _construct(DisabledElms, elmIds);
+    }
+  }, {
+    key: "enableElms",
+    value: function enableElms() {
+      for (var _len4 = arguments.length, elmIds = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        elmIds[_key4] = arguments[_key4];
+      }
+
+      return _construct(EnabledElms, elmIds);
+    } // PRIVATE
+
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
 
       var instance = this;
-      var attributesWithStorageVariables = this.attributesWithStorageVariables();
+      var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables());
       attributesWithStorageVariables.forEach(function (attr) {
         _this2.setAttribute(attr, _this2.attributeWithAppliedLocalStorageVariables(_this2.attributeWithAppliedMemoryStorageVariables(_this2.getAttribute(attr))));
       });
@@ -78,6 +146,11 @@ function (_HTMLElement) {
           instance.rendered = true;
         }
       });
+    }
+  }, {
+    key: "defaultAttributesWithStorageVariables",
+    value: function defaultAttributesWithStorageVariables() {
+      return ['data-action', 'data-action-params'];
     }
   }, {
     key: "attributeWithAppliedLocalStorageVariables",

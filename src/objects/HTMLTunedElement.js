@@ -1,10 +1,20 @@
 'use strict'
 
+const RedirectAction = require('./../async/RedirectAction')
+const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
+const MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue')
+const HiddenElms = require('./../async/HiddenElms')
+const ShownElms = require('./../async/ShownElms')
+const DisabledElms = require('./../async/DisabledElms')
+const EnabledElms = require('./../async/EnabledElms')
+
 class HTMLTunedElement extends HTMLElement {
   constructor () {
     super()
     this.rendered = false
   }
+
+  // PUBLIC
 
   attributesWithStorageVariables () {
     return []
@@ -23,9 +33,43 @@ class HTMLTunedElement extends HTMLElement {
     return elm
   }
 
+  // actions
+
+  redirect (url) {
+    return new RedirectAction(url)
+  }
+
+  saveToLocalStorage (key, value) {
+    return new LocalStorageWithSetValue(key, value)
+  }
+
+  saveToMemoryStorage (key, value) {
+    return new MemoryStorageWithSetValue(key, value)
+  }
+
+  hideElms (...elmIds) {
+    return new HiddenElms(...elmIds)
+  }
+
+  showElms (...elmIds) {
+    return new ShownElms(...elmIds)
+  }
+
+  disableElms (...elmIds) {
+    return new DisabledElms(...elmIds)
+  }
+
+  enableElms (...elmIds) {
+    return new EnabledElms(...elmIds)
+  }
+
+  // PRIVATE
+
   connectedCallback () {
     const instance = this
-    const attributesWithStorageVariables = this.attributesWithStorageVariables()
+    const attributesWithStorageVariables = this.attributesWithStorageVariables().concat(
+      this.defaultAttributesWithStorageVariables()
+    )
     attributesWithStorageVariables.forEach(attr => {
       this.setAttribute(
         attr,
@@ -42,6 +86,10 @@ class HTMLTunedElement extends HTMLElement {
         instance.rendered = true
       }
     })
+  }
+
+  defaultAttributesWithStorageVariables () {
+    return ['data-action', 'data-action-params']
   }
 
   attributeWithAppliedLocalStorageVariables (attribute) {
