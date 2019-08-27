@@ -1,7 +1,10 @@
 'use strict'
 
 const HTMLTunedElement = require('./../objects/HTMLTunedElement')
-// const RequestFromAjaxRequest = require('@page-libs/ajax')
+const { ResponseFromAjaxRequest } = require('@page-libs/ajax')
+const { browserified } = require('@page-libs/cutie')
+const { CreatedOptions } = browserified(require('@cuties/object'))
+const { ParsedJSON } = require('@cuties/json')
 
 class EForm extends HTMLTunedElement {
   constructor () {
@@ -17,14 +20,13 @@ class EForm extends HTMLTunedElement {
   }
 
   render () {
-    const form = this // .replacedWith(document.createElement('form'))
-    const inputs = form.getElementsByTagName('input')
+    const inputs = this.getElementsByTagName('input')
     const fileInputs = this.filteredFileInputs(inputs)
-    const selects = form.getElementsByTagName('select')
-    const textareas = form.getElementsByTagName('textarea')
-    const localStorageValues = form.getElementsByTagName('e-local-storage-value')
-    const memoryStorageValues = form.getElementsByTagName('e-memory-storage-value')
-    const requestButton = document.getElementById(form.getAttribute('data-request-button').split('#')[1])
+    const selects = this.getElementsByTagName('select')
+    const textareas = this.getElementsByTagName('textarea')
+    const localStorageValues = this.getElementsByTagName('e-local-storage-value')
+    const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
+    const requestButton = document.getElementById(this.getAttribute('data-request-button').split('#')[1])
     const requestBody = {}
     this.tuneFileInputs(fileInputs, requestBody, requestButton)
     requestButton.addEventListener('click', () => {
@@ -33,7 +35,18 @@ class EForm extends HTMLTunedElement {
       this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
       this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
       this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
-      console.log(requestBody)
+      new ResponseFromAjaxRequest(
+        new CreatedOptions(
+          'url', this.getAttribute('data-request-url'),
+          'headers', new ParsedJSON(
+            this.getAttribute('data-request-headers') || '{}'
+          ),
+          'method', 'POST'
+        ),
+        JSON.stringify(requestBody)
+      ).after(
+        // TODO: action attribute
+      ).call()
     })
   }
 

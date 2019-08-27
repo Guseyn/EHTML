@@ -8,6 +8,7 @@ const { CopiedFile, WatcherWithEventTypeAndFilenameListener } = require('@cuties
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
 const SaveUserEndpoint = require('./endpoints/SaveUserEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
+const FormEndpoint = require('./endpoints/FormEndpoint')
 
 const mapperForStatic = (url) => {
   const parts = url.split('/').filter(part => part !== '')
@@ -36,9 +37,10 @@ new SpawnedCommand('grunt').after(
           8000,
           '127.0.0.1',
           new RestApi(
-            new GetUserEndpoint(/^\/user\?id=(\d+)/),
-            new SaveUserEndpoint(/^\/save_user/),
+            new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/)),
+            new SaveUserEndpoint(new RegExp(/^\/save_user/)),
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
+            new FormEndpoint(new RegExp(/^\/form/)),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|images)/),
               mapperForStatic,

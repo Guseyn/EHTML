@@ -23,21 +23,6 @@ class HTMLTunedElement extends HTMLElement {
     return elm
   }
 
-  attributeWithAppliedLocalStorageVariables (attribute) {
-    attribute = attribute || ''
-    return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      return localStorage.getItem(p1)
-    })
-  }
-
-  attributeWithAppliedMemoryStorageVariables (attribute) {
-    attribute = attribute || ''
-    return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(p1)
-    })
-  }
-
   connectedCallback () {
     const instance = this
     const attributesWithStorageVariables = this.attributesWithStorageVariables()
@@ -56,6 +41,21 @@ class HTMLTunedElement extends HTMLElement {
         instance.render()
         instance.rendered = true
       }
+    })
+  }
+
+  attributeWithAppliedLocalStorageVariables (attribute) {
+    attribute = attribute || ''
+    return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
+      return localStorage.getItem(p1)
+    })
+  }
+
+  attributeWithAppliedMemoryStorageVariables (attribute) {
+    attribute = attribute || ''
+    return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
+      // eslint-disable-next-line no-undef
+      return memoryStorage.getItem(p1)
     })
   }
 }

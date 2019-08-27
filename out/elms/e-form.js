@@ -18,8 +18,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement'); // const RequestFromAjaxRequest = require('@page-libs/ajax')
+var HTMLTunedElement = require('./../objects/HTMLTunedElement');
 
+var _require = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require.ResponseFromAjaxRequest;
+
+var _require2 = require('@page-libs/cutie'),
+    browserified = _require2.browserified;
+
+var _browserified = browserified(require('@cuties/object')),
+    CreatedOptions = _browserified.CreatedOptions;
+
+var _require3 = require('@cuties/json'),
+    ParsedJSON = _require3.ParsedJSON;
 
 var EForm =
 /*#__PURE__*/
@@ -42,15 +53,13 @@ function (_HTMLTunedElement) {
     value: function render() {
       var _this = this;
 
-      var form = this; // .replacedWith(document.createElement('form'))
-
-      var inputs = form.getElementsByTagName('input');
+      var inputs = this.getElementsByTagName('input');
       var fileInputs = this.filteredFileInputs(inputs);
-      var selects = form.getElementsByTagName('select');
-      var textareas = form.getElementsByTagName('textarea');
-      var localStorageValues = form.getElementsByTagName('e-local-storage-value');
-      var memoryStorageValues = form.getElementsByTagName('e-memory-storage-value');
-      var requestButton = document.getElementById(form.getAttribute('data-request-button').split('#')[1]);
+      var selects = this.getElementsByTagName('select');
+      var textareas = this.getElementsByTagName('textarea');
+      var localStorageValues = this.getElementsByTagName('e-local-storage-value');
+      var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
+      var requestButton = document.getElementById(this.getAttribute('data-request-button').split('#')[1]);
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestBody, requestButton);
       requestButton.addEventListener('click', function () {
@@ -64,7 +73,7 @@ function (_HTMLTunedElement) {
 
         _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        console.log(requestBody);
+        new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody)).after().call();
       });
     }
   }, {

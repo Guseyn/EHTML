@@ -63,23 +63,6 @@ function (_HTMLElement) {
       return elm;
     }
   }, {
-    key: "attributeWithAppliedLocalStorageVariables",
-    value: function attributeWithAppliedLocalStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        return localStorage.getItem(p1);
-      });
-    }
-  }, {
-    key: "attributeWithAppliedMemoryStorageVariables",
-    value: function attributeWithAppliedMemoryStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1);
-      });
-    }
-  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
@@ -94,6 +77,23 @@ function (_HTMLElement) {
           instance.render();
           instance.rendered = true;
         }
+      });
+    }
+  }, {
+    key: "attributeWithAppliedLocalStorageVariables",
+    value: function attributeWithAppliedLocalStorageVariables(attribute) {
+      attribute = attribute || '';
+      return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
+        return localStorage.getItem(p1);
+      });
+    }
+  }, {
+    key: "attributeWithAppliedMemoryStorageVariables",
+    value: function attributeWithAppliedMemoryStorageVariables(attribute) {
+      attribute = attribute || '';
+      return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
+        // eslint-disable-next-line no-undef
+        return memoryStorage.getItem(p1);
       });
     }
   }]);
