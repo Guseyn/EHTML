@@ -10,10 +10,10 @@ class MemoryStorage {
     const key = keyParts[0]
     const pathOfValue = keyParts.splice(1).join('.')
     if (pathOfValue.length === 0) {
-      return this.items[key]
+      return this.items[key] || null
     }
     // eslint-disable-next-line no-eval
-    return eval(`this.items['${key}'].${pathOfValue}`)
+    return eval(`this.items['${key}'].${pathOfValue}`) || null
   }
 
   setItem (keyPath, value) {

@@ -6653,8 +6653,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement'); // const RequestFromAjaxRequest = require('@page-libs/ajax')
+var HTMLTunedElement = require('./../objects/HTMLTunedElement');
 
+var _require = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require.ResponseFromAjaxRequest;
+
+var _require2 = require('@page-libs/cutie'),
+    browserified = _require2.browserified;
+
+var _browserified = browserified(require('@cuties/object')),
+    CreatedOptions = _browserified.CreatedOptions;
+
+var _require3 = require('@cuties/json'),
+    ParsedJSON = _require3.ParsedJSON;
 
 var EForm =
 /*#__PURE__*/
@@ -6677,15 +6688,13 @@ function (_HTMLTunedElement) {
     value: function render() {
       var _this = this;
 
-      var form = this; // .replacedWith(document.createElement('form'))
-
-      var inputs = form.getElementsByTagName('input');
+      var inputs = this.getElementsByTagName('input');
       var fileInputs = this.filteredFileInputs(inputs);
-      var selects = form.getElementsByTagName('select');
-      var textareas = form.getElementsByTagName('textarea');
-      var localStorageValues = form.getElementsByTagName('e-local-storage-value');
-      var memoryStorageValues = form.getElementsByTagName('e-memory-storage-value');
-      var requestButton = document.getElementById(form.getAttribute('data-request-button').split('#')[1]);
+      var selects = this.getElementsByTagName('select');
+      var textareas = this.getElementsByTagName('textarea');
+      var localStorageValues = this.getElementsByTagName('e-local-storage-value');
+      var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
+      var requestButton = document.getElementById(this.getAttribute('data-request-button').split('#')[1]);
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestBody, requestButton);
       requestButton.addEventListener('click', function () {
@@ -6699,7 +6708,7 @@ function (_HTMLTunedElement) {
 
         _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        console.log(requestBody);
+        new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody)).after().call();
       });
     }
   }, {
@@ -6853,7 +6862,7 @@ function (_HTMLTunedElement) {
 
 module.exports = EForm;
 
-},{"./../objects/HTMLTunedElement":159}],154:[function(require,module,exports){
+},{"./../objects/HTMLTunedElement":159,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],154:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -6907,39 +6916,40 @@ function (_HTMLTunedElement) {
   _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
-      var instance = this;
+      var _this = this;
+
       var googleSignInMetaElm = this.googleSignInMetaElm();
       var googleApiScriptElm = this.googleApiScriptElm();
       document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
-      var googleOauthButtonElm = this.googleOauthButtonElm();
+      this.style['display'] = 'none';
 
       googleApiScriptElm.onload = function () {
-        instance.initGoogleOauth(googleOauthButtonElm);
+        _this.initGoogleOauth();
       };
 
-      this.replacedWith(googleOauthButtonElm);
       this.rendered = true;
     }
   }, {
     key: "initGoogleOauth",
-    value: function initGoogleOauth(googleOauthButtonElm) {
-      var instance = this;
-      googleOauthButtonElm.style['display'] = ''; // eslint-disable-next-line no-undef
+    value: function initGoogleOauth() {
+      var _this2 = this;
+
+      this.style['display'] = ''; // eslint-disable-next-line no-undef
 
       gapi.load('auth2', function () {
         // eslint-disable-next-line no-undef
         var auth2 = gapi.auth2.init({
-          client_id: instance.getAttribute('data-client-id'),
-          cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
-          scope: instance.getAttribute('data-scope') || 'profile'
+          client_id: _this2.getAttribute('data-client-id'),
+          cookiepolicy: _this2.getAttribute('data-cookiepolicy') || 'single_host_origin',
+          scope: _this2.getAttribute('data-scope') || 'profile'
         });
-        auth2.attachClickHandler(googleOauthButtonElm, {}, function (googleUser) {
+        auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
-          body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
-            url: instance.getAttribute('data-redirect-url') || '/',
+          body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
+          new LocalStorageWithSetValue(localStorage, _this2.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+            url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body)))), instance.getAttribute('data-response-jwt-key') || 'jwt')).call();
+          }, JSON.stringify(body)))), _this2.getAttribute('data-response-jwt-key') || 'jwt')).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
@@ -6959,13 +6969,6 @@ function (_HTMLTunedElement) {
       var googleApiScriptElm = document.createElement('script');
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
       return googleApiScriptElm;
-    }
-  }, {
-    key: "googleOauthButtonElm",
-    value: function googleOauthButtonElm() {
-      var button = document.createElement('button');
-      button.style['display'] = 'none';
-      return button;
     }
   }], [{
     key: "observedAttributes",
@@ -7119,9 +7122,14 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(EJSON, [{
+    key: "attributesWithStorageVariables",
+    value: function attributesWithStorageVariables() {
+      return ['data-src', 'data-headers', 'data-request-body'];
+    }
+  }, {
     key: "render",
     value: function render() {
-      new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-src'))), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-headers') || '{}')))), this.attributeWithAppliedLocalStorageVariables(this.attributeWithAppliedMemoryStorageVariables(this.getAttribute('data-request-body'))))))).as('RESPONSE').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('RESPONSE')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
+      new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')), this.getAttribute('data-request-body'))))).as('RESPONSE').after(new TheSameObjectWithValue(this.cache, this.getAttribute('data-object'), as('RESPONSE')).after(new UnwrappedChildrenOfParent(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.cache)))).call();
     }
   }], [{
     key: "observedAttributes",
@@ -7314,23 +7322,6 @@ function (_HTMLElement) {
       return elm;
     }
   }, {
-    key: "attributeWithAppliedLocalStorageVariables",
-    value: function attributeWithAppliedLocalStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        return localStorage.getItem(p1);
-      });
-    }
-  }, {
-    key: "attributeWithAppliedMemoryStorageVariables",
-    value: function attributeWithAppliedMemoryStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1);
-      });
-    }
-  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
@@ -7345,6 +7336,23 @@ function (_HTMLElement) {
           instance.render();
           instance.rendered = true;
         }
+      });
+    }
+  }, {
+    key: "attributeWithAppliedLocalStorageVariables",
+    value: function attributeWithAppliedLocalStorageVariables(attribute) {
+      attribute = attribute || '';
+      return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
+        return localStorage.getItem(p1);
+      });
+    }
+  }, {
+    key: "attributeWithAppliedMemoryStorageVariables",
+    value: function attributeWithAppliedMemoryStorageVariables(attribute) {
+      attribute = attribute || '';
+      return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
+        // eslint-disable-next-line no-undef
+        return memoryStorage.getItem(p1);
       });
     }
   }]);
@@ -7380,11 +7388,11 @@ function () {
       var pathOfValue = keyParts.splice(1).join('.');
 
       if (pathOfValue.length === 0) {
-        return this.items[key];
+        return this.items[key] || null;
       } // eslint-disable-next-line no-eval
 
 
-      return eval("this.items['".concat(key, "'].").concat(pathOfValue));
+      return eval("this.items['".concat(key, "'].").concat(pathOfValue)) || null;
     }
   }, {
     key: "setItem",

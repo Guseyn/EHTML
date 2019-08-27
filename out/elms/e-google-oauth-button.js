@@ -51,39 +51,40 @@ function (_HTMLTunedElement) {
   _createClass(EGoogleOauthButton, [{
     key: "render",
     value: function render() {
-      var instance = this;
+      var _this = this;
+
       var googleSignInMetaElm = this.googleSignInMetaElm();
       var googleApiScriptElm = this.googleApiScriptElm();
       document.head.prepend(googleSignInMetaElm, googleApiScriptElm);
-      var googleOauthButtonElm = this.googleOauthButtonElm();
+      this.style['display'] = 'none';
 
       googleApiScriptElm.onload = function () {
-        instance.initGoogleOauth(googleOauthButtonElm);
+        _this.initGoogleOauth();
       };
 
-      this.replacedWith(googleOauthButtonElm);
       this.rendered = true;
     }
   }, {
     key: "initGoogleOauth",
-    value: function initGoogleOauth(googleOauthButtonElm) {
-      var instance = this;
-      googleOauthButtonElm.style['display'] = ''; // eslint-disable-next-line no-undef
+    value: function initGoogleOauth() {
+      var _this2 = this;
+
+      this.style['display'] = ''; // eslint-disable-next-line no-undef
 
       gapi.load('auth2', function () {
         // eslint-disable-next-line no-undef
         var auth2 = gapi.auth2.init({
-          client_id: instance.getAttribute('data-client-id'),
-          cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
-          scope: instance.getAttribute('data-scope') || 'profile'
+          client_id: _this2.getAttribute('data-client-id'),
+          cookiepolicy: _this2.getAttribute('data-cookiepolicy') || 'single_host_origin',
+          scope: _this2.getAttribute('data-scope') || 'profile'
         });
-        auth2.attachClickHandler(googleOauthButtonElm, {}, function (googleUser) {
+        auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
-          body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new LocalStorageWithSetValue(localStorage, instance.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
-            url: instance.getAttribute('data-redirect-url') || '/',
+          body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
+          new LocalStorageWithSetValue(localStorage, _this2.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+            url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body)))), instance.getAttribute('data-response-jwt-key') || 'jwt')).call();
+          }, JSON.stringify(body)))), _this2.getAttribute('data-response-jwt-key') || 'jwt')).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
@@ -103,13 +104,6 @@ function (_HTMLTunedElement) {
       var googleApiScriptElm = document.createElement('script');
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
       return googleApiScriptElm;
-    }
-  }, {
-    key: "googleOauthButtonElm",
-    value: function googleOauthButtonElm() {
-      var button = document.createElement('button');
-      button.style['display'] = 'none';
-      return button;
     }
   }], [{
     key: "observedAttributes",

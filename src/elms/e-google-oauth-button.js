@@ -18,49 +18,46 @@ class EGoogleOauthButton extends HTMLTunedElement {
   }
 
   render () {
-    const instance = this
     const googleSignInMetaElm = this.googleSignInMetaElm()
     const googleApiScriptElm = this.googleApiScriptElm()
     document.head.prepend(googleSignInMetaElm, googleApiScriptElm)
-    const googleOauthButtonElm = this.googleOauthButtonElm()
+    this.style['display'] = 'none'
     googleApiScriptElm.onload = () => {
-      instance.initGoogleOauth(googleOauthButtonElm)
+      this.initGoogleOauth()
     }
-    this.replacedWith(googleOauthButtonElm)
     this.rendered = true
   }
 
-  initGoogleOauth (googleOauthButtonElm) {
-    const instance = this
-    googleOauthButtonElm.style['display'] = ''
+  initGoogleOauth () {
+    this.style['display'] = ''
     // eslint-disable-next-line no-undef
     gapi.load('auth2', () => {
       // eslint-disable-next-line no-undef
       const auth2 = gapi.auth2.init({
-        client_id: instance.getAttribute('data-client-id'),
-        cookiepolicy: instance.getAttribute('data-cookiepolicy') || 'single_host_origin',
-        scope: instance.getAttribute('data-scope') || 'profile'
+        client_id: this.getAttribute('data-client-id'),
+        cookiepolicy: this.getAttribute('data-cookiepolicy') || 'single_host_origin',
+        scope: this.getAttribute('data-scope') || 'profile'
       })
-      auth2.attachClickHandler(googleOauthButtonElm, {},
+      auth2.attachClickHandler(this, {},
         (googleUser) => {
           const body = {}
-          body[instance.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
+          body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
           new LocalStorageWithSetValue(
             localStorage,
-            instance.getAttribute('data-local-storage-jwt-key') || 'jwt',
+            this.getAttribute('data-local-storage-jwt-key') || 'jwt',
             new Value(
               new ParsedJSON(
                 new ResponseBody(
                   new ResponseFromAjaxRequest(
                     {
-                      url: instance.getAttribute('data-redirect-url') || '/',
+                      url: this.getAttribute('data-redirect-url') || '/',
                       method: 'POST'
                     },
                     JSON.stringify(body)
                   )
                 )
               ),
-              instance.getAttribute('data-response-jwt-key') || 'jwt'
+              this.getAttribute('data-response-jwt-key') || 'jwt'
             )
           ).call()
         },
@@ -82,12 +79,6 @@ class EGoogleOauthButton extends HTMLTunedElement {
     const googleApiScriptElm = document.createElement('script')
     googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC)
     return googleApiScriptElm
-  }
-
-  googleOauthButtonElm () {
-    const button = document.createElement('button')
-    button.style['display'] = 'none'
-    return button
   }
 }
 
