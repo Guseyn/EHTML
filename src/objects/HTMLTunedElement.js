@@ -1,12 +1,6 @@
 'use strict'
 
-const RedirectAction = require('./../async/RedirectAction')
-const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
-const MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue')
-const HiddenElms = require('./../async/HiddenElms')
-const ShownElms = require('./../async/ShownElms')
-const DisabledElms = require('./../async/DisabledElms')
-const EnabledElms = require('./../async/EnabledElms')
+const Elements = require('./../objects/Elements')
 
 class HTMLTunedElement extends HTMLElement {
   constructor () {
@@ -33,53 +27,27 @@ class HTMLTunedElement extends HTMLElement {
     return elm
   }
 
-  // actions
-
-  redirect (url) {
-    return new RedirectAction(url)
-  }
-
-  saveToLocalStorage (key, value) {
-    return new LocalStorageWithSetValue(key, value)
-  }
-
-  saveToMemoryStorage (key, value) {
-    return new MemoryStorageWithSetValue(key, value)
-  }
-
-  hideElms (...elmIds) {
-    return new HiddenElms(...elmIds)
-  }
-
-  showElms (...elmIds) {
-    return new ShownElms(...elmIds)
-  }
-
-  disableElms (...elmIds) {
-    return new DisabledElms(...elmIds)
-  }
-
-  enableElms (...elmIds) {
-    return new EnabledElms(...elmIds)
+  parseElmSelectors (...elmSelectors) {
+    const elms = []
+    elmSelectors.forEach(elmSelector => {
+      if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
+        elms.push(document.getElementById(elmSelector.split('#')[1]))
+      } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
+        this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]))
+      } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
+        this.pushElms(elms, document.getElementsByTagName(elmSelector))
+      }
+    })
+    return elms
   }
 
   // PRIVATE
 
   connectedCallback () {
     const instance = this
-    const attributesWithStorageVariables = this.attributesWithStorageVariables().concat(
-      this.defaultAttributesWithStorageVariables()
-    )
-    attributesWithStorageVariables.forEach(attr => {
-      this.setAttribute(
-        attr,
-        this.attributeWithAppliedLocalStorageVariables(
-          this.attributeWithAppliedMemoryStorageVariables(
-            this.getAttribute(attr)
-          )
-        )
-      )
-    })
+    const attributesWithStorageVariables = this.attributesWithStorageVariables()
+      .concat(this.defaultAttributesWithStorageVariables()).filter(attr => this.getAttribute(attr))
+    new Elements(this).withAppliedStorageVariablesInAttributes(...attributesWithStorageVariables)
     setTimeout(() => {
       if (!instance.rendered) {
         instance.render()
@@ -89,22 +57,13 @@ class HTMLTunedElement extends HTMLElement {
   }
 
   defaultAttributesWithStorageVariables () {
-    return ['data-action', 'data-action-params']
+    return ['data-action']
   }
 
-  attributeWithAppliedLocalStorageVariables (attribute) {
-    attribute = attribute || ''
-    return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      return localStorage.getItem(p1)
-    })
-  }
-
-  attributeWithAppliedMemoryStorageVariables (attribute) {
-    attribute = attribute || ''
-    return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(p1)
-    })
+  pushElms (elms, elmsToPush) {
+    for (let i = 0; i < elmsToPush.length; i++) {
+      elms.push(elmsToPush[i])
+    }
   }
 }
 

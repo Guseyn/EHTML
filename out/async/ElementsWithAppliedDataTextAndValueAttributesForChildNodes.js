@@ -21,6 +21,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
+var Elements = require('./../objects/Elements');
+
 var paramRegExp = /\$\{(\S*)\}/g;
 
 var ElementsWithAppliedDataTextAndValueAttributesForChildNodes =
@@ -46,55 +48,60 @@ function (_AsyncObject) {
       var _this = this;
 
       return function (values) {
-        return _this.applyValuesToChildren(element, values);
+        for (var _len2 = arguments.length, elements = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          elements[_key2 - 1] = arguments[_key2];
+        }
+
+        return _this.applyValuesToChildren.apply(_this, [values].concat(elements));
       };
     }
   }, {
     key: "applyValuesToChildren",
-    value: function applyValuesToChildren(element, values) {
+    value: function applyValuesToChildren(values) {
       var _this2 = this;
 
-      element.childNodes.forEach(function (child) {
-        if (child.getAttribute) {
-          if (child.getAttribute('data-text')) {
-            _this2.updateAttribute(child, 'data-text', values);
+      for (var _len3 = arguments.length, elements = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        elements[_key3 - 1] = arguments[_key3];
+      }
 
-            if (_this2.readyToBeApplied(child, 'data-text')) {
-              var textNode = document.createTextNode(child.getAttribute('data-text'));
+      elements.forEach(function (element) {
+        element.childNodes.forEach(function (child) {
+          if (child.getAttribute) {
+            child = new Elements(child).withAppliedStorageVariablesInAttributes('data-text', 'data-value').value()[0];
 
-              if (child.childNodes.length === 0) {
-                child.appendChild(textNode);
-              } else {
-                child.insertBefore(textNode, child.childNodes[0]);
+            if (child.getAttribute('data-text')) {
+              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-text').value()[0];
+
+              if (_this2.readyToBeApplied(child, 'data-text')) {
+                _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
+
+                child.removeAttribute('data-text');
               }
+            } else if (child.getAttribute('data-value')) {
+              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-value').value()[0];
 
-              child.removeAttribute('data-text');
+              if (_this2.readyToBeApplied(child, 'data-value')) {
+                child.value = child.getAttribute('data-value');
+                child.removeAttribute('data-value');
+              }
             }
-          } else if (child.getAttribute('data-value')) {
-            _this2.updateAttribute(child, 'data-value', values);
 
-            if (_this2.readyToBeApplied(child, 'data-value')) {
-              child.value = child.getAttribute('data-value');
-              child.removeAttribute('data-value');
-            }
+            _this2.applyValuesToChildren(values, child);
           }
-
-          _this2.applyValuesToChildren(child, values);
-        }
+        });
       });
-      return element;
+      return elements;
     }
   }, {
-    key: "updateAttribute",
-    value: function updateAttribute(element, attrName, values) {
-      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
-        try {
-          // eslint-disable-next-line no-eval
-          return eval("values.".concat(p1));
-        } catch (e) {
-          return match;
-        }
-      }));
+    key: "insertTextIntoElm",
+    value: function insertTextIntoElm(elm, text) {
+      var textNode = document.createTextNode(text);
+
+      if (elm.childNodes.length === 0) {
+        elm.appendChild(textNode);
+      } else {
+        elm.insertBefore(textNode, elm.childNodes[0]);
+      }
     }
   }, {
     key: "readyToBeApplied",

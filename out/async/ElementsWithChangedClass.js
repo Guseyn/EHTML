@@ -21,35 +21,40 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var DisabledElms =
+var ElementsWithChangedClass =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(DisabledElms, _AsyncObject);
+  _inherits(ElementsWithChangedClass, _AsyncObject);
 
-  function DisabledElms() {
+  function ElementsWithChangedClass(newClassName) {
     var _getPrototypeOf2;
 
-    _classCallCheck(this, DisabledElms);
+    _classCallCheck(this, ElementsWithChangedClass);
 
-    for (var _len = arguments.length, elms = new Array(_len), _key = 0; _key < _len; _key++) {
-      elms[_key] = arguments[_key];
+    for (var _len = arguments.length, elms = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      elms[_key - 1] = arguments[_key];
     }
 
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(DisabledElms)).call.apply(_getPrototypeOf2, [this].concat(elms)));
+    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ElementsWithChangedClass)).call.apply(_getPrototypeOf2, [this, newClassName].concat(elms)));
   }
 
-  _createClass(DisabledElms, [{
+  _createClass(ElementsWithChangedClass, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {
-        elm.forEach(function (elm) {
-          elm.setAttribute('disabled', true);
+      return function (newClassName) {
+        for (var _len2 = arguments.length, elms = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          elms[_key2 - 1] = arguments[_key2];
+        }
+
+        elms.forEach(function (elm) {
+          elm.className = newClassName;
         });
+        return elms;
       };
     }
   }]);
 
-  return DisabledElms;
+  return ElementsWithChangedClass;
 }(AsyncObject);
 
-module.exports = DisabledElms;
+module.exports = ElementsWithChangedClass;

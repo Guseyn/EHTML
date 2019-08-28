@@ -21,35 +21,40 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var DisabledElms =
+var ShownElms =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(DisabledElms, _AsyncObject);
+  _inherits(ShownElms, _AsyncObject);
 
-  function DisabledElms() {
+  function ShownElms() {
     var _getPrototypeOf2;
 
-    _classCallCheck(this, DisabledElms);
+    _classCallCheck(this, ShownElms);
 
     for (var _len = arguments.length, elms = new Array(_len), _key = 0; _key < _len; _key++) {
       elms[_key] = arguments[_key];
     }
 
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(DisabledElms)).call.apply(_getPrototypeOf2, [this].concat(elms)));
+    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ShownElms)).call.apply(_getPrototypeOf2, [this].concat(elms)));
   }
 
-  _createClass(DisabledElms, [{
+  _createClass(ShownElms, [{
     key: "syncCall",
     value: function syncCall() {
       return function () {
-        elm.forEach(function (elm) {
-          elm.setAttribute('disabled', true);
+        for (var _len2 = arguments.length, elms = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          elms[_key2] = arguments[_key2];
+        }
+
+        elms.forEach(function (elm) {
+          elm.style.display = '';
         });
+        return elms;
       };
     }
   }]);
 
-  return DisabledElms;
+  return ShownElms;
 }(AsyncObject);
 
-module.exports = DisabledElms;
+module.exports = ShownElms;

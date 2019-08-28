@@ -1,16 +1,27 @@
-const {
-  elementWithAttribute,
-  ObjWithNoFuncs
-} = require('./../../mock.js')
-const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../../src/async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
+const { elementWithAttribute, ObjWithNoFuncs } = require('./../../mock.js')
+const ElementsWithAppliedDataTextAndValueAttributesForChildNodes = require('./../../src/async/ElementsWithAppliedDataTextAndValueAttributesForChildNodes')
 const { DeepStrictEqualAssertion } = require('@cuties/assert')
+
+localStorage.setItem('localValue', 'localValue')
+// eslint-disable-next-line no-undef
+memoryStorage.setItem('memoryValue', 'memoryValue')
 
 new DeepStrictEqualAssertion(
   new ObjWithNoFuncs(
-    new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
+    new ElementsWithAppliedDataTextAndValueAttributesForChildNodes(
+      {
+        user: {
+          name: 'test name',
+          age: 'test age',
+          email: 'test@email',
+          account: {
+            name: 'acc'
+          }
+        }
+      },
       {
         childNodes: [
-          elementWithAttribute('data-text', 'Name: ${user.name}, user account: ${user.account.name}'),
+          elementWithAttribute('data-text', 'Name: ${user.name}, user account: ${user.account.name}, localValue: ${localStorage.localValue}, memoryValue: ${memoryStorage.memoryValue}'),
           elementWithAttribute('data-value', 'Name: ${user.name}, user account: ${user.account.name}'),
           elementWithAttribute(
             'data-text', 'Age: ${user.age}',
@@ -22,19 +33,10 @@ new DeepStrictEqualAssertion(
           elementWithAttribute('data-text', 'Email: ${user.email}'),
           elementWithAttribute('data-text', 'User name: ${user.name}, another user name: ${anotherUser.name}')
         ]
-      }, {
-        user: {
-          name: 'test name',
-          age: 'test age',
-          email: 'test@email',
-          account: {
-            name: 'acc'
-          }
-        }
       }
     )
   ),
-  {
+  [{
     childNodes: [
       {
         id: 0,
@@ -42,7 +44,7 @@ new DeepStrictEqualAssertion(
         value: '',
         childNodes: [
           {
-            nodeValue: 'Name: test name, user account: acc'
+            nodeValue: 'Name: test name, user account: acc, localValue: localValue, memoryValue: memoryValue'
           }
         ]
       },
@@ -109,5 +111,5 @@ new DeepStrictEqualAssertion(
         childNodes: [ ]
       }
     ]
-  }
+  }]
 ).call()
