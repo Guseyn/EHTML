@@ -2,6 +2,14 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -26,19 +34,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var RedirectAction = require('./../async/RedirectAction');
-
-var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
-
-var MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue');
-
-var HiddenElms = require('./../async/HiddenElms');
-
-var ShownElms = require('./../async/ShownElms');
-
-var DisabledElms = require('./../async/DisabledElms');
-
-var EnabledElms = require('./../async/EnabledElms');
+var Elements = require('./../objects/Elements');
 
 var HTMLTunedElement =
 /*#__PURE__*/
@@ -76,70 +72,43 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
-    } // actions
+    }
+  }, {
+    key: "parseElmSelectors",
+    value: function parseElmSelectors() {
+      var _this2 = this;
 
-  }, {
-    key: "redirect",
-    value: function redirect(url) {
-      return new RedirectAction(url);
-    }
-  }, {
-    key: "saveToLocalStorage",
-    value: function saveToLocalStorage(key, value) {
-      return new LocalStorageWithSetValue(key, value);
-    }
-  }, {
-    key: "saveToMemoryStorage",
-    value: function saveToMemoryStorage(key, value) {
-      return new MemoryStorageWithSetValue(key, value);
-    }
-  }, {
-    key: "hideElms",
-    value: function hideElms() {
-      for (var _len = arguments.length, elmIds = new Array(_len), _key = 0; _key < _len; _key++) {
-        elmIds[_key] = arguments[_key];
+      var elms = [];
+
+      for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
+        elmSelectors[_key] = arguments[_key];
       }
 
-      return _construct(HiddenElms, elmIds);
-    }
-  }, {
-    key: "showElms",
-    value: function showElms() {
-      for (var _len2 = arguments.length, elmIds = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        elmIds[_key2] = arguments[_key2];
-      }
-
-      return _construct(ShownElms, elmIds);
-    }
-  }, {
-    key: "disableElms",
-    value: function disableElms() {
-      for (var _len3 = arguments.length, elmIds = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        elmIds[_key3] = arguments[_key3];
-      }
-
-      return _construct(DisabledElms, elmIds);
-    }
-  }, {
-    key: "enableElms",
-    value: function enableElms() {
-      for (var _len4 = arguments.length, elmIds = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        elmIds[_key4] = arguments[_key4];
-      }
-
-      return _construct(EnabledElms, elmIds);
+      elmSelectors.forEach(function (elmSelector) {
+        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
+          elms.push(document.getElementById(elmSelector.split('#')[1]));
+        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
+          _this2.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
+        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
+          _this2.pushElms(elms, document.getElementsByTagName(elmSelector));
+        }
+      });
+      return elms;
     } // PRIVATE
 
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      var _this2 = this;
+      var _this3 = this,
+          _ref;
 
       var instance = this;
-      var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables());
-      attributesWithStorageVariables.forEach(function (attr) {
-        _this2.setAttribute(attr, _this2.attributeWithAppliedLocalStorageVariables(_this2.attributeWithAppliedMemoryStorageVariables(_this2.getAttribute(attr))));
+      var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
+        return _this3.getAttribute(attr);
       });
+
+      (_ref = new Elements(this)).withAppliedStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
+
       setTimeout(function () {
         if (!instance.rendered) {
           instance.render();
@@ -150,24 +119,14 @@ function (_HTMLElement) {
   }, {
     key: "defaultAttributesWithStorageVariables",
     value: function defaultAttributesWithStorageVariables() {
-      return ['data-action', 'data-action-params'];
+      return ['data-action'];
     }
   }, {
-    key: "attributeWithAppliedLocalStorageVariables",
-    value: function attributeWithAppliedLocalStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        return localStorage.getItem(p1);
-      });
-    }
-  }, {
-    key: "attributeWithAppliedMemoryStorageVariables",
-    value: function attributeWithAppliedMemoryStorageVariables(attribute) {
-      attribute = attribute || '';
-      return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1);
-      });
+    key: "pushElms",
+    value: function pushElms(elms, elmsToPush) {
+      for (var i = 0; i < elmsToPush.length; i++) {
+        elms.push(elmsToPush[i]);
+      }
     }
   }]);
 

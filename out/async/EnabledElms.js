@@ -31,19 +31,23 @@ function (_AsyncObject) {
 
     _classCallCheck(this, EnabledElms);
 
-    for (var _len = arguments.length, elmIds = new Array(_len), _key = 0; _key < _len; _key++) {
-      elmIds[_key] = arguments[_key];
+    for (var _len = arguments.length, elms = new Array(_len), _key = 0; _key < _len; _key++) {
+      elms[_key] = arguments[_key];
     }
 
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EnabledElms)).call.apply(_getPrototypeOf2, [this].concat(elmIds)));
+    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EnabledElms)).call.apply(_getPrototypeOf2, [this].concat(elms)));
   }
 
   _createClass(EnabledElms, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (elmIds) {
-        elmIds.forEach(function (elmId) {
-          document.getElementById(elmId.split('#')[1]).removeAttribute('disabled');
+      return function () {
+        for (var _len2 = arguments.length, elms = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          elms[_key2] = arguments[_key2];
+        }
+
+        elms.forEach(function (elm) {
+          elm.removeAttribute('disabled');
         });
       };
     }

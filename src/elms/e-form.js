@@ -12,7 +12,7 @@ class EForm extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-request-url', 'data-request-headers', 'data-request-button']
+    return ['data-request-url', 'data-request-headers', 'data-request-button-id']
   }
 
   attributesWithStorageVariables () {
@@ -26,7 +26,7 @@ class EForm extends HTMLTunedElement {
     const textareas = this.getElementsByTagName('textarea')
     const localStorageValues = this.getElementsByTagName('e-local-storage-value')
     const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
-    const requestButton = document.getElementById(this.getAttribute('data-request-button').split('#')[1])
+    const requestButton = this.parseElmSelectors(this.getAttribute('data-request-button-id'))[0]
     const requestBody = {}
     this.tuneFileInputs(fileInputs, requestBody, requestButton)
     requestButton.addEventListener('click', () => {

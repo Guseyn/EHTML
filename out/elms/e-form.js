@@ -59,7 +59,7 @@ function (_HTMLTunedElement) {
       var textareas = this.getElementsByTagName('textarea');
       var localStorageValues = this.getElementsByTagName('e-local-storage-value');
       var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
-      var requestButton = document.getElementById(this.getAttribute('data-request-button').split('#')[1]);
+      var requestButton = this.parseElmSelectors(this.getAttribute('data-request-button-id'))[0];
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestBody, requestButton);
       requestButton.addEventListener('click', function () {
@@ -218,7 +218,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-headers', 'data-request-button'];
+      return ['data-request-url', 'data-request-headers', 'data-request-button-id'];
     }
   }]);
 
