@@ -6,8 +6,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var paramRegExp = /\$\{(\S*)\}/g;
-
 var Elements =
 /*#__PURE__*/
 function () {
@@ -22,8 +20,8 @@ function () {
   }
 
   _createClass(Elements, [{
-    key: "withAppliedStorageVariablesInAttributes",
-    value: function withAppliedStorageVariablesInAttributes() {
+    key: "applyStorageVariablesInAttributes",
+    value: function applyStorageVariablesInAttributes() {
       var _this = this;
 
       for (var _len2 = arguments.length, attrNames = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
@@ -39,33 +37,6 @@ function () {
           }
         });
       });
-      return this;
-    }
-  }, {
-    key: "withAppliedObjectValuesInAttributes",
-    value: function withAppliedObjectValuesInAttributes(values) {
-      for (var _len3 = arguments.length, attrNames = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-        attrNames[_key3 - 1] = arguments[_key3];
-      }
-
-      this.elements.forEach(function (element) {
-        attrNames.forEach(function (attrName) {
-          element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
-            try {
-              // eslint-disable-next-line no-eval
-              return eval("values.".concat(p1));
-            } catch (e) {
-              return match;
-            }
-          }));
-        });
-      });
-      return this;
-    }
-  }, {
-    key: "value",
-    value: function value() {
-      return this.elements;
     }
   }, {
     key: "attributeWithAppliedLocalStorageVariables",

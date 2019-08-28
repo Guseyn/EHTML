@@ -72,42 +72,20 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
-    }
-  }, {
-    key: "parseElmSelectors",
-    value: function parseElmSelectors() {
-      var _this2 = this;
-
-      var elms = [];
-
-      for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
-        elmSelectors[_key] = arguments[_key];
-      }
-
-      elmSelectors.forEach(function (elmSelector) {
-        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-          elms.push(document.getElementById(elmSelector.split('#')[1]));
-        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
-        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByTagName(elmSelector));
-        }
-      });
-      return elms;
     } // PRIVATE
 
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      var _this3 = this,
+      var _this2 = this,
           _ref;
 
       var instance = this;
       var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
-        return _this3.getAttribute(attr);
+        return _this2.getAttribute(attr);
       });
 
-      (_ref = new Elements(this)).withAppliedStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
+      (_ref = new Elements(this)).applyStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
 
       setTimeout(function () {
         if (!instance.rendered) {
@@ -120,13 +98,6 @@ function (_HTMLElement) {
     key: "defaultAttributesWithStorageVariables",
     value: function defaultAttributesWithStorageVariables() {
       return ['data-action'];
-    }
-  }, {
-    key: "pushElms",
-    value: function pushElms(elms, elmsToPush) {
-      for (var i = 0; i < elmsToPush.length; i++) {
-        elms.push(elmsToPush[i]);
-      }
     }
   }]);
 

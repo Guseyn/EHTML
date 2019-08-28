@@ -124,6 +124,35 @@ function () {
 
       return _construct(ElementsWithChangedClass, _toConsumableArray(this.parseElmSelectors.apply(this, elmSelectors)));
     }
+  }, {
+    key: "parseElmSelectors",
+    value: function parseElmSelectors() {
+      var _this = this;
+
+      var elms = [];
+
+      for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        elmSelectors[_key3] = arguments[_key3];
+      }
+
+      elmSelectors.forEach(function (elmSelector) {
+        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
+          elms.push(document.getElementById(elmSelector.split('#')[1]));
+        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
+          _this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
+        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
+          _this.pushElms(elms, document.getElementsByTagName(elmSelector));
+        }
+      });
+      return elms;
+    }
+  }, {
+    key: "pushElms",
+    value: function pushElms(elms, elmsToPush) {
+      for (var i = 0; i < elmsToPush.length; i++) {
+        elms.push(elmsToPush[i]);
+      }
+    }
   }]);
 
   return Actions;

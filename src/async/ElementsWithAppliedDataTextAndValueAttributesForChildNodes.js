@@ -19,21 +19,15 @@ class ElementsWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncOb
     elements.forEach(element => {
       element.childNodes.forEach(child => {
         if (child.getAttribute) {
-          child = new Elements(child)
-            .withAppliedStorageVariablesInAttributes('data-text', 'data-value')
-            .value()[0]
+          new Elements(child).applyStorageVariablesInAttributes('data-text', 'data-value')
           if (child.getAttribute('data-text')) {
-            child = new Elements(child)
-              .withAppliedObjectValuesInAttributes(values, 'data-text')
-              .value()[0]
+            this.updateAttribute(child, 'data-text', values)
             if (this.readyToBeApplied(child, 'data-text')) {
               this.insertTextIntoElm(child, child.getAttribute('data-text'))
               child.removeAttribute('data-text')
             }
           } else if (child.getAttribute('data-value')) {
-            child = new Elements(child)
-              .withAppliedObjectValuesInAttributes(values, 'data-value')
-              .value()[0]
+            this.updateAttribute(child, 'data-value', values)
             if (this.readyToBeApplied(child, 'data-value')) {
               child.value = child.getAttribute('data-value')
               child.removeAttribute('data-value')
@@ -44,6 +38,17 @@ class ElementsWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncOb
       })
     })
     return elements
+  }
+
+  updateAttribute (element, attrName, values) {
+    element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, (match, p1, offset, string) => {
+      try {
+        // eslint-disable-next-line no-eval
+        return eval(`values.${p1}`)
+      } catch (e) {
+        return match
+      }
+    }))
   }
 
   insertTextIntoElm (elm, text) {
