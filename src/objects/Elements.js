@@ -1,13 +1,11 @@
 'use strict'
 
-const paramRegExp = /\$\{(\S*)\}/g
-
 class Elements {
   constructor (...elements) {
     this.elements = elements
   }
 
-  withAppliedStorageVariablesInAttributes (...attrNames) {
+  applyStorageVariablesInAttributes (...attrNames) {
     this.elements.forEach(element => {
       attrNames.forEach(attrName => {
         const attr = element.getAttribute(attrName)
@@ -23,27 +21,6 @@ class Elements {
         }
       })
     })
-    return this
-  }
-
-  withAppliedObjectValuesInAttributes (values, ...attrNames) {
-    this.elements.forEach(element => {
-      attrNames.forEach(attrName => {
-        element.setAttribute(attrName, (element.getAttribute(attrName)).replace(paramRegExp, (match, p1, offset, string) => {
-          try {
-            // eslint-disable-next-line no-eval
-            return eval(`values.${p1}`)
-          } catch (e) {
-            return match
-          }
-        }))
-      })
-    })
-    return this
-  }
-
-  value () {
-    return this.elements
   }
 
   attributeWithAppliedLocalStorageVariables (attribute) {

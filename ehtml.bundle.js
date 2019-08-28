@@ -6614,10 +6614,10 @@ function (_AsyncObject) {
       elements.forEach(function (element) {
         element.childNodes.forEach(function (child) {
           if (child.getAttribute) {
-            child = new Elements(child).withAppliedStorageVariablesInAttributes('data-text', 'data-value').value()[0];
+            new Elements(child).applyStorageVariablesInAttributes('data-text', 'data-value');
 
             if (child.getAttribute('data-text')) {
-              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-text').value()[0];
+              _this2.updateAttribute(child, 'data-text', values);
 
               if (_this2.readyToBeApplied(child, 'data-text')) {
                 _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
@@ -6625,7 +6625,7 @@ function (_AsyncObject) {
                 child.removeAttribute('data-text');
               }
             } else if (child.getAttribute('data-value')) {
-              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-value').value()[0];
+              _this2.updateAttribute(child, 'data-value', values);
 
               if (_this2.readyToBeApplied(child, 'data-value')) {
                 child.value = child.getAttribute('data-value');
@@ -6638,6 +6638,18 @@ function (_AsyncObject) {
         });
       });
       return elements;
+    }
+  }, {
+    key: "updateAttribute",
+    value: function updateAttribute(element, attrName, values) {
+      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          // eslint-disable-next-line no-eval
+          return eval("values.".concat(p1));
+        } catch (e) {
+          return match;
+        }
+      }));
     }
   }, {
     key: "insertTextIntoElm",
@@ -8101,6 +8113,35 @@ function () {
 
       return _construct(ElementsWithChangedClass, _toConsumableArray(this.parseElmSelectors.apply(this, elmSelectors)));
     }
+  }, {
+    key: "parseElmSelectors",
+    value: function parseElmSelectors() {
+      var _this = this;
+
+      var elms = [];
+
+      for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        elmSelectors[_key3] = arguments[_key3];
+      }
+
+      elmSelectors.forEach(function (elmSelector) {
+        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
+          elms.push(document.getElementById(elmSelector.split('#')[1]));
+        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
+          _this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
+        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
+          _this.pushElms(elms, document.getElementsByTagName(elmSelector));
+        }
+      });
+      return elms;
+    }
+  }, {
+    key: "pushElms",
+    value: function pushElms(elms, elmsToPush) {
+      for (var i = 0; i < elmsToPush.length; i++) {
+        elms.push(elmsToPush[i]);
+      }
+    }
   }]);
 
   return Actions;
@@ -8117,8 +8158,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var paramRegExp = /\$\{(\S*)\}/g;
-
 var Elements =
 /*#__PURE__*/
 function () {
@@ -8133,8 +8172,8 @@ function () {
   }
 
   _createClass(Elements, [{
-    key: "withAppliedStorageVariablesInAttributes",
-    value: function withAppliedStorageVariablesInAttributes() {
+    key: "applyStorageVariablesInAttributes",
+    value: function applyStorageVariablesInAttributes() {
       var _this = this;
 
       for (var _len2 = arguments.length, attrNames = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
@@ -8150,33 +8189,6 @@ function () {
           }
         });
       });
-      return this;
-    }
-  }, {
-    key: "withAppliedObjectValuesInAttributes",
-    value: function withAppliedObjectValuesInAttributes(values) {
-      for (var _len3 = arguments.length, attrNames = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-        attrNames[_key3 - 1] = arguments[_key3];
-      }
-
-      this.elements.forEach(function (element) {
-        attrNames.forEach(function (attrName) {
-          element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
-            try {
-              // eslint-disable-next-line no-eval
-              return eval("values.".concat(p1));
-            } catch (e) {
-              return match;
-            }
-          }));
-        });
-      });
-      return this;
-    }
-  }, {
-    key: "value",
-    value: function value() {
-      return this.elements;
     }
   }, {
     key: "attributeWithAppliedLocalStorageVariables",
@@ -8275,42 +8287,20 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
-    }
-  }, {
-    key: "parseElmSelectors",
-    value: function parseElmSelectors() {
-      var _this2 = this;
-
-      var elms = [];
-
-      for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
-        elmSelectors[_key] = arguments[_key];
-      }
-
-      elmSelectors.forEach(function (elmSelector) {
-        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-          elms.push(document.getElementById(elmSelector.split('#')[1]));
-        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
-        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByTagName(elmSelector));
-        }
-      });
-      return elms;
     } // PRIVATE
 
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      var _this3 = this,
+      var _this2 = this,
           _ref;
 
       var instance = this;
       var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
-        return _this3.getAttribute(attr);
+        return _this2.getAttribute(attr);
       });
 
-      (_ref = new Elements(this)).withAppliedStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
+      (_ref = new Elements(this)).applyStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
 
       setTimeout(function () {
         if (!instance.rendered) {
@@ -8323,13 +8313,6 @@ function (_HTMLElement) {
     key: "defaultAttributesWithStorageVariables",
     value: function defaultAttributesWithStorageVariables() {
       return ['data-action'];
-    }
-  }, {
-    key: "pushElms",
-    value: function pushElms(elms, elmsToPush) {
-      for (var i = 0; i < elmsToPush.length; i++) {
-        elms.push(elmsToPush[i]);
-      }
     }
   }]);
 

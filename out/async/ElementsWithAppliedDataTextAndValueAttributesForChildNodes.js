@@ -67,10 +67,10 @@ function (_AsyncObject) {
       elements.forEach(function (element) {
         element.childNodes.forEach(function (child) {
           if (child.getAttribute) {
-            child = new Elements(child).withAppliedStorageVariablesInAttributes('data-text', 'data-value').value()[0];
+            new Elements(child).applyStorageVariablesInAttributes('data-text', 'data-value');
 
             if (child.getAttribute('data-text')) {
-              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-text').value()[0];
+              _this2.updateAttribute(child, 'data-text', values);
 
               if (_this2.readyToBeApplied(child, 'data-text')) {
                 _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
@@ -78,7 +78,7 @@ function (_AsyncObject) {
                 child.removeAttribute('data-text');
               }
             } else if (child.getAttribute('data-value')) {
-              child = new Elements(child).withAppliedObjectValuesInAttributes(values, 'data-value').value()[0];
+              _this2.updateAttribute(child, 'data-value', values);
 
               if (_this2.readyToBeApplied(child, 'data-value')) {
                 child.value = child.getAttribute('data-value');
@@ -91,6 +91,18 @@ function (_AsyncObject) {
         });
       });
       return elements;
+    }
+  }, {
+    key: "updateAttribute",
+    value: function updateAttribute(element, attrName, values) {
+      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          // eslint-disable-next-line no-eval
+          return eval("values.".concat(p1));
+        } catch (e) {
+          return match;
+        }
+      }));
     }
   }, {
     key: "insertTextIntoElm",
