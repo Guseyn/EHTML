@@ -12,17 +12,24 @@ const HiddenElements = require('./../async/HiddenElements')
 const ShownElements = require('./../async/ShownElements')
 const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
-const ElementsWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementsWithAppliedDataTextAndValueAttributesForChildNodes')
+const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
+const paramRegExp = /\$\{(\S*)\}/g
 
 class Actions {
-  constructor (actionsCommand) {
+  constructor (tagName, actionsCommand, supportedActions) {
+    this.tagName = tagName
     this.actionsCommand = actionsCommand
+    this.supportedActions = supportedActions
   }
 
-  run () {
+  // PUBLIC
+
+  run (values) {
 
   }
+
+  // ACTIONS
 
   redirect (url) {
     return new RedirectAction(url)
@@ -52,9 +59,9 @@ class Actions {
     return new EnabledElements(...this.parseElmSelectors(...elmSelectors))
   }
 
-  innerHTML (elmId, url, headers) {
+  innerHTML (elmSelector, url, headers) {
     return new ElementWithInnerHTML(
-      this.parseElmSelectors(elmId)[0],
+      this.parseElmSelectors(elmSelector)[0],
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
@@ -69,15 +76,17 @@ class Actions {
     )
   }
 
-  applyTextsAndValuesToChildNodes (values, ...elmSelectors) {
-    return new ElementsWithAppliedDataTextAndValueAttributesForChildNodes(
-      values, ...this.parseElmSelectors(...elmSelectors)
+  applyTextsAndValuesToChildNodes (elmSelector, values) {
+    return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
+      this.parseElmSelectors(elmSelector)[0], values
     )
   }
 
   changeElmsClassName (newClassName, ...elmSelectors) {
     return new ElementsWithChangedClass(...this.parseElmSelectors(...elmSelectors))
   }
+
+  // PRIVATE
 
   parseElmSelectors (...elmSelectors) {
     const elms = []
@@ -97,6 +106,34 @@ class Actions {
     for (let i = 0; i < elmsToPush.length; i++) {
       elms.push(elmsToPush[i])
     }
+  }
+
+  parseCommands (values) {
+    // act1(p1, p2); act(q1, q2); ...
+    const commands = this.actionsCommand.split(';').map(command => command.trim())
+    commands.forEach(command => {
+      if (this.supportedActions.indexOf(command) === -1) {
+        throw new Error(`${command} is not supported for the element ${this.tagName}`)
+      }
+      // const commandName = command.split('(')[0].trim()
+      // TODO
+      // const commandParams =
+    })
+  }
+
+  runCommand () {
+
+  }
+
+  applyValuesToParam (param, values) {
+    param.replace(paramRegExp, (match, p1, offset, string) => {
+      try {
+        // eslint-disable-next-line no-eval
+        return eval(`values.${p1}`)
+      } catch (e) {
+        return match
+      }
+    })
   }
 }
 

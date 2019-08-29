@@ -36,6 +36,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var Elements = require('./../objects/Elements');
 
+var Actions = require('./../objects/Actions');
+
 var HTMLTunedElement =
 /*#__PURE__*/
 function (_HTMLElement) {
@@ -72,6 +74,20 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
+    }
+  }, {
+    key: "supportedActions",
+    value: function supportedActions() {
+      return [];
+    }
+  }, {
+    key: "runActions",
+    value: function runActions(values) {
+      var actionsCommand = this.getAttribute('data-actions');
+
+      if (actionsCommand) {
+        new Actions(this.tagName, actionsCommand, this.supportedActions()).run(values);
+      }
     } // PRIVATE
 
   }, {
@@ -97,7 +113,7 @@ function (_HTMLElement) {
   }, {
     key: "defaultAttributesWithStorageVariables",
     value: function defaultAttributesWithStorageVariables() {
-      return ['data-action'];
+      return ['data-actions'];
     }
   }]);
 

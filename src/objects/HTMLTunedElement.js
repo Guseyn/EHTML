@@ -1,6 +1,7 @@
 'use strict'
 
 const Elements = require('./../objects/Elements')
+const Actions = require('./../objects/Actions')
 
 class HTMLTunedElement extends HTMLElement {
   constructor () {
@@ -27,6 +28,17 @@ class HTMLTunedElement extends HTMLElement {
     return elm
   }
 
+  supportedActions () {
+    return []
+  }
+
+  runActions (values) {
+    const actionsCommand = this.getAttribute('data-actions')
+    if (actionsCommand) {
+      new Actions(this.tagName, actionsCommand, this.supportedActions()).run(values)
+    }
+  }
+
   // PRIVATE
 
   connectedCallback () {
@@ -43,7 +55,7 @@ class HTMLTunedElement extends HTMLElement {
   }
 
   defaultAttributesWithStorageVariables () {
-    return ['data-action']
+    return ['data-actions']
   }
 }
 
