@@ -1,6 +1,6 @@
 'use strict'
 
-const paramRegExp = /\$\{(\S*)\}/g
+const paramRegExp = /\$\{([^{}]+|\S*)\}/g
 
 class Element {
   constructor (element) {

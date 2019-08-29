@@ -14,7 +14,8 @@ const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
 const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
-const paramRegExp = /\$\{(\S*)\}/g
+const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
+const paramRegExp = /\$\{([^{}]+|\S*)\}/g
 
 class Actions {
   constructor (tagName, actionsCommand, supportedActions) {
@@ -25,8 +26,84 @@ class Actions {
 
   // PUBLIC
 
-  run (values) {
-
+  asyncTree (values) {
+    // act1(p1, p2); act(q1, q2); ...
+    const commands = this.actionsCommand.split(';').map(command => command.trim())
+    const parsedCommands = []
+    commands.forEach(command => {
+      if (this.supportedActions.indexOf(command) === -1) {
+        throw new Error(`command ${command} is not supported for the element ${this.tagName}`)
+      }
+      const commandName = command.split('(')[0].trim()
+      const commandParams = command.replace(')', '')
+        .split(`${commandName}(`)[0]
+        .split(',')
+        .map(param => command.trim())
+      switch (commandName) {
+        case 'redirect':
+          parsedCommands.push(this.redirect(commandParams[0]))
+          break
+        case 'saveToLocalStorage':
+          parsedCommands.push(
+            this.saveToLocalStorage(
+              commandParams[0],
+              this.paramWithAppliedLocalStorage(
+                this.paramWithAppliedMemoryStorage(
+                  this.paramWithAppliedValues(commandParams[1], values)
+                )
+              )
+            )
+          )
+          break
+        case 'saveToMemoryStorage':
+          parsedCommands.push(
+            this.saveToMemoryStorage(
+              commandParams[0],
+              this.paramWithAppliedLocalStorage(
+                this.paramWithAppliedMemoryStorage(
+                  this.paramWithAppliedValues(commandParams[1], values)
+                )
+              )
+            )
+          )
+          break
+        case 'innerHTML':
+          parsedCommands.push(
+            this.innerHTML(
+              commandParams[0],
+              this.paramWithAppliedLocalStorage(
+                this.paramWithAppliedMemoryStorage(
+                  this.paramWithAppliedValues(commandParams[1], values)
+                )
+              ),
+              this.paramWithAppliedLocalStorage(
+                this.paramWithAppliedMemoryStorage(
+                  this.paramWithAppliedValues(commandParams[2], values)
+                )
+              )
+            )
+          )
+          break
+        case 'applyTextsAndValuesToChildNodes':
+          parsedCommands.push(
+            this.applyTextsAndValuesToChildNodes(
+              commandParams[0],
+              values
+            )
+          )
+          break
+        case 'hideElms':
+        case 'showElms':
+        case 'disableElms':
+        case 'enableElms':
+        case 'changeElmsClassName':
+          parsedCommands.push(this[commandName](...commandParams))
+          break
+        default:
+          throw new Error(`command ${command} does not exists`)
+      }
+    })
+    return this.buildAsyncTree(parsedCommands)
   }
 
   // ACTIONS
@@ -83,10 +160,23 @@ class Actions {
   }
 
   changeElmsClassName (newClassName, ...elmSelectors) {
-    return new ElementsWithChangedClass(...this.parseElmSelectors(...elmSelectors))
+    return new ElementsWithChangedClass(newClassName, ...this.parseElmSelectors(...elmSelectors))
   }
 
   // PRIVATE
+
+  buildAsyncTree (parsedCommands, curIndex = 1, tree = parsedCommands[0]) {
+    if (parsedCommands.length === 0) {
+      return new EmptyAsyncObject()
+    }
+    const curCommand = parsedCommands[curIndex]
+    if (parsedCommands.length === curIndex) {
+      return tree
+    } else {
+      tree.after(curCommand)
+      return this.buildAsyncTree(parsedCommands, curIndex + 1, tree)
+    }
+  }
 
   parseElmSelectors (...elmSelectors) {
     const elms = []
@@ -108,31 +198,27 @@ class Actions {
     }
   }
 
-  parseCommands (values) {
-    // act1(p1, p2); act(q1, q2); ...
-    const commands = this.actionsCommand.split(';').map(command => command.trim())
-    commands.forEach(command => {
-      if (this.supportedActions.indexOf(command) === -1) {
-        throw new Error(`${command} is not supported for the element ${this.tagName}`)
-      }
-      // const commandName = command.split('(')[0].trim()
-      // TODO
-      // const commandParams =
-    })
-  }
-
-  runCommand () {
-
-  }
-
-  applyValuesToParam (param, values) {
-    param.replace(paramRegExp, (match, p1, offset, string) => {
+  paramWithAppliedValues (param, values) {
+    return param.replace(paramRegExp, (match, p1, offset, string) => {
       try {
         // eslint-disable-next-line no-eval
         return eval(`values.${p1}`)
       } catch (e) {
         return match
       }
+    })
+  }
+
+  paramWithAppliedLocalStorage (param) {
+    return param.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
+      return localStorage.getItem(p1)
+    })
+  }
+
+  paramWithAppliedMemoryStorage (param) {
+    return param.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
+      // eslint-disable-next-line no-undef
+      return memoryStorage.getItem(p1)
     })
   }
 }

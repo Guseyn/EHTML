@@ -15,6 +15,28 @@ class HTMLTunedElement extends HTMLElement {
     return []
   }
 
+  supportedActions () {
+    return [
+      'redirect',
+      'saveToLocalStorage',
+      'saveToMemoryStorage',
+      'innerHTML',
+      'applyTextsAndValuesToChildNodes',
+      'hideElms',
+      'showElms',
+      'disableElms',
+      'enableElms',
+      'changeElmsClassName'
+    ]
+  }
+
+  actions (values) {
+    const actionsCommand = this.getAttribute('data-actions')
+    if (actionsCommand) {
+      return new Actions(this.tagName, actionsCommand, this.supportedActions()).asyncTree(values)
+    }
+  }
+
   replacedWith (elm) {
     const instance = this
     instance.getAttributeNames().forEach(name => {
@@ -26,17 +48,6 @@ class HTMLTunedElement extends HTMLElement {
     }
     instance.parentNode.replaceChild(elm, instance)
     return elm
-  }
-
-  supportedActions () {
-    return []
-  }
-
-  runActions (values) {
-    const actionsCommand = this.getAttribute('data-actions')
-    if (actionsCommand) {
-      new Actions(this.tagName, actionsCommand, this.supportedActions()).run(values)
-    }
   }
 
   // PRIVATE

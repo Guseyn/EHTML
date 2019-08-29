@@ -11,14 +11,24 @@
   </head>
 
   <body class="main">
-    <e-json data-src="/../user?id=1" data-method="GET" data-object="user1">
+    <e-json 
+      id="block1"
+      data-src="/../user?id=1"
+      data-method="GET"
+      data-object="user1"
+      data-actions="applyTextsAndValuesToChildNodes(#block1)">
       <div style="border: 1px solid black; padding: 10px;">
         <div data-text="First user info:"></div>
         <div data-text="id: ${user1.id}"></div>
         <div data-text="name: ${user1.name}"></div>
         <div data-text="email: ${user1.email}"></div>
         <br/>
-        <e-json data-src="/../user?id=2" data-method="GET" data-object="user2">
+        <e-json
+          id="block2"
+          data-src="/../user?id=2"
+          data-method="GET"
+          data-object="user2"
+          data-actions="applyTextsAndValuesToChildNodes(#block2)">
           <div data-text="Second user info (in the first user info block):" style="border: 1px solid black; padding: 10px;">
             <div data-text="id: ${user2.id}"></div>
             <div data-text="name: ${user2.name}"></div>
@@ -36,8 +46,13 @@
         </e-json>
       </div>
     </e-json>
-    <e-json data-src="/../save_user" data-method="POST" data-object="savedUser" 
-            data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'>
+    <e-json
+      id="block3"
+      data-src="/../save_user"
+      data-method="POST"
+      data-object="savedUser" 
+      data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'
+      data-actions="applyTextsAndValuesToChildNodes(#block1)">
       <div style="border: 1px solid black; padding: 10px; margin-top: 10px">
         <div data-text="We've just got new saved user:">
           <div data-text="id: ${savedUser.id}"></div>
