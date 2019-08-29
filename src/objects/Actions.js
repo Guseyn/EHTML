@@ -31,14 +31,14 @@ class Actions {
     const commands = this.actionsCommand.split(';').map(command => command.trim())
     const parsedCommands = []
     commands.forEach(command => {
-      if (this.supportedActions.indexOf(command) === -1) {
-        throw new Error(`command ${command} is not supported for the element ${this.tagName}`)
-      }
       const commandName = command.split('(')[0].trim()
+      if (this.supportedActions.indexOf(commandName) === -1) {
+        throw new Error(`command ${commandName} is not supported for the element ${this.tagName}`)
+      }
       const commandParams = command.replace(')', '')
-        .split(`${commandName}(`)[0]
+        .split(`${commandName}(`)[1]
         .split(',')
-        .map(param => command.trim())
+        .map(param => param.trim())
       switch (commandName) {
         case 'redirect':
           parsedCommands.push(this.redirect(commandParams[0]))
