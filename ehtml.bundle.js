@@ -8107,13 +8107,14 @@ function () {
       });
       var parsedCommands = [];
       commands.forEach(function (command) {
-        if (_this.supportedActions.indexOf(command) === -1) {
-          throw new Error("command ".concat(command, " is not supported for the element ").concat(_this.tagName));
+        var commandName = command.split('(')[0].trim();
+
+        if (_this.supportedActions.indexOf(commandName) === -1) {
+          throw new Error("command ".concat(commandName, " is not supported for the element ").concat(_this.tagName));
         }
 
-        var commandName = command.split('(')[0].trim();
-        var commandParams = command.replace(')', '').split("".concat(commandName, "("))[0].split(',').map(function (param) {
-          return command.trim();
+        var commandParams = command.replace(')', '').split("".concat(commandName, "("))[1].split(',').map(function (param) {
+          return param.trim();
         });
 
         switch (commandName) {
