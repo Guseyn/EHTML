@@ -50,22 +50,28 @@ var DisabledElements = require('./../async/DisabledElements');
 
 var EnabledElements = require('./../async/EnabledElements');
 
-var ElementsWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementsWithAppliedDataTextAndValueAttributesForChildNodes');
+var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes');
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
+
+var paramRegExp = /\$\{(\S*)\}/g;
 
 var Actions =
 /*#__PURE__*/
 function () {
-  function Actions(actionsCommand) {
+  function Actions(tagName, actionsCommand, supportedActions) {
     _classCallCheck(this, Actions);
 
+    this.tagName = tagName;
     this.actionsCommand = actionsCommand;
-  }
+    this.supportedActions = supportedActions;
+  } // PUBLIC
+
 
   _createClass(Actions, [{
     key: "run",
-    value: function run() {}
+    value: function run(values) {} // ACTIONS
+
   }, {
     key: "redirect",
     value: function redirect(url) {
@@ -103,27 +109,24 @@ function () {
     }
   }, {
     key: "innerHTML",
-    value: function innerHTML(elmId, url, headers) {
-      return new ElementWithInnerHTML(this.parseElmSelectors(elmId)[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSON(headers || '{}')))));
+    value: function innerHTML(elmSelector, url, headers) {
+      return new ElementWithInnerHTML(this.parseElmSelectors(elmSelector)[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSON(headers || '{}')))));
     }
   }, {
     key: "applyTextsAndValuesToChildNodes",
-    value: function applyTextsAndValuesToChildNodes(values) {
-      for (var _len = arguments.length, elmSelectors = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        elmSelectors[_key - 1] = arguments[_key];
-      }
-
-      return _construct(ElementsWithAppliedDataTextAndValueAttributesForChildNodes, [values].concat(_toConsumableArray(this.parseElmSelectors.apply(this, elmSelectors))));
+    value: function applyTextsAndValuesToChildNodes(elmSelector, values) {
+      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this.parseElmSelectors(elmSelector)[0], values);
     }
   }, {
     key: "changeElmsClassName",
     value: function changeElmsClassName(newClassName) {
-      for (var _len2 = arguments.length, elmSelectors = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        elmSelectors[_key2 - 1] = arguments[_key2];
+      for (var _len = arguments.length, elmSelectors = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        elmSelectors[_key - 1] = arguments[_key];
       }
 
       return _construct(ElementsWithChangedClass, _toConsumableArray(this.parseElmSelectors.apply(this, elmSelectors)));
-    }
+    } // PRIVATE
+
   }, {
     key: "parseElmSelectors",
     value: function parseElmSelectors() {
@@ -131,8 +134,8 @@ function () {
 
       var elms = [];
 
-      for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        elmSelectors[_key3] = arguments[_key3];
+      for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        elmSelectors[_key2] = arguments[_key2];
       }
 
       elmSelectors.forEach(function (elmSelector) {
@@ -152,6 +155,39 @@ function () {
       for (var i = 0; i < elmsToPush.length; i++) {
         elms.push(elmsToPush[i]);
       }
+    }
+  }, {
+    key: "parseCommands",
+    value: function parseCommands(values) {
+      var _this2 = this;
+
+      // act1(p1, p2); act(q1, q2); ...
+      var commands = this.actionsCommand.split(';').map(function (command) {
+        return command.trim();
+      });
+      commands.forEach(function (command) {
+        if (_this2.supportedActions.indexOf(command) === -1) {
+          throw new Error("".concat(command, " is not supported for the element ").concat(_this2.tagName));
+        } // const commandName = command.split('(')[0].trim()
+        // TODO
+        // const commandParams =
+
+      });
+    }
+  }, {
+    key: "runCommand",
+    value: function runCommand() {}
+  }, {
+    key: "applyValuesToParam",
+    value: function applyValuesToParam(param, values) {
+      param.replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          // eslint-disable-next-line no-eval
+          return eval("values.".concat(p1));
+        } catch (e) {
+          return match;
+        }
+      });
     }
   }]);
 

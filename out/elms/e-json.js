@@ -35,7 +35,7 @@ var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
 
-var ElementsWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementsWithAppliedDataTextAndValueAttributesForChildNodes');
+var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes');
 
 var HTMLTunedElement = require('./../objects/HTMLTunedElement');
 
@@ -62,7 +62,7 @@ function (_HTMLTunedElement) {
   }, {
     key: "render",
     value: function render() {
-      new TheSameObjectWithValue(this.values, this.getAttribute('data-object'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')), this.getAttribute('data-request-body')))))).after(new ElementsWithAppliedDataTextAndValueAttributesForChildNodes(this.values, this)).call();
+      new TheSameObjectWithValue(this.values, this.getAttribute('data-object'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')), this.getAttribute('data-request-body')))))).after(new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this, this.values)).call();
     }
   }], [{
     key: "observedAttributes",

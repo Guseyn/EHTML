@@ -21,31 +21,25 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var paramRegExp = /\$\{(\S*)\}/g;
+var Element = require('./../objects/Element');
 
-var ElementsWithAppliedDataTextAndValueAttributesForChildNodes =
+var ElementWithAppliedDataTextAndValueAttributesForChildNodes =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ElementsWithAppliedDataTextAndValueAttributesForChildNodes, _AsyncObject);
+  _inherits(ElementWithAppliedDataTextAndValueAttributesForChildNodes, _AsyncObject);
 
-  function ElementsWithAppliedDataTextAndValueAttributesForChildNodes(values) {
-    var _getPrototypeOf2;
+  function ElementWithAppliedDataTextAndValueAttributesForChildNodes(element, values) {
+    _classCallCheck(this, ElementWithAppliedDataTextAndValueAttributesForChildNodes);
 
-    _classCallCheck(this, ElementsWithAppliedDataTextAndValueAttributesForChildNodes);
-
-    for (var _len = arguments.length, elements = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      elements[_key - 1] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ElementsWithAppliedDataTextAndValueAttributesForChildNodes)).call.apply(_getPrototypeOf2, [this, values].concat(elements)));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithAppliedDataTextAndValueAttributesForChildNodes).call(this, element, values));
   }
 
-  _createClass(ElementsWithAppliedDataTextAndValueAttributesForChildNodes, [{
+  _createClass(ElementWithAppliedDataTextAndValueAttributesForChildNodes, [{
     key: "syncCall",
     value: function syncCall() {
       var _this = this;
 
-      return function (values) {
+      return function (element, values) {
         return _this.applyValuesToChildren(element, values);
       };
     }
@@ -55,25 +49,23 @@ function (_AsyncObject) {
       var _this2 = this;
 
       element.childNodes.forEach(function (child) {
+        child = new Element(child);
+
         if (child.getAttribute) {
+          child.applyStorageVariablesInAttributes('data-text', 'data-value');
+
           if (child.getAttribute('data-text')) {
-            _this2.updateAttribute(child, 'data-text', values);
+            child.applyValuesInAttributes('data-text', values);
 
-            if (_this2.readyToBeApplied(child, 'data-text')) {
-              var textNode = document.createTextNode(child.getAttribute('data-text'));
-
-              if (child.childNodes.length === 0) {
-                child.appendChild(textNode);
-              } else {
-                child.insertBefore(textNode, child.childNodes[0]);
-              }
+            if (!child.hasParamsInAttributesToApply('data-text')) {
+              _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
               child.removeAttribute('data-text');
             }
           } else if (child.getAttribute('data-value')) {
-            _this2.updateAttribute(child, 'data-value', values);
+            child.applyValuesInAttributes('data-value', values);
 
-            if (_this2.readyToBeApplied(child, 'data-value')) {
+            if (!child.hasParamsInAttributesToApply('data-value')) {
               child.value = child.getAttribute('data-value');
               child.removeAttribute('data-value');
             }
@@ -85,25 +77,19 @@ function (_AsyncObject) {
       return element;
     }
   }, {
-    key: "updateAttribute",
-    value: function updateAttribute(element, attrName, values) {
-      element.setAttribute(attrName, element.getAttribute(attrName).replace(paramRegExp, function (match, p1, offset, string) {
-        try {
-          // eslint-disable-next-line no-eval
-          return eval("values.".concat(p1));
-        } catch (e) {
-          return match;
-        }
-      }));
-    }
-  }, {
-    key: "readyToBeApplied",
-    value: function readyToBeApplied(child, attrName) {
-      return !paramRegExp.test(child.getAttribute(attrName));
+    key: "insertTextIntoElm",
+    value: function insertTextIntoElm(elm, text) {
+      var textNode = document.createTextNode(text);
+
+      if (elm.childNodes.length === 0) {
+        elm.appendChild(textNode);
+      } else {
+        elm.insertBefore(textNode, elm.childNodes[0]);
+      }
     }
   }]);
 
-  return ElementsWithAppliedDataTextAndValueAttributesForChildNodes;
+  return ElementWithAppliedDataTextAndValueAttributesForChildNodes;
 }(AsyncObject);
 
-module.exports = ElementsWithAppliedDataTextAndValueAttributesForChildNodes;
+module.exports = ElementWithAppliedDataTextAndValueAttributesForChildNodes;
