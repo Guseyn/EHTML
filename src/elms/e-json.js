@@ -5,7 +5,7 @@ const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
+// const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const HTMLTunedElement = require('./../objects/HTMLTunedElement')
 
 class EJSON extends HTMLTunedElement {
@@ -20,6 +20,10 @@ class EJSON extends HTMLTunedElement {
 
   attributesWithStorageVariables () {
     return ['data-src', 'data-headers', 'data-request-body']
+  }
+
+  supportedActions () {
+    return ['applyTextsAndValuesToChildNodes']
   }
 
   render () {
@@ -43,9 +47,7 @@ class EJSON extends HTMLTunedElement {
         )
       )
     ).after(
-      new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
-        this, this.values
-      )
+      this.actions(this.values)
     ).call()
   }
 }

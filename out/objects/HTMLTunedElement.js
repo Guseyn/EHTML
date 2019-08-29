@@ -60,6 +60,20 @@ function (_HTMLElement) {
       return [];
     }
   }, {
+    key: "supportedActions",
+    value: function supportedActions() {
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+    }
+  }, {
+    key: "actions",
+    value: function actions(values) {
+      var actionsCommand = this.getAttribute('data-actions');
+
+      if (actionsCommand) {
+        return new Actions(this.tagName, actionsCommand, this.supportedActions()).asyncTree(values);
+      }
+    }
+  }, {
     key: "replacedWith",
     value: function replacedWith(elm) {
       var instance = this;
@@ -74,20 +88,6 @@ function (_HTMLElement) {
 
       instance.parentNode.replaceChild(elm, instance);
       return elm;
-    }
-  }, {
-    key: "supportedActions",
-    value: function supportedActions() {
-      return [];
-    }
-  }, {
-    key: "runActions",
-    value: function runActions(values) {
-      var actionsCommand = this.getAttribute('data-actions');
-
-      if (actionsCommand) {
-        new Actions(this.tagName, actionsCommand, this.supportedActions()).run(values);
-      }
     } // PRIVATE
 
   }, {
