@@ -26,20 +26,17 @@ function () {
   }, {
     key: "buildAsyncTree",
     value: function buildAsyncTree() {
-      var curIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.parsedCommands[0];
+      var curIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
       if (this.parsedCommands.length === 0) {
         return new EmptyAsyncObject(this.values);
       }
 
-      var curCommand = this.parsedCommands[curIndex];
-
       if (this.parsedCommands.length === curIndex) {
-        return tree;
+        return this.parsedCommands[0];
       } else {
-        tree.after(curCommand);
-        return this.buildAsyncTree(this.parsedCommands, curIndex + 1, tree);
+        this.parsedCommands[curIndex].after(this.parsedCommands[curIndex + 1]);
+        return this.buildAsyncTree(curIndex + 1);
       }
     }
   }]);
