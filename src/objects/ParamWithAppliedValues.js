@@ -9,7 +9,11 @@ class ParamWithAppliedValues {
   value () {
     return this.param.replace(/\$\{([^{}]+|\S*)\}/g, (match, p1, offset, string) => {
       try {
-        return this.valueOf(this.values, p1.split('.'))
+        const res = this.valueOf(this.values, p1.split('.'))
+        if (typeof res === 'object') {
+          return JSON.stringify(res)
+        }
+        return res
       } catch (e) {
         return match
       }

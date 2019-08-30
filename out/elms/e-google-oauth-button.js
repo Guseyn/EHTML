@@ -25,13 +25,11 @@ var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
 
-var _browserified = browserified(require('@cuties/object')),
-    Value = _browserified.Value;
+var _browserified = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified.ParsedJSON;
 
-var _browserified2 = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified2.ParsedJSON;
-
-var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
+var _browserified2 = browserified(require('@cuties/object')),
+    TheSameObjectWithValue = _browserified2.TheSameObjectWithValue;
 
 var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
@@ -43,15 +41,24 @@ function (_HTMLTunedElement) {
   _inherits(EGoogleOauthButton, _HTMLTunedElement);
 
   function EGoogleOauthButton() {
+    var _this;
+
     _classCallCheck(this, EGoogleOauthButton);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EGoogleOauthButton).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EGoogleOauthButton).call(this));
+    _this.values = {};
+    return _this;
   }
 
   _createClass(EGoogleOauthButton, [{
+    key: "supportedActions",
+    value: function supportedActions() {
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var googleSignInMetaElm = this.googleSignInMetaElm();
       var googleApiScriptElm = this.googleApiScriptElm();
@@ -59,7 +66,7 @@ function (_HTMLTunedElement) {
       this.style['display'] = 'none';
 
       googleApiScriptElm.onload = function () {
-        _this.initGoogleOauth();
+        _this2.initGoogleOauth();
       };
 
       this.rendered = true;
@@ -67,24 +74,25 @@ function (_HTMLTunedElement) {
   }, {
     key: "initGoogleOauth",
     value: function initGoogleOauth() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.style['display'] = ''; // eslint-disable-next-line no-undef
 
       gapi.load('auth2', function () {
         // eslint-disable-next-line no-undef
         var auth2 = gapi.auth2.init({
-          client_id: _this2.getAttribute('data-client-id'),
-          cookiepolicy: _this2.getAttribute('data-cookiepolicy') || 'single_host_origin',
-          scope: _this2.getAttribute('data-scope') || 'profile'
+          client_id: _this3.getAttribute('data-client-id'),
+          cookiepolicy: _this3.getAttribute('data-cookiepolicy') || 'single_host_origin',
+          scope: _this3.getAttribute('data-scope') || 'profile'
         });
-        auth2.attachClickHandler(_this2, {}, function (googleUser) {
+        auth2.attachClickHandler(_this3, {}, function (googleUser) {
           var body = {};
-          body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new LocalStorageWithSetValue(localStorage, _this2.getAttribute('data-local-storage-jwt-key') || 'jwt', new Value(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
-            url: _this2.getAttribute('data-redirect-url') || '/',
+          body[_this3.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
+
+          _this3.actions(new TheSameObjectWithValue(_this3.values, _this3.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+            url: _this3.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body)))), _this2.getAttribute('data-response-jwt-key') || 'jwt')).call();
+          }, JSON.stringify(body)))))).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
@@ -108,7 +116,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key', 'data-request-token-key'];
+      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key'];
     }
   }]);
 

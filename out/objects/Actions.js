@@ -26,9 +26,6 @@ var _require = require('@page-libs/cutie'),
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
 
-var _browserified2 = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified2.ParsedJSON;
-
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
@@ -60,11 +57,13 @@ var BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParse
 
 var ParsedElmSelectors = require('./ParsedElmSelectors');
 
-var ParamWithAppliedValues = require('./ParamWithAppliedValues');
+var ParamWithAppliedValues = require('./../async/ParamWithAppliedValues');
 
-var ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage');
+var ParamWithAppliedLocalStorage = require('./../async/ParamWithAppliedLocalStorage');
 
-var ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage');
+var ParamWithAppliedMemoryStorage = require('./../async/ParamWithAppliedMemoryStorage');
+
+var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
 
 var Actions =
 /*#__PURE__*/
@@ -85,7 +84,7 @@ function () {
 
       // act1(p1, p2); act(q1, q2); ...
       if (!this.actionsCommand) {
-        return new EmptyAsyncObject();
+        return new EmptyAsyncObject(values);
       }
 
       var commands = this.actionsCommand.split(';').map(function (command) {
@@ -109,15 +108,15 @@ function () {
             break;
 
           case 'saveToLocalStorage':
-            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value()));
+            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))))));
             break;
 
           case 'saveToMemoryStorage':
-            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value()));
+            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))))));
             break;
 
           case 'innerHTML':
-            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values).value()).value()).value()));
+            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values)))));
             break;
 
           case 'applyTextsAndValuesToChildNodes':
@@ -136,7 +135,7 @@ function () {
             throw new Error("command ".concat(command, " does not exists"));
         }
       });
-      return new BuiltAsyncTreeByParsedCommands(parsedCommands).value();
+      return new BuiltAsyncTreeByParsedCommands(parsedCommands, values).value();
     } // ACTIONS
 
   }, {
@@ -147,12 +146,13 @@ function () {
   }, {
     key: "saveToLocalStorage",
     value: function saveToLocalStorage(key, value) {
-      return new LocalStorageWithSetValue(key, value);
+      return new LocalStorageWithSetValue(localStorage, key, value);
     }
   }, {
     key: "saveToMemoryStorage",
     value: function saveToMemoryStorage(key, value) {
-      return new MemoryStorageWithSetValue(key, value);
+      // eslint-disable-next-line no-undef
+      return new MemoryStorageWithSetValue(memoryStorage, key, value);
     }
   }, {
     key: "hideElms",
@@ -193,7 +193,7 @@ function () {
   }, {
     key: "innerHTML",
     value: function innerHTML(elmSelector, url, headers) {
-      return new ElementWithInnerHTML(new ParsedElmSelectors(elmSelector).value()[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSON(headers || '{}')))));
+      return new ElementWithInnerHTML(new ParsedElmSelectors(elmSelector).value()[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
     }
   }, {
     key: "applyTextsAndValuesToChildNodes",

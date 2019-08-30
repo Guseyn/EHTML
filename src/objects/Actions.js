@@ -2,7 +2,6 @@
 
 const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
-const { ParsedJSON } = browserified(require('@cuties/json'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML } = require('@page-libs/dom')
 const RedirectAction = require('./../async/RedirectAction')
@@ -17,9 +16,10 @@ const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
 const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands')
 const ParsedElmSelectors = require('./ParsedElmSelectors')
-const ParamWithAppliedValues = require('./ParamWithAppliedValues')
-const ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage')
-const ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage')
+const ParamWithAppliedValues = require('./../async/ParamWithAppliedValues')
+const ParamWithAppliedLocalStorage = require('./../async/ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./../async/ParamWithAppliedMemoryStorage')
+const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 
 class Actions {
   constructor (tagName, actionsCommand, supportedActions) {
@@ -33,7 +33,7 @@ class Actions {
   asyncTree (values) {
     // act1(p1, p2); act(q1, q2); ...
     if (!this.actionsCommand) {
-      return new EmptyAsyncObject()
+      return new EmptyAsyncObject(values)
     }
     const commands = this.actionsCommand.split(';').map(command => command.trim())
     const parsedCommands = []
@@ -54,11 +54,15 @@ class Actions {
           parsedCommands.push(
             this.saveToLocalStorage(
               commandParams[0],
-              new ParamWithAppliedLocalStorage(
-                new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[1], values)
+              new ParsedJSONOrString(
+                new ParamWithAppliedLocalStorage(
+                  new ParamWithAppliedMemoryStorage(
+                    new ParamWithAppliedValues(
+                      commandParams[1], values
+                    )
+                  )
                 )
-              ).value()
+              )
             )
           )
           break
@@ -66,11 +70,16 @@ class Actions {
           parsedCommands.push(
             this.saveToMemoryStorage(
               commandParams[0],
-              new ParamWithAppliedLocalStorage(
-                new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[1], values).value()
-                ).value()
-              ).value()
+              new ParsedJSONOrString(
+                new ParamWithAppliedLocalStorage(
+                  new ParamWithAppliedMemoryStorage(
+                    new ParamWithAppliedValues(
+                      commandParams[1],
+                      values
+                    )
+                  )
+                )
+              )
             )
           )
           break
@@ -80,14 +89,20 @@ class Actions {
               commandParams[0],
               new ParamWithAppliedLocalStorage(
                 new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[1], values).value()
-                ).value()
-              ).value(),
+                  new ParamWithAppliedValues(
+                    commandParams[1],
+                    values
+                  )
+                )
+              ),
               new ParamWithAppliedLocalStorage(
                 new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[2], values).value()
-                ).value()
-              ).value()
+                  new ParamWithAppliedValues(
+                    commandParams[2],
+                    values
+                  )
+                )
+              )
             )
           )
           break
@@ -110,7 +125,7 @@ class Actions {
           throw new Error(`command ${command} does not exists`)
       }
     })
-    return new BuiltAsyncTreeByParsedCommands(parsedCommands).value()
+    return new BuiltAsyncTreeByParsedCommands(parsedCommands, values).value()
   }
 
   // ACTIONS
@@ -120,11 +135,12 @@ class Actions {
   }
 
   saveToLocalStorage (key, value) {
-    return new LocalStorageWithSetValue(key, value)
+    return new LocalStorageWithSetValue(localStorage, key, value)
   }
 
   saveToMemoryStorage (key, value) {
-    return new MemoryStorageWithSetValue(key, value)
+    // eslint-disable-next-line no-undef
+    return new MemoryStorageWithSetValue(memoryStorage, key, value)
   }
 
   hideElms (...elmSelectors) {
@@ -151,7 +167,7 @@ class Actions {
           new CreatedOptions(
             'url', this.getAttribute(url),
             'method', 'GET',
-            'headers', new ParsedJSON(
+            'headers', new ParsedJSONOrString(
               headers || '{}'
             )
           )

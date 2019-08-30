@@ -1,14 +1,16 @@
 'use strict'
 
-const { AsyncObject } = require('@cuties/cutie')
+const { AsyncObject } = require('@page-libs/cutie')
 
 class EmptyAsyncObject extends AsyncObject {
-  constructor () {
-    super()
+  constructor (values) {
+    super(values)
   }
 
   syncCall () {
-    return () => {}
+    return (values) => {
+
+    }
   }
 }
 

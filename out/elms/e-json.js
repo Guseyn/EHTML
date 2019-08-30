@@ -60,12 +60,12 @@ function (_HTMLTunedElement) {
   }, {
     key: "supportedActions",
     value: function supportedActions() {
-      return ['applyTextsAndValuesToChildNodes'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "render",
     value: function render() {
-      new TheSameObjectWithValue(this.values, this.getAttribute('data-object'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')), this.getAttribute('data-request-body')))))).after(this.actions(this.values)).call();
+      this.actions(new TheSameObjectWithValue(this.values, this.getAttribute('data-object'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', this.getAttribute('data-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')), this.getAttribute('data-request-body'))))))).call();
     }
   }], [{
     key: "observedAttributes",

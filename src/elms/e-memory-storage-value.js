@@ -8,11 +8,19 @@ class EMemoryStorageValue extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['name', 'data-key']
+    return [
+      'name',
+      'data-key'
+    ]
+  }
+
+  supportedActions () {
+    return [ ]
   }
 
   render () {
     this.name = this.getAttribute('name')
+    this.actions().call()
   }
 
   value () {

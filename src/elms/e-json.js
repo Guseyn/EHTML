@@ -14,39 +14,60 @@ class EJSON extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-src', 'data-method', 'data-headers', 'data-request-body', 'data-object']
+    return [
+      'data-src',
+      'data-method',
+      'data-headers',
+      'data-request-body',
+      'data-object'
+    ]
   }
 
   attributesWithStorageVariables () {
-    return ['data-src', 'data-headers', 'data-request-body']
+    return [
+      'data-src',
+      'data-headers',
+      'data-request-body'
+    ]
   }
 
   supportedActions () {
-    return ['applyTextsAndValuesToChildNodes']
+    return [
+      'redirect',
+      'saveToLocalStorage',
+      'saveToMemoryStorage',
+      'innerHTML',
+      'applyTextsAndValuesToChildNodes',
+      'hideElms',
+      'showElms',
+      'disableElms',
+      'enableElms',
+      'changeElmsClassName'
+    ]
   }
 
   render () {
-    new TheSameObjectWithValue(
-      this.values,
-      this.getAttribute('data-object'),
-      new ParsedJSON(
-        new StringFromBuffer(
-          new ResponseBody(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', this.getAttribute('data-src'),
-                'method', this.getAttribute('data-method') || 'GET',
-                'headers', new ParsedJSON(
-                  this.getAttribute('data-headers') || '{}'
-                )
-              ),
-              this.getAttribute('data-request-body')
+    this.actions(
+      new TheSameObjectWithValue(
+        this.values,
+        this.getAttribute('data-object'),
+        new ParsedJSON(
+          new StringFromBuffer(
+            new ResponseBody(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', this.getAttribute('data-src'),
+                  'method', this.getAttribute('data-method') || 'GET',
+                  'headers', new ParsedJSON(
+                    this.getAttribute('data-headers') || '{}'
+                  )
+                ),
+                this.getAttribute('data-request-body')
+              )
             )
           )
         )
       )
-    ).after(
-      this.actions(this.values)
     ).call()
   }
 }

@@ -20,17 +20,21 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
-var _require = require('@page-libs/ajax'),
-    ResponseFromAjaxRequest = _require.ResponseFromAjaxRequest;
+var _require = require('@page-libs/cutie'),
+    browserified = _require.browserified;
 
-var _require2 = require('@page-libs/cutie'),
-    browserified = _require2.browserified;
+var _require2 = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
 
 var _browserified = browserified(require('@cuties/object')),
-    CreatedOptions = _browserified.CreatedOptions;
+    CreatedOptions = _browserified.CreatedOptions,
+    TheSameObjectWithValue = _browserified.TheSameObjectWithValue;
 
-var _require3 = require('@cuties/json'),
-    ParsedJSON = _require3.ParsedJSON;
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
+
+var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
 
 var EForm =
 /*#__PURE__*/
@@ -38,9 +42,13 @@ function (_HTMLTunedElement) {
   _inherits(EForm, _HTMLTunedElement);
 
   function EForm() {
+    var _this;
+
     _classCallCheck(this, EForm);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EForm).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EForm).call(this));
+    _this.values = {};
+    return _this;
   }
 
   _createClass(EForm, [{
@@ -49,9 +57,14 @@ function (_HTMLTunedElement) {
       return ['data-request-url', 'data-request-headers'];
     }
   }, {
+    key: "supportedActions",
+    value: function supportedActions() {
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var inputs = this.getElementsByTagName('input');
       var fileInputs = this.filteredFileInputs(inputs);
@@ -59,21 +72,21 @@ function (_HTMLTunedElement) {
       var textareas = this.getElementsByTagName('textarea');
       var localStorageValues = this.getElementsByTagName('e-local-storage-value');
       var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
-      var requestButton = this.parseElmSelectors(this.getAttribute('data-request-button-id'))[0];
+      var requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0];
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestBody, requestButton);
       requestButton.addEventListener('click', function () {
-        _this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
+        _this2.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
 
-        _this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
+        _this2.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
 
-        _this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
+        _this2.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
 
-        _this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
+        _this2.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
 
-        _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
+        _this2.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody)).after().call();
+        _this2.actions(new TheSameObjectWithValue(_this2.values, _this2.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this2.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this2.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody)))))).call();
       });
     }
   }, {
@@ -157,10 +170,10 @@ function (_HTMLTunedElement) {
   }, {
     key: "tuneFileInput",
     value: function tuneFileInput(fileInput, requestBody, requestButton) {
-      var _this2 = this;
+      var _this3 = this;
 
       fileInput.addEventListener('change', function () {
-        _this2.readFilesContentForRequestBody(fileInput, requestBody, requestButton);
+        _this3.readFilesContentForRequestBody(fileInput, requestBody, requestButton);
       });
     }
   }, {
@@ -218,7 +231,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-headers', 'data-request-button-id'];
+      return ['data-request-url', 'data-request-headers', 'data-request-button-id', 'data-actions'];
     }
   }]);
 

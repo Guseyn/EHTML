@@ -32,9 +32,15 @@ function (_HTMLTunedElement) {
   }
 
   _createClass(ELocalStorageValue, [{
+    key: "supportedActions",
+    value: function supportedActions() {
+      return [];
+    }
+  }, {
     key: "render",
     value: function render() {
       this.name = this.getAttribute('name');
+      this.actions().call();
     }
   }, {
     key: "value",

@@ -14,11 +14,21 @@ class EHTML extends HTMLTunedElement {
   }
 
   static get observedAttributes () {
-    return ['data-src', 'data-headers']
+    return [
+      'data-src',
+      'data-headers'
+    ]
   }
 
   attributesWithStorageVariables () {
-    return ['data-src', 'data-headers']
+    return [
+      'data-src',
+      'data-headers'
+    ]
+  }
+
+  supportedActions () {
+    return [ ]
   }
 
   render () {
@@ -36,6 +46,8 @@ class EHTML extends HTMLTunedElement {
           )
         )
       )
+    ).after(
+      this.actions()
     ).call()
   }
 }
