@@ -1,6 +1,6 @@
 'use strict'
 
-const HTMLTunedElement = require('./../objects/HTMLTunedElement')
+const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 
 class ELocalStorageValue extends HTMLTunedElement {
   constructor () {

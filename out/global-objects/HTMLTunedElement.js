@@ -34,7 +34,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var Elements = require('./../objects/Elements');
+var Element = require('./../objects/Element');
 
 var Actions = require('./../objects/Actions');
 
@@ -67,11 +67,7 @@ function (_HTMLElement) {
   }, {
     key: "actions",
     value: function actions(values) {
-      var actionsCommand = this.getAttribute('data-actions');
-
-      if (actionsCommand) {
-        return new Actions(this.tagName, actionsCommand, this.supportedActions()).asyncTree(values);
-      }
+      return new Actions(this.tagName, this.getAttribute('data-actions'), this.supportedActions()).asyncTree(values);
     }
   }, {
     key: "replacedWith",
@@ -101,7 +97,7 @@ function (_HTMLElement) {
         return _this2.getAttribute(attr);
       });
 
-      (_ref = new Elements(this)).applyStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
+      (_ref = new Element(this)).applyStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
 
       setTimeout(function () {
         if (!instance.rendered) {

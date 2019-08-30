@@ -55,17 +55,17 @@ function (_AsyncObject) {
           child.applyStorageVariablesInAttributes('data-text', 'data-value');
 
           if (child.getAttribute('data-text')) {
-            child.applyValuesInAttributes('data-text', values);
+            child.applyValuesInAttribute('data-text', values);
 
-            if (!child.hasParamsInAttributesToApply('data-text')) {
+            if (!child.hasParamsInAttributeToApply('data-text')) {
               _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
               child.removeAttribute('data-text');
             }
           } else if (child.getAttribute('data-value')) {
-            child.applyValuesInAttributes('data-value', values);
+            child.applyValuesInAttribute('data-value', values);
 
-            if (!child.hasParamsInAttributesToApply('data-value')) {
+            if (!child.hasParamsInAttributeToApply('data-value')) {
               child.value = child.getAttribute('data-value');
               child.removeAttribute('data-value');
             }

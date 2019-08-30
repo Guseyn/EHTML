@@ -1,5 +1,8 @@
 'use strict'
 
+const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
+const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 const paramRegExp = /\$\{([^{}]+|\S*)\}/g
 
 class Element {
@@ -7,11 +10,11 @@ class Element {
     element.applyStorageVariablesInAttributes = (...attrNames) => {
       this.applyStorageVariablesInAttributes(element, ...attrNames)
     }
-    element.applyValuesInAttributes = (attrName, values) => {
-      this.applyValuesInAttributes(element, attrName, values)
+    element.applyValuesInAttribute = (attrName, values) => {
+      this.applyValuesInAttribute(element, attrName, values)
     }
-    element.hasParamsInAttributesToApply = (attrName) => {
-      return this.hasParamsInAttributesToApply(element, attrName)
+    element.hasParamsInAttributeToApply = (attrName) => {
+      return this.hasParamsInAttributeToApply(element, attrName)
     }
     return element
   }
@@ -22,43 +25,23 @@ class Element {
       if (attr) {
         element.setAttribute(
           attrName,
-          this.attributeWithAppliedLocalStorageVariables(
-            this.attributeWithAppliedMemoryStorageVariables(
+          new ParamWithAppliedLocalStorage(
+            new ParamWithAppliedMemoryStorage(
               attr
-            )
-          )
+            ).value()
+          ).value()
         )
       }
     })
   }
 
-  applyValuesInAttributes (element, attrName, values) {
+  applyValuesInAttribute (element, attrName, values) {
     const attr = element.getAttribute(attrName)
-    element.setAttribute(attrName, attr.replace(paramRegExp, (match, p1, offset, string) => {
-      try {
-        // eslint-disable-next-line no-eval
-        return eval(`values.${p1}`)
-      } catch (e) {
-        return match
-      }
-    }))
+    element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value())
   }
 
-  hasParamsInAttributesToApply (element, attrName) {
+  hasParamsInAttributeToApply (element, attrName) {
     return paramRegExp.test(element.getAttribute(attrName))
-  }
-
-  attributeWithAppliedLocalStorageVariables (attribute) {
-    return attribute.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      return localStorage.getItem(p1)
-    })
-  }
-
-  attributeWithAppliedMemoryStorageVariables (attribute) {
-    return attribute.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(p1)
-    })
   }
 }
 

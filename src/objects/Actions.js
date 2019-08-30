@@ -14,8 +14,11 @@ const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
 const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
-const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
-const paramRegExp = /\$\{([^{}]+|\S*)\}/g
+const BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands')
+const ParsedElmSelectors = require('./../objects/ParsedElmSelectors')
+const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
+const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 
 class Actions {
   constructor (tagName, actionsCommand, supportedActions) {
@@ -47,11 +50,11 @@ class Actions {
           parsedCommands.push(
             this.saveToLocalStorage(
               commandParams[0],
-              this.paramWithAppliedLocalStorage(
-                this.paramWithAppliedMemoryStorage(
-                  this.paramWithAppliedValues(commandParams[1], values)
+              new ParamWithAppliedLocalStorage(
+                new ParamWithAppliedMemoryStorage(
+                  new ParamWithAppliedValues(commandParams[1], values)
                 )
-              )
+              ).value()
             )
           )
           break
@@ -59,11 +62,11 @@ class Actions {
           parsedCommands.push(
             this.saveToMemoryStorage(
               commandParams[0],
-              this.paramWithAppliedLocalStorage(
-                this.paramWithAppliedMemoryStorage(
-                  this.paramWithAppliedValues(commandParams[1], values)
+              new ParamWithAppliedLocalStorage(
+                new ParamWithAppliedMemoryStorage(
+                  new ParamWithAppliedValues(commandParams[1], values)
                 )
-              )
+              ).value()
             )
           )
           break
@@ -71,16 +74,16 @@ class Actions {
           parsedCommands.push(
             this.innerHTML(
               commandParams[0],
-              this.paramWithAppliedLocalStorage(
-                this.paramWithAppliedMemoryStorage(
-                  this.paramWithAppliedValues(commandParams[1], values)
+              new ParamWithAppliedLocalStorage(
+                new ParamWithAppliedMemoryStorage(
+                  new ParamWithAppliedValues(commandParams[1], values)
                 )
-              ),
-              this.paramWithAppliedLocalStorage(
-                this.paramWithAppliedMemoryStorage(
-                  this.paramWithAppliedValues(commandParams[2], values)
+              ).value(),
+              new ParamWithAppliedLocalStorage(
+                new ParamWithAppliedMemoryStorage(
+                  new ParamWithAppliedValues(commandParams[2], values)
                 )
-              )
+              ).value()
             )
           )
           break
@@ -103,7 +106,7 @@ class Actions {
           throw new Error(`command ${command} does not exists`)
       }
     })
-    return this.buildAsyncTree(parsedCommands)
+    return new BuiltAsyncTreeByParsedCommands(parsedCommands).value()
   }
 
   // ACTIONS
@@ -121,24 +124,24 @@ class Actions {
   }
 
   hideElms (...elmSelectors) {
-    return new HiddenElements(...this.parseElmSelectors(...elmSelectors))
+    return new HiddenElements(...new ParsedElmSelectors(...elmSelectors).value())
   }
 
   showElms (...elmSelectors) {
-    return new ShownElements(...this.parseElmSelectors(...elmSelectors))
+    return new ShownElements(...new ParsedElmSelectors(...elmSelectors).value())
   }
 
   disableElms (...elmSelectors) {
-    return new DisabledElements(...this.parseElmSelectors(...elmSelectors))
+    return new DisabledElements(...new ParsedElmSelectors(...elmSelectors).value())
   }
 
   enableElms (...elmSelectors) {
-    return new EnabledElements(...this.parseElmSelectors(...elmSelectors))
+    return new EnabledElements(...new ParsedElmSelectors(...elmSelectors).value())
   }
 
   innerHTML (elmSelector, url, headers) {
     return new ElementWithInnerHTML(
-      this.parseElmSelectors(elmSelector)[0],
+      new ParsedElmSelectors(elmSelector).value()[0],
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
@@ -155,71 +158,12 @@ class Actions {
 
   applyTextsAndValuesToChildNodes (elmSelector, values) {
     return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
-      this.parseElmSelectors(elmSelector)[0], values
+      new ParsedElmSelectors(elmSelector).value()[0], values
     )
   }
 
   changeElmsClassName (newClassName, ...elmSelectors) {
-    return new ElementsWithChangedClass(newClassName, ...this.parseElmSelectors(...elmSelectors))
-  }
-
-  // PRIVATE
-
-  buildAsyncTree (parsedCommands, curIndex = 1, tree = parsedCommands[0]) {
-    if (parsedCommands.length === 0) {
-      return new EmptyAsyncObject()
-    }
-    const curCommand = parsedCommands[curIndex]
-    if (parsedCommands.length === curIndex) {
-      return tree
-    } else {
-      tree.after(curCommand)
-      return this.buildAsyncTree(parsedCommands, curIndex + 1, tree)
-    }
-  }
-
-  parseElmSelectors (...elmSelectors) {
-    const elms = []
-    elmSelectors.forEach(elmSelector => {
-      if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-        elms.push(document.getElementById(elmSelector.split('#')[1]))
-      } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-        this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]))
-      } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-        this.pushElms(elms, document.getElementsByTagName(elmSelector))
-      }
-    })
-    return elms
-  }
-
-  pushElms (elms, elmsToPush) {
-    for (let i = 0; i < elmsToPush.length; i++) {
-      elms.push(elmsToPush[i])
-    }
-  }
-
-  paramWithAppliedValues (param, values) {
-    return param.replace(paramRegExp, (match, p1, offset, string) => {
-      try {
-        // eslint-disable-next-line no-eval
-        return eval(`values.${p1}`)
-      } catch (e) {
-        return match
-      }
-    })
-  }
-
-  paramWithAppliedLocalStorage (param) {
-    return param.replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      return localStorage.getItem(p1)
-    })
-  }
-
-  paramWithAppliedMemoryStorage (param) {
-    return param.replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
-      // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(p1)
-    })
+    return new ElementsWithChangedClass(newClassName, ...new ParsedElmSelectors(...elmSelectors).value())
   }
 }
 

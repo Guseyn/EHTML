@@ -1,6 +1,6 @@
 'use strict'
 
-const HTMLTunedElement = require('./../objects/HTMLTunedElement')
+const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 const { ResponseFromAjaxRequest } = require('@page-libs/ajax')
 const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))

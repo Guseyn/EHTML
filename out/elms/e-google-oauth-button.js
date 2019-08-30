@@ -33,7 +33,7 @@ var _browserified2 = browserified(require('@cuties/json')),
 
 var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement');
+var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
 
