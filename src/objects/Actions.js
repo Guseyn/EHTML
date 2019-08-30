@@ -14,11 +14,12 @@ const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
 const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
+const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands')
-const ParsedElmSelectors = require('./../objects/ParsedElmSelectors')
-const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
-const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
-const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
+const ParsedElmSelectors = require('./ParsedElmSelectors')
+const ParamWithAppliedValues = require('./ParamWithAppliedValues')
+const ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage')
 
 class Actions {
   constructor (tagName, actionsCommand, supportedActions) {
@@ -31,6 +32,9 @@ class Actions {
 
   asyncTree (values) {
     // act1(p1, p2); act(q1, q2); ...
+    if (!this.actionsCommand) {
+      return new EmptyAsyncObject()
+    }
     const commands = this.actionsCommand.split(';').map(command => command.trim())
     const parsedCommands = []
     commands.forEach(command => {
@@ -64,8 +68,8 @@ class Actions {
               commandParams[0],
               new ParamWithAppliedLocalStorage(
                 new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[1], values)
-                )
+                  new ParamWithAppliedValues(commandParams[1], values).value()
+                ).value()
               ).value()
             )
           )
@@ -76,13 +80,13 @@ class Actions {
               commandParams[0],
               new ParamWithAppliedLocalStorage(
                 new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[1], values)
-                )
+                  new ParamWithAppliedValues(commandParams[1], values).value()
+                ).value()
               ).value(),
               new ParamWithAppliedLocalStorage(
                 new ParamWithAppliedMemoryStorage(
-                  new ParamWithAppliedValues(commandParams[2], values)
-                )
+                  new ParamWithAppliedValues(commandParams[2], values).value()
+                ).value()
               ).value()
             )
           )

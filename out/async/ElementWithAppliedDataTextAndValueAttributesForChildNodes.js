@@ -21,7 +21,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var Element = require('./../objects/Element');
+var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+
+var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+
+var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
 
 var ElementWithAppliedDataTextAndValueAttributesForChildNodes =
 /*#__PURE__*/
@@ -49,23 +53,21 @@ function (_AsyncObject) {
       var _this2 = this;
 
       element.childNodes.forEach(function (child) {
-        child = new Element(child);
-
         if (child.getAttribute) {
-          child.applyStorageVariablesInAttributes('data-text', 'data-value');
+          _this2.applyStorageVariablesInAttributes(child, 'data-text', 'data-value');
 
           if (child.getAttribute('data-text')) {
-            child.applyValuesInAttribute('data-text', values);
+            _this2.applyValuesInAttribute(child, 'data-text', values);
 
-            if (!child.hasParamsInAttributeToApply('data-text')) {
+            if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
               _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
               child.removeAttribute('data-text');
             }
           } else if (child.getAttribute('data-value')) {
-            child.applyValuesInAttribute('data-value', values);
+            _this2.applyValuesInAttribute(child, 'data-value', values);
 
-            if (!child.hasParamsInAttributeToApply('data-value')) {
+            if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
               child.value = child.getAttribute('data-value');
               child.removeAttribute('data-value');
             }
@@ -86,6 +88,32 @@ function (_AsyncObject) {
       } else {
         elm.insertBefore(textNode, elm.childNodes[0]);
       }
+    }
+  }, {
+    key: "applyStorageVariablesInAttributes",
+    value: function applyStorageVariablesInAttributes(element) {
+      for (var _len = arguments.length, attrNames = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        attrNames[_key - 1] = arguments[_key];
+      }
+
+      attrNames.forEach(function (attrName) {
+        var attr = element.getAttribute(attrName);
+
+        if (attr) {
+          element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(attr).value()).value());
+        }
+      });
+    }
+  }, {
+    key: "applyValuesInAttribute",
+    value: function applyValuesInAttribute(element, attrName, values) {
+      var attr = element.getAttribute(attrName);
+      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+    }
+  }, {
+    key: "hasParamsInAttributeToApply",
+    value: function hasParamsInAttributeToApply(element, attrName) {
+      return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName));
     }
   }]);
 

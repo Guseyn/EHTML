@@ -30,6 +30,7 @@
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "dependencies": {
     "@cuties/assert": "^1.2.2",
+    "@cuties/async": "^1.0.1",
     "@cuties/buffer": "^1.2.3",
     "@cuties/cutie": "^1.7.5",
     "@cuties/fs": "^1.2.4",

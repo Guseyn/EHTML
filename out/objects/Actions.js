@@ -54,15 +54,17 @@ var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../as
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
 
+var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
+
 var BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands');
 
-var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
+var ParsedElmSelectors = require('./ParsedElmSelectors');
 
-var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+var ParamWithAppliedValues = require('./ParamWithAppliedValues');
 
-var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+var ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage');
 
-var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
+var ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage');
 
 var Actions =
 /*#__PURE__*/
@@ -82,6 +84,10 @@ function () {
       var _this = this;
 
       // act1(p1, p2); act(q1, q2); ...
+      if (!this.actionsCommand) {
+        return new EmptyAsyncObject();
+      }
+
       var commands = this.actionsCommand.split(';').map(function (command) {
         return command.trim();
       });
@@ -107,11 +113,11 @@ function () {
             break;
 
           case 'saveToMemoryStorage':
-            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value()));
+            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value()));
             break;
 
           case 'innerHTML':
-            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values))).value()));
+            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values).value()).value()).value()));
             break;
 
           case 'applyTextsAndValuesToChildNodes':

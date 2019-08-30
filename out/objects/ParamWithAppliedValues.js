@@ -14,20 +14,31 @@ function () {
 
     this.param = param;
     this.values = values;
-    this.paramRegExp = /\$\{([^{}]+|\S*)\}/g;
   }
 
   _createClass(ParamWithAppliedValues, [{
     key: "value",
     value: function value() {
-      return this.param.replace(this.paramRegExp, function (match, p1, offset, string) {
+      var _this = this;
+
+      return this.param.replace(/\$\{([^{}]+|\S*)\}/g, function (match, p1, offset, string) {
         try {
-          // eslint-disable-next-line no-eval
-          return eval("this.values.".concat(p1));
+          return _this.valueOf(_this.values, p1.split('.'));
         } catch (e) {
           return match;
         }
       });
+    }
+  }, {
+    key: "valueOf",
+    value: function valueOf(values, pathParts) {
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+      if (pathParts.length - 1 === index) {
+        return values[pathParts[index]];
+      } else {
+        return this.valueOf(values[pathParts[index]], pathParts, index + 1);
+      }
     }
   }]);
 

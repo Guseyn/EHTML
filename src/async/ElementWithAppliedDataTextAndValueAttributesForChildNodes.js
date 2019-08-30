@@ -1,7 +1,9 @@
 'use strict'
 
 const { AsyncObject } = require('@page-libs/cutie')
-const Element = require('./../objects/Element')
+const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
+const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 
 class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
   constructor (element, values) {
@@ -16,18 +18,17 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
 
   applyValuesToChildren (element, values) {
     element.childNodes.forEach(child => {
-      child = new Element(child)
       if (child.getAttribute) {
-        child.applyStorageVariablesInAttributes('data-text', 'data-value')
+        this.applyStorageVariablesInAttributes(child, 'data-text', 'data-value')
         if (child.getAttribute('data-text')) {
-          child.applyValuesInAttribute('data-text', values)
-          if (!child.hasParamsInAttributeToApply('data-text')) {
+          this.applyValuesInAttribute(child, 'data-text', values)
+          if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
             this.insertTextIntoElm(child, child.getAttribute('data-text'))
             child.removeAttribute('data-text')
           }
         } else if (child.getAttribute('data-value')) {
-          child.applyValuesInAttribute('data-value', values)
-          if (!child.hasParamsInAttributeToApply('data-value')) {
+          this.applyValuesInAttribute(child, 'data-value', values)
+          if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
             child.value = child.getAttribute('data-value')
             child.removeAttribute('data-value')
           }
@@ -45,6 +46,31 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
     } else {
       elm.insertBefore(textNode, elm.childNodes[0])
     }
+  }
+
+  applyStorageVariablesInAttributes (element, ...attrNames) {
+    attrNames.forEach(attrName => {
+      const attr = element.getAttribute(attrName)
+      if (attr) {
+        element.setAttribute(
+          attrName,
+          new ParamWithAppliedLocalStorage(
+            new ParamWithAppliedMemoryStorage(
+              attr
+            ).value()
+          ).value()
+        )
+      }
+    })
+  }
+
+  applyValuesInAttribute (element, attrName, values) {
+    const attr = element.getAttribute(attrName)
+    element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value())
+  }
+
+  hasParamsInAttributeToApply (element, attrName) {
+    return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName))
   }
 }
 
