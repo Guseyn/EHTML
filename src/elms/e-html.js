@@ -5,7 +5,7 @@ const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
-const HTMLTunedElement = require('./../objects/HTMLTunedElement')
+const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 
 class EHTML extends HTMLTunedElement {
   constructor () {

@@ -1,7 +1,7 @@
 'use strict'
 
 const { AsyncObject } = require('@cuties/cutie')
-const MemoryStorage = require('./src/objects/MemoryStorage')
+const MemoryStorage = require('./src/global-objects/MemoryStorage')
 
 let id = 0
 const getNextId = () => {

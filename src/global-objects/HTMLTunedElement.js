@@ -1,6 +1,6 @@
 'use strict'
 
-const Elements = require('./../objects/Elements')
+const Element = require('./../objects/Element')
 const Actions = require('./../objects/Actions')
 
 class HTMLTunedElement extends HTMLElement {
@@ -31,10 +31,11 @@ class HTMLTunedElement extends HTMLElement {
   }
 
   actions (values) {
-    const actionsCommand = this.getAttribute('data-actions')
-    if (actionsCommand) {
-      return new Actions(this.tagName, actionsCommand, this.supportedActions()).asyncTree(values)
-    }
+    return new Actions(
+      this.tagName,
+      this.getAttribute('data-actions'),
+      this.supportedActions()
+    ).asyncTree(values)
   }
 
   replacedWith (elm) {
@@ -54,9 +55,11 @@ class HTMLTunedElement extends HTMLElement {
 
   connectedCallback () {
     const instance = this
-    const attributesWithStorageVariables = this.attributesWithStorageVariables()
-      .concat(this.defaultAttributesWithStorageVariables()).filter(attr => this.getAttribute(attr))
-    new Elements(this).applyStorageVariablesInAttributes(...attributesWithStorageVariables)
+    const attributesWithStorageVariables = this
+      .attributesWithStorageVariables()
+      .concat(this.defaultAttributesWithStorageVariables())
+      .filter(attr => this.getAttribute(attr))
+    new Element(this).applyStorageVariablesInAttributes(...attributesWithStorageVariables)
     setTimeout(() => {
       if (!instance.rendered) {
         instance.render()

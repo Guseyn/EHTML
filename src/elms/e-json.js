@@ -5,8 +5,7 @@ const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-// const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
-const HTMLTunedElement = require('./../objects/HTMLTunedElement')
+const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 
 class EJSON extends HTMLTunedElement {
   constructor () {

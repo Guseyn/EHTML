@@ -20,14 +20,14 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
       if (child.getAttribute) {
         child.applyStorageVariablesInAttributes('data-text', 'data-value')
         if (child.getAttribute('data-text')) {
-          child.applyValuesInAttributes('data-text', values)
-          if (!child.hasParamsInAttributesToApply('data-text')) {
+          child.applyValuesInAttribute('data-text', values)
+          if (!child.hasParamsInAttributeToApply('data-text')) {
             this.insertTextIntoElm(child, child.getAttribute('data-text'))
             child.removeAttribute('data-text')
           }
         } else if (child.getAttribute('data-value')) {
-          child.applyValuesInAttributes('data-value', values)
-          if (!child.hasParamsInAttributesToApply('data-value')) {
+          child.applyValuesInAttribute('data-value', values)
+          if (!child.hasParamsInAttributeToApply('data-value')) {
             child.value = child.getAttribute('data-value')
             child.removeAttribute('data-value')
           }

@@ -54,9 +54,15 @@ var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../as
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
 
-var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
+var BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands');
 
-var paramRegExp = /\$\{([^{}]+|\S*)\}/g;
+var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
+
+var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+
+var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+
+var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
 
 var Actions =
 /*#__PURE__*/
@@ -97,15 +103,15 @@ function () {
             break;
 
           case 'saveToLocalStorage':
-            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], _this.paramWithAppliedLocalStorage(_this.paramWithAppliedMemoryStorage(_this.paramWithAppliedValues(commandParams[1], values)))));
+            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value()));
             break;
 
           case 'saveToMemoryStorage':
-            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], _this.paramWithAppliedLocalStorage(_this.paramWithAppliedMemoryStorage(_this.paramWithAppliedValues(commandParams[1], values)))));
+            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value()));
             break;
 
           case 'innerHTML':
-            parsedCommands.push(_this.innerHTML(commandParams[0], _this.paramWithAppliedLocalStorage(_this.paramWithAppliedMemoryStorage(_this.paramWithAppliedValues(commandParams[1], values))), _this.paramWithAppliedLocalStorage(_this.paramWithAppliedMemoryStorage(_this.paramWithAppliedValues(commandParams[2], values)))));
+            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values))).value()));
             break;
 
           case 'applyTextsAndValuesToChildNodes':
@@ -124,7 +130,7 @@ function () {
             throw new Error("command ".concat(command, " does not exists"));
         }
       });
-      return this.buildAsyncTree(parsedCommands);
+      return new BuiltAsyncTreeByParsedCommands(parsedCommands).value();
     } // ACTIONS
 
   }, {
@@ -145,117 +151,57 @@ function () {
   }, {
     key: "hideElms",
     value: function hideElms() {
-      return _construct(HiddenElements, _toConsumableArray(this.parseElmSelectors.apply(this, arguments)));
+      for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
+        elmSelectors[_key] = arguments[_key];
+      }
+
+      return _construct(HiddenElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
     }
   }, {
     key: "showElms",
     value: function showElms() {
-      return _construct(ShownElements, _toConsumableArray(this.parseElmSelectors.apply(this, arguments)));
-    }
-  }, {
-    key: "disableElms",
-    value: function disableElms() {
-      return _construct(DisabledElements, _toConsumableArray(this.parseElmSelectors.apply(this, arguments)));
-    }
-  }, {
-    key: "enableElms",
-    value: function enableElms() {
-      return _construct(EnabledElements, _toConsumableArray(this.parseElmSelectors.apply(this, arguments)));
-    }
-  }, {
-    key: "innerHTML",
-    value: function innerHTML(elmSelector, url, headers) {
-      return new ElementWithInnerHTML(this.parseElmSelectors(elmSelector)[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSON(headers || '{}')))));
-    }
-  }, {
-    key: "applyTextsAndValuesToChildNodes",
-    value: function applyTextsAndValuesToChildNodes(elmSelector, values) {
-      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(this.parseElmSelectors(elmSelector)[0], values);
-    }
-  }, {
-    key: "changeElmsClassName",
-    value: function changeElmsClassName(newClassName) {
-      for (var _len = arguments.length, elmSelectors = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        elmSelectors[_key - 1] = arguments[_key];
-      }
-
-      return _construct(ElementsWithChangedClass, [newClassName].concat(_toConsumableArray(this.parseElmSelectors.apply(this, elmSelectors))));
-    } // PRIVATE
-
-  }, {
-    key: "buildAsyncTree",
-    value: function buildAsyncTree(parsedCommands) {
-      var curIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var tree = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : parsedCommands[0];
-
-      if (parsedCommands.length === 0) {
-        return new EmptyAsyncObject();
-      }
-
-      var curCommand = parsedCommands[curIndex];
-
-      if (parsedCommands.length === curIndex) {
-        return tree;
-      } else {
-        tree.after(curCommand);
-        return this.buildAsyncTree(parsedCommands, curIndex + 1, tree);
-      }
-    }
-  }, {
-    key: "parseElmSelectors",
-    value: function parseElmSelectors() {
-      var _this2 = this;
-
-      var elms = [];
-
       for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         elmSelectors[_key2] = arguments[_key2];
       }
 
-      elmSelectors.forEach(function (elmSelector) {
-        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-          elms.push(document.getElementById(elmSelector.split('#')[1]));
-        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
-        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-          _this2.pushElms(elms, document.getElementsByTagName(elmSelector));
-        }
-      });
-      return elms;
+      return _construct(ShownElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
     }
   }, {
-    key: "pushElms",
-    value: function pushElms(elms, elmsToPush) {
-      for (var i = 0; i < elmsToPush.length; i++) {
-        elms.push(elmsToPush[i]);
+    key: "disableElms",
+    value: function disableElms() {
+      for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        elmSelectors[_key3] = arguments[_key3];
       }
+
+      return _construct(DisabledElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
     }
   }, {
-    key: "paramWithAppliedValues",
-    value: function paramWithAppliedValues(param, values) {
-      return param.replace(paramRegExp, function (match, p1, offset, string) {
-        try {
-          // eslint-disable-next-line no-eval
-          return eval("values.".concat(p1));
-        } catch (e) {
-          return match;
-        }
-      });
+    key: "enableElms",
+    value: function enableElms() {
+      for (var _len4 = arguments.length, elmSelectors = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        elmSelectors[_key4] = arguments[_key4];
+      }
+
+      return _construct(EnabledElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
     }
   }, {
-    key: "paramWithAppliedLocalStorage",
-    value: function paramWithAppliedLocalStorage(param) {
-      return param.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        return localStorage.getItem(p1);
-      });
+    key: "innerHTML",
+    value: function innerHTML(elmSelector, url, headers) {
+      return new ElementWithInnerHTML(new ParsedElmSelectors(elmSelector).value()[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSON(headers || '{}')))));
     }
   }, {
-    key: "paramWithAppliedMemoryStorage",
-    value: function paramWithAppliedMemoryStorage(param) {
-      return param.replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1);
-      });
+    key: "applyTextsAndValuesToChildNodes",
+    value: function applyTextsAndValuesToChildNodes(elmSelector, values) {
+      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(new ParsedElmSelectors(elmSelector).value()[0], values);
+    }
+  }, {
+    key: "changeElmsClassName",
+    value: function changeElmsClassName(newClassName) {
+      for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+        elmSelectors[_key5 - 1] = arguments[_key5];
+      }
+
+      return _construct(ElementsWithChangedClass, [newClassName].concat(_toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value())));
     }
   }]);
 

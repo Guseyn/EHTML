@@ -35,7 +35,7 @@ var _require3 = require('@page-libs/dom'),
     UnwrappedChildrenOfParent = _require3.UnwrappedChildrenOfParent,
     ElementWithInnerHTML = _require3.ElementWithInnerHTML;
 
-var HTMLTunedElement = require('./../objects/HTMLTunedElement');
+var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
 var EHTML =
 /*#__PURE__*/

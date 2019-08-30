@@ -33,10 +33,9 @@ var _browserified3 = browserified(require('@cuties/buffer')),
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody; // const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
+    ResponseBody = _require2.ResponseBody;
 
-
-var HTMLTunedElement = require('./../objects/HTMLTunedElement');
+var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
 var EJSON =
 /*#__PURE__*/
