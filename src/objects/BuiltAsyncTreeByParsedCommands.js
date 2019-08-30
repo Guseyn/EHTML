@@ -3,8 +3,9 @@
 const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 
 class BuiltAsyncTreeByParsedCommands {
-  constructor (parsedCommands) {
+  constructor (parsedCommands, values) {
     this.parsedCommands = parsedCommands
+    this.values = values
   }
 
   value () {
@@ -13,7 +14,7 @@ class BuiltAsyncTreeByParsedCommands {
 
   buildAsyncTree (curIndex = 1, tree = this.parsedCommands[0]) {
     if (this.parsedCommands.length === 0) {
-      return new EmptyAsyncObject()
+      return new EmptyAsyncObject(this.values)
     }
     const curCommand = this.parsedCommands[curIndex]
     if (this.parsedCommands.length === curIndex) {

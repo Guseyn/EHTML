@@ -58,9 +58,14 @@ function (_HTMLTunedElement) {
       return ['data-src', 'data-headers'];
     }
   }, {
+    key: "supportedActions",
+    value: function supportedActions() {
+      return [];
+    }
+  }, {
     key: "render",
     value: function render() {
-      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).after(this.actions()).call();
     }
   }], [{
     key: "observedAttributes",

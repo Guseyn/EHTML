@@ -61,9 +61,9 @@
       data-redirect-url="/../google"
       data-cookiepolicy="single_host_origin"
       data-scope="profile"
-      data-local-storage-jwt-key="jwt"
-      data-response-jwt-key="jwt"
-      data-request-token-key="googleToken">
+      data-request-token-key="googleToken"
+      data-object="responseWithToken"
+      data-actions="saveToLocalStorage(jwt, ${responseWithToken.jwt})">
         <span id="google-icon" class="icon"></span>
         <span class="buttonText">Sign in with Google</span>
     </e-google-oauth-button>

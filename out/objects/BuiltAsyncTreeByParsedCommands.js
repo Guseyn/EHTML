@@ -11,10 +11,11 @@ var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
 var BuiltAsyncTreeByParsedCommands =
 /*#__PURE__*/
 function () {
-  function BuiltAsyncTreeByParsedCommands(parsedCommands) {
+  function BuiltAsyncTreeByParsedCommands(parsedCommands, values) {
     _classCallCheck(this, BuiltAsyncTreeByParsedCommands);
 
     this.parsedCommands = parsedCommands;
+    this.values = values;
   }
 
   _createClass(BuiltAsyncTreeByParsedCommands, [{
@@ -29,7 +30,7 @@ function () {
       var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.parsedCommands[0];
 
       if (this.parsedCommands.length === 0) {
-        return new EmptyAsyncObject();
+        return new EmptyAsyncObject(this.values);
       }
 
       var curCommand = this.parsedCommands[curIndex];

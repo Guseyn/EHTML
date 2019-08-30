@@ -66,7 +66,10 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
 
   applyValuesInAttribute (element, attrName, values) {
     const attr = element.getAttribute(attrName)
-    element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value())
+    element.setAttribute(
+      attrName,
+      new ParamWithAppliedValues(attr, values).value()
+    )
   }
 
   hasParamsInAttributeToApply (element, attrName) {

@@ -2,19 +2,40 @@
 
 const { browserified } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const { Value } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
-const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
+const { TheSameObjectWithValue } = browserified(require('@cuties/object'))
 const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
 class EGoogleOauthButton extends HTMLTunedElement {
   constructor () {
     super()
+    this.values = {}
   }
 
   static get observedAttributes () {
-    return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-jwt-key', 'data-request-token-key']
+    return [
+      'data-client-id',
+      'data-cookiepolicy',
+      'data-scope',
+      'data-redirect-url',
+      'data-local-storage-jwt-key'
+    ]
+  }
+
+  supportedActions () {
+    return [
+      'redirect',
+      'saveToLocalStorage',
+      'saveToMemoryStorage',
+      'innerHTML',
+      'applyTextsAndValuesToChildNodes',
+      'hideElms',
+      'showElms',
+      'disableElms',
+      'enableElms',
+      'changeElmsClassName'
+    ]
   }
 
   render () {
@@ -42,10 +63,10 @@ class EGoogleOauthButton extends HTMLTunedElement {
         (googleUser) => {
           const body = {}
           body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
-          new LocalStorageWithSetValue(
-            localStorage,
-            this.getAttribute('data-local-storage-jwt-key') || 'jwt',
-            new Value(
+          this.actions(
+            new TheSameObjectWithValue(
+              this.values,
+              this.getAttribute('data-object'),
               new ParsedJSON(
                 new ResponseBody(
                   new ResponseFromAjaxRequest(
@@ -56,8 +77,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
                     JSON.stringify(body)
                   )
                 )
-              ),
-              this.getAttribute('data-response-jwt-key') || 'jwt'
+              )
             )
           ).call()
         },

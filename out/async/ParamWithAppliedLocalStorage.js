@@ -18,44 +18,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
+var _require = require('@page-libs/cutie'),
+    AsyncObject = _require.AsyncObject;
 
-var EMemoryStorageValue =
+var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+
+var AsyncParamWithAppliedLocalStorage =
 /*#__PURE__*/
-function (_HTMLTunedElement) {
-  _inherits(EMemoryStorageValue, _HTMLTunedElement);
+function (_AsyncObject) {
+  _inherits(AsyncParamWithAppliedLocalStorage, _AsyncObject);
 
-  function EMemoryStorageValue() {
-    _classCallCheck(this, EMemoryStorageValue);
+  function AsyncParamWithAppliedLocalStorage(param) {
+    _classCallCheck(this, AsyncParamWithAppliedLocalStorage);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EMemoryStorageValue).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncParamWithAppliedLocalStorage).call(this, param));
   }
 
-  _createClass(EMemoryStorageValue, [{
-    key: "supportedActions",
-    value: function supportedActions() {
-      return [];
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.name = this.getAttribute('name');
-      this.actions().call();
-    }
-  }, {
-    key: "value",
-    value: function value() {
-      // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(this.getAttribute('data-key'));
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['name', 'data-key'];
+  _createClass(AsyncParamWithAppliedLocalStorage, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (param) {
+        return new ParamWithAppliedLocalStorage(param).value();
+      };
     }
   }]);
 
-  return EMemoryStorageValue;
-}(HTMLTunedElement);
+  return AsyncParamWithAppliedLocalStorage;
+}(AsyncObject);
 
-module.exports = EMemoryStorageValue;
+module.exports = AsyncParamWithAppliedLocalStorage;

@@ -1,22 +1,47 @@
 'use strict'
 
 const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
-const { ResponseFromAjaxRequest } = require('@page-libs/ajax')
 const { browserified } = require('@page-libs/cutie')
-const { CreatedOptions } = browserified(require('@cuties/object'))
-const { ParsedJSON } = require('@cuties/json')
+const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties/object'))
+const { ParsedJSON } = browserified(require('@cuties/json'))
+const ParsedElmSelectors = require('./../objects/ParsedElmSelectors')
 
 class EForm extends HTMLTunedElement {
   constructor () {
     super()
+    this.values = {}
   }
 
   static get observedAttributes () {
-    return ['data-request-url', 'data-request-headers', 'data-request-button-id']
+    return [
+      'data-request-url',
+      'data-request-headers',
+      'data-request-button-id',
+      'data-actions'
+    ]
   }
 
   attributesWithStorageVariables () {
-    return [ 'data-request-url', 'data-request-headers' ]
+    return [
+      'data-request-url',
+      'data-request-headers'
+    ]
+  }
+
+  supportedActions () {
+    return [
+      'redirect',
+      'saveToLocalStorage',
+      'saveToMemoryStorage',
+      'innerHTML',
+      'applyTextsAndValuesToChildNodes',
+      'hideElms',
+      'showElms',
+      'disableElms',
+      'enableElms',
+      'changeElmsClassName'
+    ]
   }
 
   render () {
@@ -26,7 +51,7 @@ class EForm extends HTMLTunedElement {
     const textareas = this.getElementsByTagName('textarea')
     const localStorageValues = this.getElementsByTagName('e-local-storage-value')
     const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
-    const requestButton = this.parseElmSelectors(this.getAttribute('data-request-button-id'))[0]
+    const requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0]
     const requestBody = {}
     this.tuneFileInputs(fileInputs, requestBody, requestButton)
     requestButton.addEventListener('click', () => {
@@ -35,17 +60,25 @@ class EForm extends HTMLTunedElement {
       this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
       this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
       this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
-      new ResponseFromAjaxRequest(
-        new CreatedOptions(
-          'url', this.getAttribute('data-request-url'),
-          'headers', new ParsedJSON(
-            this.getAttribute('data-request-headers') || '{}'
-          ),
-          'method', 'POST'
-        ),
-        JSON.stringify(requestBody)
-      ).after(
-        // TODO: action attribute
+      this.actions(
+        new TheSameObjectWithValue(
+          this.values,
+          this.getAttribute('data-object'),
+          new ParsedJSON(
+            new ResponseBody(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', this.getAttribute('data-request-url'),
+                  'headers', new ParsedJSON(
+                    this.getAttribute('data-request-headers') || '{}'
+                  ),
+                  'method', 'POST'
+                ),
+                JSON.stringify(requestBody)
+              )
+            )
+          )
+        )
       ).call()
     })
   }

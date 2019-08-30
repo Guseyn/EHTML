@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('@cuties/cutie'),
+var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
 var EmptyAsyncObject =
@@ -26,16 +26,16 @@ var EmptyAsyncObject =
 function (_AsyncObject) {
   _inherits(EmptyAsyncObject, _AsyncObject);
 
-  function EmptyAsyncObject() {
+  function EmptyAsyncObject(values) {
     _classCallCheck(this, EmptyAsyncObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this, values));
   }
 
   _createClass(EmptyAsyncObject, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {};
+      return function (values) {};
     }
   }]);
 
