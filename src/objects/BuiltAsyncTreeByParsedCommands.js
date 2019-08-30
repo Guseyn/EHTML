@@ -12,16 +12,15 @@ class BuiltAsyncTreeByParsedCommands {
     return this.buildAsyncTree()
   }
 
-  buildAsyncTree (curIndex = 1, tree = this.parsedCommands[0]) {
+  buildAsyncTree (curIndex = 0) {
     if (this.parsedCommands.length === 0) {
       return new EmptyAsyncObject(this.values)
     }
-    const curCommand = this.parsedCommands[curIndex]
     if (this.parsedCommands.length === curIndex) {
-      return tree
+      return this.parsedCommands[0]
     } else {
-      tree.after(curCommand)
-      return this.buildAsyncTree(this.parsedCommands, curIndex + 1, tree)
+      this.parsedCommands[curIndex].after(this.parsedCommands[curIndex + 1])
+      return this.buildAsyncTree(curIndex + 1)
     }
   }
 }
