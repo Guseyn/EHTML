@@ -22,7 +22,6 @@ class EHTML extends HTMLTunedElement {
   }
 
   render () {
-    console.log('ok2')
     new UnwrappedChildrenOfParent(
       new ElementWithInnerHTML(
         this, new ResponseBody(

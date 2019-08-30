@@ -6,19 +6,62 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+var ParamWithAppliedValues = require('./ParamWithAppliedValues');
 
-var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+var ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage');
 
-var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
+var ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage');
 
 var paramRegExp = /\$\{([^{}]+|\S*)\}/g;
+
+var ParamWithAppliedValues2 =
+/*#__PURE__*/
+function () {
+  function ParamWithAppliedValues2(param, values) {
+    _classCallCheck(this, ParamWithAppliedValues2);
+
+    this.param = param;
+    this.values = values;
+  }
+
+  _createClass(ParamWithAppliedValues2, [{
+    key: "value",
+    value: function value() {
+      var _this = this;
+
+      return this.param.replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          return _this.valueOf(_this.values, p1.split('.'));
+        } catch (e) {
+          return match;
+        }
+      });
+    }
+  }, {
+    key: "valueOf",
+    value: function valueOf(values, pathParts) {
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+      if (pathParts.length === 0) {
+        return '';
+      }
+
+      if (pathParts.length - 1 === index) {
+        return values[pathParts[index]];
+      } else {
+        return this.valueOf(values[pathParts[index]], pathParts, index + 1);
+      }
+    }
+  }]);
+
+  return ParamWithAppliedValues2;
+}();
 
 var Element =
 /*#__PURE__*/
 function () {
   function Element(element) {
-    var _this = this;
+    var _this2 = this;
 
     _classCallCheck(this, Element);
 
@@ -27,15 +70,15 @@ function () {
         attrNames[_key] = arguments[_key];
       }
 
-      _this.applyStorageVariablesInAttributes.apply(_this, [element].concat(attrNames));
+      _this2.applyStorageVariablesInAttributes.apply(_this2, [element].concat(attrNames));
     };
 
     element.applyValuesInAttribute = function (attrName, values) {
-      _this.applyValuesInAttribute(element, attrName, values);
+      _this2.applyValuesInAttribute(element, attrName, values);
     };
 
     element.hasParamsInAttributeToApply = function (attrName) {
-      return _this.hasParamsInAttributeToApply(element, attrName);
+      return _this2.hasParamsInAttributeToApply(element, attrName);
     };
 
     return element;
@@ -60,7 +103,7 @@ function () {
     key: "applyValuesInAttribute",
     value: function applyValuesInAttribute(element, attrName, values) {
       var attr = element.getAttribute(attrName);
-      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+      element.setAttribute(attrName, new ParamWithAppliedValues2(attr, values).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",

@@ -6400,7 +6400,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var Element = require('./../objects/Element');
+var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+
+var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+
+var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
 
 var ElementWithAppliedDataTextAndValueAttributesForChildNodes =
 /*#__PURE__*/
@@ -6428,23 +6432,21 @@ function (_AsyncObject) {
       var _this2 = this;
 
       element.childNodes.forEach(function (child) {
-        child = new Element(child);
-
         if (child.getAttribute) {
-          child.applyStorageVariablesInAttributes('data-text', 'data-value');
+          _this2.applyStorageVariablesInAttributes(child, 'data-text', 'data-value');
 
           if (child.getAttribute('data-text')) {
-            child.applyValuesInAttribute('data-text', values);
+            _this2.applyValuesInAttribute(child, 'data-text', values);
 
-            if (!child.hasParamsInAttributeToApply('data-text')) {
+            if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
               _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
               child.removeAttribute('data-text');
             }
           } else if (child.getAttribute('data-value')) {
-            child.applyValuesInAttribute('data-value', values);
+            _this2.applyValuesInAttribute(child, 'data-value', values);
 
-            if (!child.hasParamsInAttributeToApply('data-value')) {
+            if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
               child.value = child.getAttribute('data-value');
               child.removeAttribute('data-value');
             }
@@ -6466,6 +6468,32 @@ function (_AsyncObject) {
         elm.insertBefore(textNode, elm.childNodes[0]);
       }
     }
+  }, {
+    key: "applyStorageVariablesInAttributes",
+    value: function applyStorageVariablesInAttributes(element) {
+      for (var _len = arguments.length, attrNames = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        attrNames[_key - 1] = arguments[_key];
+      }
+
+      attrNames.forEach(function (attrName) {
+        var attr = element.getAttribute(attrName);
+
+        if (attr) {
+          element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(attr).value()).value());
+        }
+      });
+    }
+  }, {
+    key: "applyValuesInAttribute",
+    value: function applyValuesInAttribute(element, attrName, values) {
+      var attr = element.getAttribute(attrName);
+      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+    }
+  }, {
+    key: "hasParamsInAttributeToApply",
+    value: function hasParamsInAttributeToApply(element, attrName) {
+      return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName));
+    }
   }]);
 
   return ElementWithAppliedDataTextAndValueAttributesForChildNodes;
@@ -6473,7 +6501,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithAppliedDataTextAndValueAttributesForChildNodes;
 
-},{"./../objects/Element":171,"@page-libs/cutie":131}],149:[function(require,module,exports){
+},{"./../objects/ParamWithAppliedLocalStorage":172,"./../objects/ParamWithAppliedMemoryStorage":173,"./../objects/ParamWithAppliedValues":174,"@page-libs/cutie":131}],149:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7442,7 +7470,6 @@ function (_HTMLTunedElement) {
   }, {
     key: "render",
     value: function render() {
-      console.log('ok2');
       new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
   }], [{
@@ -7890,15 +7917,17 @@ var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../as
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
 
+var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
+
 var BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands');
 
-var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
+var ParsedElmSelectors = require('./ParsedElmSelectors');
 
-var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+var ParamWithAppliedValues = require('./ParamWithAppliedValues');
 
-var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+var ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage');
 
-var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
+var ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage');
 
 var Actions =
 /*#__PURE__*/
@@ -7918,6 +7947,10 @@ function () {
       var _this = this;
 
       // act1(p1, p2); act(q1, q2); ...
+      if (!this.actionsCommand) {
+        return new EmptyAsyncObject();
+      }
+
       var commands = this.actionsCommand.split(';').map(function (command) {
         return command.trim();
       });
@@ -7943,11 +7976,11 @@ function () {
             break;
 
           case 'saveToMemoryStorage':
-            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value()));
+            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value()));
             break;
 
           case 'innerHTML':
-            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values))).value()));
+            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values).value()).value()).value(), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values).value()).value()).value()));
             break;
 
           case 'applyTextsAndValuesToChildNodes':
@@ -8046,7 +8079,7 @@ function () {
 
 module.exports = Actions;
 
-},{"./../async/DisabledElements":147,"./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes":148,"./../async/ElementsWithChangedClass":149,"./../async/EnabledElements":151,"./../async/HiddenElements":152,"./../async/LocalStorageWithSetValue":153,"./../async/MemoryStorageWithSetValue":154,"./../async/RedirectAction":155,"./../async/ShownElements":156,"./../objects/BuiltAsyncTreeByParsedCommands":170,"./../objects/ParamWithAppliedLocalStorage":172,"./../objects/ParamWithAppliedMemoryStorage":173,"./../objects/ParamWithAppliedValues":174,"./../objects/ParsedElmSelectors":175,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131,"@page-libs/dom":141}],170:[function(require,module,exports){
+},{"./../async/DisabledElements":147,"./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes":148,"./../async/ElementsWithChangedClass":149,"./../async/EmptyAsyncObject":150,"./../async/EnabledElements":151,"./../async/HiddenElements":152,"./../async/LocalStorageWithSetValue":153,"./../async/MemoryStorageWithSetValue":154,"./../async/RedirectAction":155,"./../async/ShownElements":156,"./../objects/BuiltAsyncTreeByParsedCommands":170,"./ParamWithAppliedLocalStorage":172,"./ParamWithAppliedMemoryStorage":173,"./ParamWithAppliedValues":174,"./ParsedElmSelectors":175,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131,"@page-libs/dom":141}],170:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8106,19 +8139,62 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues');
+var ParamWithAppliedValues = require('./ParamWithAppliedValues');
 
-var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+var ParamWithAppliedLocalStorage = require('./ParamWithAppliedLocalStorage');
 
-var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
+var ParamWithAppliedMemoryStorage = require('./ParamWithAppliedMemoryStorage');
 
 var paramRegExp = /\$\{([^{}]+|\S*)\}/g;
+
+var ParamWithAppliedValues2 =
+/*#__PURE__*/
+function () {
+  function ParamWithAppliedValues2(param, values) {
+    _classCallCheck(this, ParamWithAppliedValues2);
+
+    this.param = param;
+    this.values = values;
+  }
+
+  _createClass(ParamWithAppliedValues2, [{
+    key: "value",
+    value: function value() {
+      var _this = this;
+
+      return this.param.replace(paramRegExp, function (match, p1, offset, string) {
+        try {
+          return _this.valueOf(_this.values, p1.split('.'));
+        } catch (e) {
+          return match;
+        }
+      });
+    }
+  }, {
+    key: "valueOf",
+    value: function valueOf(values, pathParts) {
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+      if (pathParts.length === 0) {
+        return '';
+      }
+
+      if (pathParts.length - 1 === index) {
+        return values[pathParts[index]];
+      } else {
+        return this.valueOf(values[pathParts[index]], pathParts, index + 1);
+      }
+    }
+  }]);
+
+  return ParamWithAppliedValues2;
+}();
 
 var Element =
 /*#__PURE__*/
 function () {
   function Element(element) {
-    var _this = this;
+    var _this2 = this;
 
     _classCallCheck(this, Element);
 
@@ -8127,15 +8203,15 @@ function () {
         attrNames[_key] = arguments[_key];
       }
 
-      _this.applyStorageVariablesInAttributes.apply(_this, [element].concat(attrNames));
+      _this2.applyStorageVariablesInAttributes.apply(_this2, [element].concat(attrNames));
     };
 
     element.applyValuesInAttribute = function (attrName, values) {
-      _this.applyValuesInAttribute(element, attrName, values);
+      _this2.applyValuesInAttribute(element, attrName, values);
     };
 
     element.hasParamsInAttributeToApply = function (attrName) {
-      return _this.hasParamsInAttributeToApply(element, attrName);
+      return _this2.hasParamsInAttributeToApply(element, attrName);
     };
 
     return element;
@@ -8160,7 +8236,7 @@ function () {
     key: "applyValuesInAttribute",
     value: function applyValuesInAttribute(element, attrName, values) {
       var attr = element.getAttribute(attrName);
-      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+      element.setAttribute(attrName, new ParamWithAppliedValues2(attr, values).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",
@@ -8174,7 +8250,7 @@ function () {
 
 module.exports = Element;
 
-},{"./../objects/ParamWithAppliedLocalStorage":172,"./../objects/ParamWithAppliedMemoryStorage":173,"./../objects/ParamWithAppliedValues":174}],172:[function(require,module,exports){
+},{"./ParamWithAppliedLocalStorage":172,"./ParamWithAppliedMemoryStorage":173,"./ParamWithAppliedValues":174}],172:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8256,20 +8332,31 @@ function () {
 
     this.param = param;
     this.values = values;
-    this.paramRegExp = /\$\{([^{}]+|\S*)\}/g;
   }
 
   _createClass(ParamWithAppliedValues, [{
     key: "value",
     value: function value() {
-      return this.param.replace(this.paramRegExp, function (match, p1, offset, string) {
+      var _this = this;
+
+      return this.param.replace(/\$\{([^{}]+|\S*)\}/g, function (match, p1, offset, string) {
         try {
-          // eslint-disable-next-line no-eval
-          return eval("this.values.".concat(p1));
+          return _this.valueOf(_this.values, p1.split('.'));
         } catch (e) {
           return match;
         }
       });
+    }
+  }, {
+    key: "valueOf",
+    value: function valueOf(values, pathParts) {
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+      if (pathParts.length - 1 === index) {
+        return values[pathParts[index]];
+      } else {
+        return this.valueOf(values[pathParts[index]], pathParts, index + 1);
+      }
     }
   }]);
 
