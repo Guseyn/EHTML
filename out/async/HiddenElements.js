@@ -26,26 +26,16 @@ var HiddenElms =
 function (_AsyncObject) {
   _inherits(HiddenElms, _AsyncObject);
 
-  function HiddenElms() {
-    var _getPrototypeOf2;
-
+  function HiddenElms(elms) {
     _classCallCheck(this, HiddenElms);
 
-    for (var _len = arguments.length, elms = new Array(_len), _key = 0; _key < _len; _key++) {
-      elms[_key] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(HiddenElms)).call.apply(_getPrototypeOf2, [this].concat(elms)));
+    return _possibleConstructorReturn(this, _getPrototypeOf(HiddenElms).call(this, elms));
   }
 
   _createClass(HiddenElms, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {
-        for (var _len2 = arguments.length, elms = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          elms[_key2] = arguments[_key2];
-        }
-
+      return function (elms) {
         elms.forEach(function (elm) {
           elm.style.display = 'none';
         });

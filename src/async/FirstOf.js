@@ -2,18 +2,16 @@
 
 const { AsyncObject } = require('@page-libs/cutie')
 
-class DisabledElements extends AsyncObject {
+class FirstOf extends AsyncObject {
   constructor (elms) {
     super(elms)
   }
 
   syncCall () {
     return (elms) => {
-      elms.forEach(elm => {
-        elm.setAttribute('disabled', true)
-      })
+      return elms[0]
     }
   }
 }
 
-module.exports = DisabledElements
+module.exports = FirstOf

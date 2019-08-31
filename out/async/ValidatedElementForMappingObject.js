@@ -21,30 +21,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var ShownElms =
+var ValidatedElementForMappingObject =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ShownElms, _AsyncObject);
+  _inherits(ValidatedElementForMappingObject, _AsyncObject);
 
-  function ShownElms(elms) {
-    _classCallCheck(this, ShownElms);
+  function ValidatedElementForMappingObject(elm) {
+    _classCallCheck(this, ValidatedElementForMappingObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ShownElms).call(this, elms));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ValidatedElementForMappingObject).call(this, elm));
   }
 
-  _createClass(ShownElms, [{
+  _createClass(ValidatedElementForMappingObject, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (elms) {
-        elms.forEach(function (elm) {
-          elm.style.display = '';
-        });
-        return elms;
+      return function (elm) {
+        if (!elm.getAttribute('name') && !elm.getAttribute('data-object')) {
+          throw new Error("elm ".concat(elm, " must have attribute name, so you can know what object it encapsulates"));
+        }
+
+        return elm;
       };
     }
   }]);
 
-  return ShownElms;
+  return ValidatedElementForMappingObject;
 }(AsyncObject);
 
-module.exports = ShownElms;
+module.exports = ValidatedElementForMappingObject;

@@ -44,7 +44,8 @@ function (_AsyncObject) {
       var _this = this;
 
       return function (element, values) {
-        return _this.applyValuesToChildren(element, values);
+        var nameAttr = element.getAttribute('name');
+        return _this.applyValuesToChildren(element, nameAttr ? _this.valuesWithNewKey(values, nameAttr) : values);
       };
     }
   }, {
@@ -54,22 +55,24 @@ function (_AsyncObject) {
 
       element.childNodes.forEach(function (child) {
         if (child.getAttribute) {
-          _this2.applyStorageVariablesInAttributes(child, 'data-text', 'data-value');
+          for (var i = 0; i < child.attributes.length; i++) {
+            var attrName = child.attributes[i].name;
 
-          if (child.getAttribute('data-text')) {
-            _this2.applyValuesInAttribute(child, 'data-text', values);
+            _this2.applyStorageVariablesInAttributes(child, attrName);
 
-            if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
-              _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
+            _this2.applyValuesInAttribute(child, attrName, values);
 
-              child.removeAttribute('data-text');
-            }
-          } else if (child.getAttribute('data-value')) {
-            _this2.applyValuesInAttribute(child, 'data-value', values);
+            if (attrName === 'data-text') {
+              if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
+                _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
-            if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
-              child.value = child.getAttribute('data-value');
-              child.removeAttribute('data-value');
+                child.removeAttribute('data-text');
+              }
+            } else if (attrName === 'data-value') {
+              if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
+                child.value = child.getAttribute('data-value');
+                child.removeAttribute('data-value');
+              }
             }
           }
 
@@ -114,6 +117,14 @@ function (_AsyncObject) {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
       return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName));
+    }
+  }, {
+    key: "valuesWithNewKey",
+    value: function valuesWithNewKey(values, newKey) {
+      var oldKey = Object.keys(values)[0];
+      var newValues = {};
+      newValues[newKey] = values[oldKey];
+      return newValues;
     }
   }]);
 

@@ -12,25 +12,33 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
 
   syncCall () {
     return (element, values) => {
-      return this.applyValuesToChildren(element, values)
+      const nameAttr = element.getAttribute('name')
+      return this.applyValuesToChildren(
+        element,
+        nameAttr
+          ? this.valuesWithNewKey(values, nameAttr)
+          : values
+      )
     }
   }
 
   applyValuesToChildren (element, values) {
     element.childNodes.forEach(child => {
       if (child.getAttribute) {
-        this.applyStorageVariablesInAttributes(child, 'data-text', 'data-value')
-        if (child.getAttribute('data-text')) {
-          this.applyValuesInAttribute(child, 'data-text', values)
-          if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
-            this.insertTextIntoElm(child, child.getAttribute('data-text'))
-            child.removeAttribute('data-text')
-          }
-        } else if (child.getAttribute('data-value')) {
-          this.applyValuesInAttribute(child, 'data-value', values)
-          if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
-            child.value = child.getAttribute('data-value')
-            child.removeAttribute('data-value')
+        for (let i = 0; i < child.attributes.length; i++) {
+          const attrName = child.attributes[i].name
+          this.applyStorageVariablesInAttributes(child, attrName)
+          this.applyValuesInAttribute(child, attrName, values)
+          if (attrName === 'data-text') {
+            if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
+              this.insertTextIntoElm(child, child.getAttribute('data-text'))
+              child.removeAttribute('data-text')
+            }
+          } else if (attrName === 'data-value') {
+            if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
+              child.value = child.getAttribute('data-value')
+              child.removeAttribute('data-value')
+            }
           }
         }
         this.applyValuesToChildren(child, values)
@@ -74,6 +82,13 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
 
   hasParamsInAttributeToApply (element, attrName) {
     return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName))
+  }
+
+  valuesWithNewKey (values, newKey) {
+    const oldKey = Object.keys(values)[0]
+    const newValues = {}
+    newValues[newKey] = values[oldKey]
+    return newValues
   }
 }
 

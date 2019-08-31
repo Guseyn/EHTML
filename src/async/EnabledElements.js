@@ -3,12 +3,12 @@
 const { AsyncObject } = require('@page-libs/cutie')
 
 class EnabledElements extends AsyncObject {
-  constructor (...elms) {
-    super(...elms)
+  constructor (elms) {
+    super(elms)
   }
 
   syncCall () {
-    return (...elms) => {
+    return (elms) => {
       elms.forEach(elm => {
         elm.removeAttribute('disabled')
       })

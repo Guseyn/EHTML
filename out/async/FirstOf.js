@@ -21,30 +21,27 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var ShownElms =
+var FirstOf =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ShownElms, _AsyncObject);
+  _inherits(FirstOf, _AsyncObject);
 
-  function ShownElms(elms) {
-    _classCallCheck(this, ShownElms);
+  function FirstOf(elms) {
+    _classCallCheck(this, FirstOf);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ShownElms).call(this, elms));
+    return _possibleConstructorReturn(this, _getPrototypeOf(FirstOf).call(this, elms));
   }
 
-  _createClass(ShownElms, [{
+  _createClass(FirstOf, [{
     key: "syncCall",
     value: function syncCall() {
       return function (elms) {
-        elms.forEach(function (elm) {
-          elm.style.display = '';
-        });
-        return elms;
+        return elms[0];
       };
     }
   }]);
 
-  return ShownElms;
+  return FirstOf;
 }(AsyncObject);
 
-module.exports = ShownElms;
+module.exports = FirstOf;
