@@ -3,12 +3,12 @@
 const { AsyncObject } = require('@page-libs/cutie')
 
 class HiddenElms extends AsyncObject {
-  constructor (...elms) {
-    super(...elms)
+  constructor (elms) {
+    super(elms)
   }
 
   syncCall () {
-    return (...elms) => {
+    return (elms) => {
       elms.forEach(elm => {
         elm.style.display = 'none'
       })

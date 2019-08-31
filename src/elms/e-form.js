@@ -6,6 +6,7 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const ParsedElmSelectors = require('./../objects/ParsedElmSelectors')
+const FileInfo = require('./../objects/FileInfo')
 
 class EForm extends HTMLTunedElement {
   constructor () {
@@ -35,6 +36,7 @@ class EForm extends HTMLTunedElement {
       'saveToLocalStorage',
       'saveToMemoryStorage',
       'innerHTML',
+      'addHTMLTo',
       'applyTextsAndValuesToChildNodes',
       'hideElms',
       'showElms',
@@ -53,32 +55,32 @@ class EForm extends HTMLTunedElement {
     const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
     const requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0]
     const requestBody = {}
-    this.tuneFileInputs(fileInputs, requestBody, requestButton)
+    this.tuneFileInputs(fileInputs, requestButton)
     requestButton.addEventListener('click', () => {
       this.retrievedValuesFromInputsForRequestBody(inputs, requestBody)
       this.retrievedValuesFromSelectsForRequestBody(selects, requestBody)
       this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
       this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
       this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
-      this.actions(
-        new TheSameObjectWithValue(
-          this.values,
-          this.getAttribute('data-object'),
-          new ParsedJSON(
-            new ResponseBody(
-              new ResponseFromAjaxRequest(
-                new CreatedOptions(
-                  'url', this.getAttribute('data-request-url'),
-                  'headers', new ParsedJSON(
-                    this.getAttribute('data-request-headers') || '{}'
-                  ),
-                  'method', 'POST'
+      new TheSameObjectWithValue(
+        this.values,
+        this.getAttribute('data-object'),
+        new ParsedJSON(
+          new ResponseBody(
+            new ResponseFromAjaxRequest(
+              new CreatedOptions(
+                'url', this.getAttribute('data-request-url'),
+                'headers', new ParsedJSON(
+                  this.getAttribute('data-request-headers') || '{}'
                 ),
-                JSON.stringify(requestBody)
-              )
+                'method', 'POST'
+              ),
+              JSON.stringify(requestBody)
             )
           )
         )
+      ).after(
+        this.actions(this.values)
       ).call()
     })
   }
@@ -93,6 +95,10 @@ class EForm extends HTMLTunedElement {
         if (input.checked) {
           requestBody[input.name] = input.value
         }
+      } else if (input.type.toLowerCase() === 'checkbox') {
+        requestBody[input.name] = input.checked
+      } else if (input.type.toLowerCase() === 'file') {
+        requestBody[input.name] = input.filesInfo
       } else {
         requestBody[input.name] = input.value
       }
@@ -139,35 +145,40 @@ class EForm extends HTMLTunedElement {
     }
   }
 
-  tuneFileInputs (fileInputs, requestBody, requestButton) {
+  tuneFileInputs (fileInputs, requestButton) {
     for (let index = 0; index < fileInputs.length; index++) {
-      this.tuneFileInput(fileInputs[index], requestBody, requestButton)
+      this.tuneFileInput(fileInputs[index], requestButton)
     }
   }
 
-  tuneFileInput (fileInput, requestBody, requestButton) {
+  tuneFileInput (fileInput, requestButton) {
     fileInput.addEventListener('change', () => {
-      this.readFilesContentForRequestBody(fileInput, requestBody, requestButton)
+      this.readFilesContentForRequestBody(fileInput, requestButton)
     })
   }
 
-  readFilesContentForRequestBody (fileInput, requestBody, requestButton) {
-    requestBody[fileInput.name] = []
+  readFilesContentForRequestBody (fileInput, requestButton) {
+    fileInput.filesInfo = []
     for (let index = 0; index < fileInput.files.length; index++) {
-      this.readFileContentForRequestBody(fileInput, requestBody, requestButton, index)
+      this.readFileContentForRequestBody(fileInput, requestButton, index)
     }
   }
 
-  readFileContentForRequestBody (fileInput, requestBody, requestButton, index) {
+  readFileContentForRequestBody (fileInput, requestButton, index) {
     const file = fileInput.files[index]
     const reader = new FileReader()
-    reader.readAsArrayBuffer(file)
+    reader.readAsDataURL(file)
     reader.onloadstart = () => {
       requestButton.setAttribute('disabled', true)
     }
     reader.onload = () => {
-      file.content = reader.result
-      requestBody[fileInput.name][index] = file
+      fileInput.filesInfo[index] = new FileInfo(
+        file.name,
+        file.size,
+        file.type,
+        reader.result,
+        file.lastModifiedDate
+      )
       requestButton.removeAttribute('disabled')
     }
     reader.onabort = () => {

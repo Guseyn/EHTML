@@ -62,7 +62,7 @@ function (_HTMLElement) {
   }, {
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "actions",

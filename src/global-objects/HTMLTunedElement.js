@@ -21,6 +21,7 @@ class HTMLTunedElement extends HTMLElement {
       'saveToLocalStorage',
       'saveToMemoryStorage',
       'innerHTML',
+      'addHTML',
       'applyTextsAndValuesToChildNodes',
       'hideElms',
       'showElms',

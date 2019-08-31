@@ -36,6 +36,8 @@ var _browserified2 = browserified(require('@cuties/json')),
 
 var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
 
+var FileInfo = require('./../objects/FileInfo');
+
 var EForm =
 /*#__PURE__*/
 function (_HTMLTunedElement) {
@@ -59,7 +61,7 @@ function (_HTMLTunedElement) {
   }, {
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "render",
@@ -74,7 +76,7 @@ function (_HTMLTunedElement) {
       var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
       var requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0];
       var requestBody = {};
-      this.tuneFileInputs(fileInputs, requestBody, requestButton);
+      this.tuneFileInputs(fileInputs, requestButton);
       requestButton.addEventListener('click', function () {
         _this2.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
 
@@ -86,7 +88,7 @@ function (_HTMLTunedElement) {
 
         _this2.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        _this2.actions(new TheSameObjectWithValue(_this2.values, _this2.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this2.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this2.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody)))))).call();
+        new TheSameObjectWithValue(_this2.values, _this2.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this2.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this2.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody))))).after(_this2.actions(_this2.values)).call();
       });
     }
   }, {
@@ -103,6 +105,10 @@ function (_HTMLTunedElement) {
           if (input.checked) {
             requestBody[input.name] = input.value;
           }
+        } else if (input.type.toLowerCase() === 'checkbox') {
+          requestBody[input.name] = input.checked;
+        } else if (input.type.toLowerCase() === 'file') {
+          requestBody[input.name] = input.filesInfo;
         } else {
           requestBody[input.name] = input.value;
         }
@@ -162,43 +168,42 @@ function (_HTMLTunedElement) {
     }
   }, {
     key: "tuneFileInputs",
-    value: function tuneFileInputs(fileInputs, requestBody, requestButton) {
+    value: function tuneFileInputs(fileInputs, requestButton) {
       for (var index = 0; index < fileInputs.length; index++) {
-        this.tuneFileInput(fileInputs[index], requestBody, requestButton);
+        this.tuneFileInput(fileInputs[index], requestButton);
       }
     }
   }, {
     key: "tuneFileInput",
-    value: function tuneFileInput(fileInput, requestBody, requestButton) {
+    value: function tuneFileInput(fileInput, requestButton) {
       var _this3 = this;
 
       fileInput.addEventListener('change', function () {
-        _this3.readFilesContentForRequestBody(fileInput, requestBody, requestButton);
+        _this3.readFilesContentForRequestBody(fileInput, requestButton);
       });
     }
   }, {
     key: "readFilesContentForRequestBody",
-    value: function readFilesContentForRequestBody(fileInput, requestBody, requestButton) {
-      requestBody[fileInput.name] = [];
+    value: function readFilesContentForRequestBody(fileInput, requestButton) {
+      fileInput.filesInfo = [];
 
       for (var index = 0; index < fileInput.files.length; index++) {
-        this.readFileContentForRequestBody(fileInput, requestBody, requestButton, index);
+        this.readFileContentForRequestBody(fileInput, requestButton, index);
       }
     }
   }, {
     key: "readFileContentForRequestBody",
-    value: function readFileContentForRequestBody(fileInput, requestBody, requestButton, index) {
+    value: function readFileContentForRequestBody(fileInput, requestButton, index) {
       var file = fileInput.files[index];
       var reader = new FileReader();
-      reader.readAsArrayBuffer(file);
+      reader.readAsDataURL(file);
 
       reader.onloadstart = function () {
         requestButton.setAttribute('disabled', true);
       };
 
       reader.onload = function () {
-        file.content = reader.result;
-        requestBody[fileInput.name][index] = file;
+        fileInput.filesInfo[index] = new FileInfo(file.name, file.size, file.type, reader.result, file.lastModifiedDate);
         requestButton.removeAttribute('disabled');
       };
 

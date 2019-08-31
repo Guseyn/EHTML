@@ -37,6 +37,7 @@ class EJSON extends HTMLTunedElement {
       'saveToLocalStorage',
       'saveToMemoryStorage',
       'innerHTML',
+      'addHTMLTo',
       'applyTextsAndValuesToChildNodes',
       'hideElms',
       'showElms',
@@ -47,27 +48,27 @@ class EJSON extends HTMLTunedElement {
   }
 
   render () {
-    this.actions(
-      new TheSameObjectWithValue(
-        this.values,
-        this.getAttribute('data-object'),
-        new ParsedJSON(
-          new StringFromBuffer(
-            new ResponseBody(
-              new ResponseFromAjaxRequest(
-                new CreatedOptions(
-                  'url', this.getAttribute('data-src'),
-                  'method', this.getAttribute('data-method') || 'GET',
-                  'headers', new ParsedJSON(
-                    this.getAttribute('data-headers') || '{}'
-                  )
-                ),
-                this.getAttribute('data-request-body')
-              )
+    new TheSameObjectWithValue(
+      this.values,
+      this.getAttribute('data-object'),
+      new ParsedJSON(
+        new StringFromBuffer(
+          new ResponseBody(
+            new ResponseFromAjaxRequest(
+              new CreatedOptions(
+                'url', this.getAttribute('data-src'),
+                'method', this.getAttribute('data-method') || 'GET',
+                'headers', new ParsedJSON(
+                  this.getAttribute('data-headers') || '{}'
+                )
+              ),
+              this.getAttribute('data-request-body')
             )
           )
         )
       )
+    ).after(
+      this.actions(this.values)
     ).call()
   }
 }

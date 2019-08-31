@@ -21,7 +21,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -31,7 +32,10 @@ var _require2 = require('@page-libs/ajax'),
     ResponseBody = _require2.ResponseBody;
 
 var _require3 = require('@page-libs/dom'),
-    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
+    ElementWithInnerHTML = _require3.ElementWithInnerHTML,
+    ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML;
+
+var ValidatedElementForMappingObject = require('./../async/ValidatedElementForMappingObject');
 
 var RedirectAction = require('./../async/RedirectAction');
 
@@ -55,7 +59,9 @@ var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
 
 var BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands');
 
-var ParsedElmSelectors = require('./ParsedElmSelectors');
+var FirstOf = require('./../async/FirstOf');
+
+var ParsedElmSelectors = require('./../async/ParsedElmSelectors');
 
 var ParamWithAppliedValues = require('./../async/ParamWithAppliedValues');
 
@@ -89,6 +95,8 @@ function () {
 
       var commands = this.actionsCommand.split(';').map(function (command) {
         return command.trim();
+      }).filter(function (command) {
+        return command.length !== 0;
       });
       var parsedCommands = [];
       commands.forEach(function (command) {
@@ -99,7 +107,7 @@ function () {
         }
 
         var commandParams = command.replace(')', '').split("".concat(commandName, "("))[1].split(',').map(function (param) {
-          return param.trim();
+          return new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(param, values))));
         });
 
         switch (commandName) {
@@ -108,15 +116,19 @@ function () {
             break;
 
           case 'saveToLocalStorage':
-            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))))));
+            parsedCommands.push(_this.saveToLocalStorage(commandParams[0], commandParams[1]));
             break;
 
           case 'saveToMemoryStorage':
-            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))))));
+            parsedCommands.push(_this.saveToMemoryStorage(commandParams[0], commandParams[1]));
             break;
 
           case 'innerHTML':
-            parsedCommands.push(_this.innerHTML(commandParams[0], new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[1], values))), new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(commandParams[2], values)))));
+            parsedCommands.push(_this.innerHTML(commandParams[0], commandParams[1], commandParams[2]));
+            break;
+
+          case 'addHTMLTo':
+            parsedCommands.push(_this.addHTMLTo(commandParams[0], commandParams[1], commandParams[2]));
             break;
 
           case 'applyTextsAndValuesToChildNodes':
@@ -161,7 +173,7 @@ function () {
         elmSelectors[_key] = arguments[_key];
       }
 
-      return _construct(HiddenElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
+      return new HiddenElements(_construct(ParsedElmSelectors, elmSelectors));
     }
   }, {
     key: "showElms",
@@ -170,7 +182,7 @@ function () {
         elmSelectors[_key2] = arguments[_key2];
       }
 
-      return _construct(ShownElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
+      return new ShownElements(_construct(ParsedElmSelectors, elmSelectors));
     }
   }, {
     key: "disableElms",
@@ -179,7 +191,7 @@ function () {
         elmSelectors[_key3] = arguments[_key3];
       }
 
-      return _construct(DisabledElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
+      return new DisabledElements(_construct(ParsedElmSelectors, elmSelectors));
     }
   }, {
     key: "enableElms",
@@ -188,17 +200,22 @@ function () {
         elmSelectors[_key4] = arguments[_key4];
       }
 
-      return _construct(EnabledElements, _toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value()));
+      return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
     }
   }, {
     key: "innerHTML",
     value: function innerHTML(elmSelector, url, headers) {
-      return new ElementWithInnerHTML(new ParsedElmSelectors(elmSelector).value()[0], new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+      return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    }
+  }, {
+    key: "addHTMLTo",
+    value: function addHTMLTo(elmSelector, url, headers) {
+      return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
     }
   }, {
     key: "applyTextsAndValuesToChildNodes",
     value: function applyTextsAndValuesToChildNodes(elmSelector, values) {
-      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(new ParsedElmSelectors(elmSelector).value()[0], values);
+      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(new ValidatedElementForMappingObject(new FirstOf(new ParsedElmSelectors(elmSelector))), values);
     }
   }, {
     key: "changeElmsClassName",
@@ -207,7 +224,7 @@ function () {
         elmSelectors[_key5 - 1] = arguments[_key5];
       }
 
-      return _construct(ElementsWithChangedClass, [newClassName].concat(_toConsumableArray(_construct(ParsedElmSelectors, elmSelectors).value())));
+      return new ElementsWithChangedClass(newClassName, _construct(ParsedElmSelectors, elmSelectors));
     }
   }]);
 

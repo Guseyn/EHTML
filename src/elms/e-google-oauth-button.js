@@ -29,6 +29,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
       'saveToLocalStorage',
       'saveToMemoryStorage',
       'innerHTML',
+      'addHTMLTo',
       'applyTextsAndValuesToChildNodes',
       'hideElms',
       'showElms',
@@ -63,22 +64,22 @@ class EGoogleOauthButton extends HTMLTunedElement {
         (googleUser) => {
           const body = {}
           body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
-          this.actions(
-            new TheSameObjectWithValue(
-              this.values,
-              this.getAttribute('data-object'),
-              new ParsedJSON(
-                new ResponseBody(
-                  new ResponseFromAjaxRequest(
-                    {
-                      url: this.getAttribute('data-redirect-url') || '/',
-                      method: 'POST'
-                    },
-                    JSON.stringify(body)
-                  )
+          new TheSameObjectWithValue(
+            this.values,
+            this.getAttribute('data-object'),
+            new ParsedJSON(
+              new ResponseBody(
+                new ResponseFromAjaxRequest(
+                  {
+                    url: this.getAttribute('data-redirect-url') || '/',
+                    method: 'POST'
+                  },
+                  JSON.stringify(body)
                 )
               )
             )
+          ).after(
+            this.actions(this.values)
           ).call()
         },
         (error) => {

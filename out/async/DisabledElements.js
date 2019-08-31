@@ -26,26 +26,16 @@ var DisabledElements =
 function (_AsyncObject) {
   _inherits(DisabledElements, _AsyncObject);
 
-  function DisabledElements() {
-    var _getPrototypeOf2;
-
+  function DisabledElements(elms) {
     _classCallCheck(this, DisabledElements);
 
-    for (var _len = arguments.length, elms = new Array(_len), _key = 0; _key < _len; _key++) {
-      elms[_key] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(DisabledElements)).call.apply(_getPrototypeOf2, [this].concat(elms)));
+    return _possibleConstructorReturn(this, _getPrototypeOf(DisabledElements).call(this, elms));
   }
 
   _createClass(DisabledElements, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {
-        for (var _len2 = arguments.length, elms = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          elms[_key2] = arguments[_key2];
-        }
-
+      return function (elms) {
         elms.forEach(function (elm) {
           elm.setAttribute('disabled', true);
         });

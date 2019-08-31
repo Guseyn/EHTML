@@ -26,26 +26,16 @@ var ElementsWithChangedClass =
 function (_AsyncObject) {
   _inherits(ElementsWithChangedClass, _AsyncObject);
 
-  function ElementsWithChangedClass(newClassName) {
-    var _getPrototypeOf2;
-
+  function ElementsWithChangedClass(newClassName, elms) {
     _classCallCheck(this, ElementsWithChangedClass);
 
-    for (var _len = arguments.length, elms = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      elms[_key - 1] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ElementsWithChangedClass)).call.apply(_getPrototypeOf2, [this, newClassName].concat(elms)));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementsWithChangedClass).call(this, newClassName, elms));
   }
 
   _createClass(ElementsWithChangedClass, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (newClassName) {
-        for (var _len2 = arguments.length, elms = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          elms[_key2 - 1] = arguments[_key2];
-        }
-
+      return function (newClassName, elms) {
         elms.forEach(function (elm) {
           elm.className = newClassName;
         });

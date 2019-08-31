@@ -56,6 +56,7 @@
 
   <body class="main">
     <e-google-oauth-button 
+      id="google-sign-in-button"
       class="customSignIn"
       data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com"
       data-redirect-url="/../google"
@@ -63,7 +64,7 @@
       data-scope="profile"
       data-request-token-key="googleToken"
       data-object="responseWithToken"
-      data-actions="saveToLocalStorage(jwt, ${responseWithToken.jwt})">
+      data-actions="saveToLocalStorage(jwt, ${responseWithToken.jwt});">
         <span id="google-icon" class="icon"></span>
         <span class="buttonText">Sign in with Google</span>
     </e-google-oauth-button>
