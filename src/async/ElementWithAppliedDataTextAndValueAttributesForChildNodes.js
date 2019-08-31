@@ -58,25 +58,23 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
 
   applyStorageVariablesInAttributes (element, ...attrNames) {
     attrNames.forEach(attrName => {
-      const attr = element.getAttribute(attrName)
-      if (attr) {
-        element.setAttribute(
-          attrName,
-          new ParamWithAppliedLocalStorage(
-            new ParamWithAppliedMemoryStorage(
-              attr
-            ).value()
+      element.setAttribute(
+        attrName,
+        new ParamWithAppliedLocalStorage(
+          new ParamWithAppliedMemoryStorage(
+            element.getAttribute(attrName)
           ).value()
-        )
-      }
+        ).value()
+      )
     })
   }
 
   applyValuesInAttribute (element, attrName, values) {
-    const attr = element.getAttribute(attrName)
     element.setAttribute(
       attrName,
-      new ParamWithAppliedValues(attr, values).value()
+      new ParamWithAppliedValues(
+        element.getAttribute(attrName), values
+      ).value()
     )
   }
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const { browserified, as } = require('@page-libs/cutie')
+const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML } = require('@page-libs/dom')

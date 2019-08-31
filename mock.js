@@ -29,21 +29,43 @@ global.localStorage = {
 global.memoryStorage = new MemoryStorage()
 
 const elementWithAttribute = (attrName, value, ...children) => {
-  const attrs = {}
-  attrs[attrName] = value
+  const attributes = []
+  attributes[0] = {
+    name: attrName,
+    value: value
+  }
   const elm = {
     id: getNextId(),
-    attrs: attrs,
+    attributes: attributes,
     value: '',
     childNodes: children,
     getAttribute: (attrName) => {
-      return elm.attrs[attrName]
+      for (let i = 0; i < elm.attributes.length; i++) {
+        if (elm.attributes[i].name === attrName) {
+          return elm.attributes[i].value
+        }
+      }
+      return elm.attributes[attrName]
     },
     setAttribute: (attrName, value) => {
-      elm.attrs[attrName] = value
+      for (let i = 0; i < elm.attributes.length; i++) {
+        if (elm.attributes[i].name === attrName) {
+          elm.attributes[i].value = value
+          return
+        }
+      }
+      elm.attributes[elm.attributes.length] = {
+        name: attrName,
+        value: value
+      }
     },
     removeAttribute: (attrName) => {
-      delete elm.attrs[attrName]
+      for (let i = 0; i < elm.attributes.length; i++) {
+        if (elm.attributes[i].name === attrName) {
+          elm.attributes.splice(i, 1)
+          return
+        }
+      }
     },
     appendChild: (child) => {
       elm.childNodes.unshift(child)
