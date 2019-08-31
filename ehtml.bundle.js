@@ -6622,18 +6622,13 @@ function (_AsyncObject) {
       }
 
       attrNames.forEach(function (attrName) {
-        var attr = element.getAttribute(attrName);
-
-        if (attr) {
-          element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(attr).value()).value());
-        }
+        element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(element.getAttribute(attrName)).value()).value());
       });
     }
   }, {
     key: "applyValuesInAttribute",
     value: function applyValuesInAttribute(element, attrName, values) {
-      var attr = element.getAttribute(attrName);
-      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+      element.setAttribute(attrName, new ParamWithAppliedValues(element.getAttribute(attrName), values).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",
@@ -8413,8 +8408,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified,
-    as = _require.as;
+    browserified = _require.browserified;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;

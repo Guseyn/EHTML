@@ -100,18 +100,13 @@ function (_AsyncObject) {
       }
 
       attrNames.forEach(function (attrName) {
-        var attr = element.getAttribute(attrName);
-
-        if (attr) {
-          element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(attr).value()).value());
-        }
+        element.setAttribute(attrName, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(element.getAttribute(attrName)).value()).value());
       });
     }
   }, {
     key: "applyValuesInAttribute",
     value: function applyValuesInAttribute(element, attrName, values) {
-      var attr = element.getAttribute(attrName);
-      element.setAttribute(attrName, new ParamWithAppliedValues(attr, values).value());
+      element.setAttribute(attrName, new ParamWithAppliedValues(element.getAttribute(attrName), values).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",
