@@ -27,25 +27,26 @@ var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalSt
 
 var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
 
-var ElementWithAppliedDataTextAndValueAttributesForChildNodes =
+var ElementWithAppliedValuesToAttributesForChildNodes =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ElementWithAppliedDataTextAndValueAttributesForChildNodes, _AsyncObject);
+  _inherits(ElementWithAppliedValuesToAttributesForChildNodes, _AsyncObject);
 
-  function ElementWithAppliedDataTextAndValueAttributesForChildNodes(element, values) {
-    _classCallCheck(this, ElementWithAppliedDataTextAndValueAttributesForChildNodes);
+  function ElementWithAppliedValuesToAttributesForChildNodes(element, values) {
+    _classCallCheck(this, ElementWithAppliedValuesToAttributesForChildNodes);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithAppliedDataTextAndValueAttributesForChildNodes).call(this, element, values));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithAppliedValuesToAttributesForChildNodes).call(this, element, values));
   }
 
-  _createClass(ElementWithAppliedDataTextAndValueAttributesForChildNodes, [{
+  _createClass(ElementWithAppliedValuesToAttributesForChildNodes, [{
     key: "syncCall",
     value: function syncCall() {
       var _this = this;
 
       return function (element, values) {
-        var dataObjectAttr = element.getAttribute('data-object');
-        return _this.applyValuesToChildren(element, dataObjectAttr ? _this.valuesWithNewKey(values, nameAttr) : values);
+        var dataObjectAttr = element.getAttribute('data-object'); // APPLY VARS: here we just apply storage vars and values to attrs of the elm's child nodes
+
+        return _this.applyValuesToChildren(element, dataObjectAttr ? _this.valuesWithNewKey(values, dataObjectAttr) : values);
       };
     }
   }, {
@@ -123,7 +124,7 @@ function (_AsyncObject) {
     }
   }]);
 
-  return ElementWithAppliedDataTextAndValueAttributesForChildNodes;
+  return ElementWithAppliedValuesToAttributesForChildNodes;
 }(AsyncObject);
 
-module.exports = ElementWithAppliedDataTextAndValueAttributesForChildNodes;
+module.exports = ElementWithAppliedValuesToAttributesForChildNodes;

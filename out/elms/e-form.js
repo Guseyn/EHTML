@@ -28,11 +28,11 @@ var _require2 = require('@page-libs/ajax'),
     ResponseBody = _require2.ResponseBody;
 
 var _browserified = browserified(require('@cuties/object')),
-    CreatedOptions = _browserified.CreatedOptions,
-    TheSameObjectWithValue = _browserified.TheSameObjectWithValue;
+    CreatedOptions = _browserified.CreatedOptions;
 
 var _browserified2 = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified2.ParsedJSON;
+    ParsedJSON = _browserified2.ParsedJSON,
+    StringifiedJSON = _browserified2.StringifiedJSON;
 
 var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
 
@@ -44,13 +44,9 @@ function (_HTMLTunedElement) {
   _inherits(EForm, _HTMLTunedElement);
 
   function EForm() {
-    var _this;
-
     _classCallCheck(this, EForm);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EForm).call(this));
-    _this.values = {};
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(EForm).call(this));
   }
 
   _createClass(EForm, [{
@@ -61,12 +57,12 @@ function (_HTMLTunedElement) {
   }, {
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'applyValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       var inputs = this.getElementsByTagName('input');
       var fileInputs = this.filteredFileInputs(inputs);
@@ -78,17 +74,17 @@ function (_HTMLTunedElement) {
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestButton);
       requestButton.addEventListener('click', function () {
-        _this2.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
+        _this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
 
-        _this2.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
+        _this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
 
-        _this2.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
+        _this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
 
-        _this2.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
+        _this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
 
-        _this2.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
+        _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        new TheSameObjectWithValue(_this2.values, _this2.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this2.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this2.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), JSON.stringify(requestBody))))).after(_this2.actions(_this2.values)).call();
+        _this.appliedActions(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), new StringifiedJSON(requestBody))))).call();
       });
     }
   }, {
@@ -176,10 +172,10 @@ function (_HTMLTunedElement) {
   }, {
     key: "tuneFileInput",
     value: function tuneFileInput(fileInput, requestButton) {
-      var _this3 = this;
+      var _this2 = this;
 
       fileInput.addEventListener('change', function () {
-        _this3.readFilesContentForRequestBody(fileInput, requestButton);
+        _this2.readFilesContentForRequestBody(fileInput, requestButton);
       });
     }
   }, {

@@ -50,7 +50,7 @@ var DisabledElements = require('./../async/DisabledElements');
 
 var EnabledElements = require('./../async/EnabledElements');
 
-var ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes');
+var ElementWithAppliedValuesToAttributesForChildNodes = require('./../async/ElementWithAppliedValuesToAttributesForChildNodes');
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
 
@@ -79,8 +79,7 @@ function () {
     this.tagName = tagName;
     this.actionsCommand = actionsCommand;
     this.supportedActions = supportedActions;
-  } // PUBLIC
-
+  }
 
   _createClass(Actions, [{
     key: "asyncTree",
@@ -103,7 +102,8 @@ function () {
 
         if (_this.supportedActions.indexOf(commandName) === -1) {
           throw new Error("command ".concat(commandName, " is not supported for the element ").concat(_this.tagName));
-        }
+        } // APPLY VARS: here we just apply storage vars and values to the action attributes
+
 
         var commandParams = command.replace(')', '').split("".concat(commandName, "("))[1].split(',').map(function (param) {
           return new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(param, values))));
@@ -130,8 +130,8 @@ function () {
             parsedCommands.push(_this.addHTMLTo(commandParams[0], commandParams[1], commandParams[2]));
             break;
 
-          case 'applyTextsAndValuesToChildNodes':
-            parsedCommands.push(_this.applyTextsAndValuesToChildNodes(commandParams[0], values));
+          case 'applyValuesToChildNodes':
+            parsedCommands.push(_this.applyValuesToChildNodes(commandParams[0], values));
             break;
 
           case 'hideElms':
@@ -212,9 +212,9 @@ function () {
       return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
     }
   }, {
-    key: "applyTextsAndValuesToChildNodes",
-    value: function applyTextsAndValuesToChildNodes(elmSelector, values) {
-      return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(new ValidatedElementForMappingObject(new FirstOf(new ParsedElmSelectors(elmSelector))), values);
+    key: "applyValuesToChildNodes",
+    value: function applyValuesToChildNodes(elmSelector, values) {
+      return new ElementWithAppliedValuesToAttributesForChildNodes(new ValidatedElementForMappingObject(new FirstOf(new ParsedElmSelectors(elmSelector)), 'applyValuesToChildNodes'), values);
     }
   }, {
     key: "changeElmsClassName",

@@ -12,7 +12,7 @@ const HiddenElements = require('./../async/HiddenElements')
 const ShownElements = require('./../async/ShownElements')
 const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
-const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
+const ElementWithAppliedValuesToAttributesForChildNodes = require('./../async/ElementWithAppliedValuesToAttributesForChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
 const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands')
@@ -30,8 +30,6 @@ class Actions {
     this.supportedActions = supportedActions
   }
 
-  // PUBLIC
-
   asyncTree (values) {
     // act1(p1, p2); act(q1, q2); ...
     if (!this.actionsCommand) {
@@ -46,6 +44,7 @@ class Actions {
       if (this.supportedActions.indexOf(commandName) === -1) {
         throw new Error(`command ${commandName} is not supported for the element ${this.tagName}`)
       }
+      // APPLY VARS: here we just apply storage vars and values to the action attributes
       const commandParams = command.replace(')', '')
         .split(`${commandName}(`)[1]
         .split(',')
@@ -102,9 +101,9 @@ class Actions {
             )
           )
           break
-        case 'applyTextsAndValuesToChildNodes':
+        case 'applyValuesToChildNodes':
           parsedCommands.push(
-            this.applyTextsAndValuesToChildNodes(
+            this.applyValuesToChildNodes(
               commandParams[0],
               values
             )
@@ -201,12 +200,12 @@ class Actions {
     )
   }
 
-  applyTextsAndValuesToChildNodes (elmSelector, values) {
-    return new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
+  applyValuesToChildNodes (elmSelector, values) {
+    return new ElementWithAppliedValuesToAttributesForChildNodes(
       new ValidatedElementForMappingObject(
         new FirstOf(
           new ParsedElmSelectors(elmSelector)
-        )
+        ), 'applyValuesToChildNodes'
       ), values
     )
   }

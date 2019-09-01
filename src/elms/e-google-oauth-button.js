@@ -3,7 +3,6 @@
 const { browserified } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ParsedJSON } = browserified(require('@cuties/json'))
-const { TheSameObjectWithValue } = browserified(require('@cuties/object'))
 const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
@@ -30,7 +29,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
       'saveToMemoryStorage',
       'innerHTML',
       'addHTMLTo',
-      'applyTextsAndValuesToChildNodes',
+      'applyValuesToChildNodes',
       'hideElms',
       'showElms',
       'disableElms',
@@ -64,9 +63,7 @@ class EGoogleOauthButton extends HTMLTunedElement {
         (googleUser) => {
           const body = {}
           body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
-          new TheSameObjectWithValue(
-            this.values,
-            this.getAttribute('data-object'),
+          this.appliedActions(
             new ParsedJSON(
               new ResponseBody(
                 new ResponseFromAjaxRequest(
@@ -78,8 +75,6 @@ class EGoogleOauthButton extends HTMLTunedElement {
                 )
               )
             )
-          ).after(
-            this.actions(this.values)
           ).call()
         },
         (error) => {

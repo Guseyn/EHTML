@@ -2,14 +2,6 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -34,7 +26,15 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var Element = require('./../objects/Element');
+var _require = require('@page-libs/cutie'),
+    browserified = _require.browserified;
+
+var _browserified = browserified(require('@cuties/object')),
+    TheSameObjectWithValue = _browserified.TheSameObjectWithValue;
+
+var ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage');
+
+var ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage');
 
 var Actions = require('./../objects/Actions');
 
@@ -62,12 +62,13 @@ function (_HTMLElement) {
   }, {
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTML', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTML', 'applyValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
-    key: "actions",
-    value: function actions(values) {
-      return new Actions(this.tagName, this.getAttribute('data-actions'), this.supportedActions()).asyncTree(values);
+    key: "appliedActions",
+    value: function appliedActions(value) {
+      var dataObj = {};
+      return new TheSameObjectWithValue(dataObj, 'OBJECT_NAME', value).after(new Actions(this.tagName, this.getAttribute('data-actions'), this.supportedActions()).asyncTree(dataObj));
     }
   }, {
     key: "replacedWith",
@@ -89,16 +90,14 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      var _this2 = this,
-          _ref;
+      var _this2 = this;
 
       var instance = this;
       var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
         return _this2.getAttribute(attr);
-      });
+      }); // APPLY VARS: here we just apply storage vars to attrs of the elm
 
-      (_ref = new Element(this)).applyStorageVariablesInAttributes.apply(_ref, _toConsumableArray(attributesWithStorageVariables));
-
+      this.applyStorageValuesToAttributes(attributesWithStorageVariables);
       setTimeout(function () {
         if (!instance.rendered) {
           instance.render();
@@ -110,6 +109,15 @@ function (_HTMLElement) {
     key: "defaultAttributesWithStorageVariables",
     value: function defaultAttributesWithStorageVariables() {
       return ['data-actions'];
+    }
+  }, {
+    key: "applyStorageValuesToAttributes",
+    value: function applyStorageValuesToAttributes(attrs) {
+      var _this3 = this;
+
+      attrs.forEach(function (attr) {
+        _this3.setAttribute(attr, new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(_this3.getAttribute(attr)).value()).value());
+      });
     }
   }]);
 

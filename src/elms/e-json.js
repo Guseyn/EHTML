@@ -1,7 +1,7 @@
 'use strict'
 
 const { browserified } = require('@page-libs/cutie')
-const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties/object'))
+const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
@@ -38,7 +38,7 @@ class EJSON extends HTMLTunedElement {
       'saveToMemoryStorage',
       'innerHTML',
       'addHTMLTo',
-      'applyTextsAndValuesToChildNodes',
+      'applyValuesToChildNodes',
       'hideElms',
       'showElms',
       'disableElms',
@@ -48,9 +48,7 @@ class EJSON extends HTMLTunedElement {
   }
 
   render () {
-    new TheSameObjectWithValue(
-      this.values,
-      this.getAttribute('data-object'),
+    this.appliedActions(
       new ParsedJSON(
         new StringFromBuffer(
           new ResponseBody(
@@ -67,8 +65,6 @@ class EJSON extends HTMLTunedElement {
           )
         )
       )
-    ).after(
-      this.actions(this.values)
     ).call()
   }
 }

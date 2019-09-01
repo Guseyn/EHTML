@@ -47,7 +47,7 @@ class EHTML extends HTMLTunedElement {
         )
       )
     ).after(
-      this.actions()
+      this.appliedActions()
     ).call()
   }
 }
