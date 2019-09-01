@@ -93,7 +93,7 @@ function (_HTMLElement) {
       var _this2 = this;
 
       var instance = this;
-      var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
+      var attributesWithStorageVariables = this.attributesWithStorageVariables().filter(function (attr) {
         return _this2.getAttribute(attr);
       }); // APPLY VARS: here we just apply storage vars to attrs of the elm
 
@@ -104,11 +104,6 @@ function (_HTMLElement) {
           instance.rendered = true;
         }
       });
-    }
-  }, {
-    key: "defaultAttributesWithStorageVariables",
-    value: function defaultAttributesWithStorageVariables() {
-      return ['data-actions'];
     }
   }, {
     key: "applyStorageValuesToAttributes",

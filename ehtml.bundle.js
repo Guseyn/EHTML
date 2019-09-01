@@ -6712,20 +6712,22 @@ function (_AsyncObject) {
           for (var i = 0; i < child.attributes.length; i++) {
             var attrName = child.attributes[i].name;
 
-            _this2.applyStorageVariablesInAttributes(child, attrName);
+            if (attrName !== 'data-actions') {
+              _this2.applyStorageVariablesInAttributes(child, attrName);
 
-            _this2.applyValuesInAttribute(child, attrName, values);
+              _this2.applyValuesInAttribute(child, attrName, values);
 
-            if (attrName === 'data-text') {
-              if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
-                _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
+              if (attrName === 'data-text') {
+                if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
+                  _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
 
-                child.removeAttribute('data-text');
-              }
-            } else if (attrName === 'data-value') {
-              if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
-                child.value = child.getAttribute('data-value');
-                child.removeAttribute('data-value');
+                  child.removeAttribute('data-text');
+                }
+              } else if (attrName === 'data-value') {
+                if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
+                  child.value = child.getAttribute('data-value');
+                  child.removeAttribute('data-value');
+                }
               }
             }
           }
@@ -8424,7 +8426,7 @@ function (_HTMLElement) {
       var _this2 = this;
 
       var instance = this;
-      var attributesWithStorageVariables = this.attributesWithStorageVariables().concat(this.defaultAttributesWithStorageVariables()).filter(function (attr) {
+      var attributesWithStorageVariables = this.attributesWithStorageVariables().filter(function (attr) {
         return _this2.getAttribute(attr);
       }); // APPLY VARS: here we just apply storage vars to attrs of the elm
 
@@ -8435,11 +8437,6 @@ function (_HTMLElement) {
           instance.rendered = true;
         }
       });
-    }
-  }, {
-    key: "defaultAttributesWithStorageVariables",
-    value: function defaultAttributesWithStorageVariables() {
-      return ['data-actions'];
     }
   }, {
     key: "applyStorageValuesToAttributes",
