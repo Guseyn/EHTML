@@ -66,7 +66,6 @@ class HTMLTunedElement extends HTMLElement {
     const instance = this
     const attributesWithStorageVariables = this
       .attributesWithStorageVariables()
-      .concat(this.defaultAttributesWithStorageVariables())
       .filter(attr => this.getAttribute(attr))
     // APPLY VARS: here we just apply storage vars to attrs of the elm
     this.applyStorageValuesToAttributes(attributesWithStorageVariables)
@@ -76,10 +75,6 @@ class HTMLTunedElement extends HTMLElement {
         instance.rendered = true
       }
     })
-  }
-
-  defaultAttributesWithStorageVariables () {
-    return ['data-actions']
   }
 
   applyStorageValuesToAttributes (attrs) {

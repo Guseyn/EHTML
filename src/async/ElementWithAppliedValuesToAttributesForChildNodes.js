@@ -28,17 +28,19 @@ class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
       if (child.getAttribute) {
         for (let i = 0; i < child.attributes.length; i++) {
           const attrName = child.attributes[i].name
-          this.applyStorageVariablesInAttributes(child, attrName)
-          this.applyValuesInAttribute(child, attrName, values)
-          if (attrName === 'data-text') {
-            if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
-              this.insertTextIntoElm(child, child.getAttribute('data-text'))
-              child.removeAttribute('data-text')
-            }
-          } else if (attrName === 'data-value') {
-            if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
-              child.value = child.getAttribute('data-value')
-              child.removeAttribute('data-value')
+          if (attrName !== 'data-actions') {
+            this.applyStorageVariablesInAttributes(child, attrName)
+            this.applyValuesInAttribute(child, attrName, values)
+            if (attrName === 'data-text') {
+              if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
+                this.insertTextIntoElm(child, child.getAttribute('data-text'))
+                child.removeAttribute('data-text')
+              }
+            } else if (attrName === 'data-value') {
+              if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
+                child.value = child.getAttribute('data-value')
+                child.removeAttribute('data-value')
+              }
             }
           }
         }

@@ -142,7 +142,8 @@ new DeepStrictEqualAssertion(
           elementWithAttribute('data-attr', 'value ${user.id}'),
           elementWithAttribute('data-text', 'Email: ${user.email}'),
           elementWithAttribute('data-text', 'User name: ${user.name}, another user name: ${anotherUser.name}'),
-          elementWithAttribute('data-text', 'User: ${user}')
+          elementWithAttribute('data-text', 'User: ${user}'),
+          elementWithAttribute('data-actions', 'User: ${user}')
         ]
       },
       {
@@ -235,6 +236,17 @@ new DeepStrictEqualAssertion(
             nodeValue: 'User: {"id":123,"name":"test name","age":"test age","email":"test@email","account":{"name":"acc"}}'
           }
         ]
+      },
+      {
+        id: 20,
+        attributes: [
+          {
+            name: 'data-actions',
+            value: 'User: ${user}'
+          }
+        ],
+        value: '',
+        childNodes: [ ]
       }
     ]
   }
