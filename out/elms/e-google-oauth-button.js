@@ -28,9 +28,6 @@ var _require2 = require('@page-libs/ajax'),
 var _browserified = browserified(require('@cuties/json')),
     ParsedJSON = _browserified.ParsedJSON;
 
-var _browserified2 = browserified(require('@cuties/object')),
-    TheSameObjectWithValue = _browserified2.TheSameObjectWithValue;
-
 var HTMLTunedElement = require('./../global-objects/HTMLTunedElement');
 
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
@@ -53,7 +50,7 @@ function (_HTMLTunedElement) {
   _createClass(EGoogleOauthButton, [{
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'applyTextsAndValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'applyValuesToChildNodes', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "render",
@@ -88,10 +85,11 @@ function (_HTMLTunedElement) {
         auth2.attachClickHandler(_this3, {}, function (googleUser) {
           var body = {};
           body[_this3.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new TheSameObjectWithValue(_this3.values, _this3.getAttribute('data-object'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+
+          _this3.appliedActions(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
             url: _this3.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body))))).after(_this3.actions(_this3.values)).call();
+          }, JSON.stringify(body))))).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });

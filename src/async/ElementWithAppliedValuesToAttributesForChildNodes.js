@@ -5,18 +5,19 @@ const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
 const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
 const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 
-class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObject {
+class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
   constructor (element, values) {
     super(element, values)
   }
 
   syncCall () {
     return (element, values) => {
-      const nameAttr = element.getAttribute('name')
+      const dataObjectAttr = element.getAttribute('data-object')
+      // APPLY VARS: here we just apply storage vars and values to attrs of the elm's child nodes
       return this.applyValuesToChildren(
         element,
-        nameAttr
-          ? this.valuesWithNewKey(values, nameAttr)
+        dataObjectAttr
+          ? this.valuesWithNewKey(values, dataObjectAttr)
           : values
       )
     }
@@ -90,4 +91,4 @@ class ElementWithAppliedDataTextAndValueAttributesForChildNodes extends AsyncObj
   }
 }
 
-module.exports = ElementWithAppliedDataTextAndValueAttributesForChildNodes
+module.exports = ElementWithAppliedValuesToAttributesForChildNodes

@@ -40,7 +40,7 @@ function (_HTMLTunedElement) {
     key: "render",
     value: function render() {
       this.name = this.getAttribute('name');
-      this.actions().call();
+      this.appliedActions().call();
     }
   }, {
     key: "value",

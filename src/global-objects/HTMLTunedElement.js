@@ -1,6 +1,9 @@
 'use strict'
 
-const Element = require('./../objects/Element')
+const { browserified } = require('@page-libs/cutie')
+const { TheSameObjectWithValue } = browserified(require('@cuties/object'))
+const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
+const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 const Actions = require('./../objects/Actions')
 
 class HTMLTunedElement extends HTMLElement {
@@ -22,7 +25,7 @@ class HTMLTunedElement extends HTMLElement {
       'saveToMemoryStorage',
       'innerHTML',
       'addHTML',
-      'applyTextsAndValuesToChildNodes',
+      'applyValuesToChildNodes',
       'hideElms',
       'showElms',
       'disableElms',
@@ -31,12 +34,17 @@ class HTMLTunedElement extends HTMLElement {
     ]
   }
 
-  actions (values) {
-    return new Actions(
-      this.tagName,
-      this.getAttribute('data-actions'),
-      this.supportedActions()
-    ).asyncTree(values)
+  appliedActions (value) {
+    const dataObj = {}
+    return new TheSameObjectWithValue(
+      dataObj, 'OBJECT_NAME', value
+    ).after(
+      new Actions(
+        this.tagName,
+        this.getAttribute('data-actions'),
+        this.supportedActions()
+      ).asyncTree(dataObj)
+    )
   }
 
   replacedWith (elm) {
@@ -60,7 +68,8 @@ class HTMLTunedElement extends HTMLElement {
       .attributesWithStorageVariables()
       .concat(this.defaultAttributesWithStorageVariables())
       .filter(attr => this.getAttribute(attr))
-    new Element(this).applyStorageVariablesInAttributes(...attributesWithStorageVariables)
+    // APPLY VARS: here we just apply storage vars to attrs of the elm
+    this.applyStorageValuesToAttributes(attributesWithStorageVariables)
     setTimeout(() => {
       if (!instance.rendered) {
         instance.render()
@@ -71,6 +80,18 @@ class HTMLTunedElement extends HTMLElement {
 
   defaultAttributesWithStorageVariables () {
     return ['data-actions']
+  }
+
+  applyStorageValuesToAttributes (attrs) {
+    attrs.forEach(
+      attr => {
+        this.setAttribute(attr, new ParamWithAppliedLocalStorage(
+          new ParamWithAppliedMemoryStorage(
+            this.getAttribute(attr)
+          ).value()
+        ).value())
+      }
+    )
   }
 }
 

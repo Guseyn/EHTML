@@ -3,15 +3,14 @@
 const HTMLTunedElement = require('./../global-objects/HTMLTunedElement')
 const { browserified } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const { CreatedOptions, TheSameObjectWithValue } = browserified(require('@cuties/object'))
-const { ParsedJSON } = browserified(require('@cuties/json'))
+const { CreatedOptions } = browserified(require('@cuties/object'))
+const { ParsedJSON, StringifiedJSON } = browserified(require('@cuties/json'))
 const ParsedElmSelectors = require('./../objects/ParsedElmSelectors')
 const FileInfo = require('./../objects/FileInfo')
 
 class EForm extends HTMLTunedElement {
   constructor () {
     super()
-    this.values = {}
   }
 
   static get observedAttributes () {
@@ -37,7 +36,7 @@ class EForm extends HTMLTunedElement {
       'saveToMemoryStorage',
       'innerHTML',
       'addHTMLTo',
-      'applyTextsAndValuesToChildNodes',
+      'applyValuesToChildNodes',
       'hideElms',
       'showElms',
       'disableElms',
@@ -62,9 +61,7 @@ class EForm extends HTMLTunedElement {
       this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
       this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
       this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
-      new TheSameObjectWithValue(
-        this.values,
-        this.getAttribute('data-object'),
+      this.appliedActions(
         new ParsedJSON(
           new ResponseBody(
             new ResponseFromAjaxRequest(
@@ -75,12 +72,12 @@ class EForm extends HTMLTunedElement {
                 ),
                 'method', 'POST'
               ),
-              JSON.stringify(requestBody)
+              new StringifiedJSON(
+                requestBody
+              )
             )
           )
         )
-      ).after(
-        this.actions(this.values)
       ).call()
     })
   }

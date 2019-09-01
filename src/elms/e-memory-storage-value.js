@@ -20,7 +20,7 @@ class EMemoryStorageValue extends HTMLTunedElement {
 
   render () {
     this.name = this.getAttribute('name')
-    this.actions().call()
+    this.appliedActions().call()
   }
 
   value () {

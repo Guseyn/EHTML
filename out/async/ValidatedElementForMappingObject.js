@@ -26,18 +26,18 @@ var ValidatedElementForMappingObject =
 function (_AsyncObject) {
   _inherits(ValidatedElementForMappingObject, _AsyncObject);
 
-  function ValidatedElementForMappingObject(elm) {
+  function ValidatedElementForMappingObject(elm, commandName) {
     _classCallCheck(this, ValidatedElementForMappingObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ValidatedElementForMappingObject).call(this, elm));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ValidatedElementForMappingObject).call(this, elm, commandName));
   }
 
   _createClass(ValidatedElementForMappingObject, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (elm) {
-        if (!elm.getAttribute('name') && !elm.getAttribute('data-object')) {
-          throw new Error("elm ".concat(elm, " must have attribute name, so you can know what object it encapsulates"));
+      return function (elm, commandName) {
+        if (!elm.getAttribute('data-object')) {
+          throw new Error("elm #".concat(elm.getAttribute('id'), " must have attribute data-object for ").concat(commandName, " action, so you can know what object it encapsulates"));
         }
 
         return elm;

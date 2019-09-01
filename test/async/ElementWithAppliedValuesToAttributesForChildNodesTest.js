@@ -1,5 +1,5 @@
 const { elementWithAttribute, ObjWithNoFuncs } = require('./../../mock.js')
-const ElementWithAppliedDataTextAndValueAttributesForChildNodes = require('./../../src/async/ElementWithAppliedDataTextAndValueAttributesForChildNodes')
+const ElementWithAppliedValuesToAttributesForChildNodes = require('./../../src/async/ElementWithAppliedValuesToAttributesForChildNodes')
 const { DeepStrictEqualAssertion, StrictEqualAssertion } = require('@cuties/assert')
 
 localStorage.setItem('localValue', 'localValue')
@@ -8,7 +8,7 @@ memoryStorage.setItem('memoryValue', 'memoryValue')
 
 new DeepStrictEqualAssertion(
   new ObjWithNoFuncs(
-    new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
+    new ElementWithAppliedValuesToAttributesForChildNodes(
       {
         getAttribute: (name) => {
           return 'user'
@@ -125,7 +125,7 @@ new DeepStrictEqualAssertion(
 
 new DeepStrictEqualAssertion(
   new ObjWithNoFuncs(
-    new ElementWithAppliedDataTextAndValueAttributesForChildNodes(
+    new ElementWithAppliedValuesToAttributesForChildNodes(
       {
         getAttribute: (name) => {
           return null
