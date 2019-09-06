@@ -18,6 +18,7 @@ class EForm extends HTMLTunedElement {
       'data-request-url',
       'data-request-headers',
       'data-request-button-id',
+      'data-upload-progress-bar-id',
       'data-actions'
     ]
   }
@@ -53,6 +54,7 @@ class EForm extends HTMLTunedElement {
     const localStorageValues = this.getElementsByTagName('e-local-storage-value')
     const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
     const requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0]
+    const progressBar = new ParsedElmSelectors(this.getAttribute('data-upload-progress-bar-id')).value()[0]
     const requestBody = {}
     this.tuneFileInputs(fileInputs, requestButton)
     requestButton.addEventListener('click', () => {
@@ -70,7 +72,8 @@ class EForm extends HTMLTunedElement {
                 'headers', new ParsedJSON(
                   this.getAttribute('data-request-headers') || '{}'
                 ),
-                'method', 'POST'
+                'method', 'POST',
+                'uploadProgressEvent', progressBar ? progressBar.showProgress : () => {}
               ),
               new StringifiedJSON(
                 requestBody

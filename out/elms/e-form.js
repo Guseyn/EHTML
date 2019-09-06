@@ -71,6 +71,7 @@ function (_HTMLTunedElement) {
       var localStorageValues = this.getElementsByTagName('e-local-storage-value');
       var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
       var requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0];
+      var progressBar = new ParsedElmSelectors(this.getAttribute('data-upload-progress-bar-id')).value()[0];
       var requestBody = {};
       this.tuneFileInputs(fileInputs, requestButton);
       requestButton.addEventListener('click', function () {
@@ -84,7 +85,7 @@ function (_HTMLTunedElement) {
 
         _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
 
-        _this.appliedActions(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST'), new StringifiedJSON(requestBody))))).call();
+        _this.appliedActions(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', 'POST', 'uploadProgressEvent', progressBar ? progressBar.showProgress : function () {}), new StringifiedJSON(requestBody))))).call();
       });
     }
   }, {
@@ -232,7 +233,7 @@ function (_HTMLTunedElement) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-headers', 'data-request-button-id', 'data-actions'];
+      return ['data-request-url', 'data-request-headers', 'data-request-button-id', 'data-upload-progress-bar-id', 'data-actions'];
     }
   }]);
 
