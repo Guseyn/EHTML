@@ -34,6 +34,7 @@
       id="form"
       data-request-url="/form"
       data-request-button-id="#send"
+      data-upload-progress-bar-id="#progressBar"
       data-object="saved"
       data-actions="
         saveToMemoryStorage(saved, ${saved});
@@ -89,6 +90,8 @@
       <e-memory-storage-value name="memoryValue" data-key="memoryValue"></e-memory-storage-value>
 
       <button id="send">Send request</button>
+
+      <e-upload-progress-bar id="progressBar"></e-progress-bar>
     </e-form>
     <div id="result" style="display: none;"></div>
     <div id="result-with-only-files" style="display: none;">

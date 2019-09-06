@@ -39,10 +39,10 @@
     "@cuties/jwt": "^1.0.4",
     "@cuties/oauth": "^1.0.3",
     "@cuties/object": "^1.1.6",
-    "@cuties/rest": "^1.2.14",
+    "@cuties/rest": "^1.2.16",
     "@cuties/spawn": "^1.0.2",
     "@cuties/wall": "^1.1.2",
-    "@page-libs/ajax": "^1.1.4",
+    "@page-libs/ajax": "^1.1.7",
     "@page-libs/cutie": "^1.1.3",
     "@page-libs/dom": "^1.1.5",
     "test-executor": "^1.2.4"

@@ -42,7 +42,7 @@ new SpawnedCommand('grunt').after(
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
             new FormEndpoint(new RegExp(/^\/form/)),
             new ServingFilesEndpoint(
-              new RegExp(/^\/(html|js|images)/),
+              new RegExp(/^\/(html|js|images|csv)/),
               mapperForStatic,
               {},
               new NotFoundEndpoint(new RegExp(/\/not-found/))
