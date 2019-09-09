@@ -68,7 +68,7 @@ function (_HTMLElement) {
     key: "appliedActions",
     value: function appliedActions(value) {
       var dataObj = {};
-      return new TheSameObjectWithValue(dataObj, 'OBJECT_NAME', value).after(new Actions(this.tagName, this.getAttribute('data-actions'), this.supportedActions()).asyncTree(dataObj));
+      return new TheSameObjectWithValue(dataObj, this.getAttribute('data-object') || 'OBJECT_NAME', value).after(new Actions(this.tagName, this.getAttribute('data-actions'), this.supportedActions()).asyncTree(dataObj));
     }
   }, {
     key: "replacedWith",

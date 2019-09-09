@@ -1,7 +1,7 @@
 'use strict'
 
 class ParamWithAppliedValues {
-  constructor (param, values) {
+  constructor (param, values, type) {
     this.param = param
     this.values = values
   }

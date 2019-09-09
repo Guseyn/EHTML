@@ -43,6 +43,34 @@ function () {
         eval("this.items['".concat(key, "'].").concat(pathOfValue, " = value"));
       }
     }
+  }, {
+    key: "addItemToArray",
+    value: function addItemToArray(keyPath, value) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        this.items[key].push(value);
+      } else {
+        // eslint-disable-next-line no-eval
+        eval("this.items['".concat(key, "'].").concat(pathOfValue, ".push(value)"));
+      }
+    }
+  }, {
+    key: "removeItemFromArray",
+    value: function removeItemFromArray(keyPath, index) {
+      var keyParts = keyPath.split('.');
+      var key = keyParts[0];
+      var pathOfValue = keyParts.splice(1).join('.');
+
+      if (pathOfValue.length === 0) {
+        this.items[key].splice(index, 1);
+      } else {
+        // eslint-disable-next-line no-eval
+        eval("this.items['".concat(key, "'].").concat(pathOfValue, ".splice(index, 1)"));
+      }
+    }
   }]);
 
   return MemoryStorage;

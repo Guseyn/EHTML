@@ -34,8 +34,6 @@ var _require3 = require('@page-libs/dom'),
     ElementWithInnerHTML = _require3.ElementWithInnerHTML,
     ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML;
 
-var ValidatedElementForMappingObject = require('./../async/ValidatedElementForMappingObject');
-
 var RedirectAction = require('./../async/RedirectAction');
 
 var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
@@ -50,7 +48,7 @@ var DisabledElements = require('./../async/DisabledElements');
 
 var EnabledElements = require('./../async/EnabledElements');
 
-var ElementWithAppliedValuesToAttributesForChildNodes = require('./../async/ElementWithAppliedValuesToAttributesForChildNodes');
+var ElementWithAppliedValuesToChildNodes = require('./../async/ElementWithAppliedValuesToChildNodes');
 
 var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
 
@@ -106,7 +104,7 @@ function () {
 
 
         var commandParams = command.replace(')', '').split("".concat(commandName, "("))[1].split(',').map(function (param) {
-          return new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(param, values))));
+          return new ParsedJSONOrString(new ParamWithAppliedLocalStorage(new ParamWithAppliedMemoryStorage(new ParamWithAppliedValues(param, values, '1'))));
         });
 
         switch (commandName) {
@@ -131,7 +129,7 @@ function () {
             break;
 
           case 'applyValuesToChildNodes':
-            parsedCommands.push(_this.applyValuesToChildNodes(commandParams[0], values));
+            parsedCommands.push(_this.applyValuesToChildNodes(commandParams[0], commandParams[1]));
             break;
 
           case 'hideElms':
@@ -214,7 +212,7 @@ function () {
   }, {
     key: "applyValuesToChildNodes",
     value: function applyValuesToChildNodes(elmSelector, values) {
-      return new ElementWithAppliedValuesToAttributesForChildNodes(new ValidatedElementForMappingObject(new FirstOf(new ParsedElmSelectors(elmSelector)), 'applyValuesToChildNodes'), values);
+      return new ElementWithAppliedValuesToChildNodes(new FirstOf(new ParsedElmSelectors(elmSelector)), values);
     }
   }, {
     key: "changeElmsClassName",

@@ -5,7 +5,7 @@ const ParamWithAppliedValues = require('./../objects/ParamWithAppliedValues')
 const ParamWithAppliedLocalStorage = require('./../objects/ParamWithAppliedLocalStorage')
 const ParamWithAppliedMemoryStorage = require('./../objects/ParamWithAppliedMemoryStorage')
 
-class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
+class ElementWithAppliedValuesToChildNodes extends AsyncObject {
   constructor (element, values) {
     super(element, values)
   }
@@ -13,13 +13,13 @@ class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
   syncCall () {
     return (element, values) => {
       const dataObjectAttr = element.getAttribute('data-object')
+      if (!dataObjectAttr) {
+        throw new Error(`elm #${element.getAttribute('id')} must have attribute data-object for applying values to child nodes, so you can know what object it encapsulates`)
+      }
+      const valuesWithNewKey = {}
+      valuesWithNewKey[dataObjectAttr] = values
       // APPLY VARS: here we just apply storage vars and values to attrs of the elm's child nodes
-      return this.applyValuesToChildren(
-        element,
-        dataObjectAttr
-          ? this.valuesWithNewKey(values, dataObjectAttr)
-          : values
-      )
+      return this.applyValuesToChildren(element, valuesWithNewKey)
     }
   }
 
@@ -76,7 +76,7 @@ class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
     element.setAttribute(
       attrName,
       new ParamWithAppliedValues(
-        element.getAttribute(attrName), values
+        element.getAttribute(attrName), values, '2'
       ).value()
     )
   }
@@ -84,13 +84,6 @@ class ElementWithAppliedValuesToAttributesForChildNodes extends AsyncObject {
   hasParamsInAttributeToApply (element, attrName) {
     return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName))
   }
-
-  valuesWithNewKey (values, newKey) {
-    const oldKey = Object.keys(values)[0]
-    const newValues = {}
-    newValues[newKey] = values[oldKey]
-    return newValues
-  }
 }
 
-module.exports = ElementWithAppliedValuesToAttributesForChildNodes
+module.exports = ElementWithAppliedValuesToChildNodes

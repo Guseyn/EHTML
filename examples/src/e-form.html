@@ -40,9 +40,9 @@
         saveToMemoryStorage(saved, ${saved});
         hideElms(#form);
         innerHTML(#result, /../html/form-result.html);
-        applyValuesToChildNodes(#form-result);
+        applyValuesToChildNodes(#form-result, ${saved});
         addHTMLTo(#result-with-only-files, /../html/form-result-only-files.html);
-        applyValuesToChildNodes(#form-result-only-files);
+        applyValuesToChildNodes(#form-result-only-files, ${saved});
         showElms(#result, #result-with-only-files);
         disableElms(#send);">
       

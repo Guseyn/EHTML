@@ -37,7 +37,7 @@ class HTMLTunedElement extends HTMLElement {
   appliedActions (value) {
     const dataObj = {}
     return new TheSameObjectWithValue(
-      dataObj, 'OBJECT_NAME', value
+      dataObj, this.getAttribute('data-object') || 'OBJECT_NAME', value
     ).after(
       new Actions(
         this.tagName,

@@ -27,6 +27,30 @@ class MemoryStorage {
       eval(`this.items['${key}'].${pathOfValue} = value`)
     }
   }
+
+  addItemToArray (keyPath, value) {
+    const keyParts = keyPath.split('.')
+    const key = keyParts[0]
+    const pathOfValue = keyParts.splice(1).join('.')
+    if (pathOfValue.length === 0) {
+      this.items[key].push(value)
+    } else {
+      // eslint-disable-next-line no-eval
+      eval(`this.items['${key}'].${pathOfValue}.push(value)`)
+    }
+  }
+
+  removeItemFromArray (keyPath, index) {
+    const keyParts = keyPath.split('.')
+    const key = keyParts[0]
+    const pathOfValue = keyParts.splice(1).join('.')
+    if (pathOfValue.length === 0) {
+      this.items[key].splice(index, 1)
+    } else {
+      // eslint-disable-next-line no-eval
+      eval(`this.items['${key}'].${pathOfValue}.splice(index, 1)`)
+    }
+  }
 }
 
 module.exports = MemoryStorage

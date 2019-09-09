@@ -31,14 +31,16 @@ function () {
 
       var elms = [];
       this.elmSelectors.forEach(function (elmSelector) {
-        elmSelector = elmSelector.trim();
+        if (elmSelector) {
+          elmSelector = elmSelector.trim();
 
-        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-          elms.push(document.getElementById(elmSelector.split('#')[1]));
-        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-          _this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
-        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-          _this.pushElms(elms, document.getElementsByTagName(elmSelector));
+          if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
+            elms.push(document.getElementById(elmSelector.split('#')[1]));
+          } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
+            _this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
+          } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
+            _this.pushElms(elms, document.getElementsByTagName(elmSelector));
+          }
         }
       });
       return elms;
