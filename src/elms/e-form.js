@@ -16,6 +16,7 @@ class EForm extends HTMLTunedElement {
   static get observedAttributes () {
     return [
       'data-request-url',
+      'data-request-method',
       'data-request-headers',
       'data-request-button-id',
       'data-upload-progress-bar-id',
@@ -72,7 +73,7 @@ class EForm extends HTMLTunedElement {
                 'headers', new ParsedJSON(
                   this.getAttribute('data-request-headers') || '{}'
                 ),
-                'method', 'POST',
+                'method', this.getAttribute('data-request-method') || 'POST',
                 'uploadProgressEvent', progressBar ? progressBar.showProgress : () => {}
               ),
               new StringifiedJSON(
