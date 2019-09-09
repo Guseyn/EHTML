@@ -4,7 +4,6 @@ const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML } = require('@page-libs/dom')
-const ValidatedElementForMappingObject = require('./../async/ValidatedElementForMappingObject')
 const RedirectAction = require('./../async/RedirectAction')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
 const MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue')
@@ -12,7 +11,7 @@ const HiddenElements = require('./../async/HiddenElements')
 const ShownElements = require('./../async/ShownElements')
 const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
-const ElementWithAppliedValuesToAttributesForChildNodes = require('./../async/ElementWithAppliedValuesToAttributesForChildNodes')
+const ElementWithAppliedValuesToChildNodes = require('./../async/ElementWithAppliedValuesToChildNodes')
 const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
 const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const BuiltAsyncTreeByParsedCommands = require('./../objects/BuiltAsyncTreeByParsedCommands')
@@ -53,7 +52,7 @@ class Actions {
             new ParamWithAppliedLocalStorage(
               new ParamWithAppliedMemoryStorage(
                 new ParamWithAppliedValues(
-                  param, values
+                  param, values, '1'
                 )
               )
             )
@@ -105,7 +104,7 @@ class Actions {
           parsedCommands.push(
             this.applyValuesToChildNodes(
               commandParams[0],
-              values
+              commandParams[1]
             )
           )
           break
@@ -201,11 +200,9 @@ class Actions {
   }
 
   applyValuesToChildNodes (elmSelector, values) {
-    return new ElementWithAppliedValuesToAttributesForChildNodes(
-      new ValidatedElementForMappingObject(
-        new FirstOf(
-          new ParsedElmSelectors(elmSelector)
-        ), 'applyValuesToChildNodes'
+    return new ElementWithAppliedValuesToChildNodes(
+      new FirstOf(
+        new ParsedElmSelectors(elmSelector)
       ), values
     )
   }

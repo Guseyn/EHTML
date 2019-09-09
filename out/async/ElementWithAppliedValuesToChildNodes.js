@@ -46,14 +46,14 @@ function (_AsyncObject) {
       return function (element, values) {
         var dataObjectAttr = element.getAttribute('data-object');
 
-        if (dataObjectAttr) {
-          throw new Error("elm #".concat(elm.getAttribute('id'), " must have attribute data-object for  applying values to child nodes, so you can know what object it encapsulates"));
-        } // APPLY VARS: here we just apply storage vars and values to attrs of the elm's child nodes
+        if (!dataObjectAttr) {
+          throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-object for applying values to child nodes, so you can know what object it encapsulates"));
+        }
 
+        var valuesWithNewKey = {};
+        valuesWithNewKey[dataObjectAttr] = values; // APPLY VARS: here we just apply storage vars and values to attrs of the elm's child nodes
 
-        return _this.applyValuesToChildren(element, {
-          dataObjectAttr: values
-        });
+        return _this.applyValuesToChildren(element, valuesWithNewKey);
       };
     }
   }, {

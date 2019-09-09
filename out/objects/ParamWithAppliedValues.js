@@ -11,7 +11,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var ParamWithAppliedValues =
 /*#__PURE__*/
 function () {
-  function ParamWithAppliedValues(param, values) {
+  function ParamWithAppliedValues(param, values, type) {
     _classCallCheck(this, ParamWithAppliedValues);
 
     this.param = param;
