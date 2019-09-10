@@ -54,8 +54,12 @@ class EForm extends HTMLTunedElement {
     const textareas = this.getElementsByTagName('textarea')
     const localStorageValues = this.getElementsByTagName('e-local-storage-value')
     const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
-    const requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button-id')).value()[0]
-    const progressBar = new ParsedElmSelectors(this.getAttribute('data-upload-progress-bar-id')).value()[0]
+    const requestButton = new ParsedElmSelectors(
+      this.getAttribute('data-request-button-id')
+    ).value()[0]
+    const progressBar = new ParsedElmSelectors(
+      this.getAttribute('data-upload-progress-bar-id')
+    ).value()[0]
     const requestBody = {}
     this.tuneFileInputs(fileInputs, requestButton)
     requestButton.addEventListener('click', () => {
