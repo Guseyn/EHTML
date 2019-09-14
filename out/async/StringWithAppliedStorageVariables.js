@@ -21,25 +21,29 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var EmptyAsyncObject =
+var StringWithAppliedStorageVariables = require('./../util/StringWithAppliedStorageVariables');
+
+var AsyncStringWithAppliedStorageVariables =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+  _inherits(AsyncStringWithAppliedStorageVariables, _AsyncObject);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function AsyncStringWithAppliedStorageVariables(str) {
+    _classCallCheck(this, AsyncStringWithAppliedStorageVariables);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithAppliedStorageVariables).call(this, str));
   }
 
-  _createClass(EmptyAsyncObject, [{
+  _createClass(AsyncStringWithAppliedStorageVariables, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {};
+      return function (str) {
+        return new StringWithAppliedStorageVariables(str).value();
+      };
     }
   }]);
 
-  return EmptyAsyncObject;
+  return AsyncStringWithAppliedStorageVariables;
 }(AsyncObject);
 
-module.exports = EmptyAsyncObject;
+module.exports = AsyncStringWithAppliedStorageVariables;

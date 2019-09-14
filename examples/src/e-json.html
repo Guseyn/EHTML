@@ -13,10 +13,10 @@
   <body class="main">
     <e-json 
       id="block1"
-      data-src="/../user?id=1"
-      data-method="GET"
+      data-request-url="/../user?id=1"
+      data-request-method="GET"
       data-object="user1"
-      data-actions="applyValuesToChildNodes(#block1, ${user1})">
+      data-actions="mapObjToElm(#block1, ${user1})">
       <div style="border: 1px solid black; padding: 10px;">
         <div data-text="First user info:"></div>
         <div data-text="id: ${user1.id}"></div>
@@ -25,10 +25,10 @@
         <br/>
         <e-json
           id="block2"
-          data-src="/../user?id=2"
-          data-method="GET"
+          data-request-url="/../user?id=2"
+          data-request-method="GET"
           data-object="user2"
-          data-actions="applyValuesToChildNodes(#block2, ${user2})">
+          data-actions="mapObjToElm(#block2, ${user2})">
           <div data-text="Second user info (in the first user info block):" style="border: 1px solid black; padding: 10px;">
             <div data-text="id: ${user2.id}"></div>
             <div data-text="name: ${user2.name}"></div>
@@ -48,11 +48,11 @@
     </e-json>
     <e-json
       id="block3"
-      data-src="/../save_user"
-      data-method="POST"
-      data-object="savedUser" 
+      data-request-url="/../save_user"
+      data-request-method="POST"
       data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'
-      data-actions="applyValuesToChildNodes(#block3, ${savedUser})">
+      data-object="savedUser" 
+      data-actions="mapObjToElm(#block3, ${savedUser})">
       <div style="border: 1px solid black; padding: 10px; margin-top: 10px">
         <div data-text="We've just got new saved user:">
           <div data-text="id: ${savedUser.id}"></div>

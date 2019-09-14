@@ -21,18 +21,18 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var HiddenElms =
+var HiddenElements =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(HiddenElms, _AsyncObject);
+  _inherits(HiddenElements, _AsyncObject);
 
-  function HiddenElms(elms) {
-    _classCallCheck(this, HiddenElms);
+  function HiddenElements(elms) {
+    _classCallCheck(this, HiddenElements);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(HiddenElms).call(this, elms));
+    return _possibleConstructorReturn(this, _getPrototypeOf(HiddenElements).call(this, elms));
   }
 
-  _createClass(HiddenElms, [{
+  _createClass(HiddenElements, [{
     key: "syncCall",
     value: function syncCall() {
       return function (elms) {
@@ -44,7 +44,7 @@ function (_AsyncObject) {
     }
   }]);
 
-  return HiddenElms;
+  return HiddenElements;
 }(AsyncObject);
 
-module.exports = HiddenElms;
+module.exports = HiddenElements;

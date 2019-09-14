@@ -2,7 +2,7 @@
 
 const { AsyncObject } = require('@page-libs/cutie')
 
-class ShownElms extends AsyncObject {
+class ShownElements extends AsyncObject {
   constructor (elms) {
     super(elms)
   }
@@ -17,4 +17,4 @@ class ShownElms extends AsyncObject {
   }
 }
 
-module.exports = ShownElms
+module.exports = ShownElements

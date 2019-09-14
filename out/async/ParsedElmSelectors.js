@@ -25,7 +25,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var ParsedElmSelectors = require('./../objects/ParsedElmSelectors');
+var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
 var AsyncParsedElmSelectors =
 /*#__PURE__*/

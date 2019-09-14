@@ -18,28 +18,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('@page-libs/cutie'),
-    AsyncObject = _require.AsyncObject;
+var E = require('./../E');
 
-var EmptyAsyncObject =
+var EMemoryStorageValue =
 /*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+function (_E) {
+  _inherits(EMemoryStorageValue, _E);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function EMemoryStorageValue() {
+    _classCallCheck(this, EMemoryStorageValue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(EMemoryStorageValue).call(this));
   }
 
-  _createClass(EmptyAsyncObject, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function () {};
+  _createClass(EMemoryStorageValue, [{
+    key: "supportedActions",
+    value: function supportedActions() {
+      return [];
+    }
+  }, {
+    key: "onRender",
+    value: function onRender() {
+      this.name = this.attr('name');
+    }
+  }, {
+    key: "value",
+    value: function value() {
+      // eslint-disable-next-line no-undef
+      return memoryStorage.getItem(this.attr('data-key'));
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['name', 'data-key'];
     }
   }]);
 
-  return EmptyAsyncObject;
-}(AsyncObject);
+  return EMemoryStorageValue;
+}(E);
 
-module.exports = EmptyAsyncObject;
+window.customElements.define('e-memory-storage-value', EMemoryStorageValue);
+module.exports = EMemoryStorageValue;

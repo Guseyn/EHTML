@@ -18,28 +18,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('@page-libs/cutie'),
-    AsyncObject = _require.AsyncObject;
+var E = require('./../E');
 
-var EmptyAsyncObject =
+var EUploadProgressBar =
 /*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+function (_E) {
+  _inherits(EUploadProgressBar, _E);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function EUploadProgressBar() {
+    _classCallCheck(this, EUploadProgressBar);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(EUploadProgressBar).call(this));
   }
 
-  _createClass(EmptyAsyncObject, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function () {};
+  _createClass(EUploadProgressBar, [{
+    key: "onRender",
+    value: function onRender() {}
+  }, {
+    key: "showProgress",
+    value: function showProgress(event) {
+      if (event.lengthComputable) {
+        var percentComplete = parseInt(event.loaded / event.total * 100);
+        console.log('Upload: ' + percentComplete + '% complete' + ' loaded: ' + event.loaded);
+      }
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['data-background-url'];
     }
   }]);
 
-  return EmptyAsyncObject;
-}(AsyncObject);
+  return EUploadProgressBar;
+}(E);
 
-module.exports = EmptyAsyncObject;
+window.customElements.define('e-upload-progress-bar', EUploadProgressBar);
+module.exports = EUploadProgressBar;

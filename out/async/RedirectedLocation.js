@@ -21,25 +21,27 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var EmptyAsyncObject =
+var RedirectedLocation =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+  _inherits(RedirectedLocation, _AsyncObject);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function RedirectedLocation(url) {
+    _classCallCheck(this, RedirectedLocation);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(RedirectedLocation).call(this, url));
   }
 
-  _createClass(EmptyAsyncObject, [{
+  _createClass(RedirectedLocation, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {};
+      return function (url) {
+        window.location.href = url;
+      };
     }
   }]);
 
-  return EmptyAsyncObject;
+  return RedirectedLocation;
 }(AsyncObject);
 
-module.exports = EmptyAsyncObject;
+module.exports = RedirectedLocation;

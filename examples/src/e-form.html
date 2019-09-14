@@ -34,15 +34,16 @@
       id="form"
       data-request-url="https://guseyn.com/echo"
       data-request-button-id="#send"
-      data-upload-progress-bar-id="#progressBar"
+      data-upload-progress-bar-id="#uploadProgressBar"
+      data-progress-bar-id="#progressBar"
       data-object="saved"
       data-actions="
         saveToMemoryStorage(saved, ${saved});
         hideElms(#form);
         innerHTML(#result, /../html/form-result.html);
-        applyValuesToChildNodes(#form-result, ${saved});
+        mapObjToElm(#form-result, ${saved});
         addHTMLTo(#result-with-only-files, /../html/form-result-only-files.html);
-        applyValuesToChildNodes(#form-result-only-files, ${saved});
+        mapObjToElm(#form-result-only-files, ${saved});
         showElms(#result, #result-with-only-files);
         disableElms(#send);">
       
@@ -91,7 +92,8 @@
 
       <button id="send">Send request</button>
 
-      <e-upload-progress-bar id="progressBar"></e-progress-bar>
+      <e-upload-progress-bar id="uploadProgressBar"></e-upload-progress-bar>
+      <e-progress-bar id="progressBar"></e-progress-bar>
     </e-form>
     <div id="result" style="display: none;"></div>
     <div id="result-with-only-files" style="display: none;">
