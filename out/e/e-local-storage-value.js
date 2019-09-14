@@ -18,28 +18,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('@page-libs/cutie'),
-    AsyncObject = _require.AsyncObject;
+var E = require('./../E');
 
-var EmptyAsyncObject =
+var ELocalStorageValue =
 /*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+function (_E) {
+  _inherits(ELocalStorageValue, _E);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function ELocalStorageValue() {
+    _classCallCheck(this, ELocalStorageValue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ELocalStorageValue).call(this));
   }
 
-  _createClass(EmptyAsyncObject, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function () {};
+  _createClass(ELocalStorageValue, [{
+    key: "onRender",
+    value: function onRender() {
+      this.name = this.attr('name');
+    }
+  }, {
+    key: "value",
+    value: function value() {
+      return localStorage.getItem(this.attr('data-key'));
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['name', 'data-key'];
     }
   }]);
 
-  return EmptyAsyncObject;
-}(AsyncObject);
+  return ELocalStorageValue;
+}(E);
 
-module.exports = EmptyAsyncObject;
+window.customElements.define('e-local-storage-value', ELocalStorageValue);
+module.exports = ELocalStorageValue;

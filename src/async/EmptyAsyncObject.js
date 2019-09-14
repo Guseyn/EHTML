@@ -3,12 +3,12 @@
 const { AsyncObject } = require('@page-libs/cutie')
 
 class EmptyAsyncObject extends AsyncObject {
-  constructor (values) {
-    super(values)
+  constructor () {
+    super()
   }
 
   syncCall () {
-    return (values) => {
+    return () => {
 
     }
   }

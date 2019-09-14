@@ -21,25 +21,29 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var EmptyAsyncObject =
+var StringWithMappedObject = require('./../util/StringWithMappedObject');
+
+var AsyncStringWithMappedObject =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+  _inherits(AsyncStringWithMappedObject, _AsyncObject);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function AsyncStringWithMappedObject(str, obj) {
+    _classCallCheck(this, AsyncStringWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithMappedObject).call(this, str, obj));
   }
 
-  _createClass(EmptyAsyncObject, [{
+  _createClass(AsyncStringWithMappedObject, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {};
+      return function (str, obj) {
+        return new StringWithMappedObject(str, obj).value();
+      };
     }
   }]);
 
-  return EmptyAsyncObject;
+  return AsyncStringWithMappedObject;
 }(AsyncObject);
 
-module.exports = EmptyAsyncObject;
+module.exports = AsyncStringWithMappedObject;

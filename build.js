@@ -1,17 +1,19 @@
 'use strict'
 
+// TODO
+
 const {
-  ExecutedLint,
-  ExecutedTestCoverage,
-  ExecutedTestCoverageCheck,
-  ExecutedTestCoverageReport,
-  LoggedTotalCoverageByJsonSummary
+  ExecutedLint //,
+  // ExecutedTestCoverage,
+  // ExecutedTestCoverageCheck,
+  // ExecutedTestCoverageReport,
+  // LoggedTotalCoverageByJsonSummary
 } = require('@cuties/wall')
 const { ReadDataByPath } = require('@cuties/fs')
 const { ParsedJSON } = require('@cuties/json')
 const { SpawnedCommand } = require('@cuties/spawn')
 
-new SpawnedCommand('grunt').after(
+/* new SpawnedCommand('grunt').after(
   new ExecutedLint(process, './src', './test').after(
     new ExecutedTestCoverageReport(
       new ExecutedTestCoverageCheck(
@@ -30,4 +32,8 @@ new SpawnedCommand('grunt').after(
       )
     )
   )
+).call() */
+
+new SpawnedCommand('grunt').after(
+  new ExecutedLint(process, './src', './test')
 ).call()

@@ -19,27 +19,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var _require = require('@page-libs/cutie'),
-    AsyncObject = _require.AsyncObject;
+    browserified = _require.browserified;
 
-var EmptyAsyncObject =
+var _browserified = browserified(require('@cuties/object')),
+    CreatedOptions = _browserified.CreatedOptions;
+
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
+
+var _require2 = require('@page-libs/ajax'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
+
+var _require3 = require('@page-libs/dom'),
+    UnwrappedChildrenOfParent = _require3.UnwrappedChildrenOfParent,
+    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
+
+var E = require('./../E');
+
+var EHTML =
 /*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(EmptyAsyncObject, _AsyncObject);
+function (_E) {
+  _inherits(EHTML, _E);
 
-  function EmptyAsyncObject() {
-    _classCallCheck(this, EmptyAsyncObject);
+  function EHTML() {
+    _classCallCheck(this, EHTML);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EmptyAsyncObject).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this));
   }
 
-  _createClass(EmptyAsyncObject, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function () {};
+  _createClass(EHTML, [{
+    key: "onRender",
+    value: function onRender() {
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attr('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.attr('data-headers') || '{}')))))).call();
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['data-src', 'data-headers'];
     }
   }]);
 
-  return EmptyAsyncObject;
-}(AsyncObject);
+  return EHTML;
+}(E);
 
-module.exports = EmptyAsyncObject;
+window.customElements.define('e-html', EHTML);
+module.exports = EHTML;
