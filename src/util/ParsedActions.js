@@ -40,19 +40,24 @@ class ParsedActions {
   }
 
   actionParams (action, actionName) {
-    return action
-      .replace(')', '')
-      .split(`${actionName}(`)[1]
-      .split(',')
-      .map(param => {
-        return new ParsedJSONOrString(
-          new StringWithMappedObject(
-            new StringWithAppliedStorageVariables(
-              param
-            ), this.obj
-          )
+    const params = action.split(actionName)[1]
+    // eslint-disable-next-line no-eval
+    return eval(`this.funcWithParams${params}`)
+  }
+
+  funcWithParams (...params) {
+    return params.map(param => {
+      if (typeof param === 'object') {
+        param = JSON.stringify(param)
+      }
+      return new ParsedJSONOrString(
+        new StringWithMappedObject(
+          new StringWithAppliedStorageVariables(
+            param
+          ), this.obj
         )
-      })
+      )
+    })
   }
 }
 

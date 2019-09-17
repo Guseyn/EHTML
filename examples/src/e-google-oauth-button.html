@@ -64,7 +64,10 @@
       data-scope="profile"
       data-request-token-key="googleToken"
       data-object="responseWithToken"
-      data-actions="saveToLocalStorage(jwt, ${responseWithToken.jwt});">
+      data-actions="
+        saveToLocalStorage('jwt', '${responseWithToken.jwt}');
+      "
+    >
         <span id="google-icon" class="icon"></span>
         <span class="buttonText">Sign in with Google</span>
     </e-google-oauth-button>

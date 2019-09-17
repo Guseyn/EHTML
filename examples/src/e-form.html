@@ -38,15 +38,16 @@
       data-progress-bar-id="#progressBar"
       data-object="saved"
       data-actions="
-        saveToMemoryStorage(saved, ${saved});
-        hideElms(#form);
-        innerHTML(#result, /../html/form-result.html);
-        mapObjToElm(#form-result, ${saved});
-        addHTMLTo(#result-with-only-files, /../html/form-result-only-files.html);
-        mapObjToElm(#form-result-only-files, ${saved});
-        showElms(#result, #result-with-only-files);
-        disableElms(#send);">
-      
+        saveToMemoryStorage('saved', '${saved}');
+        hideElms('#form');
+        innerHTML('#result', '/../html/form-result.html');
+        mapObjToElm('#form-result', '${saved}');
+        addHTMLTo('#result-with-only-files', '/../html/form-result-only-files.html');
+        mapObjToElm('#form-result-only-files', '${saved}');
+        showElms('#result', '#result-with-only-files');
+        disableElms('#send');
+      "
+    >
       <input type="checkbox" name="isTrue"><br/>
       <input type="color" name="colorhash"><br/>
       <input type="date" name="date"><br/>

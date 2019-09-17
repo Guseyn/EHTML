@@ -6530,7 +6530,9 @@ function (_HTMLElement) {
     key: "applyStorageValuesToAttributes",
     value: function applyStorageValuesToAttributes() {
       for (var i = 0; i < this.attributes.length; i++) {
-        this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(this.attributes[i].value).value());
+        if (this.attributes[i].name !== 'data-actions') {
+          this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(this.attributes[i].value).value());
+        }
       }
     }
   }, {
@@ -8704,6 +8706,8 @@ module.exports = MemoryStorage;
 },{}],184:[function(require,module,exports){
 'use strict';
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -8779,9 +8783,24 @@ function () {
   }, {
     key: "actionParams",
     value: function actionParams(action, actionName) {
+      var params = action.split(actionName)[1]; // eslint-disable-next-line no-eval
+
+      return eval("this.funcWithParams".concat(params));
+    }
+  }, {
+    key: "funcWithParams",
+    value: function funcWithParams() {
       var _this2 = this;
 
-      return action.replace(')', '').split("".concat(actionName, "("))[1].split(',').map(function (param) {
+      for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
+        params[_key] = arguments[_key];
+      }
+
+      return params.map(function (param) {
+        if (_typeof(param) === 'object') {
+          param = JSON.stringify(param);
+        }
+
         return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj));
       });
     }
