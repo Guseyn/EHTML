@@ -7686,30 +7686,34 @@ function (_E) {
     value: function onRender() {
       var _this = this;
 
+      var requestButton = new ParsedElmSelectors(this.attr('data-request-button-id')).value()[0];
+      var uploadProgressBar = new ParsedElmSelectors(this.attr('data-upload-progress-bar-id')).value()[0];
+      var progressBar = new ParsedElmSelectors(this.attr('data-progress-bar-id')).value()[0];
+
+      if (requestButton) {
+        this.tuneFileInputs(this.filteredFileInputs(this.getElementsByTagName('input')), requestButton);
+        requestButton.addEventListener('click', function () {
+          var requestBody = _this.requestBody();
+
+          new AppliedActions(_this.tagName, _this.attr('data-object'), _this.attr('data-actions'), _this.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.attr('data-request-url'), 'headers', new ParsedJSON(_this.attr('data-request-headers') || '{}'), 'method', _this.attr('data-request-method') || 'POST', 'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : function () {}, 'progressEvent', progressBar ? progressBar.showProgress : function () {}), new StringifiedJSON(requestBody))))).call();
+        });
+      }
+    }
+  }, {
+    key: "requestBody",
+    value: function requestBody() {
       var inputs = this.getElementsByTagName('input');
-      var fileInputs = this.filteredFileInputs(inputs);
       var selects = this.getElementsByTagName('select');
       var textareas = this.getElementsByTagName('textarea');
       var localStorageValues = this.getElementsByTagName('e-local-storage-value');
       var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
-      var requestButton = new ParsedElmSelectors(this.attr('data-request-button-id')).value()[0];
-      var uploadProgressBar = new ParsedElmSelectors(this.attr('data-upload-progress-bar-id')).value()[0];
-      var progressBar = new ParsedElmSelectors(this.attr('data-progress-bar-id')).value()[0];
       var requestBody = {};
-      this.tuneFileInputs(fileInputs, requestButton);
-      requestButton.addEventListener('click', function () {
-        _this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
-
-        _this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
-
-        _this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
-
-        _this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
-
-        _this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
-
-        new AppliedActions(_this.tagName, _this.attr('data-object'), _this.attr('data-actions'), _this.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.attr('data-request-url'), 'headers', new ParsedJSON(_this.attr('data-request-headers') || '{}'), 'method', _this.attr('data-request-method') || 'POST', 'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : function () {}, 'progressEvent', progressBar ? progressBar.showProgress : function () {}), new StringifiedJSON(requestBody))))).call();
-      });
+      this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
+      this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
+      this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
+      this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
+      this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
+      return requestBody;
     }
   }, {
     key: "retrievedValuesFromInputsForRequestBody",

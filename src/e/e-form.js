@@ -43,12 +43,6 @@ class EForm extends E {
   }
 
   onRender () {
-    const inputs = this.getElementsByTagName('input')
-    const fileInputs = this.filteredFileInputs(inputs)
-    const selects = this.getElementsByTagName('select')
-    const textareas = this.getElementsByTagName('textarea')
-    const localStorageValues = this.getElementsByTagName('e-local-storage-value')
-    const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
     const requestButton = new ParsedElmSelectors(
       this.attr('data-request-button-id')
     ).value()[0]
@@ -58,39 +52,55 @@ class EForm extends E {
     const progressBar = new ParsedElmSelectors(
       this.attr('data-progress-bar-id')
     ).value()[0]
-    const requestBody = {}
-    this.tuneFileInputs(fileInputs, requestButton)
-    requestButton.addEventListener('click', () => {
-      this.retrievedValuesFromInputsForRequestBody(inputs, requestBody)
-      this.retrievedValuesFromSelectsForRequestBody(selects, requestBody)
-      this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
-      this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
-      this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
-      new AppliedActions(
-        this.tagName,
-        this.attr('data-object'),
-        this.attr('data-actions'),
-        this.supportedActions(),
-        new ParsedJSON(
-          new ResponseBody(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', this.attr('data-request-url'),
-                'headers', new ParsedJSON(
-                  this.attr('data-request-headers') || '{}'
+    if (requestButton) {
+      this.tuneFileInputs(
+        this.filteredFileInputs(
+          this.getElementsByTagName('input')
+        ), requestButton
+      )
+      requestButton.addEventListener('click', () => {
+        const requestBody = this.requestBody()
+        new AppliedActions(
+          this.tagName,
+          this.attr('data-object'),
+          this.attr('data-actions'),
+          this.supportedActions(),
+          new ParsedJSON(
+            new ResponseBody(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', this.attr('data-request-url'),
+                  'headers', new ParsedJSON(
+                    this.attr('data-request-headers') || '{}'
+                  ),
+                  'method', this.attr('data-request-method') || 'POST',
+                  'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : () => {},
+                  'progressEvent', progressBar ? progressBar.showProgress : () => {}
                 ),
-                'method', this.attr('data-request-method') || 'POST',
-                'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : () => {},
-                'progressEvent', progressBar ? progressBar.showProgress : () => {}
-              ),
-              new StringifiedJSON(
-                requestBody
+                new StringifiedJSON(
+                  requestBody
+                )
               )
             )
           )
-        )
-      ).call()
-    })
+        ).call()
+      })
+    }
+  }
+
+  requestBody () {
+    const inputs = this.getElementsByTagName('input')
+    const selects = this.getElementsByTagName('select')
+    const textareas = this.getElementsByTagName('textarea')
+    const localStorageValues = this.getElementsByTagName('e-local-storage-value')
+    const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
+    const requestBody = {}
+    this.retrievedValuesFromInputsForRequestBody(inputs, requestBody)
+    this.retrievedValuesFromSelectsForRequestBody(selects, requestBody)
+    this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
+    this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
+    this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
+    return requestBody
   }
 
   retrievedValuesFromInputsForRequestBody (inputs, requestBody) {
