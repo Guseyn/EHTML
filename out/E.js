@@ -57,7 +57,9 @@ function (_HTMLElement) {
     key: "applyStorageValuesToAttributes",
     value: function applyStorageValuesToAttributes() {
       for (var i = 0; i < this.attributes.length; i++) {
-        this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(this.attributes[i].value).value());
+        if (this.attributes[i].name !== 'data-actions') {
+          this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(this.attributes[i].value).value());
+        }
       }
     }
   }, {
