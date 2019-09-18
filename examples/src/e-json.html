@@ -72,6 +72,25 @@
         <input type="text" data-value="id: ${savedUser.id}">
       </div>
     </e-json>
+    <e-json
+      style="display: block; width: auto; height: auto; cursor: pointer; background: deepskyblue; color: white; margin-top: 10px;"
+      id="block4"
+      data-request-url="/../user?id=1"
+      data-request-method="GET"
+      data-object="user1"
+      data-actions="
+        mapObjToElm('#block4', '${user1}');
+      "
+      data-event="click"
+    >
+      <div style="border: 1px solid black; padding: 10px;">
+        Click here to load user1
+        <div data-text="First user info:"></div>
+        <div data-text="id: ${user1.id}"></div>
+        <div data-text="name: ${user1.name}"></div>
+        <div data-text="email: ${user1.email}"></div>
+      </div>
+    </e-json>
   </body>
 
 </html>

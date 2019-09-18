@@ -57,12 +57,23 @@ function (_E) {
   }, {
     key: "onRender",
     value: function onRender() {
+      var event = this.attr('data-event');
+
+      if (event) {
+        this.addEventListener(event, this.activate);
+      } else {
+        this.activate();
+      }
+    }
+  }, {
+    key: "activate",
+    value: function activate() {
       new AppliedActions(this.tagName, this.attr('data-object'), this.attr('data-actions'), this.supportedActions(), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attr('data-request-url'), 'method', this.attr('data-request-method') || 'GET', 'headers', new ParsedJSON(this.attr('data-request-headers') || '{}')), this.attr('data-request-body')))))).call();
     }
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-method', 'data-request-headers', 'data-request-body', 'data-object', 'data-actions'];
+      return ['data-request-url', 'data-request-method', 'data-request-headers', 'data-request-body', 'data-object', 'data-actions', 'data-event'];
     }
   }]);
 

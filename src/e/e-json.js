@@ -20,7 +20,8 @@ class EJSON extends E {
       'data-request-headers',
       'data-request-body',
       'data-object',
-      'data-actions'
+      'data-actions',
+      'data-event'
     ]
   }
 
@@ -41,6 +42,15 @@ class EJSON extends E {
   }
 
   onRender () {
+    const event = this.attr('data-event')
+    if (event) {
+      this.addEventListener(event, this.activate)
+    } else {
+      this.activate()
+    }
+  }
+
+  activate () {
     new AppliedActions(
       this.tagName,
       this.attr('data-object'),
