@@ -52,12 +52,12 @@ class EForm extends E {
     const progressBar = new ParsedElmSelectors(
       this.attr('data-progress-bar-id')
     ).value()[0]
+    this.tuneFileInputs(
+      this.filteredFileInputs(
+        this.getElementsByTagName('input')
+      ), requestButton
+    )
     if (requestButton) {
-      this.tuneFileInputs(
-        this.filteredFileInputs(
-          this.getElementsByTagName('input')
-        ), requestButton
-      )
       requestButton.addEventListener('click', () => {
         const requestBody = this.requestBody()
         new AppliedActions(
@@ -172,24 +172,30 @@ class EForm extends E {
   }
 
   tuneFileInput (fileInput, requestButton) {
+    const readProgressBar = new ParsedElmSelectors(
+      fileInput.getAttribute('data-read-progress-bar-id')
+    ).value()[0]
+    this.prepareProgressBar(readProgressBar)
     fileInput.addEventListener('change', () => {
-      this.readFilesContentForRequestBody(fileInput, requestButton)
+      this.readFilesContentForRequestBody(fileInput, requestButton, readProgressBar)
     })
   }
 
-  readFilesContentForRequestBody (fileInput, requestButton) {
+  readFilesContentForRequestBody (fileInput, requestButton, readProgressBar) {
     fileInput.filesInfo = []
     for (let index = 0; index < fileInput.files.length; index++) {
-      this.readFileContentForRequestBody(fileInput, requestButton, index)
+      this.readFileContentForRequestBody(fileInput, requestButton, readProgressBar, index)
     }
   }
 
-  readFileContentForRequestBody (fileInput, requestButton, index) {
+  readFileContentForRequestBody (fileInput, requestButton, readProgressBar, index) {
     const file = fileInput.files[index]
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onloadstart = () => {
-      requestButton.setAttribute('disabled', true)
+      if (requestButton) {
+        requestButton.setAttribute('disabled', true)
+      }
     }
     reader.onload = () => {
       fileInput.filesInfo[index] = new FileInfo(
@@ -199,14 +205,17 @@ class EForm extends E {
         reader.result,
         file.lastModifiedDate
       )
-      requestButton.removeAttribute('disabled')
+      if (requestButton) {
+        requestButton.removeAttribute('disabled')
+      }
     }
     reader.onabort = () => {
-      requestButton.removeAttribute('disabled')
+      if (requestButton) {
+        requestButton.removeAttribute('disabled')
+      }
     }
-    reader.onprogress = () => {
-      // TODO
-    }
+    reader.onprogress = this.showProgress(readProgressBar)
+    reader.onloadend = this.hideProgress(readProgressBar)
     reader.onerror = function () {
       throw new Error(`cound not read file ${file.name}`)
     }
@@ -241,6 +250,15 @@ class EForm extends E {
           const percentComplete = parseInt((event.loaded / event.total) * 100)
           progressBar.value = percentComplete
         }
+      }
+    }
+    return () => {}
+  }
+
+  hideProgress (progressBar) {
+    if (progressBar) {
+      return () => {
+        progressBar.style.display = 'none'
       }
     }
     return () => {}
