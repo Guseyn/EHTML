@@ -70,9 +70,12 @@ function (_E) {
         requestButton.addEventListener('click', function () {
           var requestBody = _this.requestBody();
 
-          new AppliedActions(_this.tagName, _this.attr('data-object'), _this.attr('data-actions'), _this.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.attr('data-request-url'), 'headers', new ParsedJSON(_this.attr('data-request-headers') || '{}'), 'method', _this.attr('data-request-method') || 'POST', 'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : function () {}, 'progressEvent', progressBar ? progressBar.showProgress : function () {}), new StringifiedJSON(requestBody))))).call();
+          new AppliedActions(_this.tagName, _this.attr('data-object'), _this.attr('data-actions'), _this.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.attr('data-request-url'), 'headers', new ParsedJSON(_this.attr('data-request-headers') || '{}'), 'method', _this.attr('data-request-method') || 'POST', 'uploadProgressEvent', _this.showProgress(uploadProgressBar), 'progressEvent', _this.showProgress(progressBar)), new StringifiedJSON(requestBody))))).call();
         });
       }
+
+      this.prepareProgressBar(uploadProgressBar);
+      this.prepareProgressBar(progressBar);
     }
   }, {
     key: "requestBody",
@@ -232,6 +235,30 @@ function (_E) {
       }
 
       return fileInputs;
+    }
+  }, {
+    key: "prepareProgressBar",
+    value: function prepareProgressBar(progressBar) {
+      if (progressBar) {
+        progressBar.max = 100;
+        progressBar.value = 0;
+        progressBar.style.display = 'none';
+      }
+    }
+  }, {
+    key: "showProgress",
+    value: function showProgress(progressBar) {
+      if (progressBar) {
+        return function (event) {
+          if (event.lengthComputable) {
+            progressBar.style.display = '';
+            var percentComplete = parseInt(event.loaded / event.total * 100);
+            progressBar.value = percentComplete;
+          }
+        };
+      }
+
+      return function () {};
     }
   }], [{
     key: "observedAttributes",

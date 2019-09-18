@@ -74,8 +74,8 @@ class EForm extends E {
                     this.attr('data-request-headers') || '{}'
                   ),
                   'method', this.attr('data-request-method') || 'POST',
-                  'uploadProgressEvent', uploadProgressBar ? uploadProgressBar.showProgress : () => {},
-                  'progressEvent', progressBar ? progressBar.showProgress : () => {}
+                  'uploadProgressEvent', this.showProgress(uploadProgressBar),
+                  'progressEvent', this.showProgress(progressBar)
                 ),
                 new StringifiedJSON(
                   requestBody
@@ -86,6 +86,8 @@ class EForm extends E {
         ).call()
       })
     }
+    this.prepareProgressBar(uploadProgressBar)
+    this.prepareProgressBar(progressBar)
   }
 
   requestBody () {
@@ -221,6 +223,27 @@ class EForm extends E {
       }
     }
     return fileInputs
+  }
+
+  prepareProgressBar (progressBar) {
+    if (progressBar) {
+      progressBar.max = 100
+      progressBar.value = 0
+      progressBar.style.display = 'none'
+    }
+  }
+
+  showProgress (progressBar) {
+    if (progressBar) {
+      return (event) => {
+        if (event.lengthComputable) {
+          progressBar.style.display = ''
+          const percentComplete = parseInt((event.loaded / event.total) * 100)
+          progressBar.value = percentComplete
+        }
+      }
+    }
+    return () => {}
   }
 }
 
