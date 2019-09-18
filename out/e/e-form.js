@@ -64,9 +64,9 @@ function (_E) {
       var requestButton = new ParsedElmSelectors(this.attr('data-request-button-id')).value()[0];
       var uploadProgressBar = new ParsedElmSelectors(this.attr('data-upload-progress-bar-id')).value()[0];
       var progressBar = new ParsedElmSelectors(this.attr('data-progress-bar-id')).value()[0];
+      this.tuneFileInputs(this.filteredFileInputs(this.getElementsByTagName('input')), requestButton);
 
       if (requestButton) {
-        this.tuneFileInputs(this.filteredFileInputs(this.getElementsByTagName('input')), requestButton);
         requestButton.addEventListener('click', function () {
           var requestBody = _this.requestBody();
 
@@ -180,41 +180,50 @@ function (_E) {
     value: function tuneFileInput(fileInput, requestButton) {
       var _this2 = this;
 
+      var readProgressBar = new ParsedElmSelectors(fileInput.getAttribute('data-read-progress-bar-id')).value()[0];
+      this.prepareProgressBar(readProgressBar);
       fileInput.addEventListener('change', function () {
-        _this2.readFilesContentForRequestBody(fileInput, requestButton);
+        _this2.readFilesContentForRequestBody(fileInput, requestButton, readProgressBar);
       });
     }
   }, {
     key: "readFilesContentForRequestBody",
-    value: function readFilesContentForRequestBody(fileInput, requestButton) {
+    value: function readFilesContentForRequestBody(fileInput, requestButton, readProgressBar) {
       fileInput.filesInfo = [];
 
       for (var index = 0; index < fileInput.files.length; index++) {
-        this.readFileContentForRequestBody(fileInput, requestButton, index);
+        this.readFileContentForRequestBody(fileInput, requestButton, readProgressBar, index);
       }
     }
   }, {
     key: "readFileContentForRequestBody",
-    value: function readFileContentForRequestBody(fileInput, requestButton, index) {
+    value: function readFileContentForRequestBody(fileInput, requestButton, readProgressBar, index) {
       var file = fileInput.files[index];
       var reader = new FileReader();
       reader.readAsDataURL(file);
 
       reader.onloadstart = function () {
-        requestButton.setAttribute('disabled', true);
+        if (requestButton) {
+          requestButton.setAttribute('disabled', true);
+        }
       };
 
       reader.onload = function () {
         fileInput.filesInfo[index] = new FileInfo(file.name, file.size, file.type, reader.result, file.lastModifiedDate);
-        requestButton.removeAttribute('disabled');
+
+        if (requestButton) {
+          requestButton.removeAttribute('disabled');
+        }
       };
 
       reader.onabort = function () {
-        requestButton.removeAttribute('disabled');
+        if (requestButton) {
+          requestButton.removeAttribute('disabled');
+        }
       };
 
-      reader.onprogress = function () {// TODO
-      };
+      reader.onprogress = this.showProgress(readProgressBar);
+      reader.onloadend = this.hideProgress(readProgressBar);
 
       reader.onerror = function () {
         throw new Error("cound not read file ".concat(file.name));
@@ -255,6 +264,17 @@ function (_E) {
             var percentComplete = parseInt(event.loaded / event.total * 100);
             progressBar.value = percentComplete;
           }
+        };
+      }
+
+      return function () {};
+    }
+  }, {
+    key: "hideProgress",
+    value: function hideProgress(progressBar) {
+      if (progressBar) {
+        return function () {
+          progressBar.style.display = 'none';
         };
       }
 
