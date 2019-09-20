@@ -1,11 +1,12 @@
 
 'use strict'
 
-const { browserified } = require('@page-libs/cutie')
+const { browserified, as } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON, StringifiedJSON } = browserified(require('@cuties/json'))
-const AppliedActions = require('./../async/AppliedActions')
+const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
+const EnabledElements = require('./../async/EnabledElements')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
 const FileInfo = require('./../util/FileInfo')
 const E = require('./../E')
@@ -20,9 +21,11 @@ class EForm extends E {
       'data-request-url',
       'data-request-method',
       'data-request-headers',
-      'data-request-button-id',
-      'data-upload-progress-bar-id',
-      'data-actions'
+      'data-request-button',
+      'data-upload-progress-bar',
+      'data-progress-bar',
+      'data-response-object-name',
+      'data-actions-on-response'
     ]
   }
 
@@ -44,13 +47,13 @@ class EForm extends E {
 
   onRender () {
     const requestButton = new ParsedElmSelectors(
-      this.attr('data-request-button-id')
+      this.getAttribute('data-request-button')
     ).value()[0]
     const uploadProgressBar = new ParsedElmSelectors(
-      this.attr('data-upload-progress-bar-id')
+      this.getAttribute('data-upload-progress-bar')
     ).value()[0]
     const progressBar = new ParsedElmSelectors(
-      this.attr('data-progress-bar-id')
+      this.getAttribute('data-progress-bar')
     ).value()[0]
     this.tuneFileInputs(
       this.filteredFileInputs(
@@ -59,28 +62,33 @@ class EForm extends E {
     )
     if (requestButton) {
       requestButton.addEventListener('click', () => {
+        requestButton.disabled = true
         const requestBody = this.requestBody()
-        new AppliedActions(
-          this.tagName,
-          this.attr('data-object'),
-          this.attr('data-actions'),
-          this.supportedActions(),
-          new ParsedJSON(
-            new ResponseBody(
-              new ResponseFromAjaxRequest(
-                new CreatedOptions(
-                  'url', this.attr('data-request-url'),
-                  'headers', new ParsedJSON(
-                    this.attr('data-request-headers') || '{}'
-                  ),
-                  'method', this.attr('data-request-method') || 'POST',
-                  'uploadProgressEvent', this.showProgress(uploadProgressBar),
-                  'progressEvent', this.showProgress(progressBar)
+        new ParsedJSON(
+          new ResponseBody(
+            new ResponseFromAjaxRequest(
+              new CreatedOptions(
+                'url', this.getAttribute('data-request-url'),
+                'headers', new ParsedJSON(
+                  this.getAttribute('data-request-headers') || '{}'
                 ),
-                new StringifiedJSON(
-                  requestBody
-                )
+                'method', this.getAttribute('data-request-method') || 'POST',
+                'uploadProgressEvent', this.showProgress(uploadProgressBar),
+                'progressEvent', this.showProgress(progressBar)
+              ),
+              new StringifiedJSON(
+                requestBody
               )
+            )
+          )
+        ).as('RESPONSE').after(
+          new EnabledElements([requestButton]).after(
+            new AppliedActionsOnResponse(
+              this.tagName,
+              this.getAttribute('data-response-object-name'),
+              this.getAttribute('data-actions-on-response'),
+              this.supportedActions(),
+              as('RESPONSE')
             )
           )
         ).call()
@@ -173,7 +181,7 @@ class EForm extends E {
 
   tuneFileInput (fileInput, requestButton) {
     const readProgressBar = new ParsedElmSelectors(
-      fileInput.getAttribute('data-read-progress-bar-id')
+      fileInput.getAttribute('data-read-progress-bar')
     ).value()[0]
     this.prepareProgressBar(readProgressBar)
     fileInput.addEventListener('change', () => {

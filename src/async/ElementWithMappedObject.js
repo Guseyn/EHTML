@@ -11,9 +11,9 @@ class ElementWithMappedObject extends AsyncObject {
 
   syncCall () {
     return (element, obj) => {
-      const objName = element.getAttribute('data-object')
+      const objName = element.getAttribute('data-response-object-name')
       if (!objName) {
-        throw new Error(`elm #${element.getAttribute('id')} must have attribute data-object for applying values to child nodes, so you can know what object it encapsulates`)
+        throw new Error(`elm #${element.getAttribute('id')} must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates`)
       }
       const OBJ = { }
       OBJ[objName] = obj
@@ -27,7 +27,7 @@ class ElementWithMappedObject extends AsyncObject {
         for (let i = 0; i < child.attributes.length; i++) {
           const attrName = child.attributes[i].name
           const attrValue = child.attributes[i].value
-          if (attrName !== 'data-actions') {
+          if (attrName !== 'data-actions-on-response') {
             this.applyStorageVariablesInAttribute(child, attrName, attrValue)
             this.mapObjToAttribute(child, attrName, attrValue, obj)
             if (attrName === 'data-text') {

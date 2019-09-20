@@ -19,8 +19,8 @@ class EJSON extends E {
       'data-request-method',
       'data-request-headers',
       'data-request-body',
-      'data-object',
-      'data-actions',
+      'data-response-object-name',
+      'data-actions-on-response',
       'data-event'
     ]
   }
@@ -42,7 +42,7 @@ class EJSON extends E {
   }
 
   onRender () {
-    const event = this.attr('data-event')
+    const event = this.getAttribute('data-event')
     if (event) {
       this.addEventListener(event, this.activate)
     } else {
@@ -53,21 +53,21 @@ class EJSON extends E {
   activate () {
     new AppliedActions(
       this.tagName,
-      this.attr('data-object'),
-      this.attr('data-actions'),
+      this.getAttribute('data-response-object-name'),
+      this.getAttribute('data-actions-on-response'),
       this.supportedActions(),
       new ParsedJSON(
         new StringFromBuffer(
           new ResponseBody(
             new ResponseFromAjaxRequest(
               new CreatedOptions(
-                'url', this.attr('data-request-url'),
-                'method', this.attr('data-request-method') || 'GET',
+                'url', this.getAttribute('data-request-url'),
+                'method', this.getAttribute('data-request-method') || 'GET',
                 'headers', new ParsedJSON(
-                  this.attr('data-request-headers') || '{}'
+                  this.getAttribute('data-request-headers') || '{}'
                 )
               ),
-              this.attr('data-request-body')
+              this.getAttribute('data-request-body')
             )
           )
         )

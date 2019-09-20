@@ -39,13 +39,13 @@ function (_E) {
   }, {
     key: "onRender",
     value: function onRender() {
-      this.name = this.attr('name');
+      this.name = this.getAttribute('name');
     }
   }, {
     key: "value",
     value: function value() {
       // eslint-disable-next-line no-undef
-      return memoryStorage.getItem(this.attr('data-key'));
+      return memoryStorage.getItem(this.getAttribute('data-key'));
     }
   }], [{
     key: "observedAttributes",

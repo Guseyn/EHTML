@@ -15,8 +15,8 @@
       id="block1"
       data-request-url="/../user?id=1"
       data-request-method="GET"
-      data-object="user1"
-      data-actions="
+      data-response-object-name="user1"
+      data-actions-on-response="
         mapObjToElm('#block1', '${user1}');
       "
     >
@@ -30,8 +30,8 @@
           id="block2"
           data-request-url="/../user?id=2"
           data-request-method="GET"
-          data-object="user2"
-          data-actions="
+          data-response-object-name="user2"
+          data-actions-on-response="
             mapObjToElm('#block2', '${user2}');
           "
         >
@@ -57,8 +57,8 @@
       data-request-url="/../save_user"
       data-request-method="POST"
       data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'
-      data-object="savedUser" 
-      data-actions="
+      data-response-object-name="savedUser" 
+      data-actions-on-response="
         mapObjToElm('#block3', '${savedUser}');
       "
     >
@@ -77,8 +77,8 @@
       id="block4"
       data-request-url="/../user?id=1"
       data-request-method="GET"
-      data-object="user1"
-      data-actions="
+      data-response-object-name="user1"
+      data-actions-on-response="
         mapObjToElm('#block4', '${user1}');
       "
       data-event="click"

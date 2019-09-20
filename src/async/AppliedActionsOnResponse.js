@@ -3,7 +3,7 @@
 const { TheSameObjectWithValue } = require('@cuties/object')
 const Actions = require('./../util/Actions')
 
-class AppliedActions {
+class AppliedActionsOnResponse {
   constructor (tagName, objName, actions, supportedActions, obj) {
     const OBJ = {}
     return new TheSameObjectWithValue(OBJ, objName, obj).after(
@@ -16,4 +16,4 @@ class AppliedActions {
   }
 }
 
-module.exports = AppliedActions
+module.exports = AppliedActionsOnResponse

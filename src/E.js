@@ -12,10 +12,6 @@ class E extends HTMLElement {
     throw new Error('render function must be overridden')
   }
 
-  attr (name) {
-    return this.getAttribute(name)
-  }
-
   applyStorageValuesToAttributes () {
     for (let i = 0; i < this.attributes.length; i++) {
       if (this.attributes[i].name !== 'data-actions') {

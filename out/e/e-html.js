@@ -51,7 +51,7 @@ function (_E) {
   _createClass(EHTML, [{
     key: "onRender",
     value: function onRender() {
-      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.attr('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.attr('data-headers') || '{}')))))).call();
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
   }], [{
     key: "observedAttributes",

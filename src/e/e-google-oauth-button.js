@@ -4,7 +4,7 @@
 const { browserified } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ParsedJSON } = browserified(require('@cuties/json'))
-const AppliedActions = require('./../async/AppliedActions')
+const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const E = require('./../E')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
@@ -19,7 +19,9 @@ class EGoogleOauthButton extends E {
       'data-cookiepolicy',
       'data-scope',
       'data-redirect-url',
-      'data-local-storage-jwt-key'
+      'data-local-storage-jwt-key',
+      'data-response-object-name',
+      'data-actions-on-response'
     ]
   }
 
@@ -56,24 +58,24 @@ class EGoogleOauthButton extends E {
     gapi.load('auth2', () => {
       // eslint-disable-next-line no-undef
       const auth2 = gapi.auth2.init({
-        client_id: this.attr('data-client-id'),
-        cookiepolicy: this.attr('data-cookiepolicy') || 'single_host_origin',
-        scope: this.attr('data-scope') || 'profile'
+        client_id: this.getAttribute('data-client-id'),
+        cookiepolicy: this.getAttribute('data-cookiepolicy') || 'single_host_origin',
+        scope: this.getAttribute('data-scope') || 'profile'
       })
       auth2.attachClickHandler(this, {},
         (googleUser) => {
           const body = {}
-          body[this.attr('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
-          new AppliedActions(
+          body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
+          new AppliedActionsOnResponse(
             this.tagName,
-            this.attr('data-object'),
-            this.attr('data-actions'),
+            this.getAttribute('data-response-object-name'),
+            this.getAttribute('data-actions-on-response'),
             this.supportedActions(),
             new ParsedJSON(
               new ResponseBody(
                 new ResponseFromAjaxRequest(
                   {
-                    url: this.attr('data-redirect-url') || '/',
+                    url: this.getAttribute('data-redirect-url') || '/',
                     method: 'POST'
                   },
                   JSON.stringify(body)
@@ -92,7 +94,7 @@ class EGoogleOauthButton extends E {
   googleSignInMetaElm () {
     const googleSignInMetaElm = document.createElement('meta')
     googleSignInMetaElm.setAttribute('name', 'google-signin-client_id')
-    googleSignInMetaElm.setAttribute('content', this.attr('data-client-id'))
+    googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'))
     return googleSignInMetaElm
   }
 

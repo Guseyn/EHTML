@@ -19,13 +19,13 @@ class EMemoryStorageValue extends E {
   }
 
   onRender () {
-    this.name = this.attr('name')
+    this.name = this.getAttribute('name')
   }
 
   value () {
     // eslint-disable-next-line no-undef
     return memoryStorage.getItem(
-      this.attr('data-key')
+      this.getAttribute('data-key')
     )
   }
 }

@@ -33,11 +33,11 @@
     <e-form 
       id="form"
       data-request-url="https://guseyn.com/echo"
-      data-request-button-id="#send"
-      data-upload-progress-bar-id="#uploadProgressBar"
-      data-progress-bar-id="#progressBar"
-      data-object="saved"
-      data-actions="
+      data-request-button="#send"
+      data-upload-progress-bar="#uploadProgressBar"
+      data-progress-bar="#progressBar"
+      data-response-object-name="saved"
+      data-actions-on-response="
         saveToMemoryStorage('saved', '${saved}');
         hideElms('#form');
         innerHTML('#result', '/../html/form-result.html');
@@ -53,9 +53,9 @@
       <input type="date" name="date"><br/>
       <input type="datetime-local" name="dateTimeLocal"><br/>
       <input type="email" name="email"><br/>
-      <input type="file" name="files1" data-read-progress-bar-id="#readProgressBar1" multiple><br/>
+      <input type="file" name="files1" data-read-progress-bar="#readProgressBar1" multiple><br/>
       <progress id="readProgressBar1"></progress><br/>
-      <input type="file" name="files2" data-read-progress-bar-id="#readProgressBar2" multiple><br/>
+      <input type="file" name="files2" data-read-progress-bar="#readProgressBar2" multiple><br/>
       <progress id="readProgressBar2"></progress><br/>
       <input type="hidden" name="hidden"><br/>
       <input type="month" name="month"><br/>

@@ -19,7 +19,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
@@ -32,7 +33,9 @@ var _browserified2 = browserified(require('@cuties/json')),
     ParsedJSON = _browserified2.ParsedJSON,
     StringifiedJSON = _browserified2.StringifiedJSON;
 
-var AppliedActions = require('./../async/AppliedActions');
+var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
+
+var EnabledElements = require('./../async/EnabledElements');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
@@ -61,16 +64,18 @@ function (_E) {
     value: function onRender() {
       var _this = this;
 
-      var requestButton = new ParsedElmSelectors(this.attr('data-request-button-id')).value()[0];
-      var uploadProgressBar = new ParsedElmSelectors(this.attr('data-upload-progress-bar-id')).value()[0];
-      var progressBar = new ParsedElmSelectors(this.attr('data-progress-bar-id')).value()[0];
+      var requestButton = new ParsedElmSelectors(this.getAttribute('data-request-button')).value()[0];
+      var uploadProgressBar = new ParsedElmSelectors(this.getAttribute('data-upload-progress-bar')).value()[0];
+      var progressBar = new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0];
       this.tuneFileInputs(this.filteredFileInputs(this.getElementsByTagName('input')), requestButton);
 
       if (requestButton) {
         requestButton.addEventListener('click', function () {
+          requestButton.disabled = true;
+
           var requestBody = _this.requestBody();
 
-          new AppliedActions(_this.tagName, _this.attr('data-object'), _this.attr('data-actions'), _this.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.attr('data-request-url'), 'headers', new ParsedJSON(_this.attr('data-request-headers') || '{}'), 'method', _this.attr('data-request-method') || 'POST', 'uploadProgressEvent', _this.showProgress(uploadProgressBar), 'progressEvent', _this.showProgress(progressBar)), new StringifiedJSON(requestBody))))).call();
+          new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-request-url'), 'headers', new ParsedJSON(_this.getAttribute('data-request-headers') || '{}'), 'method', _this.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', _this.showProgress(uploadProgressBar), 'progressEvent', _this.showProgress(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([requestButton]).after(new AppliedActionsOnResponse(_this.tagName, _this.getAttribute('data-response-object-name'), _this.getAttribute('data-actions-on-response'), _this.supportedActions(), as('RESPONSE')))).call();
         });
       }
 
@@ -180,7 +185,7 @@ function (_E) {
     value: function tuneFileInput(fileInput, requestButton) {
       var _this2 = this;
 
-      var readProgressBar = new ParsedElmSelectors(fileInput.getAttribute('data-read-progress-bar-id')).value()[0];
+      var readProgressBar = new ParsedElmSelectors(fileInput.getAttribute('data-read-progress-bar')).value()[0];
       this.prepareProgressBar(readProgressBar);
       fileInput.addEventListener('change', function () {
         _this2.readFilesContentForRequestBody(fileInput, requestButton, readProgressBar);
@@ -283,7 +288,7 @@ function (_E) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-request-url', 'data-request-method', 'data-request-headers', 'data-request-button-id', 'data-upload-progress-bar-id', 'data-actions'];
+      return ['data-request-url', 'data-request-method', 'data-request-headers', 'data-request-button', 'data-upload-progress-bar', 'data-progress-bar', 'data-response-object-name', 'data-actions-on-response'];
     }
   }]);
 

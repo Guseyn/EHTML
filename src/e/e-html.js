@@ -25,10 +25,10 @@ class EHTML extends E {
         this, new ResponseBody(
           new ResponseFromAjaxRequest(
             new CreatedOptions(
-              'url', this.attr('data-src'),
+              'url', this.getAttribute('data-src'),
               'method', 'GET',
               'headers', new ParsedJSON(
-                this.attr('data-headers') || '{}'
+                this.getAttribute('data-headers') || '{}'
               )
             )
           )
