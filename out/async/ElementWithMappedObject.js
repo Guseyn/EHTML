@@ -42,10 +42,10 @@ function (_AsyncObject) {
       var _this = this;
 
       return function (element, obj) {
-        var objName = element.getAttribute('data-object');
+        var objName = element.getAttribute('data-response-object-name');
 
         if (!objName) {
-          throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-object for applying values to child nodes, so you can know what object it encapsulates"));
+          throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
         }
 
         var OBJ = {};
@@ -64,7 +64,7 @@ function (_AsyncObject) {
             var attrName = child.attributes[i].name;
             var attrValue = child.attributes[i].value;
 
-            if (attrName !== 'data-actions') {
+            if (attrName !== 'data-actions-on-response') {
               _this2.applyStorageVariablesInAttribute(child, attrName, attrValue);
 
               _this2.mapObjToAttribute(child, attrName, attrValue, obj);

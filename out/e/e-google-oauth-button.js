@@ -28,7 +28,7 @@ var _require2 = require('@page-libs/ajax'),
 var _browserified = browserified(require('@cuties/json')),
     ParsedJSON = _browserified.ParsedJSON;
 
-var AppliedActions = require('./../async/AppliedActions');
+var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var E = require('./../E');
 
@@ -76,15 +76,15 @@ function (_E) {
       gapi.load('auth2', function () {
         // eslint-disable-next-line no-undef
         var auth2 = gapi.auth2.init({
-          client_id: _this2.attr('data-client-id'),
-          cookiepolicy: _this2.attr('data-cookiepolicy') || 'single_host_origin',
-          scope: _this2.attr('data-scope') || 'profile'
+          client_id: _this2.getAttribute('data-client-id'),
+          cookiepolicy: _this2.getAttribute('data-cookiepolicy') || 'single_host_origin',
+          scope: _this2.getAttribute('data-scope') || 'profile'
         });
         auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
-          body[_this2.attr('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new AppliedActions(_this2.tagName, _this2.attr('data-object'), _this2.attr('data-actions'), _this2.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
-            url: _this2.attr('data-redirect-url') || '/',
+          body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
+          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), _this2.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+            url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
           }, JSON.stringify(body))))).call();
         }, function (error) {
@@ -97,7 +97,7 @@ function (_E) {
     value: function googleSignInMetaElm() {
       var googleSignInMetaElm = document.createElement('meta');
       googleSignInMetaElm.setAttribute('name', 'google-signin-client_id');
-      googleSignInMetaElm.setAttribute('content', this.attr('data-client-id'));
+      googleSignInMetaElm.setAttribute('content', this.getAttribute('data-client-id'));
       return googleSignInMetaElm;
     }
   }, {
@@ -110,7 +110,7 @@ function (_E) {
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key'];
+      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-object-name', 'data-actions-on-response'];
     }
   }]);
 

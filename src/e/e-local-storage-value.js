@@ -15,12 +15,12 @@ class ELocalStorageValue extends E {
   }
 
   onRender () {
-    this.name = this.attr('name')
+    this.name = this.getAttribute('name')
   }
 
   value () {
     return localStorage.getItem(
-      this.attr('data-key')
+      this.getAttribute('data-key')
     )
   }
 }

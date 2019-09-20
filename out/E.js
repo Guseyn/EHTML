@@ -49,11 +49,6 @@ function (_HTMLElement) {
       throw new Error('render function must be overridden');
     }
   }, {
-    key: "attr",
-    value: function attr(name) {
-      return this.getAttribute(name);
-    }
-  }, {
     key: "applyStorageValuesToAttributes",
     value: function applyStorageValuesToAttributes() {
       for (var i = 0; i < this.attributes.length; i++) {

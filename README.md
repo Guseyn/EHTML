@@ -17,7 +17,8 @@
   - [e-progress-bar]()
   - [e-upload-progress-bar]()
 - [Supported actions](#supported-actions)
-- [Memory Storage](#supported-actions)
+- [`data-` attributes of regular elements]()
+- [Memory Storage](#memory-storage)
 
 # Motivation
 
@@ -87,22 +88,8 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 **Example:**
 
-## `e-progress-bar`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-upload-progress-bar`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
 # Supported actions
+
+# `data-` attributes of regular elements
 
 # Memory Storage

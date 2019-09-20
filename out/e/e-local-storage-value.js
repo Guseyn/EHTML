@@ -34,12 +34,12 @@ function (_E) {
   _createClass(ELocalStorageValue, [{
     key: "onRender",
     value: function onRender() {
-      this.name = this.attr('name');
+      this.name = this.getAttribute('name');
     }
   }, {
     key: "value",
     value: function value() {
-      return localStorage.getItem(this.attr('data-key'));
+      return localStorage.getItem(this.getAttribute('data-key'));
     }
   }], [{
     key: "observedAttributes",
