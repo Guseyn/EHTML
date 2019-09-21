@@ -17,8 +17,6 @@
         width: auto;
         height: auto;
         cursor: pointer;
-        background: deepskyblue;
-        color: white;
         margin-top: 10px;
       }
     </style>
@@ -28,8 +26,7 @@
   <body class="main">
     <e-json 
       id="block1"
-      data-request-url="/../user?id=1"
-      data-request-method="GET"
+      data-src="/../user?id=1"
       data-response-object-name="user1"
       data-actions-on-response="
         mapObjToElm('#block1', '${user1}');
@@ -43,8 +40,7 @@
         <br/>
         <e-json
           id="block2"
-          data-request-url="/../user?id=2"
-          data-request-method="GET"
+          data-src="/../user?id=2"
           data-response-object-name="user2"
           data-actions-on-response="
             mapObjToElm('#block2', '${user2}');
@@ -68,29 +64,8 @@
       </div>
     </e-json>
     <e-json
-      id="block3"
-      data-request-url="/../save_user"
-      data-request-method="POST"
-      data-request-body='{"name": "newUser", "email": "newEmail@email.com"}'
-      data-response-object-name="savedUser" 
-      data-actions-on-response="
-        mapObjToElm('#block3', '${savedUser}');
-      "
-    >
-      <div class="with-border" style="margin-top: 10px;">
-        <div data-text="We've just got new saved user:">
-          <div data-text="id: ${savedUser.id}"></div>
-          <div data-text="name: ${savedUser.name}"></div>
-          <div data-text="email: ${savedUser.email}"></div>
-        </div>
-        <div>We can put info of new user in input tag</div>
-        <input type="text" data-value="id: ${savedUser.id}">
-      </div>
-    </e-json>
-    <e-json
       id="block4"
-      data-request-url="/../user?id=1"
-      data-request-method="GET"
+      data-src="/../user?id=1"
       data-response-object-name="user1"
       data-actions-on-response="
         mapObjToElm('#block4', '${user1}');
@@ -98,8 +73,8 @@
       data-event="click"
     >
       <div class="with-border">
-        Click here to load user1
-        <div data-text="First user info:"></div>
+        <span style="text-decoration: underline;">Click here to load user1</span>
+        <div data-text="First user info:" style="margin-top: 4px;"></div>
         <div data-text="id: ${user1.id}"></div>
         <div data-text="name: ${user1.name}"></div>
         <div data-text="email: ${user1.email}"></div>
