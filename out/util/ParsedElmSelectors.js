@@ -32,15 +32,7 @@ function () {
       var elms = [];
       this.elmSelectors.forEach(function (elmSelector) {
         if (elmSelector) {
-          elmSelector = elmSelector.trim();
-
-          if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-            elms.push(document.getElementById(elmSelector.split('#')[1]));
-          } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-            _this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]));
-          } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-            _this.pushElms(elms, document.getElementsByTagName(elmSelector));
-          }
+          _this.pushElms(elms, document.querySelectorAll(elmSelector));
         }
       });
       return elms;

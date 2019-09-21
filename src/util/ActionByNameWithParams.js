@@ -16,10 +16,11 @@ const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
 const FirstOf = require('./../async/FirstOf')
 const ParsedElmSelectors = require('./../async/ParsedElmSelectors')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
+const EncodedURI = require('./../async/EncodedURI')
 
 const actions = {
   redirect: (url) => {
-    return new RedirectedLocation(encodeURI(url))
+    return new RedirectedLocation(new EncodedURI(url))
   },
 
   saveToLocalStorage: (key, value) => {
@@ -63,7 +64,7 @@ const actions = {
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
-            'url', encodeURI(url),
+            'url', new EncodedURI(url),
             'method', 'GET',
             'headers', new ParsedJSONOrString(
               headers || '{}'
@@ -82,7 +83,7 @@ const actions = {
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
-            'url', encodeURI(url),
+            'url', new EncodedURI(url),
             'method', 'GET',
             'headers', new ParsedJSONOrString(
               headers || '{}'

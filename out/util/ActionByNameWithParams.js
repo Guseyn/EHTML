@@ -32,7 +32,8 @@ var _require2 = require('@page-libs/ajax'),
 
 var _require3 = require('@page-libs/dom'),
     ElementWithInnerHTML = _require3.ElementWithInnerHTML,
-    ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML;
+    ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML,
+    ElementWithTextContent = _require3.ElementWithTextContent;
 
 var RedirectedLocation = require('./../async/RedirectedLocation');
 
@@ -58,9 +59,11 @@ var ParsedElmSelectors = require('./../async/ParsedElmSelectors');
 
 var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
 
+var EncodedURI = require('./../async/EncodedURI');
+
 var actions = {
   redirect: function redirect(url) {
-    return new RedirectedLocation(url);
+    return new RedirectedLocation(new EncodedURI(url));
   },
   saveToLocalStorage: function saveToLocalStorage(key, value) {
     return new LocalStorageWithSetValue(localStorage, key, value);
@@ -98,10 +101,13 @@ var actions = {
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   innerHTML: function innerHTML(elmSelector, url, headers) {
-    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
   },
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
-    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+  },
+  textContent: function textContent(elmSelector, text) {
+    return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), text);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
