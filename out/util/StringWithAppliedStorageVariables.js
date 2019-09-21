@@ -20,9 +20,14 @@ function () {
     value: function value() {
       return this.str.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
         return localStorage.getItem(p1);
-      }).replace(/\$\{memoryStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1);
+      }).replace(/\$\{sessionStorage\.(.+)\}/g, function (match, p1, offset, string) {
+        var value = sessionStorage.getItem(p1);
+
+        if (value instanceof Object) {
+          return JSON.stringify(value);
+        }
+
+        return value;
       });
     }
   }]);

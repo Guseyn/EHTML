@@ -38,7 +38,7 @@ var RedirectedLocation = require('./../async/RedirectedLocation');
 
 var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
 
-var MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue');
+var SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue');
 
 var HiddenElements = require('./../async/HiddenElements');
 
@@ -65,9 +65,8 @@ var actions = {
   saveToLocalStorage: function saveToLocalStorage(key, value) {
     return new LocalStorageWithSetValue(localStorage, key, value);
   },
-  saveToMemoryStorage: function saveToMemoryStorage(key, value) {
-    // eslint-disable-next-line no-undef
-    return new MemoryStorageWithSetValue(memoryStorage, key, value);
+  saveToSessionStorage: function saveToSessionStorage(key, value) {
+    return new SessionStorageWithSetValue(sessionStorage, key, value);
   },
   hideElms: function hideElms() {
     for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {

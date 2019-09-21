@@ -38,7 +38,7 @@
       data-progress-bar="#progressBar"
       data-response-object-name="saved"
       data-actions-on-response="
-        saveToMemoryStorage('saved', '${saved}');
+        saveToSessionStorage('saved', '${saved}');
         hideElms('#form');
         innerHTML('#result', '/../html/form-result.html');
         mapObjToElm('#form-result', '${saved}');

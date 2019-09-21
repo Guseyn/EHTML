@@ -33,7 +33,7 @@ class EForm extends E {
     return [
       'redirect',
       'saveToLocalStorage',
-      'saveToMemoryStorage',
+      'saveToSessionStorage',
       'innerHTML',
       'addHTMLTo',
       'mapObjToElm',
@@ -103,13 +103,13 @@ class EForm extends E {
     const selects = this.getElementsByTagName('select')
     const textareas = this.getElementsByTagName('textarea')
     const localStorageValues = this.getElementsByTagName('e-local-storage-value')
-    const memoryStorageValues = this.getElementsByTagName('e-memory-storage-value')
+    const sessionStorageValues = this.getElementsByTagName('e-session-storage-value')
     const requestBody = {}
     this.retrievedValuesFromInputsForRequestBody(inputs, requestBody)
     this.retrievedValuesFromSelectsForRequestBody(selects, requestBody)
     this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody)
     this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody)
-    this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody)
+    this.retrievedValuesFromSessionStorageForRequestBody(sessionStorageValues, requestBody)
     return requestBody
   }
 
@@ -163,13 +163,13 @@ class EForm extends E {
     }
   }
 
-  retrievedValuesFromMemoryStorageForRequestBody (memoryStorageValues, requestBody) {
-    for (let index = 0; index < memoryStorageValues.length; index++) {
-      const memoryStorageValue = memoryStorageValues[index]
-      if (!memoryStorageValue.name) {
-        throw new Error(`memoryStorageValue ${memoryStorageValue} has no name`)
+  retrievedValuesFromSessionStorageForRequestBody (sessionStorageValues, requestBody) {
+    for (let index = 0; index < sessionStorageValues.length; index++) {
+      const sessionStorageValue = sessionStorageValues[index]
+      if (!sessionStorageValue.name) {
+        throw new Error(`sessionStorageValue ${sessionStorageValue} has no name`)
       }
-      requestBody[memoryStorageValue.name] = memoryStorageValue.value()
+      requestBody[sessionStorageValue.name] = sessionStorageValue.value()
     }
   }
 

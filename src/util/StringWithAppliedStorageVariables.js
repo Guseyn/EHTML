@@ -10,9 +10,12 @@ class StringWithAppliedStorageVariables {
       .replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
         return localStorage.getItem(p1)
       })
-      .replace(/\$\{memoryStorage\.(.+)\}/g, (match, p1, offset, string) => {
-        // eslint-disable-next-line no-undef
-        return memoryStorage.getItem(p1)
+      .replace(/\$\{sessionStorage\.(.+)\}/g, (match, p1, offset, string) => {
+        const value = sessionStorage.getItem(p1)
+        if (value instanceof Object) {
+          return JSON.stringify(value)
+        }
+        return value
       })
   }
 }

@@ -18,39 +18,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./../E');
+var _require = require('@page-libs/cutie'),
+    AsyncObject = _require.AsyncObject;
 
-var EProgressBar =
+var ValueFromSessionStorage =
 /*#__PURE__*/
-function (_E) {
-  _inherits(EProgressBar, _E);
+function (_AsyncObject) {
+  _inherits(ValueFromSessionStorage, _AsyncObject);
 
-  function EProgressBar() {
-    _classCallCheck(this, EProgressBar);
+  function ValueFromSessionStorage(sessionStorage, key) {
+    _classCallCheck(this, ValueFromSessionStorage);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EProgressBar).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ValueFromSessionStorage).call(this, sessionStorage, key));
   }
 
-  _createClass(EProgressBar, [{
-    key: "onRender",
-    value: function onRender() {}
-  }, {
-    key: "showProgress",
-    value: function showProgress(event) {
-      if (event.lengthComputable) {
-        var percentComplete = parseInt(event.loaded / event.total * 100);
-        console.log('Download: ' + percentComplete + '% complete' + ' loaded: ' + event.loaded);
-      }
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-background-url'];
+  _createClass(ValueFromSessionStorage, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (sessionStorage, key) {
+        return sessionStorage.getItem(key);
+      };
     }
   }]);
 
-  return EProgressBar;
-}(E);
+  return ValueFromSessionStorage;
+}(AsyncObject);
 
-window.customElements.define('e-progress-bar', EProgressBar);
-module.exports = EProgressBar;
+module.exports = ValueFromSessionStorage;
