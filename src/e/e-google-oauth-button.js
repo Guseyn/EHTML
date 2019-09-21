@@ -13,34 +13,6 @@ class EGoogleOauthButton extends E {
     super()
   }
 
-  static get observedAttributes () {
-    return [
-      'data-client-id',
-      'data-cookiepolicy',
-      'data-scope',
-      'data-redirect-url',
-      'data-local-storage-jwt-key',
-      'data-response-object-name',
-      'data-actions-on-response'
-    ]
-  }
-
-  supportedActions () {
-    return [
-      'redirect',
-      'saveToLocalStorage',
-      'saveToSessionStorage',
-      'innerHTML',
-      'addHTMLTo',
-      'mapObjToElm',
-      'hideElms',
-      'showElms',
-      'disableElms',
-      'enableElms',
-      'changeElmsClassName'
-    ]
-  }
-
   onRender () {
     const googleSignInMetaElm = this.googleSignInMetaElm()
     const googleApiScriptElm = this.googleApiScriptElm()
@@ -70,7 +42,6 @@ class EGoogleOauthButton extends E {
             this.tagName,
             this.getAttribute('data-response-object-name'),
             this.getAttribute('data-actions-on-response'),
-            this.supportedActions(),
             new ParsedJSON(
               new ResponseBody(
                 new ResponseFromAjaxRequest(

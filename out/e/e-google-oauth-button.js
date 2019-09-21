@@ -46,11 +46,6 @@ function (_E) {
   }
 
   _createClass(EGoogleOauthButton, [{
-    key: "supportedActions",
-    value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
-    }
-  }, {
     key: "onRender",
     value: function onRender() {
       var _this = this;
@@ -83,7 +78,7 @@ function (_E) {
         auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
           body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), _this2.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
             url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
           }, JSON.stringify(body))))).call();
@@ -106,11 +101,6 @@ function (_E) {
       var googleApiScriptElm = document.createElement('script');
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
       return googleApiScriptElm;
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-object-name', 'data-actions-on-response'];
     }
   }]);
 

@@ -29,7 +29,7 @@
       data-src="/../user?id=1"
       data-response-object-name="user1"
       data-actions-on-response="
-        mapObjToElm('#block1', '${user1}');
+        mapObjToElm('${user1}', '#block1');
       "
     >
       <div class="with-border">
@@ -43,7 +43,7 @@
           data-src="/../user?id=2"
           data-response-object-name="user2"
           data-actions-on-response="
-            mapObjToElm('#block2', '${user2}');
+            mapObjToElm('${user2}', '#block2');
           "
         >
           <div data-text="Second user info (in the first user info block):" class="with-border">
@@ -68,7 +68,7 @@
       data-src="/../user?id=1"
       data-response-object-name="user1"
       data-actions-on-response="
-        mapObjToElm('#block4', '${user1}');
+        mapObjToElm('${user1}', '#block4');
       "
       data-event="click"
     >

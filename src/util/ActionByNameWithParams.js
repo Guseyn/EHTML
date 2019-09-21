@@ -93,7 +93,7 @@ const actions = {
     )
   },
 
-  mapObjToElm: (elmSelector, obj) => {
+  mapObjToElm: (obj, elmSelector) => {
     return new ElementWithMappedObject(
       new FirstOf(
         new ParsedElmSelectors(elmSelector)

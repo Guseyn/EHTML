@@ -103,7 +103,7 @@ var actions = {
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
     return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
   },
-  mapObjToElm: function mapObjToElm(elmSelector, obj) {
+  mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
   },
   changeElmsClassName: function changeElmsClassName(newClassName) {

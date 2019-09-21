@@ -53,11 +53,6 @@ function (_E) {
     value: function onRender() {
       new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-src', 'data-headers'];
-    }
   }]);
 
   return EHTML;
