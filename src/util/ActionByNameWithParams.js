@@ -3,7 +3,7 @@
 const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const { ElementWithInnerHTML, ElementWithAdditionalHTML } = require('@page-libs/dom')
+const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent } = require('@page-libs/dom')
 const RedirectedLocation = require('./../async/RedirectedLocation')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
 const SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue')
@@ -19,7 +19,7 @@ const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 
 const actions = {
   redirect: (url) => {
-    return new RedirectedLocation(url)
+    return new RedirectedLocation(encodeURI(url))
   },
 
   saveToLocalStorage: (key, value) => {
@@ -63,7 +63,7 @@ const actions = {
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
-            'url', url,
+            'url', encodeURI(url),
             'method', 'GET',
             'headers', new ParsedJSONOrString(
               headers || '{}'
@@ -82,7 +82,7 @@ const actions = {
       new ResponseBody(
         new ResponseFromAjaxRequest(
           new CreatedOptions(
-            'url', url,
+            'url', encodeURI(url),
             'method', 'GET',
             'headers', new ParsedJSONOrString(
               headers || '{}'
@@ -90,6 +90,15 @@ const actions = {
           )
         )
       )
+    )
+  },
+
+  textContent: (elmSelector, text) => {
+    return new ElementWithTextContent(
+      new FirstOf(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      text
     )
   },
 
