@@ -12,7 +12,7 @@ const ShownElements = require('./../async/ShownElements')
 const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
 const ElementWithMappedObject = require('./../async/ElementWithMappedObject')
-const ElementsWithChangedClass = require('./../async/ElementsWithChangedClass')
+const ElementsWithToggledClass = require('./../async/ElementsWithToggledClass')
 const FirstOf = require('./../async/FirstOf')
 const ParsedElmSelectors = require('./../async/ParsedElmSelectors')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
@@ -112,7 +112,7 @@ const actions = {
   },
 
   toggleElms: (className, ...elmSelectors) => {
-    return new ElementsWithChangedClass(
+    return new ElementsWithToggledClass(
       className,
       new ParsedElmSelectors(...elmSelectors)
     )
