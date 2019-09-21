@@ -2,7 +2,7 @@
 
 const E = require('./../E')
 
-class EMemoryStorageValue extends E {
+class ESessionStorageValue extends E {
   constructor () {
     super()
   }
@@ -24,12 +24,12 @@ class EMemoryStorageValue extends E {
 
   value () {
     // eslint-disable-next-line no-undef
-    return memoryStorage.getItem(
+    return sessionStorageWrapper.getItem(
       this.getAttribute('data-key')
     )
   }
 }
 
-window.customElements.define('e-memory-storage-value', EMemoryStorageValue)
+window.customElements.define('e-session-storage-value', ESessionStorageValue)
 
-module.exports = EMemoryStorageValue
+module.exports = ESessionStorageValue

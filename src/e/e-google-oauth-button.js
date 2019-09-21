@@ -29,7 +29,7 @@ class EGoogleOauthButton extends E {
     return [
       'redirect',
       'saveToLocalStorage',
-      'saveToMemoryStorage',
+      'saveToSessionStorage',
       'innerHTML',
       'addHTMLTo',
       'mapObjToElm',

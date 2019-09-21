@@ -7,6 +7,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>e-json</title>
+    <style type="text/css">
+      .with-border {
+        border: 1px solid black;
+        padding: 10px;
+      }
+      #block4 {
+        display: block;
+        width: auto;
+        height: auto;
+        cursor: pointer;
+        background: deepskyblue;
+        color: white;
+        margin-top: 10px;
+      }
+    </style>
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
@@ -20,7 +35,7 @@
         mapObjToElm('#block1', '${user1}');
       "
     >
-      <div style="border: 1px solid black; padding: 10px;">
+      <div class="with-border">
         <div data-text="First user info:"></div>
         <div data-text="id: ${user1.id}"></div>
         <div data-text="name: ${user1.name}"></div>
@@ -35,7 +50,7 @@
             mapObjToElm('#block2', '${user2}');
           "
         >
-          <div data-text="Second user info (in the first user info block):" style="border: 1px solid black; padding: 10px;">
+          <div data-text="Second user info (in the first user info block):" class="with-border">
             <div data-text="id: ${user2.id}"></div>
             <div data-text="name: ${user2.name}"></div>
             <div data-text="email: ${user2.email}"></div>
@@ -62,7 +77,7 @@
         mapObjToElm('#block3', '${savedUser}');
       "
     >
-      <div style="border: 1px solid black; padding: 10px; margin-top: 10px">
+      <div class="with-border" style="margin-top: 10px;">
         <div data-text="We've just got new saved user:">
           <div data-text="id: ${savedUser.id}"></div>
           <div data-text="name: ${savedUser.name}"></div>
@@ -73,7 +88,6 @@
       </div>
     </e-json>
     <e-json
-      style="display: block; width: auto; height: auto; cursor: pointer; background: deepskyblue; color: white; margin-top: 10px;"
       id="block4"
       data-request-url="/../user?id=1"
       data-request-method="GET"
@@ -83,7 +97,7 @@
       "
       data-event="click"
     >
-      <div style="border: 1px solid black; padding: 10px;">
+      <div class="with-border">
         Click here to load user1
         <div data-text="First user info:"></div>
         <div data-text="id: ${user1.id}"></div>

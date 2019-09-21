@@ -20,37 +20,42 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./../E');
 
-var EUploadProgressBar =
+var ESessionStorageValue =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EUploadProgressBar, _E);
+  _inherits(ESessionStorageValue, _E);
 
-  function EUploadProgressBar() {
-    _classCallCheck(this, EUploadProgressBar);
+  function ESessionStorageValue() {
+    _classCallCheck(this, ESessionStorageValue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EUploadProgressBar).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ESessionStorageValue).call(this));
   }
 
-  _createClass(EUploadProgressBar, [{
-    key: "onRender",
-    value: function onRender() {}
+  _createClass(ESessionStorageValue, [{
+    key: "supportedActions",
+    value: function supportedActions() {
+      return [];
+    }
   }, {
-    key: "showProgress",
-    value: function showProgress(event) {
-      if (event.lengthComputable) {
-        var percentComplete = parseInt(event.loaded / event.total * 100);
-        console.log('Upload: ' + percentComplete + '% complete' + ' loaded: ' + event.loaded);
-      }
+    key: "onRender",
+    value: function onRender() {
+      this.name = this.getAttribute('name');
+    }
+  }, {
+    key: "value",
+    value: function value() {
+      // eslint-disable-next-line no-undef
+      return sessionStorageWrapper.getItem(this.getAttribute('data-key'));
     }
   }], [{
     key: "observedAttributes",
     get: function get() {
-      return ['data-background-url'];
+      return ['name', 'data-key'];
     }
   }]);
 
-  return EUploadProgressBar;
+  return ESessionStorageValue;
 }(E);
 
-window.customElements.define('e-upload-progress-bar', EUploadProgressBar);
-module.exports = EUploadProgressBar;
+window.customElements.define('e-session-storage-value', ESessionStorageValue);
+module.exports = ESessionStorageValue;

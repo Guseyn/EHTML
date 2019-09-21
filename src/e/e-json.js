@@ -5,7 +5,7 @@ const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
-const AppliedActions = require('./../async/AppliedActions')
+const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const E = require('./../E')
 
 class EJSON extends E {
@@ -29,7 +29,7 @@ class EJSON extends E {
     return [
       'redirect',
       'saveToLocalStorage',
-      'saveToMemoryStorage',
+      'saveToSessionStorage',
       'innerHTML',
       'addHTMLTo',
       'mapObjToElm',
@@ -51,7 +51,7 @@ class EJSON extends E {
   }
 
   activate () {
-    new AppliedActions(
+    new AppliedActionsOnResponse(
       this.tagName,
       this.getAttribute('data-response-object-name'),
       this.getAttribute('data-actions-on-response'),

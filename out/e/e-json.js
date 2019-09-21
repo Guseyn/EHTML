@@ -34,7 +34,7 @@ var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
 
-var AppliedActions = require('./../async/AppliedActions');
+var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var E = require('./../E');
 
@@ -52,7 +52,7 @@ function (_E) {
   _createClass(EJSON, [{
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "onRender",
@@ -68,7 +68,7 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActions(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), this.supportedActions(), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-request-url'), 'method', this.getAttribute('data-request-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-request-headers') || '{}')), this.getAttribute('data-request-body')))))).call();
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), this.supportedActions(), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-request-url'), 'method', this.getAttribute('data-request-method') || 'GET', 'headers', new ParsedJSON(this.getAttribute('data-request-headers') || '{}')), this.getAttribute('data-request-body')))))).call();
     }
   }], [{
     key: "observedAttributes",

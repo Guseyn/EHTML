@@ -57,7 +57,7 @@ function (_E) {
   _createClass(EForm, [{
     key: "supportedActions",
     value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToMemoryStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
+      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
     }
   }, {
     key: "onRender",
@@ -89,13 +89,13 @@ function (_E) {
       var selects = this.getElementsByTagName('select');
       var textareas = this.getElementsByTagName('textarea');
       var localStorageValues = this.getElementsByTagName('e-local-storage-value');
-      var memoryStorageValues = this.getElementsByTagName('e-memory-storage-value');
+      var sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       var requestBody = {};
       this.retrievedValuesFromInputsForRequestBody(inputs, requestBody);
       this.retrievedValuesFromSelectsForRequestBody(selects, requestBody);
       this.retrievedValuesFromTextareasForRequestBody(textareas, requestBody);
       this.retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody);
-      this.retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody);
+      this.retrievedValuesFromSessionStorageForRequestBody(sessionStorageValues, requestBody);
       return requestBody;
     }
   }, {
@@ -161,16 +161,16 @@ function (_E) {
       }
     }
   }, {
-    key: "retrievedValuesFromMemoryStorageForRequestBody",
-    value: function retrievedValuesFromMemoryStorageForRequestBody(memoryStorageValues, requestBody) {
-      for (var index = 0; index < memoryStorageValues.length; index++) {
-        var memoryStorageValue = memoryStorageValues[index];
+    key: "retrievedValuesFromSessionStorageForRequestBody",
+    value: function retrievedValuesFromSessionStorageForRequestBody(sessionStorageValues, requestBody) {
+      for (var index = 0; index < sessionStorageValues.length; index++) {
+        var sessionStorageValue = sessionStorageValues[index];
 
-        if (!memoryStorageValue.name) {
-          throw new Error("memoryStorageValue ".concat(memoryStorageValue, " has no name"));
+        if (!sessionStorageValue.name) {
+          throw new Error("sessionStorageValue ".concat(sessionStorageValue, " has no name"));
         }
 
-        requestBody[memoryStorageValue.name] = memoryStorageValue.value();
+        requestBody[sessionStorageValue.name] = sessionStorageValue.value();
       }
     }
   }, {

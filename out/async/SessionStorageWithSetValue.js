@@ -21,28 +21,28 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var MemoryStorageWithRemovedItemFromArray =
+var SessionStorageWithSetValue =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(MemoryStorageWithRemovedItemFromArray, _AsyncObject);
+  _inherits(SessionStorageWithSetValue, _AsyncObject);
 
-  function MemoryStorageWithRemovedItemFromArray(memoryStorage, key, index) {
-    _classCallCheck(this, MemoryStorageWithRemovedItemFromArray);
+  function SessionStorageWithSetValue(sessionStorage, key, value) {
+    _classCallCheck(this, SessionStorageWithSetValue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MemoryStorageWithRemovedItemFromArray).call(this, memoryStorage, key, index));
+    return _possibleConstructorReturn(this, _getPrototypeOf(SessionStorageWithSetValue).call(this, sessionStorage, key, value));
   }
 
-  _createClass(MemoryStorageWithRemovedItemFromArray, [{
+  _createClass(SessionStorageWithSetValue, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (memoryStorage, key, index) {
-        memoryStorage.removeItemFromArray(key, index);
-        return memoryStorage;
+      return function (sessionStorage, key, value) {
+        sessionStorage.setItem(key, value);
+        return sessionStorage;
       };
     }
   }]);
 
-  return MemoryStorageWithRemovedItemFromArray;
+  return SessionStorageWithSetValue;
 }(AsyncObject);
 
-module.exports = MemoryStorageWithRemovedItemFromArray;
+module.exports = SessionStorageWithSetValue;

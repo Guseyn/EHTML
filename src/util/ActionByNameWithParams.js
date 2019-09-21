@@ -6,7 +6,7 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML } = require('@page-libs/dom')
 const RedirectedLocation = require('./../async/RedirectedLocation')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
-const MemoryStorageWithSetValue = require('./../async/MemoryStorageWithSetValue')
+const SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue')
 const HiddenElements = require('./../async/HiddenElements')
 const ShownElements = require('./../async/ShownElements')
 const DisabledElements = require('./../async/DisabledElements')
@@ -26,9 +26,8 @@ const actions = {
     return new LocalStorageWithSetValue(localStorage, key, value)
   },
 
-  saveToMemoryStorage: (key, value) => {
-    // eslint-disable-next-line no-undef
-    return new MemoryStorageWithSetValue(memoryStorage, key, value)
+  saveToSessionStorage: (key, value) => {
+    return new SessionStorageWithSetValue(sessionStorage, key, value)
   },
 
   hideElms: (...elmSelectors) => {
