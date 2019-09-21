@@ -15,10 +15,8 @@ class EJSON extends E {
 
   static get observedAttributes () {
     return [
-      'data-request-url',
-      'data-request-method',
-      'data-request-headers',
-      'data-request-body',
+      'data-src',
+      'data-headers',
       'data-response-object-name',
       'data-actions-on-response',
       'data-event'
@@ -61,13 +59,12 @@ class EJSON extends E {
           new ResponseBody(
             new ResponseFromAjaxRequest(
               new CreatedOptions(
-                'url', this.getAttribute('data-request-url'),
-                'method', this.getAttribute('data-request-method') || 'GET',
+                'url', this.getAttribute('data-src'),
+                'method', 'GET',
                 'headers', new ParsedJSON(
-                  this.getAttribute('data-request-headers') || '{}'
+                  this.getAttribute('data-headers') || '{}'
                 )
-              ),
-              this.getAttribute('data-request-body')
+              )
             )
           )
         )
