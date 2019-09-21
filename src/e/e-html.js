@@ -12,13 +12,6 @@ class EHTML extends E {
     super()
   }
 
-  static get observedAttributes () {
-    return [
-      'data-src',
-      'data-headers'
-    ]
-  }
-
   onRender () {
     new UnwrappedChildrenOfParent(
       new ElementWithInnerHTML(

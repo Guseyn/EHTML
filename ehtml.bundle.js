@@ -7866,11 +7866,6 @@ function (_E) {
   }
 
   _createClass(EGoogleOauthButton, [{
-    key: "supportedActions",
-    value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
-    }
-  }, {
     key: "onRender",
     value: function onRender() {
       var _this = this;
@@ -7903,7 +7898,7 @@ function (_E) {
         auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
           body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), _this2.supportedActions(), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
             url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
           }, JSON.stringify(body))))).call();
@@ -7926,11 +7921,6 @@ function (_E) {
       var googleApiScriptElm = document.createElement('script');
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC);
       return googleApiScriptElm;
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-client-id', 'data-cookiepolicy', 'data-scope', 'data-redirect-url', 'data-local-storage-jwt-key', 'data-response-object-name', 'data-actions-on-response'];
     }
   }]);
 
@@ -7996,11 +7986,6 @@ function (_E) {
     value: function onRender() {
       new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}')))))).call();
     }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-src', 'data-headers'];
-    }
   }]);
 
   return EHTML;
@@ -8062,11 +8047,6 @@ function (_E) {
   }
 
   _createClass(EJSON, [{
-    key: "supportedActions",
-    value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
-    }
-  }, {
     key: "onRender",
     value: function onRender() {
       var event = this.getAttribute('data-event');
@@ -8080,12 +8060,7 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), this.supportedActions(), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'))))))).call();
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-src', 'data-headers', 'data-response-object-name', 'data-actions-on-response', 'data-event'];
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'))))))).call();
     }
   }]);
 
@@ -8321,7 +8296,7 @@ var actions = {
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
     return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', url, 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
   },
-  mapObjToElm: function mapObjToElm(elmSelector, obj) {
+  mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
   },
   changeElmsClassName: function changeElmsClassName(newClassName) {

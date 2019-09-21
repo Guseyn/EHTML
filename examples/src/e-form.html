@@ -94,9 +94,9 @@
           saveToSessionStorage('saved', '${saved}');
           hideElms('#form');
           innerHTML('#result', '/../html/form-result.html');
-          mapObjToElm('#form-result', '${saved}');
+          mapObjToElm('${saved}', '#form-result');
           addHTMLTo('#result-with-only-files', '/../html/form-result-only-files.html');
-          mapObjToElm('#form-result-only-files', '${saved}');
+          mapObjToElm('${saved}', '#form-result-only-files');
           showElms('#result', '#result-with-only-files');
           disableElms('#send');
         "

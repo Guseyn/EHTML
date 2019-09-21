@@ -13,32 +13,6 @@ class EJSON extends E {
     super()
   }
 
-  static get observedAttributes () {
-    return [
-      'data-src',
-      'data-headers',
-      'data-response-object-name',
-      'data-actions-on-response',
-      'data-event'
-    ]
-  }
-
-  supportedActions () {
-    return [
-      'redirect',
-      'saveToLocalStorage',
-      'saveToSessionStorage',
-      'innerHTML',
-      'addHTMLTo',
-      'mapObjToElm',
-      'hideElms',
-      'showElms',
-      'disableElms',
-      'enableElms',
-      'changeElmsClassName'
-    ]
-  }
-
   onRender () {
     const event = this.getAttribute('data-event')
     if (event) {
@@ -53,7 +27,6 @@ class EJSON extends E {
       this.tagName,
       this.getAttribute('data-response-object-name'),
       this.getAttribute('data-actions-on-response'),
-      this.supportedActions(),
       new ParsedJSON(
         new StringFromBuffer(
           new ResponseBody(

@@ -50,11 +50,6 @@ function (_E) {
   }
 
   _createClass(EJSON, [{
-    key: "supportedActions",
-    value: function supportedActions() {
-      return ['redirect', 'saveToLocalStorage', 'saveToSessionStorage', 'innerHTML', 'addHTMLTo', 'mapObjToElm', 'hideElms', 'showElms', 'disableElms', 'enableElms', 'changeElmsClassName'];
-    }
-  }, {
     key: "onRender",
     value: function onRender() {
       var event = this.getAttribute('data-event');
@@ -68,12 +63,7 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), this.supportedActions(), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'))))))).call();
-    }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['data-src', 'data-headers', 'data-response-object-name', 'data-actions-on-response', 'data-event'];
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'))))))).call();
     }
   }]);
 
