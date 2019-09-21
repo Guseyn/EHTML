@@ -13,14 +13,7 @@ class ParsedElmSelectors {
     const elms = []
     this.elmSelectors.forEach(elmSelector => {
       if (elmSelector) {
-        elmSelector = elmSelector.trim()
-        if (new RegExp(/^#(\S+)$/g).test(elmSelector)) {
-          elms.push(document.getElementById(elmSelector.split('#')[1]))
-        } else if (new RegExp(/^\.(\S+)$/g).test(elmSelector)) {
-          this.pushElms(elms, document.getElementsByClassName(elmSelector.split('.')[1]))
-        } else if (new RegExp(/^(\S+)$/g).test(elmSelector)) {
-          this.pushElms(elms, document.getElementsByTagName(elmSelector))
-        }
+        this.pushElms(elms, document.querySelectorAll(elmSelector))
       }
     })
     return elms
