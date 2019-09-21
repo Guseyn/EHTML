@@ -111,9 +111,9 @@ const actions = {
     )
   },
 
-  changeElmsClassName: (newClassName, ...elmSelectors) => {
+  toggleElms: (className, ...elmSelectors) => {
     return new ElementsWithChangedClass(
-      newClassName,
+      className,
       new ParsedElmSelectors(...elmSelectors)
     )
   }
