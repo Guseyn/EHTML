@@ -6501,6 +6501,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var StringWithAppliedStorageVariables = require('./util/StringWithAppliedStorageVariables');
 
+var StringWithAppliedUrlParams = require('./util/StringWithAppliedUrlParams');
+
 var E =
 /*#__PURE__*/
 function (_HTMLElement) {
@@ -6531,6 +6533,15 @@ function (_HTMLElement) {
       }
     }
   }, {
+    key: "applyUrlParamsToAttributes",
+    value: function applyUrlParamsToAttributes() {
+      for (var i = 0; i < this.attributes.length; i++) {
+        if (this.attributes[i].name !== 'data-actions') {
+          this.setAttribute(this.attributes[i].name, new StringWithAppliedUrlParams(this.attributes[i].value).value());
+        }
+      }
+    }
+  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
@@ -6551,7 +6562,7 @@ function (_HTMLElement) {
 
 module.exports = E;
 
-},{"./util/StringWithAppliedStorageVariables":195}],151:[function(require,module,exports){
+},{"./util/StringWithAppliedStorageVariables":195,"./util/StringWithAppliedUrlParams":196}],151:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
