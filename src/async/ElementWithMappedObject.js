@@ -77,7 +77,7 @@ class ElementWithMappedObject extends AsyncObject {
   }
 
   hasParamsInAttributeToApply (element, attrName) {
-    return /\$\{([^{}]+|\S*)\}/g.test(
+    return /\$\{([^{}\s]+)\}/g.test(
       element.getAttribute(attrName)
     )
   }

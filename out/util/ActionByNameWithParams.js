@@ -51,7 +51,7 @@ var EnabledElements = require('./../async/EnabledElements');
 
 var ElementWithMappedObject = require('./../async/ElementWithMappedObject');
 
-var ElementsWithChangedClass = require('./../async/ElementsWithChangedClass');
+var ElementsWithToggledClass = require('./../async/ElementsWithToggledClass');
 
 var FirstOf = require('./../async/FirstOf');
 
@@ -112,12 +112,12 @@ var actions = {
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
   },
-  changeElmsClassName: function changeElmsClassName(newClassName) {
+  toggleElms: function toggleElms(className) {
     for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
       elmSelectors[_key5 - 1] = arguments[_key5];
     }
 
-    return new ElementsWithChangedClass(newClassName, _construct(ParsedElmSelectors, elmSelectors));
+    return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   }
 };
 

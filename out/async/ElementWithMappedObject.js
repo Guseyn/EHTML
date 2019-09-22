@@ -113,7 +113,7 @@ function (_AsyncObject) {
   }, {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^{}]+|\S*)\}/g.test(element.getAttribute(attrName));
+      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }]);
 

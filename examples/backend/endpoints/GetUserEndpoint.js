@@ -6,8 +6,8 @@ const { StringifiedJSON, Value } = require('@cuties/json')
 const User = require('./../objects/User')
 
 class GetUserEndpoint extends Endpoint {
-  constructor (regexp) {
-    super(regexp, 'GET')
+  constructor (regexp, type) {
+    super(regexp, type)
   }
 
   body (request, response) {

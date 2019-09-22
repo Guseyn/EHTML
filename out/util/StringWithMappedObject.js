@@ -24,7 +24,7 @@ function () {
     value: function value() {
       var _this = this;
 
-      return this.str.replace(/\$\{([^{}]+|\S*)\}/g, function (match, p1, offset, string) {
+      return this.str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1, offset, string) {
         try {
           var res = _this.valueOf(_this.obj, p1.split('.'));
 

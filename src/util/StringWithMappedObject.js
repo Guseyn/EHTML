@@ -7,7 +7,7 @@ class StringWithMappedObject {
   }
 
   value () {
-    return this.str.replace(/\$\{([^{}]+|\S*)\}/g, (match, p1, offset, string) => {
+    return this.str.replace(/\$\{([^{}\s]+)\}/g, (match, p1, offset, string) => {
       try {
         const res = this.valueOf(this.obj, p1.split('.'))
         if (typeof res === 'object') {

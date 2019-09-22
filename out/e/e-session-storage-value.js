@@ -47,11 +47,6 @@ function (_E) {
       // eslint-disable-next-line no-undef
       return sessionStorageWrapper.getItem(this.getAttribute('data-key'));
     }
-  }], [{
-    key: "observedAttributes",
-    get: function get() {
-      return ['name', 'data-key'];
-    }
   }]);
 
   return ESessionStorageValue;

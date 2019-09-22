@@ -20,31 +20,47 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./../E');
 
-var ELocalStorageValue =
+var EPageUrl =
 /*#__PURE__*/
 function (_E) {
-  _inherits(ELocalStorageValue, _E);
+  _inherits(EPageUrl, _E);
 
-  function ELocalStorageValue() {
-    _classCallCheck(this, ELocalStorageValue);
+  function EPageUrl() {
+    _classCallCheck(this, EPageUrl);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ELocalStorageValue).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(EPageUrl).call(this));
   }
 
-  _createClass(ELocalStorageValue, [{
+  _createClass(EPageUrl, [{
     key: "onRender",
     value: function onRender() {
-      this.name = this.getAttribute('name');
+      // /user/{id}/to/{anotherId}/send?message={message}&token={token}
+      var urlParams = {};
+      var urlPattern = this.getAttribute('data-url-pattern');
+      var locationUrl = window.location.pathname + window.location.search;
+      var parsedUrlPattern = this.parsedUrl(urlPattern);
+      var parsedLocationUrl = this.parsedUrl(locationUrl);
+      parsedUrlPattern.forEach(function (part, index) {
+        if (/^\{([^{}\s.]+)}$/g.test(part)) {
+          urlParams[/^\{([^{}\s.]+)}$/g.exec(part)[1]] = parsedLocationUrl[index];
+        }
+      });
+      window.urlParams = urlParams;
     }
   }, {
-    key: "value",
-    value: function value() {
-      return localStorage.getItem(this.getAttribute('data-key'));
+    key: "parsedUrl",
+    value: function parsedUrl(url) {
+      var urlParts = url.split(/\?/g);
+      var beforeQuery = urlParts[0] || '';
+      var afterQuery = urlParts[1] || '';
+      return beforeQuery.split(/\//g).concat(afterQuery.split(/&?[^&{}\s.]+=/g)).filter(function (part) {
+        return part !== '';
+      });
     }
   }]);
 
-  return ELocalStorageValue;
+  return EPageUrl;
 }(E);
 
-window.customElements.define('e-local-storage-value', ELocalStorageValue);
-module.exports = ELocalStorageValue;
+window.customElements.define('e-page-url', EPageUrl);
+module.exports = EPageUrl;
