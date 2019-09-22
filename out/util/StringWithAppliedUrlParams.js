@@ -19,6 +19,7 @@ function () {
     key: "value",
     value: function value() {
       return this.str.replace(/\$\{urlParams\.(.+)\}/g, function (match, p1, offset, string) {
+        // eslint-disable-next-line no-undef
         return urlParams[p1];
       });
     }
