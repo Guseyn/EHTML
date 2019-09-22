@@ -53,6 +53,8 @@ var ElementWithMappedObject = require('./../async/ElementWithMappedObject');
 
 var ElementsWithToggledClass = require('./../async/ElementsWithToggledClass');
 
+var ElementWithChangedValue = require('./../async/ElementWithChangedValue');
+
 var FirstOf = require('./../async/FirstOf');
 
 var ParsedElmSelectors = require('./../async/ParsedElmSelectors');
@@ -108,6 +110,9 @@ var actions = {
   },
   textContent: function textContent(elmSelector, text) {
     return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), text);
+  },
+  changeValueOf: function changeValueOf(elmSelector, newValue) {
+    return new ElementWithChangedValue(new FirstOf(new ParsedElmSelectors(elmSelector)), newValue);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
