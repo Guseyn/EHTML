@@ -7,13 +7,6 @@ class ELocalStorageValue extends E {
     super()
   }
 
-  static get observedAttributes () {
-    return [
-      'name',
-      'data-key'
-    ]
-  }
-
   onRender () {
     this.name = this.getAttribute('name')
   }

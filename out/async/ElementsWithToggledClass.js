@@ -18,33 +18,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./../E');
+var _require = require('@page-libs/cutie'),
+    AsyncObject = _require.AsyncObject;
 
-var ELocalStorageValue =
+var ElementsWithToggledClass =
 /*#__PURE__*/
-function (_E) {
-  _inherits(ELocalStorageValue, _E);
+function (_AsyncObject) {
+  _inherits(ElementsWithToggledClass, _AsyncObject);
 
-  function ELocalStorageValue() {
-    _classCallCheck(this, ELocalStorageValue);
+  function ElementsWithToggledClass(className, elms) {
+    _classCallCheck(this, ElementsWithToggledClass);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ELocalStorageValue).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementsWithToggledClass).call(this, className, elms));
   }
 
-  _createClass(ELocalStorageValue, [{
-    key: "onRender",
-    value: function onRender() {
-      this.name = this.getAttribute('name');
-    }
-  }, {
-    key: "value",
-    value: function value() {
-      return localStorage.getItem(this.getAttribute('data-key'));
+  _createClass(ElementsWithToggledClass, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (className, elms) {
+        elms.forEach(function (elm) {
+          elm.classList.toggle(className);
+        });
+        return elms;
+      };
     }
   }]);
 
-  return ELocalStorageValue;
-}(E);
+  return ElementsWithToggledClass;
+}(AsyncObject);
 
-window.customElements.define('e-local-storage-value', ELocalStorageValue);
-module.exports = ELocalStorageValue;
+module.exports = ElementsWithToggledClass;

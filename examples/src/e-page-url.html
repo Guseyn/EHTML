@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-page-url.html/1/2/3?q=query -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-html</title>
+    <style>
+      .outer {
+        padding: 50px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+      }
+      .inner {
+        padding: 40px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-page-url data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}"></e-page-url>
+  </body>
+
+</html>

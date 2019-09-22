@@ -7,13 +7,6 @@ class ESessionStorageValue extends E {
     super()
   }
 
-  static get observedAttributes () {
-    return [
-      'name',
-      'data-key'
-    ]
-  }
-
   supportedActions () {
     return [ ]
   }

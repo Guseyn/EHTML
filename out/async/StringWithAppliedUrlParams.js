@@ -18,33 +18,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./../E');
+var _require = require('@page-libs/cutie'),
+    AsyncObject = _require.AsyncObject;
 
-var ELocalStorageValue =
+var StringWithAppliedUrlParams = require('./../util/StringWithAppliedUrlParams');
+
+var AsyncStringWithAppliedUrlParams =
 /*#__PURE__*/
-function (_E) {
-  _inherits(ELocalStorageValue, _E);
+function (_AsyncObject) {
+  _inherits(AsyncStringWithAppliedUrlParams, _AsyncObject);
 
-  function ELocalStorageValue() {
-    _classCallCheck(this, ELocalStorageValue);
+  function AsyncStringWithAppliedUrlParams(str) {
+    _classCallCheck(this, AsyncStringWithAppliedUrlParams);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ELocalStorageValue).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithAppliedUrlParams).call(this, str));
   }
 
-  _createClass(ELocalStorageValue, [{
-    key: "onRender",
-    value: function onRender() {
-      this.name = this.getAttribute('name');
-    }
-  }, {
-    key: "value",
-    value: function value() {
-      return localStorage.getItem(this.getAttribute('data-key'));
+  _createClass(AsyncStringWithAppliedUrlParams, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (str) {
+        return new StringWithAppliedUrlParams(str).value();
+      };
     }
   }]);
 
-  return ELocalStorageValue;
-}(E);
+  return AsyncStringWithAppliedUrlParams;
+}(AsyncObject);
 
-window.customElements.define('e-local-storage-value', ELocalStorageValue);
-module.exports = ELocalStorageValue;
+module.exports = AsyncStringWithAppliedUrlParams;

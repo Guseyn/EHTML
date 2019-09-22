@@ -6,9 +6,7 @@ const { SpawnedCommand } = require('@cuties/spawn')
 const { Backend, RestApi, ServingFilesEndpoint, NotFoundEndpoint } = require('@cuties/rest')
 const { CopiedFile, WatcherWithEventTypeAndFilenameListener } = require('@cuties/fs')
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
-const SaveUserEndpoint = require('./endpoints/SaveUserEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
-const FormEndpoint = require('./endpoints/FormEndpoint')
 
 const mapperForStatic = (url) => {
   const parts = url.split('/').filter(part => part !== '')
@@ -16,7 +14,8 @@ const mapperForStatic = (url) => {
 }
 
 const mapperForSrc = (url) => {
-  const parts = url.split('/').filter(part => part !== '')
+  const mainPart = `${url.split('.html')[0]}.html`
+  const parts = mainPart.split('/').filter(part => part !== '')
   return path.join('examples', 'src', ...parts)
 }
 
@@ -37,10 +36,8 @@ new SpawnedCommand('grunt').after(
           8000,
           '127.0.0.1',
           new RestApi(
-            new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/)),
-            new SaveUserEndpoint(new RegExp(/^\/save_user/)),
+            new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/), 'GET'),
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
-            new FormEndpoint(new RegExp(/^\/form/)),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|images)/),
               mapperForStatic,
@@ -48,7 +45,7 @@ new SpawnedCommand('grunt').after(
               new NotFoundEndpoint(new RegExp(/\/not-found/))
             ),
             new ServingFilesEndpoint(
-              new RegExp(/.html\/?$/),
+              new RegExp(/[^\s]+.html([/?][^\s]*)?$/),
               mapperForSrc,
               {},
               new NotFoundEndpoint(new RegExp(/\/not-found/))
