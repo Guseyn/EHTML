@@ -13,6 +13,7 @@ const DisabledElements = require('./../async/DisabledElements')
 const EnabledElements = require('./../async/EnabledElements')
 const ElementWithMappedObject = require('./../async/ElementWithMappedObject')
 const ElementsWithToggledClass = require('./../async/ElementsWithToggledClass')
+const ElementWithChangedValue = require('./../async/ElementWithChangedValue')
 const FirstOf = require('./../async/FirstOf')
 const ParsedElmSelectors = require('./../async/ParsedElmSelectors')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
@@ -100,6 +101,15 @@ const actions = {
         new ParsedElmSelectors(elmSelector)
       ),
       text
+    )
+  },
+
+  changeValueOf: (elmSelector, newValue) => {
+    return new ElementWithChangedValue(
+      new FirstOf(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      newValue
     )
   },
 
