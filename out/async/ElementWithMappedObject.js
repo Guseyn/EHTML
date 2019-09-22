@@ -21,8 +21,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var StringWithAppliedStorageVariables = require('./../util/StringWithAppliedStorageVariables');
-
 var StringWithMappedObject = require('./../util/StringWithMappedObject');
 
 var ElementWithMappedObject =
@@ -65,8 +63,6 @@ function (_AsyncObject) {
             var attrValue = child.attributes[i].value;
 
             if (attrName !== 'data-actions-on-response') {
-              _this2.applyStorageVariablesInAttribute(child, attrName, attrValue);
-
               _this2.mapObjToAttribute(child, attrName, attrValue, obj);
 
               if (attrName === 'data-text') {
@@ -99,11 +95,6 @@ function (_AsyncObject) {
       } else {
         elm.insertBefore(textNode, elm.childNodes[0]);
       }
-    }
-  }, {
-    key: "applyStorageVariablesInAttribute",
-    value: function applyStorageVariablesInAttribute(element, attrName, attrValue) {
-      element.setAttribute(attrName, new StringWithAppliedStorageVariables(attrValue).value());
     }
   }, {
     key: "mapObjToAttribute",
