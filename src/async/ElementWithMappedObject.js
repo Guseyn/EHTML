@@ -1,7 +1,6 @@
 'use strict'
 
 const { AsyncObject } = require('@page-libs/cutie')
-const StringWithAppliedStorageVariables = require('./../util/StringWithAppliedStorageVariables')
 const StringWithMappedObject = require('./../util/StringWithMappedObject')
 
 class ElementWithMappedObject extends AsyncObject {
@@ -28,7 +27,6 @@ class ElementWithMappedObject extends AsyncObject {
           const attrName = child.attributes[i].name
           const attrValue = child.attributes[i].value
           if (attrName !== 'data-actions-on-response') {
-            this.applyStorageVariablesInAttribute(child, attrName, attrValue)
             this.mapObjToAttribute(child, attrName, attrValue, obj)
             if (attrName === 'data-text') {
               if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
@@ -56,15 +54,6 @@ class ElementWithMappedObject extends AsyncObject {
     } else {
       elm.insertBefore(textNode, elm.childNodes[0])
     }
-  }
-
-  applyStorageVariablesInAttribute (element, attrName, attrValue) {
-    element.setAttribute(
-      attrName,
-      new StringWithAppliedStorageVariables(
-        attrValue
-      ).value()
-    )
   }
 
   mapObjToAttribute (element, attrName, attrValue, obj) {
