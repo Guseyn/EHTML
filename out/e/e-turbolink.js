@@ -19,34 +19,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified,
-    as = _require.as;
+    browserified = _require.browserified;
 
-var _browserified = browserified(require('@cuties/object')),
-    CreatedOptions = _browserified.CreatedOptions;
+var _browserified = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified.ParsedJSON;
 
-var _browserified2 = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified2.ParsedJSON;
-
-var _browserified3 = browserified(require('@cuties/buffer')),
-    StringFromBuffer = _browserified3.StringFromBuffer;
-
-var _require2 = require('@page-libs/ajax'),
-    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
-
-var _require3 = require('@page-libs/dom'),
-    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
-
-var ExtractedDocument = require('./../async/ExtractedDocument');
-
-var BodyInnerHTMLOfDocument = require('./../async/BodyInnerHTMLOfDocument');
-
-var TitleOfDocument = require('./../async/TitleOfDocument');
-
-var PushedStateToHistory = require('./../async/PushedStateToHistory');
-
-var ChangedPageTitle = require('./../async/ChangedPageTitle');
+var TurboRedirected = require('./../async/TurboRedirected');
 
 var E = require('./../E');
 
@@ -67,7 +45,7 @@ function (_E) {
       var _this = this;
 
       this.addEventListener('click', function () {
-        new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', _this.getAttribute('data-href'), 'method', 'GET', 'headers', new ParsedJSON(_this.getAttribute('data-headers') || '{}')))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE')), _this.getAttribute('data-href')).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE'))))))).call();
+        new TurboRedirected(_this.getAttribute('data-href'), new ParsedJSON(_this.getAttribute('data-headers') || '{}')).call();
       });
     }
   }]);
