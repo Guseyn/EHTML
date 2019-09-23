@@ -10,13 +10,3 @@ window.onpopstate = function (event) {
     document.title = event.state.title;
   }
 };
-
-window.onload = function () {
-  if (sessionStorage.getItem('isFirstStatePushedToHistory') === 'false') {
-    history.replaceState({
-      body: document.body.innerHTML,
-      title: document.title
-    }, null, location.pathname + location.search);
-    sessionStorage.setItem('isFirstStatePushedToHistory', 'true');
-  }
-};

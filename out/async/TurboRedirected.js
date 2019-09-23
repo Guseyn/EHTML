@@ -19,6 +19,8 @@ var _require2 = require('@page-libs/ajax'),
 var _require3 = require('@page-libs/dom'),
     ElementWithInnerHTML = _require3.ElementWithInnerHTML;
 
+var PushedStartStateToHistoryIfNeeded = require('./PushedStartStateToHistoryIfNeeded');
+
 var ExtractedDocument = require('./ExtractedDocument');
 
 var BodyInnerHTMLOfDocument = require('./BodyInnerHTMLOfDocument');
@@ -32,7 +34,7 @@ var ChangedPageTitle = require('./ChangedPageTitle');
 var TurboRedirected = function TurboRedirected(href, headers) {
   _classCallCheck(this, TurboRedirected);
 
-  return new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')))))));
+  return new PushedStartStateToHistoryIfNeeded().after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE'))))))));
 };
 
 module.exports = TurboRedirected;
