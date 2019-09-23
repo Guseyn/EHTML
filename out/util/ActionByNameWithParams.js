@@ -59,8 +59,6 @@ var FirstOf = require('./../async/FirstOf');
 
 var ParsedElmSelectors = require('./../async/ParsedElmSelectors');
 
-var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
-
 var EncodedURI = require('./../async/EncodedURI');
 
 var TurboRedirected = require('./../async/TurboRedirected');
