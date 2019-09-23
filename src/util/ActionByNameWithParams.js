@@ -16,7 +16,6 @@ const ElementsWithToggledClass = require('./../async/ElementsWithToggledClass')
 const ElementWithChangedValue = require('./../async/ElementWithChangedValue')
 const FirstOf = require('./../async/FirstOf')
 const ParsedElmSelectors = require('./../async/ParsedElmSelectors')
-const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 const EncodedURI = require('./../async/EncodedURI')
 const TurboRedirected = require('./../async/TurboRedirected')
 
