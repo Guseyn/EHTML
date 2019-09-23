@@ -10,13 +10,16 @@ class ElementWithMappedObject extends AsyncObject {
 
   syncCall () {
     return (element, obj) => {
-      const objName = element.getAttribute('data-response-object-name')
-      if (!objName) {
-        throw new Error(`elm #${element.getAttribute('id')} must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates`)
+      if (element) {
+        const objName = element.getAttribute('data-response-object-name')
+        if (!objName) {
+          throw new Error(`elm #${element.getAttribute('id')} must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates`)
+        }
+        const OBJ = { }
+        OBJ[objName] = obj
+        return this.mapObjToChildren(element, OBJ)
       }
-      const OBJ = { }
-      OBJ[objName] = obj
-      return this.mapObjToChildren(element, OBJ)
+      throw new Error(`element is ${element} in mapObjToElm`)
     }
   }
 

@@ -8,25 +8,22 @@ class BuiltAsyncTreeByParsedActions {
   }
 
   value () {
-    const keys = Object.keys(this.parsedActions)
-    const length = keys.length
-    let index = 0
-    if (length === 0) {
-      return new EmptyAsyncObject()
+    if (this.parsedActions.length === 0) {
+      return new EmptyAsyncObject(this.values)
     }
-    return this.buildAsyncTree(index, length, keys)
+    return this.buildAsyncTree()
   }
 
-  buildAsyncTree (curIndex, length, keys) {
-    if (length === curIndex) {
-      return this.parsedActions[keys[0]]
+  buildAsyncTree (curIndex = 0) {
+    if (this.parsedActions.length === curIndex) {
+      return this.parsedActions[0]
     } else {
       this.getLastNext(
-        this.parsedActions[keys[curIndex]]
+        this.parsedActions[curIndex]
       ).after(
-        this.parsedActions[keys[curIndex + 1]]
+        this.parsedActions[curIndex + 1]
       )
-      return this.buildAsyncTree(curIndex + 1, length, keys)
+      return this.buildAsyncTree(curIndex + 1)
     }
   }
 

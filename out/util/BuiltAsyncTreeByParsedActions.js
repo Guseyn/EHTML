@@ -20,24 +20,22 @@ function () {
   _createClass(BuiltAsyncTreeByParsedActions, [{
     key: "value",
     value: function value() {
-      var keys = Object.keys(this.parsedActions);
-      var length = keys.length;
-      var index = 0;
-
-      if (length === 0) {
-        return new EmptyAsyncObject();
+      if (this.parsedActions.length === 0) {
+        return new EmptyAsyncObject(this.values);
       }
 
-      return this.buildAsyncTree(index, length, keys);
+      return this.buildAsyncTree();
     }
   }, {
     key: "buildAsyncTree",
-    value: function buildAsyncTree(curIndex, length, keys) {
-      if (length === curIndex) {
-        return this.parsedActions[keys[0]];
+    value: function buildAsyncTree() {
+      var curIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      if (this.parsedActions.length === curIndex) {
+        return this.parsedActions[0];
       } else {
-        this.getLastNext(this.parsedActions[keys[curIndex]]).after(this.parsedActions[keys[curIndex + 1]]);
-        return this.buildAsyncTree(curIndex + 1, length, keys);
+        this.getLastNext(this.parsedActions[curIndex]).after(this.parsedActions[curIndex + 1]);
+        return this.buildAsyncTree(curIndex + 1);
       }
     }
   }, {
