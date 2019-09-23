@@ -105,10 +105,10 @@ var actions = {
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   innerHTML: function innerHTML(elmSelector, url, headers) {
-    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
-    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
   textContent: function textContent(elmSelector, text) {
     return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), text);
@@ -150,7 +150,7 @@ function () {
     key: "value",
     value: function value() {
       if (!actions[this.name]) {
-        throw new Error("no such action with name ".concat(this.name));
+        throw new Error("no such action with name \"".concat(this.name, "\""));
       }
 
       return actions[this.name].apply(actions, _toConsumableArray(this.params));

@@ -60,15 +60,16 @@ function () {
       }).filter(function (action) {
         return action.length !== 0;
       });
-      splittedActions.forEach(function (action) {
+      splittedActions.forEach(function (action, index) {
         var actionName = action.split('(')[0].trim();
 
         var actionParams = _this.actionParams(action, actionName);
 
         var parsedAction = _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value();
 
-        parsedActions[actionName] = parsedAction;
+        parsedActions[index] = parsedAction;
       });
+      parsedActions.length = splittedActions.length;
       return parsedActions;
     }
   }, {

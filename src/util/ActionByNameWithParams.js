@@ -68,9 +68,7 @@ const actions = {
           new CreatedOptions(
             'url', new EncodedURI(url),
             'method', 'GET',
-            'headers', new ParsedJSONOrString(
-              headers || '{}'
-            )
+            'headers', headers
           )
         )
       )
@@ -87,9 +85,7 @@ const actions = {
           new CreatedOptions(
             'url', new EncodedURI(url),
             'method', 'GET',
-            'headers', new ParsedJSONOrString(
-              headers || '{}'
-            )
+            'headers', headers
           )
         )
       )
@@ -142,7 +138,7 @@ class ActionByNameWithParams {
 
   value () {
     if (!actions[this.name]) {
-      throw new Error(`no such action with name ${this.name}`)
+      throw new Error(`no such action with name "${this.name}"`)
     }
     return actions[this.name](...this.params)
   }

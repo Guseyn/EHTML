@@ -15,7 +15,7 @@ class ParsedActions {
   }
 
   value () {
-    const parsedActions = {}
+    const parsedActions = { }
     if (!this.actions) {
       return new EmptyAsyncObject()
     }
@@ -23,14 +23,15 @@ class ParsedActions {
       .split(';')
       .map(action => action.trim())
       .filter(action => action.length !== 0)
-    splittedActions.forEach(action => {
+    splittedActions.forEach((action, index) => {
       const actionName = action.split('(')[0].trim()
       const actionParams = this.actionParams(action, actionName)
       const parsedAction = new ActionByNameWithParams(
         actionName, ...actionParams
       ).value()
-      parsedActions[actionName] = parsedAction
+      parsedActions[index] = parsedAction
     })
+    parsedActions.length = splittedActions.length
     return parsedActions
   }
 

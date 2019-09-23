@@ -6824,15 +6824,19 @@ function (_AsyncObject) {
       var _this = this;
 
       return function (element, obj) {
-        var objName = element.getAttribute('data-response-object-name');
+        if (element) {
+          var objName = element.getAttribute('data-response-object-name');
 
-        if (!objName) {
-          throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
+          if (!objName) {
+            throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
+          }
+
+          var OBJ = {};
+          OBJ[objName] = obj;
+          return _this.mapObjToChildren(element, OBJ);
         }
 
-        var OBJ = {};
-        OBJ[objName] = obj;
-        return _this.mapObjToChildren(element, OBJ);
+        throw new Error("element is ".concat(element, " in mapObjToElm"));
       };
     }
   }, {
@@ -9101,10 +9105,10 @@ var actions = {
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   innerHTML: function innerHTML(elmSelector, url, headers) {
-    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithInnerHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
-    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', new ParsedJSONOrString(headers || '{}')))));
+    return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
   textContent: function textContent(elmSelector, text) {
     return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), text);
@@ -9146,7 +9150,7 @@ function () {
     key: "value",
     value: function value() {
       if (!actions[this.name]) {
-        throw new Error("no such action with name ".concat(this.name));
+        throw new Error("no such action with name \"".concat(this.name, "\""));
       }
 
       return actions[this.name].apply(actions, _toConsumableArray(this.params));
@@ -9216,24 +9220,22 @@ function () {
   _createClass(BuiltAsyncTreeByParsedActions, [{
     key: "value",
     value: function value() {
-      var keys = Object.keys(this.parsedActions);
-      var length = keys.length;
-      var index = 0;
-
-      if (length === 0) {
-        return new EmptyAsyncObject();
+      if (this.parsedActions.length === 0) {
+        return new EmptyAsyncObject(this.values);
       }
 
-      return this.buildAsyncTree(index, length, keys);
+      return this.buildAsyncTree();
     }
   }, {
     key: "buildAsyncTree",
-    value: function buildAsyncTree(curIndex, length, keys) {
-      if (length === curIndex) {
-        return this.parsedActions[keys[0]];
+    value: function buildAsyncTree() {
+      var curIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      if (this.parsedActions.length === curIndex) {
+        return this.parsedActions[0];
       } else {
-        this.getLastNext(this.parsedActions[keys[curIndex]]).after(this.parsedActions[keys[curIndex + 1]]);
-        return this.buildAsyncTree(curIndex + 1, length, keys);
+        this.getLastNext(this.parsedActions[curIndex]).after(this.parsedActions[curIndex + 1]);
+        return this.buildAsyncTree(curIndex + 1);
       }
     }
   }, {
@@ -9332,15 +9334,16 @@ function () {
       }).filter(function (action) {
         return action.length !== 0;
       });
-      splittedActions.forEach(function (action) {
+      splittedActions.forEach(function (action, index) {
         var actionName = action.split('(')[0].trim();
 
         var actionParams = _this.actionParams(action, actionName);
 
         var parsedAction = _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value();
 
-        parsedActions[actionName] = parsedAction;
+        parsedActions[index] = parsedAction;
       });
+      parsedActions.length = splittedActions.length;
       return parsedActions;
     }
   }, {
