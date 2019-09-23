@@ -6519,34 +6519,11 @@ function (_HTMLElement) {
   }
 
   _createClass(E, [{
-    key: "onRender",
-    value: function onRender() {
-      throw new Error('render function must be overridden');
-    }
-  }, {
-    key: "applyStorageValuesToAttributes",
-    value: function applyStorageValuesToAttributes() {
-      for (var i = 0; i < this.attributes.length; i++) {
-        if (this.attributes[i].name !== 'data-actions') {
-          this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(this.attributes[i].value).value());
-        }
-      }
-    }
-  }, {
-    key: "applyUrlParamsToAttributes",
-    value: function applyUrlParamsToAttributes() {
-      for (var i = 0; i < this.attributes.length; i++) {
-        if (this.attributes[i].name !== 'data-actions') {
-          this.setAttribute(this.attributes[i].name, new StringWithAppliedUrlParams(this.attributes[i].value).value());
-        }
-      }
-    }
-  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
 
-      this.applyStorageValuesToAttributes();
+      this.applyStorageValuesAndUrlParamsToAttributes();
       setTimeout(function () {
         if (!_this2.rendered) {
           _this2.onRender();
@@ -6554,6 +6531,20 @@ function (_HTMLElement) {
           _this2.rendered = true;
         }
       });
+    }
+  }, {
+    key: "onRender",
+    value: function onRender() {
+      throw new Error('render function must be overridden');
+    }
+  }, {
+    key: "applyStorageValuesAndUrlParamsToAttributes",
+    value: function applyStorageValuesAndUrlParamsToAttributes() {
+      for (var i = 0; i < this.attributes.length; i++) {
+        if (this.attributes[i].name !== 'data-actions') {
+          this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(new StringWithAppliedUrlParams(this.attributes[i].value).value()).value());
+        }
+      }
     }
   }]);
 
