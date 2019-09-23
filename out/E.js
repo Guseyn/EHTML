@@ -42,6 +42,7 @@ function (_HTMLElement) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(E).call(this));
     _this.rendered = false;
+    _this.renderImmediately = false;
     return _this;
   }
 
@@ -51,13 +52,21 @@ function (_HTMLElement) {
       var _this2 = this;
 
       this.applyStorageValuesAndUrlParamsToAttributes();
-      setTimeout(function () {
-        if (!_this2.rendered) {
-          _this2.onRender();
+      console.log(this.childNodes);
 
-          _this2.rendered = true;
-        }
-      });
+      if (!this.renderImmediately) {
+        setTimeout(function () {
+          if (!_this2.rendered) {
+            _this2.onRender();
+
+            _this2.rendered = true;
+            console.log(_this2.childNodes);
+          }
+        });
+      } else if (!this.rendered) {
+        this.onRender();
+        this.rendered = true;
+      }
     }
   }, {
     key: "onRender",
@@ -68,9 +77,7 @@ function (_HTMLElement) {
     key: "applyStorageValuesAndUrlParamsToAttributes",
     value: function applyStorageValuesAndUrlParamsToAttributes() {
       for (var i = 0; i < this.attributes.length; i++) {
-        if (this.attributes[i].name !== 'data-actions') {
-          this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(new StringWithAppliedUrlParams(this.attributes[i].value).value()).value());
-        }
+        this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(new StringWithAppliedUrlParams(this.attributes[i].value).value()).value());
       }
     }
   }]);

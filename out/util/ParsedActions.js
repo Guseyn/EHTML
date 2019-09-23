@@ -49,23 +49,25 @@ function () {
     value: function value() {
       var _this = this;
 
-      var parsedActions = [];
+      var parsedActions = {};
 
       if (!this.actions) {
         return new EmptyAsyncObject();
       }
 
-      var splitedActions = this.actions.split(';').map(function (action) {
+      var splittedActions = this.actions.split(';').map(function (action) {
         return action.trim();
       }).filter(function (action) {
         return action.length !== 0;
       });
-      splitedActions.forEach(function (action) {
+      splittedActions.forEach(function (action) {
         var actionName = action.split('(')[0].trim();
 
         var actionParams = _this.actionParams(action, actionName);
 
-        parsedActions.push(_construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value());
+        var parsedAction = _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value();
+
+        parsedActions[actionName] = parsedAction;
       });
       return parsedActions;
     }

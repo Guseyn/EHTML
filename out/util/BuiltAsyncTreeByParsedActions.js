@@ -11,33 +11,43 @@ var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
 var BuiltAsyncTreeByParsedActions =
 /*#__PURE__*/
 function () {
-  function BuiltAsyncTreeByParsedActions(parsedActions, values) {
+  function BuiltAsyncTreeByParsedActions(parsedActions) {
     _classCallCheck(this, BuiltAsyncTreeByParsedActions);
 
     this.parsedActions = parsedActions;
-    this.values = values;
   }
 
   _createClass(BuiltAsyncTreeByParsedActions, [{
     key: "value",
     value: function value() {
-      return this.buildAsyncTree();
+      var keys = Object.keys(this.parsedActions);
+      var length = keys.length;
+      var index = 0;
+
+      if (length === 0) {
+        return new EmptyAsyncObject();
+      }
+
+      return this.buildAsyncTree(index, length, keys);
     }
   }, {
     key: "buildAsyncTree",
-    value: function buildAsyncTree() {
-      var curIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-      if (this.parsedActions.length === 0) {
-        return new EmptyAsyncObject(this.values);
-      }
-
-      if (this.parsedActions.length === curIndex) {
-        return this.parsedActions[0];
+    value: function buildAsyncTree(curIndex, length, keys) {
+      if (length === curIndex) {
+        return this.parsedActions[keys[0]];
       } else {
-        this.parsedActions[curIndex].after(this.parsedActions[curIndex + 1]);
-        return this.buildAsyncTree(curIndex + 1);
+        this.getLastNext(this.parsedActions[keys[curIndex]]).after(this.parsedActions[keys[curIndex + 1]]);
+        return this.buildAsyncTree(curIndex + 1, length, keys);
       }
+    }
+  }, {
+    key: "getLastNext",
+    value: function getLastNext(parsedAction) {
+      if (parsedAction.next) {
+        return this.getLastNext(parsedAction.next);
+      }
+
+      return parsedAction;
     }
   }]);
 
