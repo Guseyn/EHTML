@@ -7,16 +7,24 @@ class E extends HTMLElement {
   constructor () {
     super()
     this.rendered = false
+    this.renderImmediately = false
   }
 
   connectedCallback () {
     this.applyStorageValuesAndUrlParamsToAttributes()
-    setTimeout(() => {
-      if (!this.rendered) {
-        this.onRender()
-        this.rendered = true
-      }
-    })
+    console.log(this.childNodes)
+    if (!this.renderImmediately) {
+      setTimeout(() => {
+        if (!this.rendered) {
+          this.onRender()
+          this.rendered = true
+          console.log(this.childNodes)
+        }
+      })
+    } else if (!this.rendered) {
+      this.onRender()
+      this.rendered = true  
+    }
   }
 
   onRender () {
@@ -25,16 +33,14 @@ class E extends HTMLElement {
 
   applyStorageValuesAndUrlParamsToAttributes () {
     for (let i = 0; i < this.attributes.length; i++) {
-      if (this.attributes[i].name !== 'data-actions') {
-        this.setAttribute(
-          this.attributes[i].name,
-          new StringWithAppliedStorageVariables(
-            new StringWithAppliedUrlParams(
-              this.attributes[i].value
-            ).value()
+      this.setAttribute(
+        this.attributes[i].name,
+        new StringWithAppliedStorageVariables(
+          new StringWithAppliedUrlParams(
+            this.attributes[i].value
           ).value()
-        )
-      }
+        ).value()
+      )
     }
   }
 }

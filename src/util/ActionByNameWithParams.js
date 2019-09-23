@@ -1,9 +1,10 @@
 'use strict'
 
-const { browserified } = require('@page-libs/cutie')
+const { browserified, as } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent } = require('@page-libs/dom')
+const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const RedirectedLocation = require('./../async/RedirectedLocation')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
 const SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue')
@@ -18,6 +19,11 @@ const FirstOf = require('./../async/FirstOf')
 const ParsedElmSelectors = require('./../async/ParsedElmSelectors')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 const EncodedURI = require('./../async/EncodedURI')
+const ExtractedDocument = require('./../async/ExtractedDocument')
+const BodyInnerHTMLOfDocument = require('./../async/BodyInnerHTMLOfDocument')
+const TitleOfDocument = require('./../async/TitleOfDocument')
+const PushedStateToHistory = require('./../async/PushedStateToHistory')
+const ChangedPageTitle = require('./../async/ChangedPageTitle')
 
 const actions = {
   redirect: (url) => {
@@ -126,6 +132,48 @@ const actions = {
       className,
       new ParsedElmSelectors(...elmSelectors)
     )
+  },
+
+  turboRedirect: (href, headers) => {
+    return new ExtractedDocument(
+      new StringFromBuffer(
+        new ResponseBody(
+          new ResponseFromAjaxRequest(
+            new CreatedOptions(
+              'url', href,
+                'method', 'GET',
+                'headers', headers
+              )
+            )
+          )
+        )
+      ).as('DOC').after(
+        new BodyInnerHTMLOfDocument(
+          as('DOC')
+        ).as('BODY').after(
+          new TitleOfDocument(
+            as('DOC')
+          ).as('TITLE').after(
+            new PushedStateToHistory(
+              new CreatedOptions(
+                'body', as('BODY'),
+                'title', as('TITLE')
+              ),
+              href
+            ).after(
+              new ElementWithInnerHTML(
+                document.body,
+                as('BODY')
+              ).after(
+                new ChangedPageTitle(
+                  document,
+                  as('TITLE')
+                )
+              )
+            )
+          )
+        )
+      )
   }
 }
 
