@@ -21,8 +21,7 @@ function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _co
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified,
-    as = _require.as;
+    browserified = _require.browserified;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -35,9 +34,6 @@ var _require3 = require('@page-libs/dom'),
     ElementWithInnerHTML = _require3.ElementWithInnerHTML,
     ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML,
     ElementWithTextContent = _require3.ElementWithTextContent;
-
-var _browserified2 = browserified(require('@cuties/buffer')),
-    StringFromBuffer = _browserified2.StringFromBuffer;
 
 var RedirectedLocation = require('./../async/RedirectedLocation');
 
@@ -67,15 +63,7 @@ var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
 
 var EncodedURI = require('./../async/EncodedURI');
 
-var ExtractedDocument = require('./../async/ExtractedDocument');
-
-var BodyInnerHTMLOfDocument = require('./../async/BodyInnerHTMLOfDocument');
-
-var TitleOfDocument = require('./../async/TitleOfDocument');
-
-var PushedStateToHistory = require('./../async/PushedStateToHistory');
-
-var ChangedPageTitle = require('./../async/ChangedPageTitle');
+var TurboRedirected = require('./../async/TurboRedirected');
 
 var actions = {
   redirect: function redirect(url) {
@@ -139,7 +127,7 @@ var actions = {
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
   turboRedirect: function turboRedirect(href, headers) {
-    return new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')))))));
+    return new TurboRedirected(href, headers);
   }
 };
 

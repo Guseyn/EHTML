@@ -52,7 +52,6 @@ function (_HTMLElement) {
       var _this2 = this;
 
       this.applyStorageValuesAndUrlParamsToAttributes();
-      console.log(this.childNodes);
 
       if (!this.renderImmediately) {
         setTimeout(function () {
@@ -60,7 +59,6 @@ function (_HTMLElement) {
             _this2.onRender();
 
             _this2.rendered = true;
-            console.log(_this2.childNodes);
           }
         });
       } else if (!this.rendered) {
