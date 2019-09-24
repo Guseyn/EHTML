@@ -267,6 +267,10 @@ function (_E) {
             progressBar.style.display = '';
             var percentComplete = parseInt(event.loaded / event.total * 100);
             progressBar.value = percentComplete;
+
+            if (progressBar.value === 100) {
+              progressBar.style.display = 'none';
+            }
           }
         };
       }

@@ -8,6 +8,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var ParsedActions = require('./ParsedActions');
 
+var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
+
 var BuiltAsyncTreeByParsedActions = require('./BuiltAsyncTreeByParsedActions');
 
 var Actions =
@@ -23,7 +25,11 @@ function () {
   _createClass(Actions, [{
     key: "asAsyncTree",
     value: function asAsyncTree(obj) {
-      return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+      if (this.actions) {
+        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+      }
+
+      return new EmptyAsyncObject();
     }
   }]);
 
