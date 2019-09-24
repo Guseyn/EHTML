@@ -26,13 +26,9 @@ function (_E) {
   _inherits(EPageUrl, _E);
 
   function EPageUrl() {
-    var _this;
-
     _classCallCheck(this, EPageUrl);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EPageUrl).call(this));
-    _this.renderImmediately = true;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(EPageUrl).call(this, true));
   }
 
   _createClass(EPageUrl, [{

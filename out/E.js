@@ -35,14 +35,14 @@ var E =
 function (_HTMLElement) {
   _inherits(E, _HTMLElement);
 
-  function E() {
+  function E(renderImmediately) {
     var _this;
 
     _classCallCheck(this, E);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(E).call(this));
     _this.rendered = false;
-    _this.renderImmediately = false;
+    _this.renderImmediately = renderImmediately;
     return _this;
   }
 

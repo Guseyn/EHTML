@@ -4,10 +4,10 @@ const StringWithAppliedStorageVariables = require('./util/StringWithAppliedStora
 const StringWithAppliedUrlParams = require('./util/StringWithAppliedUrlParams')
 
 class E extends HTMLElement {
-  constructor () {
+  constructor (renderImmediately) {
     super()
     this.rendered = false
-    this.renderImmediately = false
+    this.renderImmediately = renderImmediately
   }
 
   connectedCallback () {

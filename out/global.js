@@ -10,3 +10,7 @@ window.onpopstate = function (event) {
     document.title = event.state.title;
   }
 };
+
+window.onbeforeunload = function () {
+  sessionStorage.removeItem('isFirstStatePushedToHistory');
+};
