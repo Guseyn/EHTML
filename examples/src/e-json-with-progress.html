@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-json-with-progress.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-json</title>
+    <style type="text/css">
+      .with-border {
+        display: block;
+        width: auto;
+        height: auto;
+        cursor: pointer;
+        margin-top: 10px;
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-json
+      data-src="https://guseyn.com/bigjson"
+      data-response-object-name="user1"
+      data-event="click"
+      data-progress-bar="#progressBar"
+    >
+      <div class="with-border">
+        <span style="text-decoration: underline;">Click here to load big json</span>
+        <br/>
+        <progress id="progressBar"></progress>
+      </div>
+    </e-json>
+  </body>
+
+</html>

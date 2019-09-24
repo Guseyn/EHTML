@@ -1,6 +1,7 @@
 'use strict'
 
 const ParsedActions = require('./ParsedActions')
+const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const BuiltAsyncTreeByParsedActions = require('./BuiltAsyncTreeByParsedActions')
 
 class Actions {
@@ -10,13 +11,16 @@ class Actions {
   }
 
   asAsyncTree (obj) {
-    return new BuiltAsyncTreeByParsedActions(
-      new ParsedActions(
-        this.actions,
-        this.tagName,
-        obj
+    if (this.actions) {
+      return new BuiltAsyncTreeByParsedActions(
+        new ParsedActions(
+          this.actions,
+          this.tagName,
+          obj
+        ).value()
       ).value()
-    ).value()
+    }
+    return new EmptyAsyncObject()
   }
 }
 

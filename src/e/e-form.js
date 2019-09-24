@@ -229,6 +229,9 @@ class EForm extends E {
           progressBar.style.display = ''
           const percentComplete = parseInt((event.loaded / event.total) * 100)
           progressBar.value = percentComplete
+          if (progressBar.value === 100) {
+            progressBar.style.display = 'none'
+          }
         }
       }
     }

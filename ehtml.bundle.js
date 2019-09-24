@@ -8461,6 +8461,10 @@ function (_E) {
             progressBar.style.display = '';
             var percentComplete = parseInt(event.loaded / event.total * 100);
             progressBar.value = percentComplete;
+
+            if (progressBar.value === 100) {
+              progressBar.style.display = 'none';
+            }
           }
         };
       }
@@ -8707,6 +8711,8 @@ var _require2 = require('@page-libs/ajax'),
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
+var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
+
 var E = require('./../E');
 
 var EJSON =
@@ -8724,6 +8730,8 @@ function (_E) {
     key: "onRender",
     value: function onRender() {
       var event = this.getAttribute('data-event');
+      this.progressBar = new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0];
+      this.prepareProgressBar(this.progressBar);
 
       if (event) {
         this.addEventListener(event, this.activate);
@@ -8734,7 +8742,35 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'))))))).call();
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', this.showProgress(this.progressBar))))))).call();
+    }
+  }, {
+    key: "prepareProgressBar",
+    value: function prepareProgressBar(progressBar) {
+      if (progressBar) {
+        progressBar.max = 100;
+        progressBar.value = 0;
+        progressBar.style.display = 'none';
+      }
+    }
+  }, {
+    key: "showProgress",
+    value: function showProgress(progressBar) {
+      if (progressBar) {
+        return function (event) {
+          if (event.lengthComputable) {
+            progressBar.style.display = '';
+            var percentComplete = parseInt(event.loaded / event.total * 100);
+            progressBar.value = percentComplete;
+
+            if (progressBar.value === 100) {
+              progressBar.style.display = 'none';
+            }
+          }
+        };
+      }
+
+      return function () {};
     }
   }]);
 
@@ -8744,7 +8780,7 @@ function (_E) {
 window.customElements.define('e-json', EJSON);
 module.exports = EJSON;
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":196,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9222,6 +9258,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var ParsedActions = require('./ParsedActions');
 
+var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
+
 var BuiltAsyncTreeByParsedActions = require('./BuiltAsyncTreeByParsedActions');
 
 var Actions =
@@ -9237,7 +9275,11 @@ function () {
   _createClass(Actions, [{
     key: "asAsyncTree",
     value: function asAsyncTree(obj) {
-      return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+      if (this.actions) {
+        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+      }
+
+      return new EmptyAsyncObject();
     }
   }]);
 
@@ -9246,7 +9288,7 @@ function () {
 
 module.exports = Actions;
 
-},{"./BuiltAsyncTreeByParsedActions":193,"./ParsedActions":195}],193:[function(require,module,exports){
+},{"./../async/EmptyAsyncObject":160,"./BuiltAsyncTreeByParsedActions":193,"./ParsedActions":195}],193:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
