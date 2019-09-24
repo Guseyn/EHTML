@@ -6508,14 +6508,14 @@ var E =
 function (_HTMLElement) {
   _inherits(E, _HTMLElement);
 
-  function E() {
+  function E(renderImmediately) {
     var _this;
 
     _classCallCheck(this, E);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(E).call(this));
     _this.rendered = false;
-    _this.renderImmediately = false;
+    _this.renderImmediately = renderImmediately;
     return _this;
   }
 
@@ -8825,13 +8825,9 @@ function (_E) {
   _inherits(EPageUrl, _E);
 
   function EPageUrl() {
-    var _this;
-
     _classCallCheck(this, EPageUrl);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EPageUrl).call(this));
-    _this.renderImmediately = true;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(EPageUrl).call(this, true));
   }
 
   _createClass(EPageUrl, [{
@@ -9046,6 +9042,10 @@ window.onpopstate = function (event) {
     document.body.innerHTML = event.state.body;
     document.title = event.state.title;
   }
+};
+
+window.onbeforeunload = function () {
+  sessionStorage.removeItem('isFirstStatePushedToHistory');
 };
 
 },{}],191:[function(require,module,exports){

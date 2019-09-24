@@ -10,3 +10,7 @@ window.onpopstate = (event) => {
     document.title = event.state.title
   }
 }
+
+window.onbeforeunload = () => {
+  sessionStorage.removeItem('isFirstStatePushedToHistory')
+}

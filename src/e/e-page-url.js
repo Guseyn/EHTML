@@ -4,8 +4,7 @@ const E = require('./../E')
 
 class EPageUrl extends E {
   constructor () {
-    super()
-    this.renderImmediately = true
+    super(true)
   }
 
   onRender () {
