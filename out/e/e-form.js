@@ -41,6 +41,14 @@ var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
 var FileInfo = require('./../util/FileInfo');
 
+var ShowProgressEvent = require('./../util/ShowProgressEvent');
+
+var ShowFileReaderProgressEvent = require('./../util/ShowFileReaderProgressEvent');
+
+var ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent');
+
+var PreparedProgressBars = require('./../util/PreparedProgressBars');
+
 var E = require('./../E');
 
 var EForm =
@@ -63,7 +71,7 @@ function (_E) {
       this.localStorageValues = this.getElementsByTagName('e-local-storage-value');
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       this.buttons = this.getElementsByTagName('button');
-      this.progressBars = this.getElementsByTagName('progress');
+      this.progressBars = new PreparedProgressBars(this.getElementsByTagName('progress')).value();
       this.tuneFileInputs(this.filteredFileInputs(this.inputs));
       this.propagateFormSendEvent(this.inputs);
       this.propagateFormSendEvent(this.selects);
@@ -71,7 +79,6 @@ function (_E) {
       this.propagateFormSendEvent(this.localStorageValues);
       this.propagateFormSendEvent(this.sessionStorageValues);
       this.propagateFormSendEvent(this.buttons);
-      this.prepareProgressBars(this.progressBars);
     }
   }, {
     key: "propagateFormSendEvent",
@@ -100,7 +107,7 @@ function (_E) {
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
       target.disabled = true;
       var requestBody = this.requestBody();
-      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', this.showProgress(uploadProgressBar), 'progressEvent', this.showProgress(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
+      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
     }
   }, {
     key: "requestBody",
@@ -209,14 +216,17 @@ function (_E) {
     key: "readFilesContentForRequestBody",
     value: function readFilesContentForRequestBody(fileInput, readProgressBar) {
       fileInput.filesInfo = [];
+      var filesRead = {
+        count: 0
+      };
 
       for (var index = 0; index < fileInput.files.length; index++) {
-        this.readFileContentForRequestBody(fileInput, readProgressBar, index);
+        this.readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, fileInput.files.length);
       }
     }
   }, {
     key: "readFileContentForRequestBody",
-    value: function readFileContentForRequestBody(fileInput, readProgressBar, index) {
+    value: function readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, filesLength) {
       var file = fileInput.files[index];
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -225,8 +235,8 @@ function (_E) {
         fileInput.filesInfo[index] = new FileInfo(file.name, file.size, file.type, reader.result, file.lastModifiedDate);
       };
 
-      reader.onprogress = this.showProgress(readProgressBar);
-      reader.onloadend = this.hideProgress(readProgressBar);
+      reader.onprogress = new ShowFileReaderProgressEvent(readProgressBar);
+      reader.onloadend = new ShowFileReaderEndEvent(readProgressBar, filesRead, filesLength);
 
       reader.onerror = function () {
         throw new Error("cound not read file ".concat(file.name));
@@ -247,46 +257,6 @@ function (_E) {
       }
 
       return fileInputs;
-    }
-  }, {
-    key: "prepareProgressBars",
-    value: function prepareProgressBars(progressBars) {
-      for (var index = 0; index < progressBars.length; index++) {
-        var progressBar = progressBars[index];
-        progressBar.max = 100;
-        progressBar.value = 0;
-        progressBar.style.display = 'none';
-      }
-    }
-  }, {
-    key: "showProgress",
-    value: function showProgress(progressBar) {
-      if (progressBar) {
-        return function (event) {
-          if (event.lengthComputable) {
-            progressBar.style.display = '';
-            var percentComplete = parseInt(event.loaded / event.total * 100);
-            progressBar.value = percentComplete;
-
-            if (progressBar.value === 100) {
-              progressBar.style.display = 'none';
-            }
-          }
-        };
-      }
-
-      return function () {};
-    }
-  }, {
-    key: "hideProgress",
-    value: function hideProgress(progressBar) {
-      if (progressBar) {
-        return function () {
-          progressBar.style.display = 'none';
-        };
-      }
-
-      return function () {};
     }
   }], [{
     key: "observedAttributes",

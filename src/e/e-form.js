@@ -10,6 +10,8 @@ const EnabledElements = require('./../async/EnabledElements')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
 const FileInfo = require('./../util/FileInfo')
 const ShowProgressEvent = require('./../util/ShowProgressEvent')
+const ShowFileReaderProgressEvent = require('./../util/ShowFileReaderProgressEvent')
+const ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent')
 const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const E = require('./../E')
 
@@ -178,12 +180,13 @@ class EForm extends E {
 
   readFilesContentForRequestBody (fileInput, readProgressBar) {
     fileInput.filesInfo = []
+    const filesRead = { count: 0 }
     for (let index = 0; index < fileInput.files.length; index++) {
-      this.readFileContentForRequestBody(fileInput, readProgressBar, index)
+      this.readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, fileInput.files.length)
     }
   }
 
-  readFileContentForRequestBody (fileInput, readProgressBar, index) {
+  readFileContentForRequestBody (fileInput, readProgressBar, index, filesRead, filesLength) {
     const file = fileInput.files[index]
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -196,7 +199,8 @@ class EForm extends E {
         file.lastModifiedDate
       )
     }
-    reader.onprogress = new ShowProgressEvent(readProgressBar)
+    reader.onprogress = new ShowFileReaderProgressEvent(readProgressBar)
+    reader.onloadend = new ShowFileReaderEndEvent(readProgressBar, filesRead, filesLength)
     reader.onerror = function () {
       throw new Error(`cound not read file ${file.name}`)
     }

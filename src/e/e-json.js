@@ -22,7 +22,7 @@ class EJSON extends E {
       new ParsedElmSelectors(
         this.getAttribute('data-progress-bar')
       ).value()[0]
-    ]).value()
+    ]).value()[0]
     if (event) {
       this.addEventListener(event, this.activate)
     } else {
