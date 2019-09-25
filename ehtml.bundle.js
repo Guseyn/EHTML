@@ -6558,7 +6558,7 @@ function (_HTMLElement) {
 
 module.exports = E;
 
-},{"./util/StringWithAppliedStorageVariables":198,"./util/StringWithAppliedUrlParams":199}],151:[function(require,module,exports){
+},{"./util/StringWithAppliedStorageVariables":203,"./util/StringWithAppliedUrlParams":204}],151:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6901,7 +6901,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithMappedObject;
 
-},{"./../util/StringWithMappedObject":200,"@page-libs/cutie":131}],157:[function(require,module,exports){
+},{"./../util/StringWithMappedObject":205,"@page-libs/cutie":131}],157:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7018,7 +7018,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithMappedVars;
 
-},{"./../util/StringWithAppliedStorageVariables":198,"./../util/StringWithAppliedUrlParams":199,"@page-libs/cutie":131}],158:[function(require,module,exports){
+},{"./../util/StringWithAppliedStorageVariables":203,"./../util/StringWithAppliedUrlParams":204,"@page-libs/cutie":131}],158:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7900,7 +7900,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithAppliedStorageVariables;
 
-},{"./../util/StringWithAppliedStorageVariables":198,"@page-libs/cutie":131}],175:[function(require,module,exports){
+},{"./../util/StringWithAppliedStorageVariables":203,"@page-libs/cutie":131}],175:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7951,7 +7951,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithAppliedUrlParams;
 
-},{"./../util/StringWithAppliedUrlParams":199,"@page-libs/cutie":131}],176:[function(require,module,exports){
+},{"./../util/StringWithAppliedUrlParams":204,"@page-libs/cutie":131}],176:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8002,7 +8002,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithMappedObject;
 
-},{"./../util/StringWithMappedObject":200,"@page-libs/cutie":131}],177:[function(require,module,exports){
+},{"./../util/StringWithMappedObject":205,"@page-libs/cutie":131}],177:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8235,6 +8235,14 @@ var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
 var FileInfo = require('./../util/FileInfo');
 
+var ShowProgressEvent = require('./../util/ShowProgressEvent');
+
+var ShowFileReaderProgressEvent = require('./../util/ShowFileReaderProgressEvent');
+
+var ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent');
+
+var PreparedProgressBars = require('./../util/PreparedProgressBars');
+
 var E = require('./../E');
 
 var EForm =
@@ -8257,7 +8265,7 @@ function (_E) {
       this.localStorageValues = this.getElementsByTagName('e-local-storage-value');
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       this.buttons = this.getElementsByTagName('button');
-      this.progressBars = this.getElementsByTagName('progress');
+      this.progressBars = new PreparedProgressBars(this.getElementsByTagName('progress')).value();
       this.tuneFileInputs(this.filteredFileInputs(this.inputs));
       this.propagateFormSendEvent(this.inputs);
       this.propagateFormSendEvent(this.selects);
@@ -8265,7 +8273,6 @@ function (_E) {
       this.propagateFormSendEvent(this.localStorageValues);
       this.propagateFormSendEvent(this.sessionStorageValues);
       this.propagateFormSendEvent(this.buttons);
-      this.prepareProgressBars(this.progressBars);
     }
   }, {
     key: "propagateFormSendEvent",
@@ -8294,7 +8301,7 @@ function (_E) {
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
       target.disabled = true;
       var requestBody = this.requestBody();
-      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', this.showProgress(uploadProgressBar), 'progressEvent', this.showProgress(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
+      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
     }
   }, {
     key: "requestBody",
@@ -8403,14 +8410,17 @@ function (_E) {
     key: "readFilesContentForRequestBody",
     value: function readFilesContentForRequestBody(fileInput, readProgressBar) {
       fileInput.filesInfo = [];
+      var filesRead = {
+        count: 0
+      };
 
       for (var index = 0; index < fileInput.files.length; index++) {
-        this.readFileContentForRequestBody(fileInput, readProgressBar, index);
+        this.readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, fileInput.files.length);
       }
     }
   }, {
     key: "readFileContentForRequestBody",
-    value: function readFileContentForRequestBody(fileInput, readProgressBar, index) {
+    value: function readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, filesLength) {
       var file = fileInput.files[index];
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -8419,8 +8429,8 @@ function (_E) {
         fileInput.filesInfo[index] = new FileInfo(file.name, file.size, file.type, reader.result, file.lastModifiedDate);
       };
 
-      reader.onprogress = this.showProgress(readProgressBar);
-      reader.onloadend = this.hideProgress(readProgressBar);
+      reader.onprogress = new ShowFileReaderProgressEvent(readProgressBar);
+      reader.onloadend = new ShowFileReaderEndEvent(readProgressBar, filesRead, filesLength);
 
       reader.onerror = function () {
         throw new Error("cound not read file ".concat(file.name));
@@ -8442,46 +8452,6 @@ function (_E) {
 
       return fileInputs;
     }
-  }, {
-    key: "prepareProgressBars",
-    value: function prepareProgressBars(progressBars) {
-      for (var index = 0; index < progressBars.length; index++) {
-        var progressBar = progressBars[index];
-        progressBar.max = 100;
-        progressBar.value = 0;
-        progressBar.style.display = 'none';
-      }
-    }
-  }, {
-    key: "showProgress",
-    value: function showProgress(progressBar) {
-      if (progressBar) {
-        return function (event) {
-          if (event.lengthComputable) {
-            progressBar.style.display = '';
-            var percentComplete = parseInt(event.loaded / event.total * 100);
-            progressBar.value = percentComplete;
-
-            if (progressBar.value === 100) {
-              progressBar.style.display = 'none';
-            }
-          }
-        };
-      }
-
-      return function () {};
-    }
-  }, {
-    key: "hideProgress",
-    value: function hideProgress(progressBar) {
-      if (progressBar) {
-        return function () {
-          progressBar.style.display = 'none';
-        };
-      }
-
-      return function () {};
-    }
   }], [{
     key: "observedAttributes",
     get: function get() {
@@ -8495,7 +8465,7 @@ function (_E) {
 window.customElements.define('e-form', EForm);
 module.exports = EForm;
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":161,"./../util/FileInfo":194,"./../util/ParsedElmSelectors":196,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],182:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":161,"./../util/FileInfo":194,"./../util/ParsedElmSelectors":196,"./../util/PreparedProgressBars":198,"./../util/ShowFileReaderEndEvent":200,"./../util/ShowFileReaderProgressEvent":201,"./../util/ShowProgressEvent":202,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],182:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8713,6 +8683,10 @@ var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
+var PreparedProgressBars = require('./../util/PreparedProgressBars');
+
+var ShowProgressEvent = require('./../util/ShowProgressEvent');
+
 var E = require('./../E');
 
 var EJSON =
@@ -8730,8 +8704,7 @@ function (_E) {
     key: "onRender",
     value: function onRender() {
       var event = this.getAttribute('data-event');
-      this.progressBar = new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0];
-      this.prepareProgressBar(this.progressBar);
+      this.progressBar = new PreparedProgressBars([new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0]]).value()[0];
 
       if (event) {
         this.addEventListener(event, this.activate);
@@ -8742,35 +8715,7 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', this.showProgress(this.progressBar))))))).call();
-    }
-  }, {
-    key: "prepareProgressBar",
-    value: function prepareProgressBar(progressBar) {
-      if (progressBar) {
-        progressBar.max = 100;
-        progressBar.value = 0;
-        progressBar.style.display = 'none';
-      }
-    }
-  }, {
-    key: "showProgress",
-    value: function showProgress(progressBar) {
-      if (progressBar) {
-        return function (event) {
-          if (event.lengthComputable) {
-            progressBar.style.display = '';
-            var percentComplete = parseInt(event.loaded / event.total * 100);
-            progressBar.value = percentComplete;
-
-            if (progressBar.value === 100) {
-              progressBar.style.display = 'none';
-            }
-          }
-        };
-      }
-
-      return function () {};
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))))))).call();
     }
   }]);
 
@@ -8780,7 +8725,7 @@ function (_E) {
 window.customElements.define('e-json', EJSON);
 module.exports = EJSON;
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":196,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":196,"./../util/PreparedProgressBars":198,"./../util/ShowProgressEvent":202,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9531,6 +9476,82 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var PreparedProgressBars =
+/*#__PURE__*/
+function () {
+  function PreparedProgressBars(progressBars) {
+    _classCallCheck(this, PreparedProgressBars);
+
+    this.progressBars = progressBars;
+  }
+
+  _createClass(PreparedProgressBars, [{
+    key: "value",
+    value: function value() {
+      for (var index = 0; index < this.progressBars.length; index++) {
+        var progressBar = progressBars[index];
+        progressBar.max = 100;
+        progressBar.value = 0;
+        progressBar.style.display = 'none';
+      }
+
+      return this.progressBars;
+    }
+  }]);
+
+  return PreparedProgressBars;
+}();
+
+module.exports = PreparedProgressBars;
+
+},{}],198:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var PreparedProgressBars =
+/*#__PURE__*/
+function () {
+  function PreparedProgressBars(progressBars) {
+    _classCallCheck(this, PreparedProgressBars);
+
+    this.progressBars = progressBars;
+  }
+
+  _createClass(PreparedProgressBars, [{
+    key: "value",
+    value: function value() {
+      for (var index = 0; index < this.progressBars.length; index++) {
+        if (this.progressBars[index]) {
+          var progressBar = this.progressBars[index];
+          progressBar.max = 100;
+          progressBar.value = 0;
+          progressBar.style.display = 'none';
+        }
+      }
+
+      return this.progressBars;
+    }
+  }]);
+
+  return PreparedProgressBars;
+}();
+
+module.exports = PreparedProgressBars;
+
+},{}],199:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var SessionStorage =
 /*#__PURE__*/
 function () {
@@ -9564,7 +9585,82 @@ function () {
 window.sessionStorageWrapper = new SessionStorage();
 module.exports = SessionStorage;
 
-},{}],198:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ShowFileReaderEndEvent = function ShowFileReaderEndEvent(progressBar, filesRead, filesLength) {
+  _classCallCheck(this, ShowFileReaderEndEvent);
+
+  if (progressBar) {
+    return function () {
+      filesRead.count += 1;
+
+      if (filesRead.count === filesLength) {
+        progressBar.style.display = 'none';
+      } else {
+        progressBar.value = 0;
+      }
+    };
+  }
+
+  return function () {};
+};
+
+module.exports = ShowFileReaderEndEvent;
+
+},{}],201:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ShowFileReaderProgressEvent = function ShowFileReaderProgressEvent(progressBar) {
+  _classCallCheck(this, ShowFileReaderProgressEvent);
+
+  if (progressBar) {
+    return function (event) {
+      if (event.lengthComputable) {
+        progressBar.style.display = '';
+        var percentComplete = parseInt(event.loaded / event.total * 100);
+        progressBar.value = percentComplete;
+      }
+    };
+  }
+
+  return function () {};
+};
+
+module.exports = ShowFileReaderProgressEvent;
+
+},{}],202:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ShowProgressEvent = function ShowProgressEvent(progressBar) {
+  _classCallCheck(this, ShowProgressEvent);
+
+  if (progressBar) {
+    return function (event) {
+      if (event.lengthComputable) {
+        progressBar.style.display = '';
+        var percentComplete = parseInt(event.loaded / event.total * 100);
+        progressBar.value = percentComplete;
+
+        if (progressBar.value === 100) {
+          progressBar.style.display = 'none';
+        }
+      }
+    };
+  }
+
+  return function () {};
+};
+
+module.exports = ShowProgressEvent;
+
+},{}],203:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9604,7 +9700,7 @@ function () {
 
 module.exports = StringWithAppliedStorageVariables;
 
-},{}],199:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9637,7 +9733,7 @@ function () {
 
 module.exports = StringWithAppliedUrlParams;
 
-},{}],200:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 "use strict";
 'use string';
 
@@ -9696,4 +9792,4 @@ function () {
 
 module.exports = StringWithMappedObject;
 
-},{}]},{},[151,152,153,154,158,159,155,156,157,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,150,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200]);
+},{}]},{},[151,152,153,154,158,159,155,156,157,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,150,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205]);

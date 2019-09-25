@@ -38,6 +38,10 @@ var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
+var PreparedProgressBars = require('./../util/PreparedProgressBars');
+
+var ShowProgressEvent = require('./../util/ShowProgressEvent');
+
 var E = require('./../E');
 
 var EJSON =
@@ -55,8 +59,7 @@ function (_E) {
     key: "onRender",
     value: function onRender() {
       var event = this.getAttribute('data-event');
-      this.progressBar = new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0];
-      this.prepareProgressBar(this.progressBar);
+      this.progressBar = new PreparedProgressBars([new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0]]).value()[0];
 
       if (event) {
         this.addEventListener(event, this.activate);
@@ -67,35 +70,7 @@ function (_E) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', this.showProgress(this.progressBar))))))).call();
-    }
-  }, {
-    key: "prepareProgressBar",
-    value: function prepareProgressBar(progressBar) {
-      if (progressBar) {
-        progressBar.max = 100;
-        progressBar.value = 0;
-        progressBar.style.display = 'none';
-      }
-    }
-  }, {
-    key: "showProgress",
-    value: function showProgress(progressBar) {
-      if (progressBar) {
-        return function (event) {
-          if (event.lengthComputable) {
-            progressBar.style.display = '';
-            var percentComplete = parseInt(event.loaded / event.total * 100);
-            progressBar.value = percentComplete;
-
-            if (progressBar.value === 100) {
-              progressBar.style.display = 'none';
-            }
-          }
-        };
-      }
-
-      return function () {};
+      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))))))).call();
     }
   }]);
 
