@@ -7,6 +7,8 @@ const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
+const PreparedProgressBars = require('./../util/PreparedProgressBars')
+const ShowProgressEvent = require('./../util/ShowProgressEvent')
 const E = require('./../E')
 
 class EJSON extends E {
@@ -16,10 +18,11 @@ class EJSON extends E {
 
   onRender () {
     const event = this.getAttribute('data-event')
-    this.progressBar = new ParsedElmSelectors(
-      this.getAttribute('data-progress-bar')
-    ).value()[0]
-    this.prepareProgressBar(this.progressBar)
+    this.progressBar = new PreparedProgressBars([
+      new ParsedElmSelectors(
+        this.getAttribute('data-progress-bar')
+      ).value()[0]
+    ]).value()
     if (event) {
       this.addEventListener(event, this.activate)
     } else {
@@ -42,37 +45,13 @@ class EJSON extends E {
                 'headers', new ParsedJSON(
                   this.getAttribute('data-headers') || '{}'
                 ),
-                'progressEvent', this.showProgress(this.progressBar)
+                'progressEvent', new ShowProgressEvent(this.progressBar)
               )
             )
           )
         )
       )
     ).call()
-  }
-
-  prepareProgressBar (progressBar) {
-    if (progressBar) {
-      progressBar.max = 100
-      progressBar.value = 0
-      progressBar.style.display = 'none'
-    }
-  }
-
-  showProgress (progressBar) {
-    if (progressBar) {
-      return (event) => {
-        if (event.lengthComputable) {
-          progressBar.style.display = ''
-          const percentComplete = parseInt((event.loaded / event.total) * 100)
-          progressBar.value = percentComplete
-          if (progressBar.value === 100) {
-            progressBar.style.display = 'none'
-          }
-        }
-      }
-    }
-    return () => {}
   }
 }
 

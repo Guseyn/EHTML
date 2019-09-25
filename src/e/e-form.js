@@ -9,6 +9,8 @@ const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const EnabledElements = require('./../async/EnabledElements')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
 const FileInfo = require('./../util/FileInfo')
+const ShowProgressEvent = require('./../util/ShowProgressEvent')
+const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const E = require('./../E')
 
 class EForm extends E {
@@ -27,7 +29,9 @@ class EForm extends E {
     this.localStorageValues = this.getElementsByTagName('e-local-storage-value')
     this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value')
     this.buttons = this.getElementsByTagName('button')
-    this.progressBars = this.getElementsByTagName('progress')
+    this.progressBars = new PreparedProgressBars(
+      this.getElementsByTagName('progress')
+    ).value()
     this.tuneFileInputs(this.filteredFileInputs(this.inputs))
     this.propagateFormSendEvent(this.inputs)
     this.propagateFormSendEvent(this.selects)
@@ -35,7 +39,6 @@ class EForm extends E {
     this.propagateFormSendEvent(this.localStorageValues)
     this.propagateFormSendEvent(this.sessionStorageValues)
     this.propagateFormSendEvent(this.buttons)
-    this.prepareProgressBars(this.progressBars)
   }
 
   propagateFormSendEvent (elms) {
@@ -68,8 +71,8 @@ class EForm extends E {
               target.getAttribute('data-request-headers') || '{}'
             ),
             'method', target.getAttribute('data-request-method') || 'POST',
-            'uploadProgressEvent', this.showProgress(uploadProgressBar),
-            'progressEvent', this.showProgress(progressBar)
+            'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
+            'progressEvent', new ShowProgressEvent(progressBar)
           ),
           new StringifiedJSON(
             requestBody
@@ -193,8 +196,7 @@ class EForm extends E {
         file.lastModifiedDate
       )
     }
-    reader.onprogress = this.showProgress(readProgressBar)
-    reader.onloadend = this.hideProgress(readProgressBar)
+    reader.onprogress = new ShowProgressEvent(readProgressBar)
     reader.onerror = function () {
       throw new Error(`cound not read file ${file.name}`)
     }
@@ -211,40 +213,6 @@ class EForm extends E {
       }
     }
     return fileInputs
-  }
-
-  prepareProgressBars (progressBars) {
-    for (let index = 0; index < progressBars.length; index++) {
-      const progressBar = progressBars[index]
-      progressBar.max = 100
-      progressBar.value = 0
-      progressBar.style.display = 'none'
-    }
-  }
-
-  showProgress (progressBar) {
-    if (progressBar) {
-      return (event) => {
-        if (event.lengthComputable) {
-          progressBar.style.display = ''
-          const percentComplete = parseInt((event.loaded / event.total) * 100)
-          progressBar.value = percentComplete
-          if (progressBar.value === 100) {
-            progressBar.style.display = 'none'
-          }
-        }
-      }
-    }
-    return () => {}
-  }
-
-  hideProgress (progressBar) {
-    if (progressBar) {
-      return () => {
-        progressBar.style.display = 'none'
-      }
-    }
-    return () => {}
   }
 }
 
