@@ -7,15 +7,17 @@ class StringWithAppliedStorageVariables {
 
   value () {
     return this.str
-      .replace(/\$\{localStorage\.(.+)\}/g, (match, p1, offset, string) => {
-        return localStorage.getItem(p1)
+      .replace(/\$\{((localStorage\.([^\s]+))(.+)?)\}/g, (match, p1, p2, p3, p4, offset, string) => {
+        // eslint-disable-next-line no-undef
+        const expression = p1.replace(p2, `'${localStorage.getItem(p3)}'`)
+        // eslint-disable-next-line no-eval
+        return eval(expression)
       })
-      .replace(/\$\{sessionStorage\.(.+)\}/g, (match, p1, offset, string) => {
-        const value = sessionStorage.getItem(p1)
-        if (value instanceof Object) {
-          return JSON.stringify(value)
-        }
-        return value
+      .replace(/\$\{((sessionStorage\.([^\s]+))(.+)?)\}/g, (match, p1, p2, p3, p4, offset, string) => {
+        // eslint-disable-next-line no-undef
+        const expression = p1.replace(p2, `'${sessionStorage.getItem(p3)}'`)
+        // eslint-disable-next-line no-eval
+        return eval(expression)
       })
   }
 }

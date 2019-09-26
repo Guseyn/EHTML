@@ -18,9 +18,11 @@ function () {
   _createClass(StringWithAppliedUrlParams, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{urlParams\.(.+)\}/g, function (match, p1, offset, string) {
+      return this.str.replace(/\$\{((urlParams\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
         // eslint-disable-next-line no-undef
-        return urlParams[p1];
+        var expression = p1.replace(p2, "'".concat(urlParams[p3], "'")); // eslint-disable-next-line no-eval
+
+        return eval(expression);
       });
     }
   }]);

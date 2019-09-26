@@ -18,16 +18,16 @@ function () {
   _createClass(StringWithAppliedStorageVariables, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{localStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        return localStorage.getItem(p1);
-      }).replace(/\$\{sessionStorage\.(.+)\}/g, function (match, p1, offset, string) {
-        var value = sessionStorage.getItem(p1);
+      return this.str.replace(/\$\{((localStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+        // eslint-disable-next-line no-undef
+        var expression = p1.replace(p2, "'".concat(localStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
 
-        if (value instanceof Object) {
-          return JSON.stringify(value);
-        }
+        return eval(expression);
+      }).replace(/\$\{((sessionStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+        // eslint-disable-next-line no-undef
+        var expression = p1.replace(p2, "'".concat(sessionStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
 
-        return value;
+        return eval(expression);
       });
     }
   }]);

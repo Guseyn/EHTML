@@ -30,7 +30,7 @@ const actions = {
 
   saveToSessionStorage: (key, value) => {
     // eslint-disable-next-line no-undef
-    return new SessionStorageWithSetValue(sessionStorageWrapper, key, value)
+    return new SessionStorageWithSetValue(sessionStorage, key, value)
   },
 
   hideElms: (...elmSelectors) => {
@@ -91,12 +91,20 @@ const actions = {
     )
   },
 
-  textContent: (elmSelector, text) => {
+  textContent: (elmSelector, url, headers) => {
     return new ElementWithTextContent(
       new FirstOf(
         new ParsedElmSelectors(elmSelector)
       ),
-      text
+      new ResponseBody(
+        new ResponseFromAjaxRequest(
+          new CreatedOptions(
+            'url', new EncodedURI(url),
+            'method', 'GET',
+            'headers', headers
+          )
+        )
+      )
     )
   },
 

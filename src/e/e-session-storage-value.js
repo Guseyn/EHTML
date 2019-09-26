@@ -16,8 +16,7 @@ class ESessionStorageValue extends E {
   }
 
   value () {
-    // eslint-disable-next-line no-undef
-    return sessionStorageWrapper.getItem(
+    return sessionStorage.getItem(
       this.getAttribute('data-key')
     )
   }

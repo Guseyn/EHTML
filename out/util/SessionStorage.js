@@ -36,5 +36,4 @@ function () {
   return SessionStorage;
 }();
 
-window.sessionStorageWrapper = new SessionStorage();
 module.exports = SessionStorage;
