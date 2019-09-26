@@ -44,8 +44,7 @@ function (_E) {
   }, {
     key: "value",
     value: function value() {
-      // eslint-disable-next-line no-undef
-      return sessionStorageWrapper.getItem(this.getAttribute('data-key'));
+      return sessionStorage.getItem(this.getAttribute('data-key'));
     }
   }]);
 

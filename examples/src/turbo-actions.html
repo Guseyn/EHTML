@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/turbo-actions.html?color={color} -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>actions</title>
+    <style type="text/css">
+      .inner {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+        margin-top: 30px;
+        margin-left: 30px;
+      }
+      select {
+        padding: 1em;
+        font-size: 2em;
+        margin-top: 10px;
+        margin-left: 30px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-page-url data-url-pattern="/turbo-actions.html?color={color}"></e-page-url>
+    <e-var-map>
+      <select 
+        name="color" 
+        value="${urlParams.color}"
+        onchange="
+          window.turboRedirect(this, (target) => {
+            console.log(options)
+            return '/turbo-actions.html?color=' + target.value
+          })
+        "
+      >
+        <option value="red" name="color" selected="${urlParams.color === 'red'}">Red</option>
+        <option value="green" name="color" selected="${urlParams.color === 'green'}">Green</option>
+        <option value="blue" name="color" selected="${urlParams.color === 'blue'}">Blue</option>
+      </select>
+      <div id="color" width="100px;">
+        <div class="inner" style="background: ${urlParams.color}; width: 100px; height: 100px;"></div>
+      </div>
+    </e-var-map>
+  </body>
+
+</html>

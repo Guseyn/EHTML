@@ -72,7 +72,7 @@ var actions = {
   },
   saveToSessionStorage: function saveToSessionStorage(key, value) {
     // eslint-disable-next-line no-undef
-    return new SessionStorageWithSetValue(sessionStorageWrapper, key, value);
+    return new SessionStorageWithSetValue(sessionStorage, key, value);
   },
   hideElms: function hideElms() {
     for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -108,8 +108,8 @@ var actions = {
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
     return new ElementWithAdditionalHTML(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
-  textContent: function textContent(elmSelector, text) {
-    return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), text);
+  textContent: function textContent(elmSelector, url, headers) {
+    return new ElementWithTextContent(new FirstOf(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
   changeValueOf: function changeValueOf(elmSelector, newValue) {
     return new ElementWithChangedValue(new FirstOf(new ParsedElmSelectors(elmSelector)), newValue);
