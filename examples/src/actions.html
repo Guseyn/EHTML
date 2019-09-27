@@ -25,9 +25,16 @@
   </head>
 
   <body class="main">
-    <select id="color-select" name="color" onchange="window.innerHTML(this, '#color', (target) => {
-      return '/../html/inner-only-' + target.value.toLowerCase() + '.html'
-    })">
+    <select
+      is="e-select"
+      id="color-select"
+      name="color"
+      value="red"
+      onchange="
+      window.innerHTML(this, '#color', (target) => {
+        return '/../html/inner-only-' + target.value.toLowerCase() + '.html'
+      })"
+    >
       <option value="red" name="color">Red</option>
       <option value="green" name="color">Green</option>
       <option value="blue" name="color">Blue</option>

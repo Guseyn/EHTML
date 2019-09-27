@@ -27,19 +27,19 @@
   <body class="main">
     <e-page-url data-url-pattern="/turbo-actions.html?color={color}"></e-page-url>
     <e-var-map>
-      <select 
+      <select
+        is="e-select"
         name="color" 
         value="${urlParams.color}"
         onchange="
           window.turboRedirect(this, (target) => {
-            console.log(options)
             return '/turbo-actions.html?color=' + target.value
           })
         "
       >
-        <option value="red" name="color" selected="${urlParams.color === 'red'}">Red</option>
-        <option value="green" name="color" selected="${urlParams.color === 'green'}">Green</option>
-        <option value="blue" name="color" selected="${urlParams.color === 'blue'}">Blue</option>
+        <option value="red" name="color">Red</option>
+        <option value="green" name="color">Green</option>
+        <option value="blue" name="color">Blue</option>
       </select>
       <div id="color" width="100px;">
         <div class="inner" style="background: ${urlParams.color}; width: 100px; height: 100px;"></div>
