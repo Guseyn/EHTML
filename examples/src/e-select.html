@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-select.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-select</title>
+    <style type="text/css">
+      select {
+        padding: 1em;
+        font-size: 2em;
+        margin-top: 10px;
+        margin-left: 30px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <select
+      is="e-select"
+      name="color" 
+      value="green"
+    >
+      <option value="red" name="color">Red</option>
+      <option value="green" name="color">Green</option>
+      <option value="blue" name="color">Blue</option>
+    </select>
+  </body>
+
+</html>
