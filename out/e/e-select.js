@@ -32,17 +32,42 @@ function (_HTMLSelectElement) {
   _inherits(ESelect, _HTMLSelectElement);
 
   function ESelect() {
+    var _this;
+
     _classCallCheck(this, ESelect);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ESelect).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ESelect).call(this));
+    _this.rendered = false;
+    return _this;
   }
 
   _createClass(ESelect, [{
-    key: "onRender",
-    value: function onRender() {}
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        if (!_this2.rendered) {
+          _this2.onRender();
+
+          _this2.rendered = true;
+        }
+      });
+    }
   }, {
-    key: "value",
-    value: function value() {}
+    key: "onRender",
+    value: function onRender() {
+      this.value = this.getAttribute('value');
+
+      for (var index = 0; index < this.options.length; index++) {
+        var item = this.options.item(index);
+
+        if (item.value === this.value) {
+          this.selectedIndex = index;
+          break;
+        }
+      }
+    }
   }]);
 
   return ESelect;
