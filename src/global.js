@@ -24,6 +24,57 @@ window.onbeforeunload = () => {
   sessionStorage.removeItem('isFirstStatePushedToHistory')
 }
 
+window.redirect = (target, url) => {
+  new ActionByNameWithParams(
+    'redirect',
+    retrievedValue(target, url)
+  ).value().call()
+}
+
+window.saveToLocalStorage = (target, key, value) => {
+  new ActionByNameWithParams(
+    'saveToLocalStorage',
+    retrievedValue(target, key),
+    retrievedValue(target, value)
+  ).value().call()
+}
+
+window.saveToSessionStorage = (target, key, value) => {
+  new ActionByNameWithParams(
+    'saveToSessionStorage',
+    retrievedValue(target, key),
+    retrievedValue(target, value)
+  ).value().call()
+}
+
+window.hideElms = (...elmSelectors) => {
+  new ActionByNameWithParams(
+    'hideElms',
+    ...elmSelectors
+  ).value().call()
+}
+
+window.showElms = (...elmSelectors) => {
+  new ActionByNameWithParams(
+    'showElms',
+    ...elmSelectors
+  ).value().call()
+}
+
+window.disableElms = (...elmSelectors) => {
+  new ActionByNameWithParams(
+    'disableElms',
+    ...elmSelectors
+  ).value().call()
+}
+
+window.enableElms = (...elmSelectors) => {
+  new ActionByNameWithParams(
+    'enableElms',
+    ...elmSelectors
+  ).value().call()
+}
+
 window.innerHTML = (target, elm, url, headers) => {
   new ActionByNameWithParams(
     'innerHTML',
@@ -48,6 +99,30 @@ window.textContent = (target, elm, url, headers) => {
     retrievedValue(target, elm),
     retrievedValue(target, url),
     retrievedValue(target, headers)
+  ).value().call()
+}
+
+window.changeValueOf = (target, elmSelector, newValue) => {
+  new ActionByNameWithParams(
+    'changeValueOf',
+    elmSelector,
+    retrievedValue(target, newValue)
+  ).value().call()
+}
+
+window.mapObjToElm = (target, obj, elmSelector) => {
+  new ActionByNameWithParams(
+    'mapObjToElm',
+    retrievedValue(target, obj),
+    elmSelector
+  ).value().call()
+}
+
+window.toggleElms = (className, ...elmSelectors) => {
+  new ActionByNameWithParams(
+    'toggleElms',
+    className,
+    ...elmSelectors
   ).value().call()
 }
 
