@@ -7,30 +7,29 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('@page-libs/dom')
 const E = require('./../E')
 
-class EHTML extends E {
-  constructor () {
-    super()
-  }
+E(
+  'e-html',
+  class extends HTMLElement {
+    constructor () {
+      super()
+    }
 
-  onRender () {
-    new UnwrappedChildrenOfParent(
-      new ElementWithInnerHTML(
-        this, new ResponseBody(
-          new ResponseFromAjaxRequest(
-            new CreatedOptions(
-              'url', this.getAttribute('data-src'),
-              'method', 'GET',
-              'headers', new ParsedJSON(
-                this.getAttribute('data-headers') || '{}'
+    onRender () {
+      new UnwrappedChildrenOfParent(
+        new ElementWithInnerHTML(
+          this, new ResponseBody(
+            new ResponseFromAjaxRequest(
+              new CreatedOptions(
+                'url', this.getAttribute('data-src'),
+                'method', 'GET',
+                'headers', new ParsedJSON(
+                  this.getAttribute('data-headers') || '{}'
+                )
               )
             )
           )
         )
-      )
-    ).call()
+      ).call()
+    }
   }
-}
-
-window.customElements.define('e-html', EHTML)
-
-module.exports = EHTML
+)

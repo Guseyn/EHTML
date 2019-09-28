@@ -11,50 +11,49 @@ const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const ShowProgressEvent = require('./../util/ShowProgressEvent')
 const E = require('./../E')
 
-class EJSON extends E {
-  constructor () {
-    super()
-  }
-
-  onRender () {
-    const event = this.getAttribute('data-event')
-    this.progressBar = new PreparedProgressBars([
-      new ParsedElmSelectors(
-        this.getAttribute('data-progress-bar')
-      ).value()[0]
-    ]).value()[0]
-    if (event) {
-      this.addEventListener(event, this.activate)
-    } else {
-      this.activate()
+E(
+  'e-json',
+  class extends HTMLElement {
+    constructor () {
+      super()
     }
-  }
 
-  activate () {
-    new AppliedActionsOnResponse(
-      this.tagName,
-      this.getAttribute('data-response-object-name'),
-      this.getAttribute('data-actions-on-response'),
-      new ParsedJSON(
-        new StringFromBuffer(
-          new ResponseBody(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', this.getAttribute('data-src'),
-                'method', 'GET',
-                'headers', new ParsedJSON(
-                  this.getAttribute('data-headers') || '{}'
-                ),
-                'progressEvent', new ShowProgressEvent(this.progressBar)
+    onRender () {
+      const event = this.getAttribute('data-event')
+      this.progressBar = new PreparedProgressBars([
+        new ParsedElmSelectors(
+          this.getAttribute('data-progress-bar')
+        ).value()[0]
+      ]).value()[0]
+      if (event) {
+        this.addEventListener(event, this.activate)
+      } else {
+        this.activate()
+      }
+    }
+
+    activate () {
+      new AppliedActionsOnResponse(
+        this.tagName,
+        this.getAttribute('data-response-object-name'),
+        this.getAttribute('data-actions-on-response'),
+        new ParsedJSON(
+          new StringFromBuffer(
+            new ResponseBody(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', this.getAttribute('data-src'),
+                  'method', 'GET',
+                  'headers', new ParsedJSON(
+                    this.getAttribute('data-headers') || '{}'
+                  ),
+                  'progressEvent', new ShowProgressEvent(this.progressBar)
+                )
               )
             )
           )
         )
-      )
-    ).call()
+      ).call()
+    }
   }
-}
-
-window.customElements.define('e-json', EJSON)
-
-module.exports = EJSON
+)

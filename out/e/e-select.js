@@ -26,22 +26,24 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var ESelect =
+var E = require('./../E');
+
+E('e-select',
 /*#__PURE__*/
 function (_HTMLSelectElement) {
-  _inherits(ESelect, _HTMLSelectElement);
+  _inherits(_class, _HTMLSelectElement);
 
-  function ESelect() {
+  function _class() {
     var _this;
 
-    _classCallCheck(this, ESelect);
+    _classCallCheck(this, _class);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ESelect).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(_class).call(this));
     _this.rendered = false;
     return _this;
   }
 
-  _createClass(ESelect, [{
+  _createClass(_class, [{
     key: "connectedCallback",
     value: function connectedCallback() {
       var _this2 = this;
@@ -70,10 +72,7 @@ function (_HTMLSelectElement) {
     }
   }]);
 
-  return ESelect;
-}(_wrapNativeSuper(HTMLSelectElement));
-
-window.customElements.define('e-select', ESelect, {
+  return _class;
+}(_wrapNativeSuper(HTMLSelectElement)), {
   "extends": 'select'
 });
-module.exports = ESelect;

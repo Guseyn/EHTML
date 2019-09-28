@@ -2,22 +2,21 @@
 
 const E = require('./../E')
 
-class ELocalStorageValue extends E {
-  constructor () {
-    super()
+E(
+  'e-local-storage-value',
+  class extends HTMLElement {
+    constructor () {
+      super()
+    }
+
+    onRender () {
+      this.name = this.getAttribute('name')
+    }
+
+    value () {
+      return localStorage.getItem(
+        this.getAttribute('data-key')
+      )
+    }
   }
-
-  onRender () {
-    this.name = this.getAttribute('name')
-  }
-
-  value () {
-    return localStorage.getItem(
-      this.getAttribute('data-key')
-    )
-  }
-}
-
-window.customElements.define('e-local-storage-value', ELocalStorageValue)
-
-module.exports = ELocalStorageValue
+)
