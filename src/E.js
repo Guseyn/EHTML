@@ -3,33 +3,24 @@
 const StringWithAppliedStorageVariables = require('./util/StringWithAppliedStorageVariables')
 const StringWithAppliedUrlParams = require('./util/StringWithAppliedUrlParams')
 
-class E extends HTMLElement {
-  constructor (renderImmediately) {
-    super()
-    this.rendered = false
-    this.renderImmediately = renderImmediately
+function E (name, ELEMENT, renderImmediately, options) {
+  ELEMENT.prototype.rendered = false
+  if (renderImmediately && typeof renderImmediately === 'object') {
+    options = renderImmediately
+    ELEMENT.prototype.renderImmediately = false
+  } else {
+    ELEMENT.prototype.renderImmediately = renderImmediately
   }
-
-  connectedCallback () {
-    this.applyStorageValuesAndUrlParamsToAttributes()
-    if (!this.renderImmediately) {
-      setTimeout(() => {
-        if (!this.rendered) {
-          this.onRender()
-          this.rendered = true
-        }
-      })
-    } else if (!this.rendered) {
+  ELEMENT.prototype.render = function () {
+    if (!this.rendered) {
+      if (!this.onRender) {
+        throw new Error('render function must be defined')
+      }
       this.onRender()
       this.rendered = true
     }
   }
-
-  onRender () {
-    throw new Error('render function must be overridden')
-  }
-
-  applyStorageValuesAndUrlParamsToAttributes () {
+  ELEMENT.prototype.applyStorageValuesAndUrlParamsToAttributes = function () {
     for (let i = 0; i < this.attributes.length; i++) {
       this.setAttribute(
         this.attributes[i].name,
@@ -41,6 +32,18 @@ class E extends HTMLElement {
       )
     }
   }
+  ELEMENT.prototype.connectedCallback = function () {
+    this.applyStorageValuesAndUrlParamsToAttributes()
+    if (!this.renderImmediately) {
+      setTimeout(() => {
+        this.render()
+      })
+    } else {
+      this.render()
+    }
+  }
+  window.customElements.define(name, ELEMENT, options)
+  return ELEMENT
 }
 
 module.exports = E

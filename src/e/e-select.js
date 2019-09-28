@@ -1,32 +1,34 @@
 'use strict'
 
-class ESelect extends HTMLSelectElement {
-  constructor () {
-    super()
-    this.rendered = false
-  }
+const E = require('./../E')
 
-  connectedCallback () {
-    setTimeout(() => {
-      if (!this.rendered) {
-        this.onRender()
-        this.rendered = true
-      }
-    })
-  }
+E(
+  'e-select',
+  class extends HTMLSelectElement {
+    constructor () {
+      super()
+      this.rendered = false
+    }
 
-  onRender () {
-    this.value = this.getAttribute('value')
-    for (let index = 0; index < this.options.length; index++) {
-      const item = this.options.item(index)
-      if (item.value === this.value) {
-        this.selectedIndex = index
-        break
+    connectedCallback () {
+      setTimeout(() => {
+        if (!this.rendered) {
+          this.onRender()
+          this.rendered = true
+        }
+      })
+    }
+
+    onRender () {
+      this.value = this.getAttribute('value')
+      for (let index = 0; index < this.options.length; index++) {
+        const item = this.options.item(index)
+        if (item.value === this.value) {
+          this.selectedIndex = index
+          break
+        }
       }
     }
-  }
-}
-
-window.customElements.define('e-select', ESelect, { extends: 'select' })
-
-module.exports = ESelect
+  },
+  { extends: 'select' }
+)

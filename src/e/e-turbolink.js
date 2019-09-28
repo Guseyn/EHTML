@@ -5,23 +5,22 @@ const { ParsedJSON } = browserified(require('@cuties/json'))
 const TurboRedirected = require('./../async/TurboRedirected')
 const E = require('./../E')
 
-class ETurboLink extends E {
-  constructor () {
-    super()
+E(
+  'e-turbolink',
+  class extends HTMLElement {
+    constructor () {
+      super()
+    }
+
+    onRender () {
+      this.addEventListener('click', () => {
+        new TurboRedirected(
+          this.getAttribute('data-href'),
+          new ParsedJSON(
+            this.getAttribute('data-headers') || '{}'
+          )
+        ).call()
+      })
+    }
   }
-
-  onRender () {
-    this.addEventListener('click', () => {
-      new TurboRedirected(
-        this.getAttribute('data-href'),
-        new ParsedJSON(
-          this.getAttribute('data-headers') || '{}'
-        )
-      ).call()
-    })
-  }
-}
-
-window.customElements.define('e-turbolink', ETurboLink)
-
-module.exports = ETurboLink
+)
