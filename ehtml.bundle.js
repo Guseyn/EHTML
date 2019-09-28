@@ -8434,8 +8434,8 @@ var E = require('./../E');
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
 E('e-google-oauth-button',
 /*#__PURE__*/
-function (_HTMLElement) {
-  _inherits(_class, _HTMLElement);
+function (_HTMLButtonElement) {
+  _inherits(_class, _HTMLButtonElement);
 
   function _class() {
     _classCallCheck(this, _class);
@@ -8503,7 +8503,9 @@ function (_HTMLElement) {
   }]);
 
   return _class;
-}(_wrapNativeSuper(HTMLElement)));
+}(_wrapNativeSuper(HTMLButtonElement)), {
+  "extends": 'button'
+});
 
 },{"./../E":150,"./../async/AppliedActionsOnResponse":151,"@cuties/json":80,"@page-libs/ajax":120,"@page-libs/cutie":131}],182:[function(require,module,exports){
 'use strict';
