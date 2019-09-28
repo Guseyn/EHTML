@@ -61,8 +61,8 @@ var E = require('./../E');
 
 E('e-form',
 /*#__PURE__*/
-function (_HTMLElement) {
-  _inherits(_class, _HTMLElement);
+function (_HTMLFormElement) {
+  _inherits(_class, _HTMLFormElement);
 
   function _class() {
     _classCallCheck(this, _class);
@@ -73,13 +73,13 @@ function (_HTMLElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {
+      this.progressBars = new PreparedProgressBars(this.getElementsByTagName('progress')).value();
       this.inputs = this.getElementsByTagName('input');
       this.selects = this.getElementsByTagName('select');
       this.textareas = this.getElementsByTagName('textarea');
       this.localStorageValues = this.getElementsByTagName('e-local-storage-value');
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       this.buttons = this.getElementsByTagName('button');
-      this.progressBars = new PreparedProgressBars(this.getElementsByTagName('progress')).value();
       this.tuneFileInputs(this.filteredFileInputs(this.inputs));
       this.propagateFormSendEvent(this.inputs);
       this.propagateFormSendEvent(this.selects);
@@ -113,7 +113,7 @@ function (_HTMLElement) {
     value: function submit(target) {
       var uploadProgressBar = new ParsedElmSelectors(target.getAttribute('data-upload-progress-bar')).value()[0];
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
-      target.disabled = true;
+      target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
       new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
     }
@@ -274,4 +274,6 @@ function (_HTMLElement) {
   }]);
 
   return _class;
-}(_wrapNativeSuper(HTMLElement)));
+}(_wrapNativeSuper(HTMLFormElement)), {
+  "extends": 'form'
+});
