@@ -10,7 +10,7 @@ const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
 E(
   'e-google-oauth-button',
-  class extends HTMLElement {
+  class extends HTMLButtonElement {
     constructor () {
       super()
     }
@@ -76,5 +76,6 @@ E(
       googleApiScriptElm.setAttribute('src', GOOGLE_API_SRC)
       return googleApiScriptElm
     }
-  }
+  },
+  { extends: 'button' }
 )
