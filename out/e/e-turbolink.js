@@ -38,8 +38,8 @@ var E = require('./../E');
 
 E('e-turbolink',
 /*#__PURE__*/
-function (_HTMLElement) {
-  _inherits(_class, _HTMLElement);
+function (_HTMLAnchorElement) {
+  _inherits(_class, _HTMLAnchorElement);
 
   function _class() {
     _classCallCheck(this, _class);
@@ -59,4 +59,6 @@ function (_HTMLElement) {
   }]);
 
   return _class;
-}(_wrapNativeSuper(HTMLElement)));
+}(_wrapNativeSuper(HTMLAnchorElement)), {
+  "extends": 'a'
+});

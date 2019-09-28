@@ -7,7 +7,7 @@ const E = require('./../E')
 
 E(
   'e-turbolink',
-  class extends HTMLElement {
+  class extends HTMLAnchorElement {
     constructor () {
       super()
     }
@@ -22,5 +22,6 @@ E(
         ).call()
       })
     }
-  }
+  },
+  { extends: 'a' }
 )
