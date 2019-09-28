@@ -71,7 +71,6 @@ var actions = {
     return new LocalStorageWithSetValue(localStorage, key, value);
   },
   saveToSessionStorage: function saveToSessionStorage(key, value) {
-    // eslint-disable-next-line no-undef
     return new SessionStorageWithSetValue(sessionStorage, key, value);
   },
   hideElms: function hideElms() {
