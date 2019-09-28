@@ -17,7 +17,7 @@ const E = require('./../E')
 
 E(
   'e-form',
-  class extends HTMLElement {
+  class extends HTMLFormElement {
     constructor () {
       super()
     }
@@ -27,15 +27,15 @@ E(
     }
 
     onRender () {
+      this.progressBars = new PreparedProgressBars(
+        this.getElementsByTagName('progress')
+      ).value()
       this.inputs = this.getElementsByTagName('input')
       this.selects = this.getElementsByTagName('select')
       this.textareas = this.getElementsByTagName('textarea')
       this.localStorageValues = this.getElementsByTagName('e-local-storage-value')
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value')
       this.buttons = this.getElementsByTagName('button')
-      this.progressBars = new PreparedProgressBars(
-        this.getElementsByTagName('progress')
-      ).value()
       this.tuneFileInputs(this.filteredFileInputs(this.inputs))
       this.propagateFormSendEvent(this.inputs)
       this.propagateFormSendEvent(this.selects)
@@ -64,7 +64,7 @@ E(
       const progressBar = new ParsedElmSelectors(
         target.getAttribute('data-progress-bar')
       ).value()[0]
-      target.disabled = true
+      target.setAttribute('disabled', 'true')
       const requestBody = this.requestBody()
       new ParsedJSON(
         new ResponseBody(
@@ -220,5 +220,6 @@ E(
       }
       return fileInputs
     }
-  }
+  },
+  { extends: 'form' }
 )
