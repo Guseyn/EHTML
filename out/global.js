@@ -8,6 +8,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var ActionByNameWithParams = require('./util/ActionByNameWithParams');
 
+if (window.customElements) {
+  window.stop();
+  throw new Error('Your browser does not support custom elements so you cannot use EHTML as it\'s based on them.');
+}
+
 if (!sessionStorage.getItem('isFirstStatePushedToHistory')) {
   sessionStorage.setItem('isFirstStatePushedToHistory', 'false');
 }
