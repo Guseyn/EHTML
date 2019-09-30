@@ -7,15 +7,19 @@ class StringWithAppliedStorageVariables {
 
   value () {
     return this.str
-      .replace(/\$\{((localStorage\.([^\s]+))(.+)?)\}/g, (match, p1, p2, p3, p4, offset, string) => {
+      .replace(/\$\{(([^{}$]+)?(localStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, (match, p1) => {
         // eslint-disable-next-line no-undef
-        const expression = p1.replace(p2, `'${localStorage.getItem(p3)}'`)
+        const expression = p1.replace(/localStorage\.([^\s{}$]+)/g, (match, p1) => {
+          return `'${localStorage.getItem(p1)}'`
+        })
         // eslint-disable-next-line no-eval
         return eval(expression)
       })
-      .replace(/\$\{((sessionStorage\.([^\s]+))(.+)?)\}/g, (match, p1, p2, p3, p4, offset, string) => {
+      .replace(/\$\{(([^{}$]+)?(sessionStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, (match, p1) => {
         // eslint-disable-next-line no-undef
-        const expression = p1.replace(p2, `'${sessionStorage.getItem(p3)}'`)
+        const expression = p1.replace(/sessionStorage\.([^\s{}$]+)/g, (match, p1) => {
+          return `'${sessionStorage.getItem(p1)}'`
+        })
         // eslint-disable-next-line no-eval
         return eval(expression)
       })

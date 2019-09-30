@@ -18,14 +18,18 @@ function () {
   _createClass(StringWithAppliedStorageVariables, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{((localStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+      return this.str.replace(/\$\{(([^{}$]+)?(localStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(p2, "'".concat(localStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
+        var expression = p1.replace(/localStorage\.([^\s{}$]+)/g, function (match, p1) {
+          return "'".concat(localStorage.getItem(p1), "'");
+        }); // eslint-disable-next-line no-eval
 
         return eval(expression);
-      }).replace(/\$\{((sessionStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+      }).replace(/\$\{(([^{}$]+)?(sessionStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(p2, "'".concat(sessionStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
+        var expression = p1.replace(/sessionStorage\.([^\s{}$]+)/g, function (match, p1) {
+          return "'".concat(sessionStorage.getItem(p1), "'");
+        }); // eslint-disable-next-line no-eval
 
         return eval(expression);
       });

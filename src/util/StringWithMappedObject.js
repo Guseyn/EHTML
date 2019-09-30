@@ -1,9 +1,10 @@
 'use string'
 
 class StringWithMappedObject {
-  constructor (str, obj) {
+  constructor (str, obj, objName) {
     this.str = str
     this.obj = obj
+    this.objName = objName
   }
 
   value () {

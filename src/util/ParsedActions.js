@@ -7,11 +7,12 @@ const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 const ActionByNameWithParams = require('./ActionByNameWithParams')
 
 class ParsedActions {
-  constructor (actions, tagName, obj) {
+  constructor (actions, tagName, obj, objName) {
     // act1(p1, p2); act(q1, q2); ...
     this.actions = actions
     this.tagName = tagName
     this.obj = obj
+    this.objName = objName
   }
 
   value () {
@@ -50,7 +51,9 @@ class ParsedActions {
         new StringWithMappedObject(
           new StringWithAppliedStorageVariables(
             param
-          ), this.obj
+          ),
+          this.obj,
+          this.objName
         )
       )
     })

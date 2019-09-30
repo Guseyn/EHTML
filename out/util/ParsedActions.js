@@ -35,13 +35,14 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, obj) {
+  function ParsedActions(actions, tagName, obj, objName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
     this.actions = actions;
     this.tagName = tagName;
     this.obj = obj;
+    this.objName = objName;
   }
 
   _createClass(ParsedActions, [{
@@ -93,7 +94,7 @@ function () {
           param = JSON.stringify(param);
         }
 
-        return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj));
+        return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj, _this2.objName));
       });
     }
   }]);

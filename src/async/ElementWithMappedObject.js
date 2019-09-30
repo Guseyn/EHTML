@@ -4,12 +4,12 @@ const { AsyncObject } = require('@page-libs/cutie')
 const StringWithMappedObject = require('./../util/StringWithMappedObject')
 
 class ElementWithMappedObject extends AsyncObject {
-  constructor (element, obj) {
-    super(element, obj)
+  constructor (element, obj, objName) {
+    super(element, obj, objName)
   }
 
   syncCall () {
-    return (element, obj) => {
+    return (element, obj, objName) => {
       if (element) {
         const objName = element.getAttribute('data-response-object-name')
         if (!objName) {
@@ -17,20 +17,20 @@ class ElementWithMappedObject extends AsyncObject {
         }
         const OBJ = { }
         OBJ[objName] = obj
-        return this.mapObjToChildren(element, OBJ)
+        return this.mapObjToChildren(element, OBJ, objName)
       }
       throw new Error(`element is ${element} in mapObjToElm`)
     }
   }
 
-  mapObjToChildren (element, obj) {
+  mapObjToChildren (element, obj, objName) {
     element.childNodes.forEach(child => {
       if (child.getAttribute) {
         for (let i = 0; i < child.attributes.length; i++) {
           const attrName = child.attributes[i].name
           const attrValue = child.attributes[i].value
           if (attrName !== 'data-actions-on-response') {
-            this.mapObjToAttribute(child, attrName, attrValue, obj)
+            this.mapObjToAttribute(child, attrName, attrValue, obj, objName)
             if (attrName === 'data-text') {
               if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
                 this.insertTextIntoElm(child, child.getAttribute('data-text'))
@@ -44,7 +44,7 @@ class ElementWithMappedObject extends AsyncObject {
             }
           }
         }
-        this.mapObjToChildren(child, obj)
+        this.mapObjToChildren(child, obj, objName)
       }
     })
     return element
@@ -59,11 +59,11 @@ class ElementWithMappedObject extends AsyncObject {
     }
   }
 
-  mapObjToAttribute (element, attrName, attrValue, obj) {
+  mapObjToAttribute (element, attrName, attrValue, obj, objName) {
     element.setAttribute(
       attrName,
       new StringWithMappedObject(
-        element.getAttribute(attrName), obj
+        element.getAttribute(attrName), obj, objName
       ).value()
     )
   }

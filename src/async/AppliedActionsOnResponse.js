@@ -10,7 +10,7 @@ class AppliedActionsOnResponse {
       new Actions(
         tagName,
         actions
-      ).asAsyncTree(OBJ)
+      ).asAsyncTree(OBJ, objName)
     )
   }
 }
