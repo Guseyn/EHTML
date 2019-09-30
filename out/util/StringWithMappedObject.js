@@ -12,11 +12,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var StringWithMappedObject =
 /*#__PURE__*/
 function () {
-  function StringWithMappedObject(str, obj) {
+  function StringWithMappedObject(str, obj, objName) {
     _classCallCheck(this, StringWithMappedObject);
 
     this.str = str;
     this.obj = obj;
+    this.objName = objName;
   }
 
   _createClass(StringWithMappedObject, [{

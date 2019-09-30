@@ -7,9 +7,11 @@ class StringWithAppliedUrlParams {
 
   value () {
     return this.str
-      .replace(/\$\{((urlParams\.([^\s]+))(.+)?)\}/g, (match, p1, p2, p3, p4, offset, string) => {
-        // eslint-disable-next-line no-undef
-        const expression = p1.replace(p2, `'${urlParams[p3]}'`)
+      .replace(/\$\{(([^{}$]+)?(urlParams\.([^\s{}$]+))([^{}$]+)?)\}/g, (match, p1) => {
+        const expression = p1.replace(/urlParams\.([^\s{}$]+)/g, (match, p1) => {
+          // eslint-disable-next-line no-undef
+          return `'${urlParams[p1]}'`
+        })
         // eslint-disable-next-line no-eval
         return eval(expression)
       })

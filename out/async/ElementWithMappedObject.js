@@ -28,10 +28,10 @@ var ElementWithMappedObject =
 function (_AsyncObject) {
   _inherits(ElementWithMappedObject, _AsyncObject);
 
-  function ElementWithMappedObject(element, obj) {
+  function ElementWithMappedObject(element, obj, objName) {
     _classCallCheck(this, ElementWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj, objName));
   }
 
   _createClass(ElementWithMappedObject, [{
@@ -39,17 +39,17 @@ function (_AsyncObject) {
     value: function syncCall() {
       var _this = this;
 
-      return function (element, obj) {
+      return function (element, obj, objName) {
         if (element) {
-          var objName = element.getAttribute('data-response-object-name');
+          var _objName = element.getAttribute('data-response-object-name');
 
-          if (!objName) {
+          if (!_objName) {
             throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
           }
 
           var OBJ = {};
-          OBJ[objName] = obj;
-          return _this.mapObjToChildren(element, OBJ);
+          OBJ[_objName] = obj;
+          return _this.mapObjToChildren(element, OBJ, _objName);
         }
 
         throw new Error("element is ".concat(element, " in mapObjToElm"));
@@ -57,7 +57,7 @@ function (_AsyncObject) {
     }
   }, {
     key: "mapObjToChildren",
-    value: function mapObjToChildren(element, obj) {
+    value: function mapObjToChildren(element, obj, objName) {
       var _this2 = this;
 
       element.childNodes.forEach(function (child) {
@@ -67,7 +67,7 @@ function (_AsyncObject) {
             var attrValue = child.attributes[i].value;
 
             if (attrName !== 'data-actions-on-response') {
-              _this2.mapObjToAttribute(child, attrName, attrValue, obj);
+              _this2.mapObjToAttribute(child, attrName, attrValue, obj, objName);
 
               if (attrName === 'data-text') {
                 if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
@@ -84,7 +84,7 @@ function (_AsyncObject) {
             }
           }
 
-          _this2.mapObjToChildren(child, obj);
+          _this2.mapObjToChildren(child, obj, objName);
         }
       });
       return element;
@@ -102,8 +102,8 @@ function (_AsyncObject) {
     }
   }, {
     key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj).value());
+    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
+      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",

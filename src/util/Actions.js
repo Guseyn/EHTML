@@ -10,13 +10,14 @@ class Actions {
     this.actions = actions
   }
 
-  asAsyncTree (obj) {
+  asAsyncTree (obj, objName) {
     if (this.actions) {
       return new BuiltAsyncTreeByParsedActions(
         new ParsedActions(
           this.actions,
           this.tagName,
-          obj
+          obj,
+          objName
         ).value()
       ).value()
     }

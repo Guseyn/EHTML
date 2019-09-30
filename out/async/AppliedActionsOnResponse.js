@@ -11,7 +11,7 @@ var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objNam
   _classCallCheck(this, AppliedActionsOnResponse);
 
   var OBJ = {};
-  return new TheSameObjectWithValue(OBJ, objName, obj).after(new Actions(tagName, actions).asAsyncTree(OBJ));
+  return new TheSameObjectWithValue(OBJ, objName, obj).after(new Actions(tagName, actions).asAsyncTree(OBJ, objName));
 };
 
 module.exports = AppliedActionsOnResponse;

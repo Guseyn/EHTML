@@ -6540,7 +6540,7 @@ var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objNam
   _classCallCheck(this, AppliedActionsOnResponse);
 
   var OBJ = {};
-  return new TheSameObjectWithValue(OBJ, objName, obj).after(new Actions(tagName, actions).asAsyncTree(OBJ));
+  return new TheSameObjectWithValue(OBJ, objName, obj).after(new Actions(tagName, actions).asAsyncTree(OBJ, objName));
 };
 
 module.exports = AppliedActionsOnResponse;
@@ -6780,10 +6780,10 @@ var ElementWithMappedObject =
 function (_AsyncObject) {
   _inherits(ElementWithMappedObject, _AsyncObject);
 
-  function ElementWithMappedObject(element, obj) {
+  function ElementWithMappedObject(element, obj, objName) {
     _classCallCheck(this, ElementWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj, objName));
   }
 
   _createClass(ElementWithMappedObject, [{
@@ -6791,17 +6791,17 @@ function (_AsyncObject) {
     value: function syncCall() {
       var _this = this;
 
-      return function (element, obj) {
+      return function (element, obj, objName) {
         if (element) {
-          var objName = element.getAttribute('data-response-object-name');
+          var _objName = element.getAttribute('data-response-object-name');
 
-          if (!objName) {
+          if (!_objName) {
             throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
           }
 
           var OBJ = {};
-          OBJ[objName] = obj;
-          return _this.mapObjToChildren(element, OBJ);
+          OBJ[_objName] = obj;
+          return _this.mapObjToChildren(element, OBJ, _objName);
         }
 
         throw new Error("element is ".concat(element, " in mapObjToElm"));
@@ -6809,7 +6809,7 @@ function (_AsyncObject) {
     }
   }, {
     key: "mapObjToChildren",
-    value: function mapObjToChildren(element, obj) {
+    value: function mapObjToChildren(element, obj, objName) {
       var _this2 = this;
 
       element.childNodes.forEach(function (child) {
@@ -6819,7 +6819,7 @@ function (_AsyncObject) {
             var attrValue = child.attributes[i].value;
 
             if (attrName !== 'data-actions-on-response') {
-              _this2.mapObjToAttribute(child, attrName, attrValue, obj);
+              _this2.mapObjToAttribute(child, attrName, attrValue, obj, objName);
 
               if (attrName === 'data-text') {
                 if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
@@ -6836,7 +6836,7 @@ function (_AsyncObject) {
             }
           }
 
-          _this2.mapObjToChildren(child, obj);
+          _this2.mapObjToChildren(child, obj, objName);
         }
       });
       return element;
@@ -6854,8 +6854,8 @@ function (_AsyncObject) {
     }
   }, {
     key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj).value());
+    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
+      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
     }
   }, {
     key: "hasParamsInAttributeToApply",
@@ -9354,9 +9354,9 @@ function () {
 
   _createClass(Actions, [{
     key: "asAsyncTree",
-    value: function asAsyncTree(obj) {
+    value: function asAsyncTree(obj, objName) {
       if (this.actions) {
-        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj, objName).value()).value();
       }
 
       return new EmptyAsyncObject();
@@ -9480,13 +9480,14 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, obj) {
+  function ParsedActions(actions, tagName, obj, objName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
     this.actions = actions;
     this.tagName = tagName;
     this.obj = obj;
+    this.objName = objName;
   }
 
   _createClass(ParsedActions, [{
@@ -9538,7 +9539,7 @@ function () {
           param = JSON.stringify(param);
         }
 
-        return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj));
+        return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj, _this2.objName));
       });
     }
   }]);
@@ -9737,14 +9738,18 @@ function () {
   _createClass(StringWithAppliedStorageVariables, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{((localStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+      return this.str.replace(/\$\{(([^{}$]+)?(localStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(p2, "'".concat(localStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
+        var expression = p1.replace(/localStorage\.([^\s{}$]+)/g, function (match, p1) {
+          return "'".concat(localStorage.getItem(p1), "'");
+        }); // eslint-disable-next-line no-eval
 
         return eval(expression);
-      }).replace(/\$\{((sessionStorage\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
+      }).replace(/\$\{(([^{}$]+)?(sessionStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(p2, "'".concat(sessionStorage.getItem(p3), "'")); // eslint-disable-next-line no-eval
+        var expression = p1.replace(/sessionStorage\.([^\s{}$]+)/g, function (match, p1) {
+          return "'".concat(sessionStorage.getItem(p1), "'");
+        }); // eslint-disable-next-line no-eval
 
         return eval(expression);
       });
@@ -9777,9 +9782,11 @@ function () {
   _createClass(StringWithAppliedUrlParams, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{((urlParams\.([^\s]+))(.+)?)\}/g, function (match, p1, p2, p3, p4, offset, string) {
-        // eslint-disable-next-line no-undef
-        var expression = p1.replace(p2, "'".concat(urlParams[p3], "'")); // eslint-disable-next-line no-eval
+      return this.str.replace(/\$\{(([^{}$]+)?(urlParams\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
+        var expression = p1.replace(/urlParams\.([^\s{}$]+)/g, function (match, p1) {
+          // eslint-disable-next-line no-undef
+          return "'".concat(urlParams[p1], "'");
+        }); // eslint-disable-next-line no-eval
 
         return eval(expression);
       });
@@ -9806,11 +9813,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var StringWithMappedObject =
 /*#__PURE__*/
 function () {
-  function StringWithMappedObject(str, obj) {
+  function StringWithMappedObject(str, obj, objName) {
     _classCallCheck(this, StringWithMappedObject);
 
     this.str = str;
     this.obj = obj;
+    this.objName = objName;
   }
 
   _createClass(StringWithMappedObject, [{

@@ -24,9 +24,9 @@ function () {
 
   _createClass(Actions, [{
     key: "asAsyncTree",
-    value: function asAsyncTree(obj) {
+    value: function asAsyncTree(obj, objName) {
       if (this.actions) {
-        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj).value()).value();
+        return new BuiltAsyncTreeByParsedActions(new ParsedActions(this.actions, this.tagName, obj, objName).value()).value();
       }
 
       return new EmptyAsyncObject();
