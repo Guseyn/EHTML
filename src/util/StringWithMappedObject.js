@@ -8,9 +8,20 @@ class StringWithMappedObject {
   }
 
   value () {
-    return this.str.replace(/\$\{([^{}\s]+)\}/g, (match, p1, offset, string) => {
+    return this.str.replace(/\$\{(([^{}$]+)?(user1(\.[^\s{}$]+)?)([^{}$]+)?)\}/g, (match, p1, offset, string) => {
+      const obj = this.obj
+      const objName = this.objName
       try {
-        const res = this.valueOf(this.obj, p1.split('.'))
+        const expression = p1.replace(new RegExp(/user1(\.[^\s{}$]+)?/, 'g'), (match, p1) => {
+          // eslint-disable-next-line no-eval
+          const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
+          if (typeof value === 'object') {
+            return JSON.stringify(value)
+          }
+          return value
+        })
+        // eslint-disable-next-line no-eval
+        const res = eval(`'${expression}'`)
         if (typeof res === 'object') {
           return JSON.stringify(res)
         }
@@ -19,14 +30,6 @@ class StringWithMappedObject {
         return match
       }
     })
-  }
-
-  valueOf (obj, pathParts, index = 0) {
-    if (pathParts.length - 1 === index) {
-      return obj[pathParts[index]]
-    } else {
-      return this.valueOf(obj[pathParts[index]], pathParts, index + 1)
-    }
   }
 }
 

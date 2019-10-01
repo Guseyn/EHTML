@@ -4,13 +4,13 @@ const { AsyncObject } = require('@page-libs/cutie')
 const StringWithMappedObject = require('./../util/StringWithMappedObject')
 
 class AsyncStringWithMappedObject extends AsyncObject {
-  constructor (str, obj) {
-    super(str, obj)
+  constructor (str, obj, objName) {
+    super(str, obj, objName)
   }
 
   syncCall () {
-    return (str, obj) => {
-      return new StringWithMappedObject(str, obj).value()
+    return (str, obj, objName) => {
+      return new StringWithMappedObject(str, obj, objName).value()
     }
   }
 }

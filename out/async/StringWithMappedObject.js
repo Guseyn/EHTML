@@ -28,17 +28,17 @@ var AsyncStringWithMappedObject =
 function (_AsyncObject) {
   _inherits(AsyncStringWithMappedObject, _AsyncObject);
 
-  function AsyncStringWithMappedObject(str, obj) {
+  function AsyncStringWithMappedObject(str, obj, objName) {
     _classCallCheck(this, AsyncStringWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithMappedObject).call(this, str, obj));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithMappedObject).call(this, str, obj, objName));
   }
 
   _createClass(AsyncStringWithMappedObject, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (str, obj) {
-        return new StringWithMappedObject(str, obj).value();
+      return function (str, obj, objName) {
+        return new StringWithMappedObject(str, obj, objName).value();
       };
     }
   }]);

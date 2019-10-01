@@ -25,9 +25,23 @@ function () {
     value: function value() {
       var _this = this;
 
-      return this.str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1, offset, string) {
+      return this.str.replace(/\$\{(([^{}$]+)?(user1(\.[^\s{}$]+)?)([^{}$]+)?)\}/g, function (match, p1, offset, string) {
+        var obj = _this.obj;
+        var objName = _this.objName;
+
         try {
-          var res = _this.valueOf(_this.obj, p1.split('.'));
+          var expression = p1.replace(new RegExp(/user1(\.[^\s{}$]+)?/, 'g'), function (match, p1) {
+            // eslint-disable-next-line no-eval
+            var value = p1 ? eval("obj[objName]".concat(p1)) : obj[objName];
+
+            if (_typeof(value) === 'object') {
+              return JSON.stringify(value);
+            }
+
+            return value;
+          }); // eslint-disable-next-line no-eval
+
+          var res = eval("'".concat(expression, "'"));
 
           if (_typeof(res) === 'object') {
             return JSON.stringify(res);
@@ -38,17 +52,6 @@ function () {
           return match;
         }
       });
-    }
-  }, {
-    key: "valueOf",
-    value: function valueOf(obj, pathParts) {
-      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-      if (pathParts.length - 1 === index) {
-        return obj[pathParts[index]];
-      } else {
-        return this.valueOf(obj[pathParts[index]], pathParts, index + 1);
-      }
     }
   }]);
 
