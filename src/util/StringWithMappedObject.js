@@ -8,17 +8,18 @@ class StringWithMappedObject {
   }
 
   value () {
+    // console.log(this.str, this.objName, this.obj)
     return this.str.replace(
       new RegExp(
-        `\\$\{(([^{}$]+)?(\\${this.objName}(\\.[^\\s{}$]+)?)([^{}$]+)?)}`, 'g'
+        `\\$\{((\\s)?([^{}$]+\\s)?(${this.objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
       ),
-      (match, p1, offset, string) => {
+      (match, p1) => {
         const obj = this.obj
         const objName = this.objName
         try {
           const expression = p1.replace(
             new RegExp(
-              `\\${this.objName}(\\.[^\\s{}$]+)?`, 'g'
+              `${this.objName}(\\.[^{}$\\s]+)?`, 'g'
             ), (match, p1) => {
               // eslint-disable-next-line no-eval
               const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
@@ -35,7 +36,6 @@ class StringWithMappedObject {
           }
           return res
         } catch (e) {
-          console.log(e)
           return match
         }
       }
