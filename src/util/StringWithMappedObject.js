@@ -16,28 +16,24 @@ class StringWithMappedObject {
       (match, p1) => {
         const obj = this.obj
         const objName = this.objName
-        try {
-          const expression = p1.replace(
-            new RegExp(
-              `${this.objName}(\\.[^{}$\\s]+)?`, 'g'
-            ), (match, p1) => {
-              // eslint-disable-next-line no-eval
-              const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
-              if (typeof value === 'object') {
-                return JSON.stringify(value)
-              }
-              return value
+        const expression = p1.replace(
+          new RegExp(
+            `${this.objName}(\\.[^{}$\\s]+)?`, 'g'
+          ), (match, p1) => {
+            // eslint-disable-next-line no-eval
+            const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
+            if (typeof value === 'object') {
+              return JSON.stringify(value)
             }
-          )
-          // eslint-disable-next-line no-eval
-          const res = eval(`'${expression}'`)
-          if (typeof res === 'object') {
-            return JSON.stringify(res)
+            return value
           }
-          return res
-        } catch (e) {
-          return match
+        )
+        // eslint-disable-next-line no-eval
+        const res = eval(`'${expression}'`)
+        if (typeof res === 'object') {
+          return JSON.stringify(res)
         }
+        return res
       }
     )
   }
