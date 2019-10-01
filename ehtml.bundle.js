@@ -9826,12 +9826,12 @@ function () {
     value: function value() {
       var _this = this;
 
-      return this.str.replace(/\$\{(([^{}$]+)?(user1(\.[^\s{}$]+)?)([^{}$]+)?)\}/g, function (match, p1, offset, string) {
+      return this.str.replace(new RegExp("\\${(([^{}$]+)?(\\".concat(this.objName, "(\\.[^\\s{}$]+)?)([^{}$]+)?)}"), 'g'), function (match, p1, offset, string) {
         var obj = _this.obj;
         var objName = _this.objName;
 
         try {
-          var expression = p1.replace(new RegExp(/user1(\.[^\s{}$]+)?/, 'g'), function (match, p1) {
+          var expression = p1.replace(new RegExp("\\".concat(_this.objName, "(\\.[^\\s{}$]+)?"), 'g'), function (match, p1) {
             // eslint-disable-next-line no-eval
             var value = p1 ? eval("obj[objName]".concat(p1)) : obj[objName];
 
@@ -9850,6 +9850,7 @@ function () {
 
           return res;
         } catch (e) {
+          console.log(e);
           return match;
         }
       });
