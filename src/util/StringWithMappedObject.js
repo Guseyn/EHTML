@@ -26,7 +26,8 @@ class StringWithMappedObject {
                 return JSON.stringify(value)
               }
               return value
-          })
+            }
+          )
           // eslint-disable-next-line no-eval
           const res = eval(`'${expression}'`)
           if (typeof res === 'object') {
