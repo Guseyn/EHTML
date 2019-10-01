@@ -29,29 +29,24 @@ function () {
       return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
         var obj = _this.obj;
         var objName = _this.objName;
+        var expression = p1.replace(new RegExp("".concat(_this.objName, "(\\.[^{}$\\s]+)?"), 'g'), function (match, p1) {
+          // eslint-disable-next-line no-eval
+          var value = p1 ? eval("obj[objName]".concat(p1)) : obj[objName];
 
-        try {
-          var expression = p1.replace(new RegExp("".concat(_this.objName, "(\\.[^{}$\\s]+)?"), 'g'), function (match, p1) {
-            // eslint-disable-next-line no-eval
-            var value = p1 ? eval("obj[objName]".concat(p1)) : obj[objName];
-
-            if (_typeof(value) === 'object') {
-              return JSON.stringify(value);
-            }
-
-            return value;
-          }); // eslint-disable-next-line no-eval
-
-          var res = eval("'".concat(expression, "'"));
-
-          if (_typeof(res) === 'object') {
-            return JSON.stringify(res);
+          if (_typeof(value) === 'object') {
+            return JSON.stringify(value);
           }
 
-          return res;
-        } catch (e) {
-          return match;
+          return value;
+        }); // eslint-disable-next-line no-eval
+
+        var res = eval("'".concat(expression, "'"));
+
+        if (_typeof(res) === 'object') {
+          return JSON.stringify(res);
         }
+
+        return res;
       });
     }
   }]);
