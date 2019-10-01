@@ -8,28 +8,37 @@ class StringWithMappedObject {
   }
 
   value () {
-    return this.str.replace(/\$\{(([^{}$]+)?(user1(\.[^\s{}$]+)?)([^{}$]+)?)\}/g, (match, p1, offset, string) => {
-      const obj = this.obj
-      const objName = this.objName
-      try {
-        const expression = p1.replace(new RegExp(/user1(\.[^\s{}$]+)?/, 'g'), (match, p1) => {
+    return this.str.replace(
+      new RegExp(
+        `\\$\{(([^{}$]+)?(\\${this.objName}(\\.[^\\s{}$]+)?)([^{}$]+)?)}`, 'g'
+      ),
+      (match, p1, offset, string) => {
+        const obj = this.obj
+        const objName = this.objName
+        try {
+          const expression = p1.replace(
+            new RegExp(
+              `\\${this.objName}(\\.[^\\s{}$]+)?`, 'g'
+            ), (match, p1) => {
+              // eslint-disable-next-line no-eval
+              const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
+              if (typeof value === 'object') {
+                return JSON.stringify(value)
+              }
+              return value
+          })
           // eslint-disable-next-line no-eval
-          const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
-          if (typeof value === 'object') {
-            return JSON.stringify(value)
+          const res = eval(`'${expression}'`)
+          if (typeof res === 'object') {
+            return JSON.stringify(res)
           }
-          return value
-        })
-        // eslint-disable-next-line no-eval
-        const res = eval(`'${expression}'`)
-        if (typeof res === 'object') {
-          return JSON.stringify(res)
+          return res
+        } catch (e) {
+          console.log(e)
+          return match
         }
-        return res
-      } catch (e) {
-        return match
       }
-    })
+    )
   }
 }
 
