@@ -6,7 +6,7 @@ const { StringifiedJSON } = require('@cuties/json')
 const Users = require('./../objects/Users')
 const User = require('./../objects/User')
 
-class GetUserEndpoint extends Endpoint {
+class GetUsersEndpoint extends Endpoint {
   constructor (regexp, type) {
     super(regexp, type)
   }
@@ -34,4 +34,4 @@ class GetUserEndpoint extends Endpoint {
   }
 }
 
-module.exports = GetUserEndpoint
+module.exports = GetUsersEndpoint
