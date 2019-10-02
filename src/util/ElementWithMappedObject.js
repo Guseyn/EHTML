@@ -1,6 +1,5 @@
 'use strict'
 
-const { AsyncObject } = require('@page-libs/cutie')
 const StringWithMappedObject = require('./StringWithMappedObject')
 
 class ElementWithMappedObject {
