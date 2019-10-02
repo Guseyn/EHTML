@@ -120,7 +120,9 @@ const actions = {
     return new ElementWithMappedObject(
       new FirstOf(
         new ParsedElmSelectors(elmSelector)
-      ), obj
+      ),
+      obj,
+      'data-response-object-name'
     )
   },
 

@@ -6526,7 +6526,7 @@ function E(name, ELEMENT, renderImmediately, options) {
 
 module.exports = E;
 
-},{"./util/StringWithAppliedStorageVariables":202,"./util/StringWithAppliedUrlParams":203}],151:[function(require,module,exports){
+},{"./util/StringWithAppliedStorageVariables":204,"./util/StringWithAppliedUrlParams":205}],151:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6773,103 +6773,34 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var StringWithMappedObject = require('./../util/StringWithMappedObject');
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
 
-var ElementWithMappedObject =
+var AsyncElementWithMappedObject =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ElementWithMappedObject, _AsyncObject);
+  _inherits(AsyncElementWithMappedObject, _AsyncObject);
 
-  function ElementWithMappedObject(element, obj, objName) {
-    _classCallCheck(this, ElementWithMappedObject);
+  function AsyncElementWithMappedObject(element, obj, objNameAttribute) {
+    _classCallCheck(this, AsyncElementWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj, objName));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObject).call(this, element, obj, objNameAttribute));
   }
 
-  _createClass(ElementWithMappedObject, [{
+  _createClass(AsyncElementWithMappedObject, [{
     key: "syncCall",
     value: function syncCall() {
-      var _this = this;
-
-      return function (element, obj, objName) {
-        if (element) {
-          var _objName = element.getAttribute('data-response-object-name');
-
-          if (!_objName) {
-            throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
-          }
-
-          var OBJ = {};
-          OBJ[_objName] = obj;
-          return _this.mapObjToChildren(element, OBJ, _objName);
-        }
-
-        throw new Error("element is ".concat(element, " in mapObjToElm"));
+      return function (element, obj, objNameAttribute) {
+        return new ElementWithMappedObject(element, obj, objNameAttribute).value();
       };
-    }
-  }, {
-    key: "mapObjToChildren",
-    value: function mapObjToChildren(element, obj, objName) {
-      var _this2 = this;
-
-      element.childNodes.forEach(function (child) {
-        if (child.getAttribute) {
-          for (var i = 0; i < child.attributes.length; i++) {
-            var attrName = child.attributes[i].name;
-            var attrValue = child.attributes[i].value;
-
-            if (attrName !== 'data-actions-on-response') {
-              _this2.mapObjToAttribute(child, attrName, attrValue, obj, objName);
-
-              if (attrName === 'data-text') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
-                  _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
-
-                  child.removeAttribute('data-text');
-                }
-              } else if (attrName === 'data-value') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
-                  child.value = child.getAttribute('data-value');
-                  child.removeAttribute('data-value');
-                }
-              }
-            }
-          }
-
-          _this2.mapObjToChildren(child, obj, objName);
-        }
-      });
-      return element;
-    }
-  }, {
-    key: "insertTextIntoElm",
-    value: function insertTextIntoElm(elm, text) {
-      var textNode = document.createTextNode(text);
-
-      if (elm.childNodes.length === 0) {
-        elm.appendChild(textNode);
-      } else {
-        elm.insertBefore(textNode, elm.childNodes[0]);
-      }
-    }
-  }, {
-    key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
-    }
-  }, {
-    key: "hasParamsInAttributeToApply",
-    value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }]);
 
-  return ElementWithMappedObject;
+  return AsyncElementWithMappedObject;
 }(AsyncObject);
 
-module.exports = ElementWithMappedObject;
+module.exports = AsyncElementWithMappedObject;
 
-},{"./../util/StringWithMappedObject":204,"@page-libs/cutie":131}],157:[function(require,module,exports){
+},{"./../util/ElementWithMappedObject":195,"@page-libs/cutie":131}],157:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -6986,7 +6917,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithMappedVars;
 
-},{"./../util/StringWithAppliedStorageVariables":202,"./../util/StringWithAppliedUrlParams":203,"@page-libs/cutie":131}],158:[function(require,module,exports){
+},{"./../util/StringWithAppliedStorageVariables":204,"./../util/StringWithAppliedUrlParams":205,"@page-libs/cutie":131}],158:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7452,7 +7383,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncParsedElmSelectors;
 
-},{"./../util/ParsedElmSelectors":197,"@page-libs/cutie":131}],167:[function(require,module,exports){
+},{"./../util/ParsedElmSelectors":198,"@page-libs/cutie":131}],167:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7816,7 +7747,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithAppliedStorageVariables;
 
-},{"./../util/StringWithAppliedStorageVariables":202,"@page-libs/cutie":131}],174:[function(require,module,exports){
+},{"./../util/StringWithAppliedStorageVariables":204,"@page-libs/cutie":131}],174:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7867,7 +7798,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithAppliedUrlParams;
 
-},{"./../util/StringWithAppliedUrlParams":203,"@page-libs/cutie":131}],175:[function(require,module,exports){
+},{"./../util/StringWithAppliedUrlParams":205,"@page-libs/cutie":131}],175:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7918,7 +7849,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithMappedObject;
 
-},{"./../util/StringWithMappedObject":204,"@page-libs/cutie":131}],176:[function(require,module,exports){
+},{"./../util/StringWithMappedObject":206,"@page-libs/cutie":131}],176:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8108,7 +8039,7 @@ function (_AsyncObject) {
 module.exports = ValueFromSessionStorage;
 
 },{"@page-libs/cutie":131}],180:[function(require,module,exports){
-'use strict'; // const StringWithMappedObject = require('./../util/StringWithMappedObject')
+'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -8136,6 +8067,10 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
+
+var StringBuffer = require('./../util/StringBuffer');
+
 var E = require('./../E');
 
 E('e-for-each',
@@ -8154,15 +8089,23 @@ function (_HTMLElement) {
     value: function onRender() {}
   }, {
     key: "apply",
-    value: function apply() {
-      this.removeAttribute('hidden');
+    value: function apply(list) {
+      var _this = this;
+
+      var appliedInnerHTML = new StringBuffer();
+      list.forEach(function (item) {
+        appliedInnerHTML.append(new ElementWithMappedObject(_this.cloneNode(true), item, 'data-item-name').value().innerHTML);
+      });
+      var template = document.createElement('template');
+      template.innerHTML = appliedInnerHTML.toString();
+      this.parentNode.replaceChild(document.importNode(template.content, true), this);
     }
   }]);
 
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":150}],181:[function(require,module,exports){
+},{"./../E":150,"./../util/ElementWithMappedObject":195,"./../util/StringBuffer":203}],181:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8443,7 +8386,7 @@ function (_HTMLFormElement) {
   "extends": 'form'
 });
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":160,"./../util/FileInfo":195,"./../util/ParsedElmSelectors":197,"./../util/PreparedProgressBars":198,"./../util/ShowFileReaderEndEvent":199,"./../util/ShowFileReaderProgressEvent":200,"./../util/ShowProgressEvent":201,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],182:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":160,"./../util/FileInfo":196,"./../util/ParsedElmSelectors":198,"./../util/PreparedProgressBars":199,"./../util/ShowFileReaderEndEvent":200,"./../util/ShowFileReaderProgressEvent":201,"./../util/ShowProgressEvent":202,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],182:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8719,7 +8662,7 @@ function (_HTMLElement) {
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":197,"./../util/PreparedProgressBars":198,"./../util/ShowProgressEvent":201,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":198,"./../util/PreparedProgressBars":199,"./../util/ShowProgressEvent":202,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],185:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9337,7 +9280,7 @@ var actions = {
     return new ElementWithChangedValue(new FirstOf(new ParsedElmSelectors(elmSelector)), newValue);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-response-object-name');
   },
   toggleElms: function toggleElms(className) {
     for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
@@ -9423,7 +9366,7 @@ function () {
 
 module.exports = Actions;
 
-},{"./../async/EmptyAsyncObject":159,"./BuiltAsyncTreeByParsedActions":194,"./ParsedActions":196}],194:[function(require,module,exports){
+},{"./../async/EmptyAsyncObject":159,"./BuiltAsyncTreeByParsedActions":194,"./ParsedActions":197}],194:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9485,6 +9428,120 @@ module.exports = BuiltAsyncTreeByParsedActions;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var _require = require('@page-libs/cutie'),
+    AsyncObject = _require.AsyncObject;
+
+var StringWithMappedObject = require('./StringWithMappedObject');
+
+var ElementWithMappedObject =
+/*#__PURE__*/
+function () {
+  function ElementWithMappedObject(element, obj, objNameAttribute) {
+    _classCallCheck(this, ElementWithMappedObject);
+
+    this.element = element;
+    this.obj = obj;
+    this.objNameAttribute = objNameAttribute;
+  }
+
+  _createClass(ElementWithMappedObject, [{
+    key: "value",
+    value: function value() {
+      if (this.element) {
+        var objName = this.element.getAttribute(this.objNameAttribute);
+
+        if (!objName) {
+          throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
+        }
+
+        var OBJ = {};
+        OBJ[objName] = this.obj;
+        return this.mapObjToChildren(this.element, OBJ, objName);
+      }
+
+      throw new Error("element is ".concat(this.element, " in mapObjToElm"));
+    }
+  }, {
+    key: "mapObjToChildren",
+    value: function mapObjToChildren(element, obj, objName) {
+      var _this = this;
+
+      element.childNodes.forEach(function (child) {
+        if (child.nodeName === 'E-FOR-EACH') {
+          var list = JSON.parse(new StringWithMappedObject(child.getAttribute('data-list-to-iterate'), obj, objName).value());
+          child.apply(list);
+        }
+
+        if (child.getAttribute) {
+          for (var i = 0; i < child.attributes.length; i++) {
+            var attrName = child.attributes[i].name;
+            var attrValue = child.attributes[i].value;
+
+            _this.commonMappingObjToChildren(child, attrName, attrValue, obj, objName);
+          }
+        } // TODO: apply to applied e-for-each as well
+
+
+        _this.mapObjToChildren(child, obj, objName);
+      });
+      return element;
+    }
+  }, {
+    key: "commonMappingObjToChildren",
+    value: function commonMappingObjToChildren(child, attrName, attrValue, obj, objName) {
+      if (attrName !== 'data-actions-on-response' && attrName !== 'data-list-to-iterate') {
+        this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
+
+        if (attrName === 'data-text') {
+          if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
+            this.insertTextIntoElm(child, child.getAttribute('data-text'));
+            child.removeAttribute('data-text');
+          }
+        } else if (attrName === 'data-value') {
+          if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
+            child.value = child.getAttribute('data-value');
+            child.removeAttribute('data-value');
+          }
+        }
+      }
+    }
+  }, {
+    key: "insertTextIntoElm",
+    value: function insertTextIntoElm(element, text) {
+      var textNode = document.createTextNode(text);
+
+      if (element.childNodes.length === 0) {
+        element.appendChild(textNode);
+      } else {
+        element.insertBefore(textNode, element.childNodes[0]);
+      }
+    }
+  }, {
+    key: "mapObjToAttribute",
+    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
+      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
+    }
+  }, {
+    key: "hasParamsInAttributeToApply",
+    value: function hasParamsInAttributeToApply(element, attrName) {
+      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
+    }
+  }]);
+
+  return ElementWithMappedObject;
+}();
+
+module.exports = ElementWithMappedObject;
+
+},{"./StringWithMappedObject":206,"@page-libs/cutie":131}],196:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var FileInfo = function FileInfo(name, size, type, content, lastModifiedDate) {
   _classCallCheck(this, FileInfo);
 
@@ -9497,7 +9554,7 @@ var FileInfo = function FileInfo(name, size, type, content, lastModifiedDate) {
 
 module.exports = FileInfo;
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9604,7 +9661,7 @@ function () {
 
 module.exports = ParsedActions;
 
-},{"./../async/EmptyAsyncObject":159,"./../async/ParsedJSONOrString":167,"./../async/StringWithAppliedStorageVariables":173,"./../async/StringWithMappedObject":175,"./ActionByNameWithParams":192}],197:[function(require,module,exports){
+},{"./../async/EmptyAsyncObject":159,"./../async/ParsedJSONOrString":167,"./../async/StringWithAppliedStorageVariables":173,"./../async/StringWithMappedObject":175,"./ActionByNameWithParams":192}],198:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9658,7 +9715,7 @@ function () {
 
 module.exports = ParsedElmSelectors;
 
-},{}],198:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9697,7 +9754,7 @@ function () {
 
 module.exports = PreparedProgressBars;
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9722,7 +9779,7 @@ var ShowFileReaderEndEvent = function ShowFileReaderEndEvent(progressBar, filesR
 
 module.exports = ShowFileReaderEndEvent;
 
-},{}],200:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9745,7 +9802,7 @@ var ShowFileReaderProgressEvent = function ShowFileReaderProgressEvent(progressB
 
 module.exports = ShowFileReaderProgressEvent;
 
-},{}],201:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9772,7 +9829,42 @@ var ShowProgressEvent = function ShowProgressEvent(progressBar) {
 
 module.exports = ShowProgressEvent;
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var StringBuffer =
+/*#__PURE__*/
+function () {
+  function StringBuffer() {
+    _classCallCheck(this, StringBuffer);
+
+    this.strings = [];
+  }
+
+  _createClass(StringBuffer, [{
+    key: "append",
+    value: function append(string) {
+      this.strings.push(string);
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return this.strings.join('');
+    }
+  }]);
+
+  return StringBuffer;
+}();
+
+module.exports = StringBuffer;
+
+},{}],204:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9816,7 +9908,7 @@ function () {
 
 module.exports = StringWithAppliedStorageVariables;
 
-},{}],203:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9853,7 +9945,7 @@ function () {
 
 module.exports = StringWithAppliedUrlParams;
 
-},{}],204:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 "use strict";
 'use string';
 
@@ -9911,4 +10003,4 @@ function () {
 
 module.exports = StringWithMappedObject;
 
-},{}]},{},[151,152,153,154,158,155,156,157,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,150,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204]);
+},{}]},{},[151,152,153,154,158,155,156,157,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,150,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206]);

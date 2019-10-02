@@ -114,7 +114,7 @@ var actions = {
     return new ElementWithChangedValue(new FirstOf(new ParsedElmSelectors(elmSelector)), newValue);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj);
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-response-object-name');
   },
   toggleElms: function toggleElms(className) {
     for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {

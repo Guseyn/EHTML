@@ -21,98 +21,29 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var StringWithMappedObject = require('./../util/StringWithMappedObject');
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
 
-var ElementWithMappedObject =
+var AsyncElementWithMappedObject =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ElementWithMappedObject, _AsyncObject);
+  _inherits(AsyncElementWithMappedObject, _AsyncObject);
 
-  function ElementWithMappedObject(element, obj, objName) {
-    _classCallCheck(this, ElementWithMappedObject);
+  function AsyncElementWithMappedObject(element, obj, objNameAttribute) {
+    _classCallCheck(this, AsyncElementWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ElementWithMappedObject).call(this, element, obj, objName));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObject).call(this, element, obj, objNameAttribute));
   }
 
-  _createClass(ElementWithMappedObject, [{
+  _createClass(AsyncElementWithMappedObject, [{
     key: "syncCall",
     value: function syncCall() {
-      var _this = this;
-
-      return function (element, obj, objName) {
-        if (element) {
-          var _objName = element.getAttribute('data-response-object-name');
-
-          if (!_objName) {
-            throw new Error("elm #".concat(element.getAttribute('id'), " must have attribute data-response-object-name for applying values to child nodes, so you can know what object it encapsulates"));
-          }
-
-          var OBJ = {};
-          OBJ[_objName] = obj;
-          return _this.mapObjToChildren(element, OBJ, _objName);
-        }
-
-        throw new Error("element is ".concat(element, " in mapObjToElm"));
+      return function (element, obj, objNameAttribute) {
+        return new ElementWithMappedObject(element, obj, objNameAttribute).value();
       };
-    }
-  }, {
-    key: "mapObjToChildren",
-    value: function mapObjToChildren(element, obj, objName) {
-      var _this2 = this;
-
-      element.childNodes.forEach(function (child) {
-        if (child.getAttribute) {
-          for (var i = 0; i < child.attributes.length; i++) {
-            var attrName = child.attributes[i].name;
-            var attrValue = child.attributes[i].value;
-
-            if (attrName !== 'data-actions-on-response') {
-              _this2.mapObjToAttribute(child, attrName, attrValue, obj, objName);
-
-              if (attrName === 'data-text') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
-                  _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
-
-                  child.removeAttribute('data-text');
-                }
-              } else if (attrName === 'data-value') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
-                  child.value = child.getAttribute('data-value');
-                  child.removeAttribute('data-value');
-                }
-              }
-            }
-          }
-
-          _this2.mapObjToChildren(child, obj, objName);
-        }
-      });
-      return element;
-    }
-  }, {
-    key: "insertTextIntoElm",
-    value: function insertTextIntoElm(elm, text) {
-      var textNode = document.createTextNode(text);
-
-      if (elm.childNodes.length === 0) {
-        elm.appendChild(textNode);
-      } else {
-        elm.insertBefore(textNode, elm.childNodes[0]);
-      }
-    }
-  }, {
-    key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
-    }
-  }, {
-    key: "hasParamsInAttributeToApply",
-    value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }]);
 
-  return ElementWithMappedObject;
+  return AsyncElementWithMappedObject;
 }(AsyncObject);
 
-module.exports = ElementWithMappedObject;
+module.exports = AsyncElementWithMappedObject;

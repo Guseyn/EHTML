@@ -32,9 +32,10 @@
     >
       <div class="with-border">
         <span style="text-decoration: underline;">Click here to load users</span>
-          <e-for-each data-item-in="${users}" hidden>
-
-          </e-for-each>
+        <e-for-each data-list-to-iterate="${users}" data-item-name="user" hidden>
+          <div data-text="${users.length} users have been loaded"></div>
+          <div data-text="User with id: ${user.id}, name: ${user.name} and email: ${user.email}"></div>
+        </e-for-each>
       </div>
     </e-json>
   </body>
