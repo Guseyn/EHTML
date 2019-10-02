@@ -9793,17 +9793,17 @@ function () {
   _createClass(StringWithAppliedStorageVariables, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{(([^{}$]+)?(localStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
+      return this.str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(/localStorage\.([^\s{}$]+)/g, function (match, p1) {
-          return "'".concat(localStorage.getItem(p1), "'");
+        var expression = p1.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
+          return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return eval(expression);
-      }).replace(/\$\{(([^{}$]+)?(sessionStorage\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
+      }).replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
-        var expression = p1.replace(/sessionStorage\.([^\s{}$]+)/g, function (match, p1) {
-          return "'".concat(sessionStorage.getItem(p1), "'");
+        var expression = p1.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
+          return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return eval(expression);
@@ -9837,10 +9837,10 @@ function () {
   _createClass(StringWithAppliedUrlParams, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{(([^{}$]+)?(urlParams\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
-        var expression = p1.replace(/urlParams\.([^\s{}$]+)/g, function (match, p1) {
-          // eslint-disable-next-line no-undef
-          return "'".concat(urlParams[p1], "'");
+      return this.str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+        var expression = p1.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
+          // eslint-disable-next-line no-undef, no-eval
+          return eval("'urlParams".concat(p1, "'"));
         }); // eslint-disable-next-line no-eval
 
         return eval(expression);
@@ -9881,7 +9881,6 @@ function () {
     value: function value() {
       var _this = this;
 
-      // console.log(this.str, this.objName, this.obj)
       return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
         var obj = _this.obj;
         var objName = _this.objName;

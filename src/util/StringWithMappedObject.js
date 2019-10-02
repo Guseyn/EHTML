@@ -8,7 +8,6 @@ class StringWithMappedObject {
   }
 
   value () {
-    // console.log(this.str, this.objName, this.obj)
     return this.str.replace(
       new RegExp(
         `\\$\{((\\s)?([^{}$]+\\s)?(${this.objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
