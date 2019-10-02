@@ -25,7 +25,6 @@ function () {
     value: function value() {
       var _this = this;
 
-      // console.log(this.str, this.objName, this.obj)
       return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
         var obj = _this.obj;
         var objName = _this.objName;

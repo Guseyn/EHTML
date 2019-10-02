@@ -18,10 +18,10 @@ function () {
   _createClass(StringWithAppliedUrlParams, [{
     key: "value",
     value: function value() {
-      return this.str.replace(/\$\{(([^{}$]+)?(urlParams\.([^\s{}$]+))([^{}$]+)?)\}/g, function (match, p1) {
-        var expression = p1.replace(/urlParams\.([^\s{}$]+)/g, function (match, p1) {
-          // eslint-disable-next-line no-undef
-          return "'".concat(urlParams[p1], "'");
+      return this.str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+        var expression = p1.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
+          // eslint-disable-next-line no-undef, no-eval
+          return eval("'urlParams".concat(p1, "'"));
         }); // eslint-disable-next-line no-eval
 
         return eval(expression);
