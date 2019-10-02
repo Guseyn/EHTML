@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-for-each.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-for-each</title>
+    <style type="text/css">
+      .with-border {
+        display: block;
+        width: auto;
+        height: auto;
+        cursor: pointer;
+        margin-top: 10px;
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-json
+      id="block"
+      data-src="/../users"
+      data-response-object-name="users"
+      data-actions-on-response="
+        mapObjToElm('${users}', '#block');
+      "
+      data-event="click"
+    >
+      <div class="with-border">
+        <span style="text-decoration: underline;">Click here to load users</span>
+          <e-for-each data-item-in="${users}" hidden>
+
+          </e-for-each>
+      </div>
+    </e-json>
+  </body>
+
+</html>

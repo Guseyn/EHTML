@@ -6,6 +6,7 @@ const { SpawnedCommand } = require('@cuties/spawn')
 const { Backend, RestApi, ServingFilesEndpoint, NotFoundEndpoint } = require('@cuties/rest')
 const { CopiedFile, WatcherWithEventTypeAndFilenameListener } = require('@cuties/fs')
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
+const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
 
 const mapperForStatic = (url) => {
@@ -37,6 +38,7 @@ new SpawnedCommand('grunt').after(
           '127.0.0.1',
           new RestApi(
             new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/), 'GET'),
+            new GetUsersEndpoint(new RegExp(/^\/users/), 'GET'),
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|images)/),
