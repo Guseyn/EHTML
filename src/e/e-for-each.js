@@ -14,9 +14,10 @@ E(
 
     onRender () {}
 
-    apply (list) {
+    applied (list) {
       const appliedInnerHTML = new StringBuffer()
-      list.forEach(item => {
+      list.forEach((item, index) => {
+        item.index = index + 1
         appliedInnerHTML.append(
           new ElementWithMappedObject(
             this.cloneNode(true),
@@ -25,11 +26,8 @@ E(
           ).value().innerHTML
         )
       })
-      const template = document.createElement('template')
-      template.innerHTML = appliedInnerHTML.toString()
-      this.parentNode.replaceChild(
-        document.importNode(template.content, true), this
-      )
+      this.innerHTML = appliedInnerHTML.toString()
+      return this
     }
   }
 )

@@ -27,14 +27,21 @@
       data-response-object-name="users"
       data-actions-on-response="
         mapObjToElm('${users}', '#block');
+        hideElms('#click-here')
       "
       data-event="click"
     >
       <div class="with-border">
-        <span style="text-decoration: underline;">Click here to load users</span>
+        <span style="text-decoration: underline;" id="click-here">Click here to load users</span>
+        <div data-text="${users.length} users have been loaded"></div>
         <e-for-each data-list-to-iterate="${users}" data-item-name="user" hidden>
-          <div data-text="${users.length} users have been loaded"></div>
+          <hr/>
+          <div><b data-text="${user.index}."></b></div>
           <div data-text="User with id: ${user.id}, name: ${user.name} and email: ${user.email}"></div>
+          <div data-text="User has ${user.connections.length} connections:"></div>
+          <e-for-each data-list-to-iterate="${user.connections}" data-item-name="connection">
+            <div data-text="${connection.index}/${user.connections.length} => ${connection.name}"></div>
+          </e-for-each>
         </e-for-each>
       </div>
     </e-json>

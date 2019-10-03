@@ -19,37 +19,42 @@ class ElementWithMappedObject {
       OBJ[objName] = this.obj
       return this.mapObjToChildren(this.element, OBJ, objName)
     }
-    throw new Error(`element is ${this.element} in mapObjToElm`)
+    throw new Error(`element for mapping is ${this.element}`)
   }
 
   mapObjToChildren (element, obj, objName) {
     element.childNodes.forEach(child => {
-      if (child.nodeName === 'E-FOR-EACH') {
-        const list = JSON.parse(
-          new StringWithMappedObject(
-            child.getAttribute('data-list-to-iterate'),
-            obj,
-            objName
-          ).value()
-        )
-        child.apply(list)
-      }
       if (child.getAttribute) {
         for (let i = 0; i < child.attributes.length; i++) {
           const attrName = child.attributes[i].name
           const attrValue = child.attributes[i].value
-          this.commonMappingObjToChildren(
+          this.commonMappingObjToChild(
             child, attrName, attrValue, obj, objName
           )
         }
       }
-      // TODO: apply to applied e-for-each as well
       this.mapObjToChildren(child, obj, objName)
+      if (child.nodeName === 'E-FOR-EACH') {
+        try {
+          const list = JSON.parse(
+            new StringWithMappedObject(
+              child.getAttribute('data-list-to-iterate'),
+              obj,
+              objName
+            ).value()
+          )
+          this.unwrapedElement(
+            child.applied(list)
+          )
+        } catch (error) {
+          // nothing to do
+        }
+      }
     })
     return element
   }
 
-  commonMappingObjToChildren (child, attrName, attrValue, obj, objName) {
+  commonMappingObjToChild (child, attrName, attrValue, obj, objName) {
     if (attrName !== 'data-actions-on-response' && attrName !== 'data-list-to-iterate') {
       this.mapObjToAttribute(child, attrName, attrValue, obj, objName)
       if (attrName === 'data-text') {
@@ -88,6 +93,16 @@ class ElementWithMappedObject {
     return /\$\{([^{}\s]+)\}/g.test(
       element.getAttribute(attrName)
     )
+  }
+
+  unwrapedElement (element) {
+    const fragment = document.createDocumentFragment()
+    while (element.firstChild) {
+      const child = element.removeChild(element.firstChild)
+      fragment.appendChild(child)
+    }
+    element.parentNode.replaceChild(fragment, element)
+    return fragment
   }
 }
 

@@ -47,17 +47,17 @@ function (_HTMLElement) {
     key: "onRender",
     value: function onRender() {}
   }, {
-    key: "apply",
-    value: function apply(list) {
+    key: "applied",
+    value: function applied(list) {
       var _this = this;
 
       var appliedInnerHTML = new StringBuffer();
-      list.forEach(function (item) {
+      list.forEach(function (item, index) {
+        item.index = index + 1;
         appliedInnerHTML.append(new ElementWithMappedObject(_this.cloneNode(true), item, 'data-item-name').value().innerHTML);
       });
-      var template = document.createElement('template');
-      template.innerHTML = appliedInnerHTML.toString();
-      this.parentNode.replaceChild(document.importNode(template.content, true), this);
+      this.innerHTML = appliedInnerHTML.toString();
+      return this;
     }
   }]);
 
