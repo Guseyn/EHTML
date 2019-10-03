@@ -8088,17 +8088,17 @@ function (_HTMLElement) {
     key: "onRender",
     value: function onRender() {}
   }, {
-    key: "apply",
-    value: function apply(list) {
+    key: "applied",
+    value: function applied(list) {
       var _this = this;
 
       var appliedInnerHTML = new StringBuffer();
-      list.forEach(function (item) {
+      list.forEach(function (item, index) {
+        item.index = index + 1;
         appliedInnerHTML.append(new ElementWithMappedObject(_this.cloneNode(true), item, 'data-item-name').value().innerHTML);
       });
-      var template = document.createElement('template');
-      template.innerHTML = appliedInnerHTML.toString();
-      this.parentNode.replaceChild(document.importNode(template.content, true), this);
+      this.innerHTML = appliedInnerHTML.toString();
+      return this;
     }
   }]);
 
@@ -9460,7 +9460,7 @@ function () {
         return this.mapObjToChildren(this.element, OBJ, objName);
       }
 
-      throw new Error("element is ".concat(this.element, " in mapObjToElm"));
+      throw new Error("element for mapping is ".concat(this.element));
     }
   }, {
     key: "mapObjToChildren",
@@ -9468,28 +9468,31 @@ function () {
       var _this = this;
 
       element.childNodes.forEach(function (child) {
-        if (child.nodeName === 'E-FOR-EACH') {
-          var list = JSON.parse(new StringWithMappedObject(child.getAttribute('data-list-to-iterate'), obj, objName).value());
-          child.apply(list);
-        }
-
         if (child.getAttribute) {
           for (var i = 0; i < child.attributes.length; i++) {
             var attrName = child.attributes[i].name;
             var attrValue = child.attributes[i].value;
 
-            _this.commonMappingObjToChildren(child, attrName, attrValue, obj, objName);
+            _this.commonMappingObjToChild(child, attrName, attrValue, obj, objName);
           }
-        } // TODO: apply to applied e-for-each as well
-
+        }
 
         _this.mapObjToChildren(child, obj, objName);
+
+        if (child.nodeName === 'E-FOR-EACH') {
+          try {
+            var list = JSON.parse(new StringWithMappedObject(child.getAttribute('data-list-to-iterate'), obj, objName).value());
+
+            _this.unwrapedElement(child.applied(list));
+          } catch (error) {// nothing to do
+          }
+        }
       });
       return element;
     }
   }, {
-    key: "commonMappingObjToChildren",
-    value: function commonMappingObjToChildren(child, attrName, attrValue, obj, objName) {
+    key: "commonMappingObjToChild",
+    value: function commonMappingObjToChild(child, attrName, attrValue, obj, objName) {
       if (attrName !== 'data-actions-on-response' && attrName !== 'data-list-to-iterate') {
         this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
 
@@ -9526,6 +9529,19 @@ function () {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
+    }
+  }, {
+    key: "unwrapedElement",
+    value: function unwrapedElement(element) {
+      var fragment = document.createDocumentFragment();
+
+      while (element.firstChild) {
+        var child = element.removeChild(element.firstChild);
+        fragment.appendChild(child);
+      }
+
+      element.parentNode.replaceChild(fragment, element);
+      return fragment;
     }
   }]);
 
@@ -9979,6 +9995,8 @@ function () {
 
           if (_typeof(value) === 'object') {
             return JSON.stringify(value);
+          } else if (!isNaN(value)) {
+            return value * 1;
           }
 
           return value;

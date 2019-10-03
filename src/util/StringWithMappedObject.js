@@ -23,6 +23,8 @@ class StringWithMappedObject {
             const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
             if (typeof value === 'object') {
               return JSON.stringify(value)
+            } else if (!isNaN(value)) {
+              return value * 1
             }
             return value
           }

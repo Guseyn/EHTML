@@ -34,6 +34,8 @@ function () {
 
           if (_typeof(value) === 'object') {
             return JSON.stringify(value);
+          } else if (!isNaN(value)) {
+            return value * 1;
           }
 
           return value;
