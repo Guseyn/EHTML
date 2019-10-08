@@ -6534,18 +6534,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var _require = require('@cuties/object'),
     TheSameObjectWithValue = _require.TheSameObjectWithValue;
 
-var Actions = require('./../util/Actions');
+var ParsedActions = require('./../util/ParsedActions');
+
+var BuiltAsyncTreeByParsedActions = require('./../util/BuiltAsyncTreeByParsedActions');
 
 var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objName, actions, obj) {
   _classCallCheck(this, AppliedActionsOnResponse);
 
   var OBJ = {};
-  return new TheSameObjectWithValue(OBJ, objName, obj).after(new Actions(tagName, actions).asAsyncTree(OBJ, objName));
+  return new TheSameObjectWithValue(OBJ, objName, obj).after(new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, OBJ, objName).value()).value());
 };
 
 module.exports = AppliedActionsOnResponse;
 
-},{"./../util/Actions":193,"@cuties/object":85}],152:[function(require,module,exports){
+},{"./../util/BuiltAsyncTreeByParsedActions":194,"./../util/ParsedActions":197,"@cuties/object":85}],152:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8039,7 +8041,8 @@ function (_AsyncObject) {
 module.exports = ValueFromSessionStorage;
 
 },{"@page-libs/cutie":131}],180:[function(require,module,exports){
-'use strict';
+'use strict'; // const ElementWithMappedObject = require('./../util/ElementWithMappedObject')
+// const StringBuffer = require('./../util/StringBuffer')
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -8067,10 +8070,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
-
-var StringBuffer = require('./../util/StringBuffer');
-
 var E = require('./../E');
 
 E('e-for-each',
@@ -8087,25 +8086,12 @@ function (_HTMLElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {}
-  }, {
-    key: "applied",
-    value: function applied(list) {
-      var _this = this;
-
-      var appliedInnerHTML = new StringBuffer();
-      list.forEach(function (item, index) {
-        item.index = index + 1;
-        appliedInnerHTML.append(new ElementWithMappedObject(_this.cloneNode(true), item, 'data-item-name').value().innerHTML);
-      });
-      this.innerHTML = appliedInnerHTML.toString();
-      return this;
-    }
   }]);
 
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":150,"./../util/ElementWithMappedObject":195,"./../util/StringBuffer":203}],181:[function(require,module,exports){
+},{"./../E":150}],181:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9448,19 +9434,15 @@ function () {
   _createClass(ElementWithMappedObject, [{
     key: "value",
     value: function value() {
-      if (this.element) {
-        var objName = this.element.getAttribute(this.objNameAttribute);
+      var objName = this.element.getAttribute(this.objNameAttribute);
 
-        if (!objName) {
-          throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
-        }
-
-        var OBJ = {};
-        OBJ[objName] = this.obj;
-        return this.mapObjToChildren(this.element, OBJ, objName);
+      if (!objName) {
+        throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
       }
 
-      throw new Error("element for mapping is ".concat(this.element));
+      var obj = {};
+      obj[objName] = this.obj;
+      return this.mapObjToChildren(this.element, obj, objName);
     }
   }, {
     key: "mapObjToChildren",
@@ -9473,40 +9455,41 @@ function () {
             var attrName = child.attributes[i].name;
             var attrValue = child.attributes[i].value;
 
-            _this.commonMappingObjToChild(child, attrName, attrValue, obj, objName);
+            _this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
           }
         }
 
         _this.mapObjToChildren(child, obj, objName);
-
-        if (child.nodeName === 'E-FOR-EACH') {
-          try {
-            var list = JSON.parse(new StringWithMappedObject(child.getAttribute('data-list-to-iterate'), obj, objName).value());
-
-            _this.unwrapedElement(child.applied(list));
-          } catch (error) {// nothing to do
-          }
-        }
       });
       return element;
     }
   }, {
-    key: "commonMappingObjToChild",
-    value: function commonMappingObjToChild(child, attrName, attrValue, obj, objName) {
-      if (attrName !== 'data-actions-on-response' && attrName !== 'data-list-to-iterate') {
-        this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
+    key: "mapObjToAttribute",
+    value: function mapObjToAttribute(child, attrName, attrValue, obj, objName) {
+      if (attrName !== 'data-actions-on-response') {
+        child.setAttribute(attrName, new StringWithMappedObject(child.getAttribute(attrName), obj, objName).value());
 
         if (attrName === 'data-text') {
-          if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
-            this.insertTextIntoElm(child, child.getAttribute('data-text'));
-            child.removeAttribute('data-text');
-          }
+          this.handleDataTextAttribute(child);
         } else if (attrName === 'data-value') {
-          if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
-            child.value = child.getAttribute('data-value');
-            child.removeAttribute('data-value');
-          }
+          this.handleDataValueAttribute(child);
         }
+      }
+    }
+  }, {
+    key: "handleDataTextAttribute",
+    value: function handleDataTextAttribute(element) {
+      if (!this.hasParamsInAttributeToApply(element, 'data-text')) {
+        this.insertTextIntoElm(element, element.getAttribute('data-text'));
+        element.removeAttribute('data-text');
+      }
+    }
+  }, {
+    key: "handleDataValueAttribute",
+    value: function handleDataValueAttribute(element) {
+      if (!this.hasParamsInAttributeToApply(element, 'data-value')) {
+        element.value = element.getAttribute('data-value');
+        element.removeAttribute('data-value');
       }
     }
   }, {
@@ -9521,27 +9504,9 @@ function () {
       }
     }
   }, {
-    key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
-    }
-  }, {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
-    }
-  }, {
-    key: "unwrapedElement",
-    value: function unwrapedElement(element) {
-      var fragment = document.createDocumentFragment();
-
-      while (element.firstChild) {
-        var child = element.removeChild(element.firstChild);
-        fragment.appendChild(child);
-      }
-
-      element.parentNode.replaceChild(fragment, element);
-      return fragment;
     }
   }]);
 

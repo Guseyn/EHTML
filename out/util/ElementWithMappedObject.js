@@ -22,19 +22,15 @@ function () {
   _createClass(ElementWithMappedObject, [{
     key: "value",
     value: function value() {
-      if (this.element) {
-        var objName = this.element.getAttribute(this.objNameAttribute);
+      var objName = this.element.getAttribute(this.objNameAttribute);
 
-        if (!objName) {
-          throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
-        }
-
-        var OBJ = {};
-        OBJ[objName] = this.obj;
-        return this.mapObjToChildren(this.element, OBJ, objName);
+      if (!objName) {
+        throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
       }
 
-      throw new Error("element for mapping is ".concat(this.element));
+      var obj = {};
+      obj[objName] = this.obj;
+      return this.mapObjToChildren(this.element, obj, objName);
     }
   }, {
     key: "mapObjToChildren",
@@ -47,40 +43,41 @@ function () {
             var attrName = child.attributes[i].name;
             var attrValue = child.attributes[i].value;
 
-            _this.commonMappingObjToChild(child, attrName, attrValue, obj, objName);
+            _this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
           }
         }
 
         _this.mapObjToChildren(child, obj, objName);
-
-        if (child.nodeName === 'E-FOR-EACH') {
-          try {
-            var list = JSON.parse(new StringWithMappedObject(child.getAttribute('data-list-to-iterate'), obj, objName).value());
-
-            _this.unwrapedElement(child.applied(list));
-          } catch (error) {// nothing to do
-          }
-        }
       });
       return element;
     }
   }, {
-    key: "commonMappingObjToChild",
-    value: function commonMappingObjToChild(child, attrName, attrValue, obj, objName) {
-      if (attrName !== 'data-actions-on-response' && attrName !== 'data-list-to-iterate') {
-        this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
+    key: "mapObjToAttribute",
+    value: function mapObjToAttribute(child, attrName, attrValue, obj, objName) {
+      if (attrName !== 'data-actions-on-response') {
+        child.setAttribute(attrName, new StringWithMappedObject(child.getAttribute(attrName), obj, objName).value());
 
         if (attrName === 'data-text') {
-          if (!this.hasParamsInAttributeToApply(child, 'data-text')) {
-            this.insertTextIntoElm(child, child.getAttribute('data-text'));
-            child.removeAttribute('data-text');
-          }
+          this.handleDataTextAttribute(child);
         } else if (attrName === 'data-value') {
-          if (!this.hasParamsInAttributeToApply(child, 'data-value')) {
-            child.value = child.getAttribute('data-value');
-            child.removeAttribute('data-value');
-          }
+          this.handleDataValueAttribute(child);
         }
+      }
+    }
+  }, {
+    key: "handleDataTextAttribute",
+    value: function handleDataTextAttribute(element) {
+      if (!this.hasParamsInAttributeToApply(element, 'data-text')) {
+        this.insertTextIntoElm(element, element.getAttribute('data-text'));
+        element.removeAttribute('data-text');
+      }
+    }
+  }, {
+    key: "handleDataValueAttribute",
+    value: function handleDataValueAttribute(element) {
+      if (!this.hasParamsInAttributeToApply(element, 'data-value')) {
+        element.value = element.getAttribute('data-value');
+        element.removeAttribute('data-value');
       }
     }
   }, {
@@ -95,27 +92,9 @@ function () {
       }
     }
   }, {
-    key: "mapObjToAttribute",
-    value: function mapObjToAttribute(element, attrName, attrValue, obj, objName) {
-      element.setAttribute(attrName, new StringWithMappedObject(element.getAttribute(attrName), obj, objName).value());
-    }
-  }, {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
-    }
-  }, {
-    key: "unwrapedElement",
-    value: function unwrapedElement(element) {
-      var fragment = document.createDocumentFragment();
-
-      while (element.firstChild) {
-        var child = element.removeChild(element.firstChild);
-        fragment.appendChild(child);
-      }
-
-      element.parentNode.replaceChild(fragment, element);
-      return fragment;
     }
   }]);
 
