@@ -1,4 +1,5 @@
-'use strict';
+'use strict'; // const ElementWithMappedObject = require('./../util/ElementWithMappedObject')
+// const StringBuffer = require('./../util/StringBuffer')
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -26,10 +27,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
-
-var StringBuffer = require('./../util/StringBuffer');
-
 var E = require('./../E');
 
 E('e-for-each',
@@ -46,19 +43,6 @@ function (_HTMLElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {}
-  }, {
-    key: "applied",
-    value: function applied(list) {
-      var _this = this;
-
-      var appliedInnerHTML = new StringBuffer();
-      list.forEach(function (item, index) {
-        item.index = index + 1;
-        appliedInnerHTML.append(new ElementWithMappedObject(_this.cloneNode(true), item, 'data-item-name').value().innerHTML);
-      });
-      this.innerHTML = appliedInnerHTML.toString();
-      return this;
-    }
   }]);
 
   return _class;
