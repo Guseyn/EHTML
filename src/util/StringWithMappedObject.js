@@ -13,24 +13,15 @@ class StringWithMappedObject {
         `\\$\{((\\s)?([^{}$]+\\s)?(${this.objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
       ),
       (match, p1) => {
+        // eslint-disable-next-line no-unused-vars
         const obj = this.obj
         const objName = this.objName
-        const expression = p1.replace(
-          new RegExp(
-            `${this.objName}(\\.[^{}$\\s]+)?`, 'g'
-          ), (match, p1) => {
-            // eslint-disable-next-line no-eval
-            const value = p1 ? eval(`obj[objName]${p1}`) : obj[objName]
-            if (typeof value === 'object') {
-              return JSON.stringify(value)
-            } else if (!isNaN(value)) {
-              return value * 1
-            }
-            return value
-          }
-        )
+        const expression = `
+          const ${objName} = obj['${objName}']
+          ${p1}
+        `
         // eslint-disable-next-line no-eval
-        const res = eval(`'${expression}'`)
+        const res = eval(expression)
         if (typeof res === 'object') {
           return JSON.stringify(res)
         }
