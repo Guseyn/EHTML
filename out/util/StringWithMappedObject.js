@@ -26,22 +26,12 @@ function () {
       var _this = this;
 
       return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
+        // eslint-disable-next-line no-unused-vars
         var obj = _this.obj;
         var objName = _this.objName;
-        var expression = p1.replace(new RegExp("".concat(_this.objName, "(\\.[^{}$\\s]+)?"), 'g'), function (match, p1) {
-          // eslint-disable-next-line no-eval
-          var value = p1 ? eval("obj[objName]".concat(p1)) : obj[objName];
+        var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        "); // eslint-disable-next-line no-eval
 
-          if (_typeof(value) === 'object') {
-            return JSON.stringify(value);
-          } else if (!isNaN(value)) {
-            return value * 1;
-          }
-
-          return value;
-        }); // eslint-disable-next-line no-eval
-
-        var res = eval("'".concat(expression, "'"));
+        var res = eval(expression);
 
         if (_typeof(res) === 'object') {
           return JSON.stringify(res);
