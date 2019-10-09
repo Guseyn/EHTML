@@ -1,6 +1,6 @@
 'use strict'
 
-const StringWithMappedObject = require('./StringWithMappedObject')
+const StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables')
 
 class ElementWithMappedObject {
   constructor (element, obj, objNameAttribute) {
@@ -10,13 +10,16 @@ class ElementWithMappedObject {
   }
 
   value () {
-    const objName = this.element.getAttribute(this.objNameAttribute)
-    if (!objName) {
-      throw new Error(`element #${this.element.getAttribute('id')} must have attribute ${this.objNameAttribute} for applying values to child nodes, so you can know what object it encapsulates`)
+    if (this.obj) {
+      const objName = this.element.getAttribute(this.objNameAttribute)
+      if (!objName) {
+        throw new Error(`element #${this.element.getAttribute('id')} must have attribute ${this.objNameAttribute} for applying values to child nodes, so you can know what object it encapsulates`)
+      }
+      const obj = { }
+      obj[objName] = this.obj
+      return this.mapObjToChildren(this.element, obj, objName)
     }
-    const obj = { }
-    obj[objName] = this.obj
-    return this.mapObjToChildren(this.element, obj, objName)
+    return this.mapObjToChildren(this.element)
   }
 
   mapObjToChildren (element, obj, objName) {
@@ -31,15 +34,18 @@ class ElementWithMappedObject {
         }
       }
       this.mapObjToChildren(child, obj, objName)
+      if (this.isEForEach(child)) {
+        child.activate(obj, objName)
+      }
     })
     return element
   }
 
   mapObjToAttribute (child, attrName, attrValue, obj, objName) {
-    if (attrName !== 'data-actions-on-response') {
+    if (this.isForApplying(attrName)) {
       child.setAttribute(
         attrName,
-        new StringWithMappedObject(
+        new StringWithMappedObjectAndAppliedVariables(
           child.getAttribute(attrName), obj, objName
         ).value()
       )
@@ -78,6 +84,18 @@ class ElementWithMappedObject {
     return /\$\{([^{}\s]+)\}/g.test(
       element.getAttribute(attrName)
     )
+  }
+
+  isEForEach (element) {
+    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each'
+  }
+
+  isForApplying (attrName) {
+    const attributesForNotApplying = [
+      'data-actions-on-response',
+      'data-list-to-iterate'
+    ]
+    return attributesForNotApplying.indexOf(attrName) === -1
   }
 }
 

@@ -6,7 +6,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var StringWithMappedObject = require('./StringWithMappedObject');
+var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
 
 var ElementWithMappedObject =
 /*#__PURE__*/
@@ -22,15 +22,19 @@ function () {
   _createClass(ElementWithMappedObject, [{
     key: "value",
     value: function value() {
-      var objName = this.element.getAttribute(this.objNameAttribute);
+      if (this.obj) {
+        var objName = this.element.getAttribute(this.objNameAttribute);
 
-      if (!objName) {
-        throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
+        if (!objName) {
+          throw new Error("element #".concat(this.element.getAttribute('id'), " must have attribute ").concat(this.objNameAttribute, " for applying values to child nodes, so you can know what object it encapsulates"));
+        }
+
+        var obj = {};
+        obj[objName] = this.obj;
+        return this.mapObjToChildren(this.element, obj, objName);
       }
 
-      var obj = {};
-      obj[objName] = this.obj;
-      return this.mapObjToChildren(this.element, obj, objName);
+      return this.mapObjToChildren(this.element);
     }
   }, {
     key: "mapObjToChildren",
@@ -48,14 +52,18 @@ function () {
         }
 
         _this.mapObjToChildren(child, obj, objName);
+
+        if (_this.isEForEach(child)) {
+          child.activate(obj, objName);
+        }
       });
       return element;
     }
   }, {
     key: "mapObjToAttribute",
     value: function mapObjToAttribute(child, attrName, attrValue, obj, objName) {
-      if (attrName !== 'data-actions-on-response') {
-        child.setAttribute(attrName, new StringWithMappedObject(child.getAttribute(attrName), obj, objName).value());
+      if (this.isForApplying(attrName)) {
+        child.setAttribute(attrName, new StringWithMappedObjectAndAppliedVariables(child.getAttribute(attrName), obj, objName).value());
 
         if (attrName === 'data-text') {
           this.handleDataTextAttribute(child);
@@ -95,6 +103,17 @@ function () {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
+    }
+  }, {
+    key: "isEForEach",
+    value: function isEForEach(element) {
+      return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each';
+    }
+  }, {
+    key: "isForApplying",
+    value: function isForApplying(attrName) {
+      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
+      return attributesForNotApplying.indexOf(attrName) === -1;
     }
   }]);
 

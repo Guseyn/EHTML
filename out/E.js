@@ -2,9 +2,7 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var StringWithAppliedStorageVariables = require('./util/StringWithAppliedStorageVariables');
-
-var StringWithAppliedUrlParams = require('./util/StringWithAppliedUrlParams');
+var StringWithMappedObjectAndAppliedVariables = require('./util/StringWithMappedObjectAndAppliedVariables');
 
 function E(name, ELEMENT, renderImmediately, options) {
   ELEMENT.prototype.rendered = false;
@@ -29,7 +27,7 @@ function E(name, ELEMENT, renderImmediately, options) {
 
   ELEMENT.prototype.applyStorageValuesAndUrlParamsToAttributes = function () {
     for (var i = 0; i < this.attributes.length; i++) {
-      this.setAttribute(this.attributes[i].name, new StringWithAppliedStorageVariables(new StringWithAppliedUrlParams(this.attributes[i].value).value()).value());
+      this.setAttribute(this.attributes[i].name, new StringWithMappedObjectAndAppliedVariables(this.attributes[i].value).value());
     }
   };
 

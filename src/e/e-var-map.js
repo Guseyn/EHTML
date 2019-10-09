@@ -1,6 +1,6 @@
 'use strict'
 
-const ElementWithMappedVars = require('./../async/ElementWithMappedVars')
+const ElementWithMappedObject = require('./../async/ElementWithMappedObject')
 const E = require('./../E')
 
 E(
@@ -11,7 +11,7 @@ E(
     }
 
     onRender () {
-      new ElementWithMappedVars(
+      new ElementWithMappedObject(
         this
       ).call()
     }

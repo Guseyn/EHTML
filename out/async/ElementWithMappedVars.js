@@ -21,9 +21,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var StringWithAppliedStorageVariables = require('./../util/StringWithAppliedStorageVariables');
-
-var StringWithAppliedUrlParams = require('./../util/StringWithAppliedUrlParams');
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
 
 var ElementWithMappedVars =
 /*#__PURE__*/
@@ -39,73 +37,9 @@ function (_AsyncObject) {
   _createClass(ElementWithMappedVars, [{
     key: "syncCall",
     value: function syncCall() {
-      var _this = this;
-
       return function (element) {
-        return _this.mapVarsToChildren(element);
+        return new ElementWithMappedObject(element).value();
       };
-    }
-  }, {
-    key: "mapVarsToChildren",
-    value: function mapVarsToChildren(element) {
-      var _this2 = this;
-
-      element.childNodes.forEach(function (child) {
-        if (child.getAttribute) {
-          for (var i = 0; i < child.attributes.length; i++) {
-            var attrName = child.attributes[i].name;
-            var attrValue = child.attributes[i].value;
-
-            if (attrName !== 'data-actions-on-response') {
-              _this2.applyStorageVariablesInAttribute(child, attrName, attrValue);
-
-              _this2.applyUrlParamsInAttribute(child, attrName, attrValue);
-
-              if (attrName === 'data-text') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-text')) {
-                  _this2.insertTextIntoElm(child, child.getAttribute('data-text'));
-
-                  child.removeAttribute('data-text');
-                }
-              } else if (attrName === 'data-value') {
-                if (!_this2.hasParamsInAttributeToApply(child, 'data-value')) {
-                  child.value = child.getAttribute('data-value');
-                  child.removeAttribute('data-value');
-                }
-              }
-            }
-          }
-
-          _this2.mapVarsToChildren(child);
-        }
-      });
-      return element;
-    }
-  }, {
-    key: "insertTextIntoElm",
-    value: function insertTextIntoElm(elm, text) {
-      var textNode = document.createTextNode(text);
-
-      if (elm.childNodes.length === 0) {
-        elm.appendChild(textNode);
-      } else {
-        elm.insertBefore(textNode, elm.childNodes[0]);
-      }
-    }
-  }, {
-    key: "applyStorageVariablesInAttribute",
-    value: function applyStorageVariablesInAttribute(element, attrName, attrValue) {
-      element.setAttribute(attrName, new StringWithAppliedStorageVariables(attrValue).value());
-    }
-  }, {
-    key: "applyUrlParamsInAttribute",
-    value: function applyUrlParamsInAttribute(element, attrName, attrValue) {
-      element.setAttribute(attrName, new StringWithAppliedUrlParams(attrValue).value());
-    }
-  }, {
-    key: "hasParamsInAttributeToApply",
-    value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }]);
 

@@ -1,7 +1,6 @@
 'use strict'
 
-const StringWithAppliedStorageVariables = require('./util/StringWithAppliedStorageVariables')
-const StringWithAppliedUrlParams = require('./util/StringWithAppliedUrlParams')
+const StringWithMappedObjectAndAppliedVariables = require('./util/StringWithMappedObjectAndAppliedVariables')
 
 function E (name, ELEMENT, renderImmediately, options) {
   ELEMENT.prototype.rendered = false
@@ -24,10 +23,8 @@ function E (name, ELEMENT, renderImmediately, options) {
     for (let i = 0; i < this.attributes.length; i++) {
       this.setAttribute(
         this.attributes[i].name,
-        new StringWithAppliedStorageVariables(
-          new StringWithAppliedUrlParams(
-            this.attributes[i].value
-          ).value()
+        new StringWithMappedObjectAndAppliedVariables(
+          this.attributes[i].value
         ).value()
       )
     }
