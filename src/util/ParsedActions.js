@@ -1,8 +1,7 @@
 'use strict'
 
 const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
-const StringWithAppliedStorageVariables = require('./../async/StringWithAppliedStorageVariables')
-const StringWithMappedObject = require('./../async/StringWithMappedObject')
+const StringWithMappedObjectAndAppliedVariables = require('./../async/StringWithMappedObjectAndAppliedVariables')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 const ActionByNameWithParams = require('./ActionByNameWithParams')
 
@@ -48,10 +47,8 @@ class ParsedActions {
         param = JSON.stringify(param)
       }
       return new ParsedJSONOrString(
-        new StringWithMappedObject(
-          new StringWithAppliedStorageVariables(
-            param
-          ),
+        new StringWithMappedObjectAndAppliedVariables(
+          param,
           this.obj,
           this.objName
         )

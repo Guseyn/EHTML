@@ -21,29 +21,29 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var StringWithAppliedUrlParams = require('./../util/StringWithAppliedUrlParams');
+var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
 
-var AsyncStringWithAppliedUrlParams =
+var AsyncStringWithMappedObjectAndAppliedVariables =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(AsyncStringWithAppliedUrlParams, _AsyncObject);
+  _inherits(AsyncStringWithMappedObjectAndAppliedVariables, _AsyncObject);
 
-  function AsyncStringWithAppliedUrlParams(str) {
-    _classCallCheck(this, AsyncStringWithAppliedUrlParams);
+  function AsyncStringWithMappedObjectAndAppliedVariables(str, obj, objName) {
+    _classCallCheck(this, AsyncStringWithMappedObjectAndAppliedVariables);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithAppliedUrlParams).call(this, str));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncStringWithMappedObjectAndAppliedVariables).call(this, str, obj, objName));
   }
 
-  _createClass(AsyncStringWithAppliedUrlParams, [{
+  _createClass(AsyncStringWithMappedObjectAndAppliedVariables, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (str) {
-        return new StringWithAppliedUrlParams(str).value();
+      return function (str, obj, objName) {
+        return new StringWithMappedObjectAndAppliedVariables(str, obj, objName).value();
       };
     }
   }]);
 
-  return AsyncStringWithAppliedUrlParams;
+  return AsyncStringWithMappedObjectAndAppliedVariables;
 }(AsyncObject);
 
-module.exports = AsyncStringWithAppliedUrlParams;
+module.exports = AsyncStringWithMappedObjectAndAppliedVariables;

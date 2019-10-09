@@ -24,9 +24,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
 
-var StringWithAppliedStorageVariables = require('./../async/StringWithAppliedStorageVariables');
-
-var StringWithMappedObject = require('./../async/StringWithMappedObject');
+var StringWithMappedObjectAndAppliedVariables = require('./../async/StringWithMappedObjectAndAppliedVariables');
 
 var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
 
@@ -94,7 +92,7 @@ function () {
           param = JSON.stringify(param);
         }
 
-        return new ParsedJSONOrString(new StringWithMappedObject(new StringWithAppliedStorageVariables(param), _this2.obj, _this2.objName));
+        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(param, _this2.obj, _this2.objName));
       });
     }
   }]);

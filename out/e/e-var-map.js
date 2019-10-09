@@ -26,7 +26,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var ElementWithMappedVars = require('./../async/ElementWithMappedVars');
+var ElementWithMappedObject = require('./../async/ElementWithMappedObject');
 
 var E = require('./../E');
 
@@ -44,7 +44,7 @@ function (_HTMLElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {
-      new ElementWithMappedVars(this).call();
+      new ElementWithMappedObject(this).call();
     }
   }]);
 

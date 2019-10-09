@@ -1,5 +1,4 @@
-'use strict'; // const ElementWithMappedObject = require('./../util/ElementWithMappedObject')
-// const StringBuffer = require('./../util/StringBuffer')
+'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -27,12 +26,15 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables'); // const StringBuffer = require('./../util/StringBuffer')
+
+
 var E = require('./../E');
 
 E('e-for-each',
 /*#__PURE__*/
-function (_HTMLElement) {
-  _inherits(_class, _HTMLElement);
+function (_HTMLTemplateElement) {
+  _inherits(_class, _HTMLTemplateElement);
 
   function _class() {
     _classCallCheck(this, _class);
@@ -43,7 +45,15 @@ function (_HTMLElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {}
+  }, {
+    key: "activate",
+    value: function activate(obj, objName) {
+      var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value());
+      console.log(list);
+    }
   }]);
 
   return _class;
-}(_wrapNativeSuper(HTMLElement)));
+}(_wrapNativeSuper(HTMLTemplateElement)), {
+  "extends": 'template'
+});
