@@ -31,10 +31,12 @@ function () {
 
         var obj = {};
         obj[objName] = this.obj;
-        return this.mapObjToChildren(this.element, obj, objName);
+        this.mapObjToChildren(this.element, obj, objName);
+      } else {
+        this.mapObjToChildren(this.element);
       }
 
-      return this.mapObjToChildren(this.element);
+      return this.element;
     }
   }, {
     key: "mapObjToChildren",
@@ -54,10 +56,9 @@ function () {
         _this.mapObjToChildren(child, obj, objName);
 
         if (_this.isEForEach(child)) {
-          child.activate(obj, objName);
+          child.activate(obj, _this.objNameAttribute);
         }
       });
-      return element;
     }
   }, {
     key: "mapObjToAttribute",

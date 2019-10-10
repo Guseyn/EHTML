@@ -23,23 +23,42 @@ function () {
   _createClass(StringWithMappedObjectAndAppliedVariables, [{
     key: "value",
     value: function value() {
-      var _this = this;
+      this.str = this.stringWithLocalStorageVariables(this.stringWithSessionStorageVariables(this.stringWithUrlParams(this.str)));
 
-      this.str = this.str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      if (this.obj) {
+        return this.stringWithMappedObject(this.str, this.obj, this.objName);
+      } else {
+        return this.stringWithAppliedVariables(this.str);
+      }
+    }
+  }, {
+    key: "stringWithLocalStorageVariables",
+    value: function stringWithLocalStorageVariables(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return expression;
-      }).replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      });
+    }
+  }, {
+    key: "stringWithSessionStorageVariables",
+    value: function stringWithSessionStorageVariables(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return expression;
-      }).replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      });
+    }
+  }, {
+    key: "stringWithUrlParams",
+    value: function stringWithUrlParams(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         var expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
           // eslint-disable-next-line no-undef, no-eval
           return eval("'urlParams".concat(p1, "'"));
@@ -47,25 +66,26 @@ function () {
 
         return expression;
       });
+    }
+  }, {
+    key: "stringWithMappedObject",
+    value: function stringWithMappedObject(str, obj, objName) {
+      return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
+        var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        "); // eslint-disable-next-line no-eval
 
-      if (this.obj) {
-        return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
-          // eslint-disable-next-line no-unused-vars
-          var obj = _this.obj;
-          var objName = _this.objName;
-          var expression = "\n            const ".concat(objName, " = obj['").concat(objName, "']\n            ").concat(p1, "\n          "); // eslint-disable-next-line no-eval
+        var res = eval(expression);
 
-          var res = eval(expression);
+        if (_typeof(res) === 'object') {
+          return JSON.stringify(res);
+        }
 
-          if (_typeof(res) === 'object') {
-            return JSON.stringify(res);
-          }
-
-          return res;
-        });
-      }
-
-      return this.str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
+        return res;
+      });
+    }
+  }, {
+    key: "stringWithAppliedVariables",
+    value: function stringWithAppliedVariables(str) {
+      return str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
         try {
           // eslint-disable-next-line no-eval
           var res = eval(p1);
