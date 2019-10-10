@@ -34,7 +34,7 @@
       <div class="with-border">
         <span style="text-decoration: underline;" id="click-here">Click here to load users</span>
         <div data-text="${users.length} users have been loaded"></div>
-        <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user" hidden>
+        <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user">
           <hr/>
           <div><b data-text="${user.index}."></b></div>
         </template>

@@ -6524,7 +6524,7 @@ function E(name, ELEMENT, renderImmediately, options) {
 
 module.exports = E;
 
-},{"./util/StringWithMappedObjectAndAppliedVariables":201}],151:[function(require,module,exports){
+},{"./util/StringWithMappedObjectAndAppliedVariables":202}],151:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6545,7 +6545,7 @@ var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objNam
 
 module.exports = AppliedActionsOnResponse;
 
-},{"./../util/BuiltAsyncTreeByParsedActions":191,"./../util/ParsedActions":194,"@cuties/object":85}],152:[function(require,module,exports){
+},{"./../util/BuiltAsyncTreeByParsedActions":191,"./../util/ParsedActions":195,"@cuties/object":85}],152:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -6800,7 +6800,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncElementWithMappedObject;
 
-},{"./../util/ElementWithMappedObject":192,"@page-libs/cutie":131}],157:[function(require,module,exports){
+},{"./../util/ElementWithMappedObject":193,"@page-libs/cutie":131}],157:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -6851,7 +6851,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithMappedVars;
 
-},{"./../util/ElementWithMappedObject":192,"@page-libs/cutie":131}],158:[function(require,module,exports){
+},{"./../util/ElementWithMappedObject":193,"@page-libs/cutie":131}],158:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7317,7 +7317,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncParsedElmSelectors;
 
-},{"./../util/ParsedElmSelectors":195,"@page-libs/cutie":131}],167:[function(require,module,exports){
+},{"./../util/ParsedElmSelectors":196,"@page-libs/cutie":131}],167:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7681,7 +7681,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithMappedObjectAndAppliedVariables;
 
-},{"./../util/StringWithMappedObjectAndAppliedVariables":201,"@page-libs/cutie":131}],174:[function(require,module,exports){
+},{"./../util/StringWithMappedObjectAndAppliedVariables":202,"@page-libs/cutie":131}],174:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -7899,8 +7899,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables'); // const StringBuffer = require('./../util/StringBuffer')
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
 
+var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
+
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
 
 var E = require('./../E');
 
@@ -7920,9 +7923,24 @@ function (_HTMLTemplateElement) {
     value: function onRender() {}
   }, {
     key: "activate",
-    value: function activate(obj, objName) {
-      var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value());
-      console.log(list);
+    value: function activate(obj, objName, objNameAttribute) {
+      var _this = this;
+
+      var st = new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value();
+      console.log(st);
+      var list = JSON.parse(st);
+      var fragment = new DocumentFragmentWithAttributes();
+      list.forEach(function (item, index) {
+        item.index = index;
+
+        var content = _this.content.cloneNode(true);
+
+        var itemFragmentAttributes = _this.attributes;
+        itemFragmentAttributes[objNameAttribute] = objName;
+        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
+        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj, objNameAttribute).value());
+      });
+      this.parentNode.replaceChild(fragment, this);
     }
   }]);
 
@@ -7931,7 +7949,7 @@ function (_HTMLTemplateElement) {
   "extends": 'template'
 });
 
-},{"./../E":150,"./../util/StringWithMappedObjectAndAppliedVariables":201}],179:[function(require,module,exports){
+},{"./../E":150,"./../util/DocumentFragmentWithAttributes":192,"./../util/ElementWithMappedObject":193,"./../util/StringWithMappedObjectAndAppliedVariables":202}],179:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8212,7 +8230,7 @@ function (_HTMLFormElement) {
   "extends": 'form'
 });
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":160,"./../util/FileInfo":193,"./../util/ParsedElmSelectors":195,"./../util/PreparedProgressBars":196,"./../util/ShowFileReaderEndEvent":197,"./../util/ShowFileReaderProgressEvent":198,"./../util/ShowProgressEvent":199,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],180:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../async/EnabledElements":160,"./../util/FileInfo":194,"./../util/ParsedElmSelectors":196,"./../util/PreparedProgressBars":197,"./../util/ShowFileReaderEndEvent":198,"./../util/ShowFileReaderProgressEvent":199,"./../util/ShowProgressEvent":200,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],180:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8488,7 +8506,7 @@ function (_HTMLElement) {
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":195,"./../util/PreparedProgressBars":196,"./../util/ShowProgressEvent":199,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],183:[function(require,module,exports){
+},{"./../E":150,"./../async/AppliedActionsOnResponse":151,"./../util/ParsedElmSelectors":196,"./../util/PreparedProgressBars":197,"./../util/ShowProgressEvent":200,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],183:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9213,6 +9231,51 @@ module.exports = BuiltAsyncTreeByParsedActions;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var DocumentFragmentWithAttributes = function DocumentFragmentWithAttributes(fragment, attributes) {
+  _classCallCheck(this, DocumentFragmentWithAttributes);
+
+  fragment = fragment || document.createDocumentFragment();
+  fragment.attributes = attributes || [];
+
+  fragment.setAttribute = function (name, value) {
+    var isSet = false;
+
+    for (var i = 0; i < fragment.attributes.length; i++) {
+      if (fragment.attributes[i].name === name) {
+        fragment.attributes[i].value = value;
+        isSet = true;
+        break;
+      }
+    }
+
+    if (!isSet) {
+      fragment.attributes.push({
+        name: name,
+        value: value
+      });
+    }
+  };
+
+  fragment.getAttribute = function (name) {
+    for (var i = 0; i < fragment.attributes.length; i++) {
+      if (fragment.attributes[i].name === name) {
+        return fragment.attributes[i].value;
+      }
+    }
+
+    return null;
+  };
+
+  return fragment;
+};
+
+module.exports = DocumentFragmentWithAttributes;
+
+},{}],193:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
@@ -9242,10 +9305,12 @@ function () {
 
         var obj = {};
         obj[objName] = this.obj;
-        return this.mapObjToChildren(this.element, obj, objName);
+        this.mapObjToChildren(this.element, obj, objName);
+      } else {
+        this.mapObjToChildren(this.element);
       }
 
-      return this.mapObjToChildren(this.element);
+      return this.element;
     }
   }, {
     key: "mapObjToChildren",
@@ -9265,10 +9330,9 @@ function () {
         _this.mapObjToChildren(child, obj, objName);
 
         if (_this.isEForEach(child)) {
-          child.activate(obj, objName);
+          child.activate(obj, _this.objNameAttribute);
         }
       });
-      return element;
     }
   }, {
     key: "mapObjToAttribute",
@@ -9333,7 +9397,7 @@ function () {
 
 module.exports = ElementWithMappedObject;
 
-},{"./../util/StringWithMappedObjectAndAppliedVariables":201}],193:[function(require,module,exports){
+},{"./../util/StringWithMappedObjectAndAppliedVariables":202}],194:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9350,7 +9414,7 @@ var FileInfo = function FileInfo(name, size, type, content, lastModifiedDate) {
 
 module.exports = FileInfo;
 
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9455,7 +9519,7 @@ function () {
 
 module.exports = ParsedActions;
 
-},{"./../async/EmptyAsyncObject":159,"./../async/ParsedJSONOrString":167,"./../async/StringWithMappedObjectAndAppliedVariables":173,"./ActionByNameWithParams":190}],195:[function(require,module,exports){
+},{"./../async/EmptyAsyncObject":159,"./../async/ParsedJSONOrString":167,"./../async/StringWithMappedObjectAndAppliedVariables":173,"./ActionByNameWithParams":190}],196:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9509,7 +9573,7 @@ function () {
 
 module.exports = ParsedElmSelectors;
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9548,7 +9612,7 @@ function () {
 
 module.exports = PreparedProgressBars;
 
-},{}],197:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9573,7 +9637,7 @@ var ShowFileReaderEndEvent = function ShowFileReaderEndEvent(progressBar, filesR
 
 module.exports = ShowFileReaderEndEvent;
 
-},{}],198:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9596,7 +9660,7 @@ var ShowFileReaderProgressEvent = function ShowFileReaderProgressEvent(progressB
 
 module.exports = ShowFileReaderProgressEvent;
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9623,7 +9687,7 @@ var ShowProgressEvent = function ShowProgressEvent(progressBar) {
 
 module.exports = ShowProgressEvent;
 
-},{}],200:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9658,7 +9722,7 @@ function () {
 
 module.exports = StringBuffer;
 
-},{}],201:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 "use strict";
 'use string';
 
@@ -9684,23 +9748,42 @@ function () {
   _createClass(StringWithMappedObjectAndAppliedVariables, [{
     key: "value",
     value: function value() {
-      var _this = this;
+      this.str = this.stringWithLocalStorageVariables(this.stringWithSessionStorageVariables(this.stringWithUrlParams(this.str)));
 
-      this.str = this.str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      if (this.obj) {
+        return this.stringWithMappedObject(this.str, this.obj, this.objName);
+      } else {
+        return this.stringWithAppliedVariables(this.str);
+      }
+    }
+  }, {
+    key: "stringWithLocalStorageVariables",
+    value: function stringWithLocalStorageVariables(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return expression;
-      }).replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      });
+    }
+  }, {
+    key: "stringWithSessionStorageVariables",
+    value: function stringWithSessionStorageVariables(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
         }); // eslint-disable-next-line no-eval
 
         return expression;
-      }).replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      });
+    }
+  }, {
+    key: "stringWithUrlParams",
+    value: function stringWithUrlParams(str) {
+      return str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         var expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
           // eslint-disable-next-line no-undef, no-eval
           return eval("'urlParams".concat(p1, "'"));
@@ -9708,25 +9791,26 @@ function () {
 
         return expression;
       });
+    }
+  }, {
+    key: "stringWithMappedObject",
+    value: function stringWithMappedObject(str, obj, objName) {
+      return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
+        var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        "); // eslint-disable-next-line no-eval
 
-      if (this.obj) {
-        return this.str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(this.objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
-          // eslint-disable-next-line no-unused-vars
-          var obj = _this.obj;
-          var objName = _this.objName;
-          var expression = "\n            const ".concat(objName, " = obj['").concat(objName, "']\n            ").concat(p1, "\n          "); // eslint-disable-next-line no-eval
+        var res = eval(expression);
 
-          var res = eval(expression);
+        if (_typeof(res) === 'object') {
+          return JSON.stringify(res);
+        }
 
-          if (_typeof(res) === 'object') {
-            return JSON.stringify(res);
-          }
-
-          return res;
-        });
-      }
-
-      return this.str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
+        return res;
+      });
+    }
+  }, {
+    key: "stringWithAppliedVariables",
+    value: function stringWithAppliedVariables(str) {
+      return str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
         try {
           // eslint-disable-next-line no-eval
           var res = eval(p1);
@@ -9748,4 +9832,4 @@ function () {
 
 module.exports = StringWithMappedObjectAndAppliedVariables;
 
-},{}]},{},[151,152,153,154,158,155,156,157,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,150,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201]);
+},{}]},{},[151,152,153,154,158,155,156,157,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,150,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202]);

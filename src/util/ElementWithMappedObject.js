@@ -17,9 +17,11 @@ class ElementWithMappedObject {
       }
       const obj = { }
       obj[objName] = this.obj
-      return this.mapObjToChildren(this.element, obj, objName)
+      this.mapObjToChildren(this.element, obj, objName)
+    } else {
+      this.mapObjToChildren(this.element)
     }
-    return this.mapObjToChildren(this.element)
+    return this.element
   }
 
   mapObjToChildren (element, obj, objName) {
@@ -35,10 +37,9 @@ class ElementWithMappedObject {
       }
       this.mapObjToChildren(child, obj, objName)
       if (this.isEForEach(child)) {
-        child.activate(obj, objName)
+        child.activate(obj, this.objNameAttribute)
       }
     })
-    return element
   }
 
   mapObjToAttribute (child, attrName, attrValue, obj, objName) {

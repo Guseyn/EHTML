@@ -26,8 +26,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables'); // const StringBuffer = require('./../util/StringBuffer')
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
 
+var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
+
+var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
 
 var E = require('./../E');
 
@@ -47,9 +50,24 @@ function (_HTMLTemplateElement) {
     value: function onRender() {}
   }, {
     key: "activate",
-    value: function activate(obj, objName) {
-      var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value());
-      console.log(list);
+    value: function activate(obj, objName, objNameAttribute) {
+      var _this = this;
+
+      var st = new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value();
+      console.log(st);
+      var list = JSON.parse(st);
+      var fragment = new DocumentFragmentWithAttributes();
+      list.forEach(function (item, index) {
+        item.index = index;
+
+        var content = _this.content.cloneNode(true);
+
+        var itemFragmentAttributes = _this.attributes;
+        itemFragmentAttributes[objNameAttribute] = objName;
+        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
+        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj, objNameAttribute).value());
+      });
+      this.parentNode.replaceChild(fragment, this);
     }
   }]);
 
