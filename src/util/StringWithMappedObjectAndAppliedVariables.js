@@ -16,10 +16,10 @@ class StringWithMappedObjectAndAppliedVariables {
       )
     )
     if (this.obj) {
-      return this.stringWithMappedObject(this.str, this.obj, this.objName)
-    } else {
-      return this.stringWithAppliedVariables(this.str)
+      this.str = this.stringWithMappedObject(this.str, this.obj, this.objName)
+      return this.str
     }
+    return this.evalString(this.str)
   }
 
   stringWithLocalStorageVariables (str) {
@@ -55,6 +55,7 @@ class StringWithMappedObjectAndAppliedVariables {
     })
   }
 
+  // TODO: just replacing obj[name] in first match
   stringWithMappedObject (str, obj, objName) {
     return str.replace(
       new RegExp(
@@ -75,7 +76,7 @@ class StringWithMappedObjectAndAppliedVariables {
     )
   }
 
-  stringWithAppliedVariables (str) {
+  evalString (str) {
     return str.replace(/\$\{([^{}\s]+)\}/g, (match, p1) => {
       try {
         // eslint-disable-next-line no-eval

@@ -26,10 +26,11 @@ function () {
       this.str = this.stringWithLocalStorageVariables(this.stringWithSessionStorageVariables(this.stringWithUrlParams(this.str)));
 
       if (this.obj) {
-        return this.stringWithMappedObject(this.str, this.obj, this.objName);
-      } else {
-        return this.stringWithAppliedVariables(this.str);
+        this.str = this.stringWithMappedObject(this.str, this.obj, this.objName);
+        return this.str;
       }
+
+      return this.evalString(this.str);
     }
   }, {
     key: "stringWithLocalStorageVariables",
@@ -83,8 +84,8 @@ function () {
       });
     }
   }, {
-    key: "stringWithAppliedVariables",
-    value: function stringWithAppliedVariables(str) {
+    key: "evalString",
+    value: function evalString(str) {
       return str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
         try {
           // eslint-disable-next-line no-eval

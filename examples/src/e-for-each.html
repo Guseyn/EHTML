@@ -36,7 +36,19 @@
         <div data-text="${users.length} users have been loaded"></div>
         <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user">
           <hr/>
-          <div><b data-text="${user.index}."></b></div>
+          <div>
+            <b data-text="${user.index}/${users.length}. Info of user with id ${user.id}:"></b>
+          </div>
+          <div data-text="name: ${user.name}"></div>
+          <div data-text="email: ${user.email}"></div>
+          <div>
+            <i data-text="user has ${user.connections.length} connections:"></i>
+          </div>
+          <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
+            <div>
+              <i data-text="${connection.index}/${user.connections.length}/${connection.index}. (user id is ${user.id})"></i>
+            </div>
+          </template>
         </template>
       </div>
     </e-json>
