@@ -1,6 +1,7 @@
 'use strict'
 
 const StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables')
+const DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes')
 
 class ElementWithMappedObject {
   constructor (element, obj, objNameAttribute) {
@@ -37,7 +38,7 @@ class ElementWithMappedObject {
       }
       this.mapObjToChildren(child, obj, objName)
       if (this.isEForEach(child)) {
-        child.activate(obj, this.objNameAttribute)
+        this.activateEForEach(child, obj, objName, this.objNameAttribute)
       }
     })
   }
@@ -87,16 +88,56 @@ class ElementWithMappedObject {
     )
   }
 
-  isEForEach (element) {
-    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each'
-  }
-
   isForApplying (attrName) {
     const attributesForNotApplying = [
       'data-actions-on-response',
       'data-list-to-iterate'
     ]
     return attributesForNotApplying.indexOf(attrName) === -1
+  }
+
+  isEForEach (element) {
+    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each'
+  }
+
+  activateEForEach (element, obj, objName, objNameAttribute) {
+    const list = JSON.parse(
+      new StringWithMappedObjectAndAppliedVariables(
+        element.getAttribute('data-list-to-iterate'), obj, objName
+      ).value()
+    )
+    const fragment = new DocumentFragmentWithAttributes()
+    list.forEach((item, index) => {
+      item.index = index + 1
+      const content = element.content.cloneNode(true)
+      const itemFragmentAttributes = this.itemFragmentAttributesForEForEach(element, objNameAttribute, objName)
+      const itemFragment = new DocumentFragmentWithAttributes(
+        content, itemFragmentAttributes
+      )
+      fragment.appendChild(
+        new ElementWithMappedObject(
+          new ElementWithMappedObject(
+            itemFragment, item, 'data-item-name'
+          ).value(), obj[objName], objNameAttribute
+        ).value()
+      )
+    })
+    element.parentNode.replaceChild(fragment, element)
+  }
+
+  itemFragmentAttributesForEForEach (element, objNameAttribute, objName) {
+    const attrs = []
+    for (let i = 0; i < element.attributes.length; i++) {
+      attrs.push({
+        name: element.attributes[i].name,
+        value: element.attributes[i].value
+      })
+    }
+    attrs.push({
+      name: objNameAttribute,
+      value: objName
+    })
+    return attrs
   }
 }
 

@@ -7899,12 +7899,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
-
-var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
-
-var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
-
 var E = require('./../E');
 
 E('e-for-each',
@@ -7921,27 +7915,6 @@ function (_HTMLTemplateElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {}
-  }, {
-    key: "activate",
-    value: function activate(obj, objName, objNameAttribute) {
-      var _this = this;
-
-      var st = new StringWithMappedObjectAndAppliedVariables(this.getAttribute('data-list-to-iterate'), obj, objName).value();
-      console.log(st);
-      var list = JSON.parse(st);
-      var fragment = new DocumentFragmentWithAttributes();
-      list.forEach(function (item, index) {
-        item.index = index;
-
-        var content = _this.content.cloneNode(true);
-
-        var itemFragmentAttributes = _this.attributes;
-        itemFragmentAttributes[objNameAttribute] = objName;
-        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
-        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj, objNameAttribute).value());
-      });
-      this.parentNode.replaceChild(fragment, this);
-    }
   }]);
 
   return _class;
@@ -7949,7 +7922,7 @@ function (_HTMLTemplateElement) {
   "extends": 'template'
 });
 
-},{"./../E":150,"./../util/DocumentFragmentWithAttributes":192,"./../util/ElementWithMappedObject":193,"./../util/StringWithMappedObjectAndAppliedVariables":202}],179:[function(require,module,exports){
+},{"./../E":150}],179:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9282,6 +9255,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
 
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
+
 var ElementWithMappedObject =
 /*#__PURE__*/
 function () {
@@ -9330,7 +9305,7 @@ function () {
         _this.mapObjToChildren(child, obj, objName);
 
         if (_this.isEForEach(child)) {
-          child.activate(obj, _this.objNameAttribute);
+          _this.activateEForEach(child, obj, objName, _this.objNameAttribute);
         }
       });
     }
@@ -9380,15 +9355,51 @@ function () {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }, {
+    key: "isForApplying",
+    value: function isForApplying(attrName) {
+      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
+      return attributesForNotApplying.indexOf(attrName) === -1;
+    }
+  }, {
     key: "isEForEach",
     value: function isEForEach(element) {
       return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each';
     }
   }, {
-    key: "isForApplying",
-    value: function isForApplying(attrName) {
-      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
-      return attributesForNotApplying.indexOf(attrName) === -1;
+    key: "activateEForEach",
+    value: function activateEForEach(element, obj, objName, objNameAttribute) {
+      var _this2 = this;
+
+      var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(element.getAttribute('data-list-to-iterate'), obj, objName).value());
+      var fragment = new DocumentFragmentWithAttributes();
+      list.forEach(function (item, index) {
+        item.index = index + 1;
+        var content = element.content.cloneNode(true);
+
+        var itemFragmentAttributes = _this2.itemFragmentAttributesForEForEach(element, objNameAttribute, objName);
+
+        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
+        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj[objName], objNameAttribute).value());
+      });
+      element.parentNode.replaceChild(fragment, element);
+    }
+  }, {
+    key: "itemFragmentAttributesForEForEach",
+    value: function itemFragmentAttributesForEForEach(element, objNameAttribute, objName) {
+      var attrs = [];
+
+      for (var i = 0; i < element.attributes.length; i++) {
+        attrs.push({
+          name: element.attributes[i].name,
+          value: element.attributes[i].value
+        });
+      }
+
+      attrs.push({
+        name: objNameAttribute,
+        value: objName
+      });
+      return attrs;
     }
   }]);
 
@@ -9397,7 +9408,7 @@ function () {
 
 module.exports = ElementWithMappedObject;
 
-},{"./../util/StringWithMappedObjectAndAppliedVariables":202}],194:[function(require,module,exports){
+},{"./../util/DocumentFragmentWithAttributes":192,"./../util/StringWithMappedObjectAndAppliedVariables":202}],194:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9751,10 +9762,11 @@ function () {
       this.str = this.stringWithLocalStorageVariables(this.stringWithSessionStorageVariables(this.stringWithUrlParams(this.str)));
 
       if (this.obj) {
-        return this.stringWithMappedObject(this.str, this.obj, this.objName);
-      } else {
-        return this.stringWithAppliedVariables(this.str);
+        this.str = this.stringWithMappedObject(this.str, this.obj, this.objName);
+        return this.str;
       }
+
+      return this.evalString(this.str);
     }
   }, {
     key: "stringWithLocalStorageVariables",
@@ -9808,8 +9820,8 @@ function () {
       });
     }
   }, {
-    key: "stringWithAppliedVariables",
-    value: function stringWithAppliedVariables(str) {
+    key: "evalString",
+    value: function evalString(str) {
       return str.replace(/\$\{([^{}\s]+)\}/g, function (match, p1) {
         try {
           // eslint-disable-next-line no-eval

@@ -8,6 +8,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var StringWithMappedObjectAndAppliedVariables = require('./../util/StringWithMappedObjectAndAppliedVariables');
 
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
+
 var ElementWithMappedObject =
 /*#__PURE__*/
 function () {
@@ -56,7 +58,7 @@ function () {
         _this.mapObjToChildren(child, obj, objName);
 
         if (_this.isEForEach(child)) {
-          child.activate(obj, _this.objNameAttribute);
+          _this.activateEForEach(child, obj, objName, _this.objNameAttribute);
         }
       });
     }
@@ -106,15 +108,51 @@ function () {
       return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
     }
   }, {
+    key: "isForApplying",
+    value: function isForApplying(attrName) {
+      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
+      return attributesForNotApplying.indexOf(attrName) === -1;
+    }
+  }, {
     key: "isEForEach",
     value: function isEForEach(element) {
       return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each';
     }
   }, {
-    key: "isForApplying",
-    value: function isForApplying(attrName) {
-      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
-      return attributesForNotApplying.indexOf(attrName) === -1;
+    key: "activateEForEach",
+    value: function activateEForEach(element, obj, objName, objNameAttribute) {
+      var _this2 = this;
+
+      var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(element.getAttribute('data-list-to-iterate'), obj, objName).value());
+      var fragment = new DocumentFragmentWithAttributes();
+      list.forEach(function (item, index) {
+        item.index = index + 1;
+        var content = element.content.cloneNode(true);
+
+        var itemFragmentAttributes = _this2.itemFragmentAttributesForEForEach(element, objNameAttribute, objName);
+
+        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
+        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj[objName], objNameAttribute).value());
+      });
+      element.parentNode.replaceChild(fragment, element);
+    }
+  }, {
+    key: "itemFragmentAttributesForEForEach",
+    value: function itemFragmentAttributesForEForEach(element, objNameAttribute, objName) {
+      var attrs = [];
+
+      for (var i = 0; i < element.attributes.length; i++) {
+        attrs.push({
+          name: element.attributes[i].name,
+          value: element.attributes[i].value
+        });
+      }
+
+      attrs.push({
+        name: objNameAttribute,
+        value: objName
+      });
+      return attrs;
     }
   }]);
 
