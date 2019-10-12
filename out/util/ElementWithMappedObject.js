@@ -110,7 +110,8 @@ function () {
   }, {
     key: "isForApplying",
     value: function isForApplying(attrName) {
-      var attributesForNotApplying = ['data-actions-on-response', 'data-list-to-iterate'];
+      var attributesForNotApplying = [// 'data-actions-on-response',
+      'data-list-to-iterate'];
       return attributesForNotApplying.indexOf(attrName) === -1;
     }
   }, {
@@ -124,17 +125,16 @@ function () {
       var _this2 = this;
 
       var list = JSON.parse(new StringWithMappedObjectAndAppliedVariables(element.getAttribute('data-list-to-iterate'), obj, objName).value());
-      var fragment = new DocumentFragmentWithAttributes();
+      var fragment = new DocumentFragmentWithAttributes(document.createDocumentFragment(), [{
+        name: objNameAttribute,
+        value: objName
+      }]);
       list.forEach(function (item, index) {
         item.index = index + 1;
-        var content = element.content.cloneNode(true);
-
-        var itemFragmentAttributes = _this2.itemFragmentAttributesForEForEach(element, objNameAttribute, objName);
-
-        var itemFragment = new DocumentFragmentWithAttributes(content, itemFragmentAttributes);
-        fragment.appendChild(new ElementWithMappedObject(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value(), obj[objName], objNameAttribute).value());
+        var itemFragment = new DocumentFragmentWithAttributes(element.content.cloneNode(true), _this2.itemFragmentAttributesForEForEach(element, objNameAttribute, objName));
+        fragment.appendChild(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value());
       });
-      element.parentNode.replaceChild(fragment, element);
+      element.parentNode.replaceChild(new ElementWithMappedObject(fragment, obj[objName], objNameAttribute).value(), element);
     }
   }, {
     key: "itemFragmentAttributesForEForEach",
