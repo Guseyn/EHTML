@@ -39,6 +39,17 @@
           <div>
             <b data-text="${user.index}/${users.length}. Info of user with id ${user.id}:"></b>
           </div>
+          <e-json
+            id="block-user-${user.id}"
+            data-src="/../user?id=${user.id}"
+            data-response-object-name="innerUser"
+            data-actions-on-response="
+              mapObjToElm('${innerUser}', '#block-user-${user.id}');
+              hideElms('#click-here')
+            "
+          >
+            <div data-text="inner id: ${innerUser.id}"></div>
+          </e-json>
           <div data-text="name: ${user.name}"></div>
           <div data-text="email: ${user.email}"></div>
           <div>
@@ -46,7 +57,8 @@
           </div>
           <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
             <div>
-              <i data-text="${connection.index}/${user.connections.length}/${connection.index}. (user id is ${user.id})"></i>
+              <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
+              <i data-test="is last connection: ${${connection.index} === ${user.connections.length}}"></i>
             </div>
           </template>
         </template>

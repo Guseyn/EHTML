@@ -90,7 +90,7 @@ class ElementWithMappedObject {
 
   isForApplying (attrName) {
     const attributesForNotApplying = [
-      'data-actions-on-response',
+      // 'data-actions-on-response',
       'data-list-to-iterate'
     ]
     return attributesForNotApplying.indexOf(attrName) === -1
@@ -106,23 +106,33 @@ class ElementWithMappedObject {
         element.getAttribute('data-list-to-iterate'), obj, objName
       ).value()
     )
-    const fragment = new DocumentFragmentWithAttributes()
+    const fragment = new DocumentFragmentWithAttributes(
+      document.createDocumentFragment(),
+      [{
+        name: objNameAttribute,
+        value: objName
+      }]
+    )
     list.forEach((item, index) => {
       item.index = index + 1
-      const content = element.content.cloneNode(true)
-      const itemFragmentAttributes = this.itemFragmentAttributesForEForEach(element, objNameAttribute, objName)
       const itemFragment = new DocumentFragmentWithAttributes(
-        content, itemFragmentAttributes
+        element.content.cloneNode(true),
+        this.itemFragmentAttributesForEForEach(
+          element, objNameAttribute, objName
+        )
       )
       fragment.appendChild(
         new ElementWithMappedObject(
-          new ElementWithMappedObject(
-            itemFragment, item, 'data-item-name'
-          ).value(), obj[objName], objNameAttribute
+          itemFragment, item, 'data-item-name'
         ).value()
       )
     })
-    element.parentNode.replaceChild(fragment, element)
+    element.parentNode.replaceChild(
+      new ElementWithMappedObject(
+        fragment, obj[objName], objNameAttribute
+      ).value(),
+      element
+    )
   }
 
   itemFragmentAttributesForEForEach (element, objNameAttribute, objName) {
