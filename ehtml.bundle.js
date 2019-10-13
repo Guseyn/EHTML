@@ -9357,8 +9357,7 @@ function () {
   }, {
     key: "isForApplying",
     value: function isForApplying(attrName) {
-      var attributesForNotApplying = [// 'data-actions-on-response',
-      'data-list-to-iterate'];
+      var attributesForNotApplying = ['data-list-to-iterate'];
       return attributesForNotApplying.indexOf(attrName) === -1;
     }
   }, {
