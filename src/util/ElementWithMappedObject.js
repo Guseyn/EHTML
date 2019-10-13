@@ -90,7 +90,6 @@ class ElementWithMappedObject {
 
   isForApplying (attrName) {
     const attributesForNotApplying = [
-      // 'data-actions-on-response',
       'data-list-to-iterate'
     ]
     return attributesForNotApplying.indexOf(attrName) === -1
