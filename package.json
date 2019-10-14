@@ -45,7 +45,8 @@
     "@page-libs/ajax": "^1.1.8",
     "@page-libs/cutie": "^1.1.3",
     "@page-libs/dom": "^1.1.5",
-    "test-executor": "^1.2.4"
+    "test-executor": "^1.2.4",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
