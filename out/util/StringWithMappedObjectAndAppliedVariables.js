@@ -9,6 +9,62 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var MappedStringsStorage =
+/*#__PURE__*/
+function () {
+  function MappedStringsStorage(match, obj, objName) {
+    _classCallCheck(this, MappedStringsStorage);
+
+    this.match = match;
+    this.obj = obj;
+    this.objName = objName;
+    window.mappedStrings = window.mappedStrings || [
+      /* { id, mathch, objects[{objName: obj}] } */
+    ];
+  }
+
+  _createClass(MappedStringsStorage, [{
+    key: "initializations",
+    value: function initializations() {
+      var foundMatchIndex = 0;
+
+      for (var index = 0; index < window.mappedStrings.length; index++) {
+        if (window.mappedStrings[index].match === this.match) {
+          foundMatchIndex = index;
+          break;
+        }
+      }
+
+      var curObj = {};
+      curObj[this.objName] = this.obj;
+
+      if (!window.mappedStrings[foundMatchIndex]) {
+        window.mappedStrings[foundMatchIndex] = {
+          match: this.match,
+          objects: []
+        };
+      }
+
+      window.mappedStrings[foundMatchIndex].objects.push(curObj);
+      var initializations = '';
+      var usedNames = [];
+
+      for (var _index = 0; _index < window.mappedStrings[foundMatchIndex].objects.length; _index++) {
+        var name = Object.keys(window.mappedStrings[foundMatchIndex].objects[_index])[0];
+
+        if (usedNames.indexOf(name) === -1) {
+          initializations += "\n          const ".concat(name, " = window.mappedStrings[").concat(foundMatchIndex, "].objects[").concat(_index, "].").concat(name, ".").concat(name, "\n        ");
+          usedNames.push(name);
+        }
+      }
+
+      return initializations;
+    }
+  }]);
+
+  return MappedStringsStorage;
+}();
+
 var StringWithMappedObjectAndAppliedVariables =
 /*#__PURE__*/
 function () {
@@ -73,15 +129,21 @@ function () {
     key: "stringWithMappedObject",
     value: function stringWithMappedObject(str, obj, objName) {
       return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1) {
-        var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        "); // eslint-disable-next-line no-eval
+        var initializations = new MappedStringsStorage(match, obj, objName).initializations();
+        var expression = "\n          ".concat(initializations, "\n          ").concat(p1, "\n        ");
 
-        var res = eval(expression);
+        try {
+          // eslint-disable-next-line no-eval
+          var res = eval(expression);
 
-        if (_typeof(res) === 'object') {
-          return JSON.stringify(res);
+          if (_typeof(res) === 'object') {
+            return JSON.stringify(res);
+          }
+
+          return res;
+        } catch (error) {
+          return match;
         }
-
-        return res;
       });
     }
   }, {

@@ -1,5 +1,42 @@
 'use string'
 
+class MappedStringsStorage {
+  constructor (match, obj, objName) {
+    this.match = match
+    this.obj = obj
+    this.objName = objName
+    window.mappedStrings = window.mappedStrings || [/* { id, mathch, objects[{objName: obj}] } */]
+  }
+
+  initializations () {
+    let foundMatchIndex = 0
+    for (let index = 0; index < window.mappedStrings.length; index++) {
+      if (window.mappedStrings[index].match === this.match) {
+        foundMatchIndex = index
+        break
+      }
+    }
+    const curObj = {}
+    curObj[this.objName] = this.obj
+    if (!window.mappedStrings[foundMatchIndex]) {
+      window.mappedStrings[foundMatchIndex] = { match: this.match, objects: [] }
+    }
+    window.mappedStrings[foundMatchIndex].objects.push(curObj)
+    let initializations = ''
+    const usedNames = []
+    for (let index = 0; index < window.mappedStrings[foundMatchIndex].objects.length; index++) {
+      const name = Object.keys(window.mappedStrings[foundMatchIndex].objects[index])[0]
+      if (usedNames.indexOf(name) === -1) {
+        initializations += `
+          const ${name} = window.mappedStrings[${foundMatchIndex}].objects[${index}].${name}.${name}
+        `
+        usedNames.push(name)
+      }
+    }
+    return initializations
+  }
+}
+
 class StringWithMappedObjectAndAppliedVariables {
   constructor (str, obj, objName) {
     this.str = str
@@ -62,16 +99,23 @@ class StringWithMappedObjectAndAppliedVariables {
         `\\$\{((\\s)?([^{}$]+\\s)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
       ),
       (match, p1) => {
+        const initializations = new MappedStringsStorage(
+          match, obj, objName
+        ).initializations()
         const expression = `
-          const ${objName} = obj['${objName}']
+          ${initializations}
           ${p1}
         `
-        // eslint-disable-next-line no-eval
-        const res = eval(expression)
-        if (typeof res === 'object') {
-          return JSON.stringify(res)
+        try {
+          // eslint-disable-next-line no-eval
+          const res = eval(expression)
+          if (typeof res === 'object') {
+            return JSON.stringify(res)
+          }
+          return res
+        } catch (error) {
+          return match
         }
-        return res
       }
     )
   }
