@@ -67,9 +67,6 @@ class StringWithMappedObjectAndAppliedVariables {
           const ${objName} = obj['${objName}']
           ${p1}
         `
-        if (objName === 'user') {
-          console.log(match)
-        }
         try {
           // eslint-disable-next-line no-eval
           const res = eval(expression)

@@ -83,7 +83,7 @@ class ElementWithMappedObject {
   }
 
   hasParamsInAttributeToApply (element, attrName) {
-    return /\$\{([^{}\s]+)\}/g.test(
+    return /\$\{([^${}]+)\}/g.test(
       element.getAttribute(attrName)
     )
   }

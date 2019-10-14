@@ -72,7 +72,7 @@
             <div>
               <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
               <br/>
-              <i data-a="is last connection: ${connection.index === user.connections.length}" data-text="is last connection: ${connection.index === user.connections.length}"></i>
+              <i data-test="is last connection: ${(connection.index === user.connections.length)}" data-text="is last connection: ${connection.index === user.connections.length}"></i>
             </div>
           </template>
         </template>
