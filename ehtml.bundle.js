@@ -9846,8 +9846,7 @@ function () {
 
         return expression;
       });
-    } // TODO: just replacing obj[name] in first match
-
+    }
   }, {
     key: "stringWithMappedObject",
     value: function stringWithMappedObject(str, obj, objName) {

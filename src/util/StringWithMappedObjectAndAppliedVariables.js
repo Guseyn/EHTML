@@ -78,7 +78,7 @@ class StringWithMappedObjectAndAppliedVariables {
           }
           return res
         } catch (error) {
-          const res =  match.replace(p4, () => {
+          const res = match.replace(p4, () => {
             const name = uuidv4()
             window[name] = obj[objName]
             return `window['${name}']`
