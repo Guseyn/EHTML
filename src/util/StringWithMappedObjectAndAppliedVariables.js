@@ -1,41 +1,6 @@
 'use string'
 
-class MappedStringsStorage {
-  constructor (match, obj, objName) {
-    this.match = match
-    this.obj = obj
-    this.objName = objName
-    window.mappedStrings = window.mappedStrings || [/* { id, mathch, objects[{objName: obj}] } */]
-  }
-
-  initializations () {
-    let foundMatchIndex = 0
-    for (let index = 0; index < window.mappedStrings.length; index++) {
-      if (window.mappedStrings[index].match === this.match) {
-        foundMatchIndex = index
-        break
-      }
-    }
-    const curObj = {}
-    curObj[this.objName] = this.obj
-    if (!window.mappedStrings[foundMatchIndex]) {
-      window.mappedStrings[foundMatchIndex] = { match: this.match, objects: [] }
-    }
-    window.mappedStrings[foundMatchIndex].objects.push(curObj)
-    let initializations = ''
-    const usedNames = []
-    for (let index = 0; index < window.mappedStrings[foundMatchIndex].objects.length; index++) {
-      const name = Object.keys(window.mappedStrings[foundMatchIndex].objects[index])[0]
-      if (usedNames.indexOf(name) === -1) {
-        initializations += `
-          const ${name} = window.mappedStrings[${foundMatchIndex}].objects[${index}].${name}.${name}
-        `
-        usedNames.push(name)
-      }
-    }
-    return initializations
-  }
-}
+const uuidv4 = require('uuid/v4')
 
 class StringWithMappedObjectAndAppliedVariables {
   constructor (str, obj, objName) {
@@ -92,20 +57,19 @@ class StringWithMappedObjectAndAppliedVariables {
     })
   }
 
-  // TODO: just replacing obj[name] in first match
   stringWithMappedObject (str, obj, objName) {
     return str.replace(
       new RegExp(
         `\\$\{((\\s)?([^{}$]+\\s)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
       ),
-      (match, p1) => {
-        const initializations = new MappedStringsStorage(
-          match, obj, objName
-        ).initializations()
+      (match, p1, p2, p3, p4) => {
         const expression = `
-          ${initializations}
+          const ${objName} = obj['${objName}']
           ${p1}
         `
+        if (objName === 'user') {
+          console.log(match)
+        }
         try {
           // eslint-disable-next-line no-eval
           const res = eval(expression)
@@ -114,7 +78,12 @@ class StringWithMappedObjectAndAppliedVariables {
           }
           return res
         } catch (error) {
-          return match
+          const res =  match.replace(p4, () => {
+            const name = uuidv4()
+            window[name] = obj[objName]
+            return `window['${name}']`
+          })
+          return res
         }
       }
     )
