@@ -76,10 +76,6 @@ function () {
       return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1, p2, p3, p4) {
         var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        ");
 
-        if (objName === 'user') {
-          console.log(match);
-        }
-
         try {
           // eslint-disable-next-line no-eval
           var res = eval(expression);

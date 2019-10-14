@@ -105,7 +105,7 @@ function () {
   }, {
     key: "hasParamsInAttributeToApply",
     value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^{}\s]+)\}/g.test(element.getAttribute(attrName));
+      return /\$\{([^${}]+)\}/g.test(element.getAttribute(attrName));
     }
   }, {
     key: "isForApplying",
