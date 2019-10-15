@@ -25,7 +25,7 @@ class StringWithMappedObjectAndAppliedVariables {
   }
 
   stringWithLocalStorageVariables (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
+    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
       // eslint-disable-next-line no-undef
       const expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${localStorage.getItem(p1.split('.')[1])}'`
@@ -36,7 +36,7 @@ class StringWithMappedObjectAndAppliedVariables {
   }
 
   stringWithSessionStorageVariables (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
+    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
       // eslint-disable-next-line no-undef
       const expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${sessionStorage.getItem(p1.split('.')[1])}'`
@@ -47,7 +47,7 @@ class StringWithMappedObjectAndAppliedVariables {
   }
 
   stringWithUrlParams (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
+    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
       const expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, (match, p1) => {
         // eslint-disable-next-line no-undef, no-eval
         return eval(`'urlParams${p1}'`)
@@ -60,7 +60,7 @@ class StringWithMappedObjectAndAppliedVariables {
   stringWithMappedObject (str, obj, objName) {
     return str.replace(
       new RegExp(
-        `\\$\{((\\s)?([^{}$]+\\s)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
+        `\\$\{((\\s)?([^{}$]+\\s|[\\s(!]+)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
       ),
       (match, p1, p2, p3, p4) => {
         const expression = `

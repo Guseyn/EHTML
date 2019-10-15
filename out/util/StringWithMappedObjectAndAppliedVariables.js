@@ -37,7 +37,7 @@ function () {
   }, {
     key: "stringWithLocalStorageVariables",
     value: function stringWithLocalStorageVariables(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
@@ -49,7 +49,7 @@ function () {
   }, {
     key: "stringWithSessionStorageVariables",
     value: function stringWithSessionStorageVariables(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         // eslint-disable-next-line no-undef
         var expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
@@ -61,7 +61,7 @@ function () {
   }, {
     key: "stringWithUrlParams",
     value: function stringWithUrlParams(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
         var expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
           // eslint-disable-next-line no-undef, no-eval
           return eval("'urlParams".concat(p1, "'"));
@@ -73,7 +73,7 @@ function () {
   }, {
     key: "stringWithMappedObject",
     value: function stringWithMappedObject(str, obj, objName) {
-      return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1, p2, p3, p4) {
+      return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s|[\\s(!]+)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1, p2, p3, p4) {
         var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        ");
 
         try {
