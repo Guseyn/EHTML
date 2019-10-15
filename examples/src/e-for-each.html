@@ -67,12 +67,16 @@
             >
               <div>
                 <i data-text="inner id for each connection: ${innerUser.id}(${connection.name})"></i>
+                <br/>
+                <i data-text="inner id + connection index: ${innerUser.id} + ${connection.index} = ${innerUser.id * 1 + connection.index * 1}"></i>
               </div>
             </e-json>
             <div>
               <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
               <br/>
               <i data-test="is last connection: ${(connection.index === user.connections.length)}" data-text="is last connection: ${connection.index === user.connections.length}"></i>
+              <br/>
+              <i data-test="is not last connection: ${!(connection.index === user.connections.length)}" data-text="is not last connection: ${!(connection.index === user.connections.length)}"></i>
             </div>
           </template>
         </template>
