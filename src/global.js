@@ -2,6 +2,8 @@
 
 const ActionByNameWithParams = require('./util/ActionByNameWithParams')
 
+window.eMappedRegExps = {}
+
 if (!window.customElements) {
   window.stop()
   throw new Error('Your browser does not support custom elements so you cannot use EHTML as it\'s based on them.')
