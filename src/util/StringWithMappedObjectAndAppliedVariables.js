@@ -25,44 +25,37 @@ class StringWithMappedObjectAndAppliedVariables {
   }
 
   stringWithLocalStorageVariables (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
-      // eslint-disable-next-line no-undef
+    return str.replace(this.objRegExp('localStorage'), (match, p1) => {
       const expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${localStorage.getItem(p1.split('.')[1])}'`
       })
-      // eslint-disable-next-line no-eval
       return expression
     })
   }
 
   stringWithSessionStorageVariables (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
-      // eslint-disable-next-line no-undef
+    return str.replace(this.objRegExp('sessionStorage'), (match, p1) => {
       const expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${sessionStorage.getItem(p1.split('.')[1])}'`
       })
-      // eslint-disable-next-line no-eval
       return expression
     })
   }
 
   stringWithUrlParams (str) {
-    return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, (match, p1) => {
+    return str.replace(this.objRegExp('urlParams'), (match, p1) => {
       const expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, (match, p1) => {
-        // eslint-disable-next-line no-undef, no-eval
+        // eslint-disable-next-line no-eval
         return eval(`'urlParams${p1}'`)
       })
-      // eslint-disable-next-line no-eval
       return expression
     })
   }
 
   stringWithMappedObject (str, obj, objName) {
     return str.replace(
-      new RegExp(
-        `\\$\{((\\s)?([^{}$]+\\s|[\\s(!]+)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
-      ),
-      (match, p1, p2, p3, p4) => {
+      this.objRegExp(objName),
+      (match, p1, p2, p3, p4, p5) => {
         const expression = `
           const ${objName} = obj['${objName}']
           ${p1}
@@ -75,7 +68,7 @@ class StringWithMappedObjectAndAppliedVariables {
           }
           return res
         } catch (error) {
-          const res = match.replace(p4, () => {
+          const res = match.replace(p5, () => {
             const name = uuidv4()
             window[name] = obj[objName]
             return `window['${name}']`
@@ -84,6 +77,19 @@ class StringWithMappedObjectAndAppliedVariables {
         }
       }
     )
+  }
+
+  objRegExp (objName) {
+    let objRegExp
+    if (window.eMappedRegExps[objName]) {
+      objRegExp = window.eMappedRegExps[objName]
+    } else {
+      objRegExp = new RegExp(
+        `\\$\{((\\s)?([^{}$]+(\\s|\\()|[\\s(!]+)?(${objName})(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}`, 'g'
+      )
+      window.eMappedRegExps[objName] = objRegExp
+    }
+    return objRegExp
   }
 
   evalString (str) {

@@ -37,43 +37,38 @@ function () {
   }, {
     key: "stringWithLocalStorageVariables",
     value: function stringWithLocalStorageVariables(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(localStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
-        // eslint-disable-next-line no-undef
+      return str.replace(this.objRegExp('localStorage'), function (match, p1) {
         var expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
-        }); // eslint-disable-next-line no-eval
-
+        });
         return expression;
       });
     }
   }, {
     key: "stringWithSessionStorageVariables",
     value: function stringWithSessionStorageVariables(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(sessionStorage)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
-        // eslint-disable-next-line no-undef
+      return str.replace(this.objRegExp('sessionStorage'), function (match, p1) {
         var expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
-        }); // eslint-disable-next-line no-eval
-
+        });
         return expression;
       });
     }
   }, {
     key: "stringWithUrlParams",
     value: function stringWithUrlParams(str) {
-      return str.replace(/\${((\s)?([^{}$]+\s|[\s(!]+)?(urlParams)(\.[^\s{}$]+)?(\s)?(\s[^{}$]+)?)}/g, function (match, p1) {
+      return str.replace(this.objRegExp('urlParams'), function (match, p1) {
         var expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
-          // eslint-disable-next-line no-undef, no-eval
+          // eslint-disable-next-line no-eval
           return eval("'urlParams".concat(p1, "'"));
-        }); // eslint-disable-next-line no-eval
-
+        });
         return expression;
       });
     }
   }, {
     key: "stringWithMappedObject",
     value: function stringWithMappedObject(str, obj, objName) {
-      return str.replace(new RegExp("\\${((\\s)?([^{}$]+\\s|[\\s(!]+)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g'), function (match, p1, p2, p3, p4) {
+      return str.replace(this.objRegExp(objName), function (match, p1, p2, p3, p4, p5) {
         var expression = "\n          const ".concat(objName, " = obj['").concat(objName, "']\n          ").concat(p1, "\n        ");
 
         try {
@@ -86,7 +81,7 @@ function () {
 
           return res;
         } catch (error) {
-          var _res = match.replace(p4, function () {
+          var _res = match.replace(p5, function () {
             var name = uuidv4();
             window[name] = obj[objName];
             return "window['".concat(name, "']");
@@ -95,6 +90,20 @@ function () {
           return _res;
         }
       });
+    }
+  }, {
+    key: "objRegExp",
+    value: function objRegExp(objName) {
+      var objRegExp;
+
+      if (window.eMappedRegExps[objName]) {
+        objRegExp = window.eMappedRegExps[objName];
+      } else {
+        objRegExp = new RegExp("\\${((\\s)?([^{}$]+(\\s|\\()|[\\s(!]+)?(".concat(objName, ")(\\.[^\\s{}$]+)?(\\s)?(\\s[^{}$]+)?)}"), 'g');
+        window.eMappedRegExps[objName] = objRegExp;
+      }
+
+      return objRegExp;
     }
   }, {
     key: "evalString",
