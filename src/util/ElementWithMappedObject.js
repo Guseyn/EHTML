@@ -39,6 +39,8 @@ class ElementWithMappedObject {
       this.mapObjToChildren(child, obj, objName)
       if (this.isEForEach(child)) {
         this.activateEForEach(child, obj, objName, this.objNameAttribute)
+      } else if (this.isEIf(child)) {
+        this.activateEIf(child, obj, objName, this.objNameAttribute)
       }
     })
   }
@@ -90,13 +92,18 @@ class ElementWithMappedObject {
 
   isForApplying (attrName) {
     const attributesForNotApplying = [
-      'data-list-to-iterate'
+      'data-list-to-iterate',
+      'data-condition-to-display'
     ]
     return attributesForNotApplying.indexOf(attrName) === -1
   }
 
   isEForEach (element) {
     return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each'
+  }
+
+  isEIf (element) {
+    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-if'
   }
 
   activateEForEach (element, obj, objName, objNameAttribute) {
@@ -147,6 +154,27 @@ class ElementWithMappedObject {
       value: objName
     })
     return attrs
+  }
+
+  activateEIf (element, obj, objName, objNameAttribute) {
+    const toDisplay = new StringWithMappedObjectAndAppliedVariables(
+      element.getAttribute('data-condition-to-display'), obj, objName
+    ).value()
+    if (toDisplay === 'true') {
+      const fragment = new DocumentFragmentWithAttributes(
+        element.content.cloneNode(true),
+        [{
+          name: objNameAttribute,
+          value: objName
+        }]
+      )
+      element.parentNode.replaceChild(
+        new ElementWithMappedObject(
+          fragment, obj[objName], objNameAttribute
+        ).value(),
+        element
+      )
+    }
   }
 }
 

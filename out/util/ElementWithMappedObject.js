@@ -59,6 +59,8 @@ function () {
 
         if (_this.isEForEach(child)) {
           _this.activateEForEach(child, obj, objName, _this.objNameAttribute);
+        } else if (_this.isEIf(child)) {
+          _this.activateEIf(child, obj, objName, _this.objNameAttribute);
         }
       });
     }
@@ -110,13 +112,18 @@ function () {
   }, {
     key: "isForApplying",
     value: function isForApplying(attrName) {
-      var attributesForNotApplying = ['data-list-to-iterate'];
+      var attributesForNotApplying = ['data-list-to-iterate', 'data-condition-to-display'];
       return attributesForNotApplying.indexOf(attrName) === -1;
     }
   }, {
     key: "isEForEach",
     value: function isEForEach(element) {
       return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each';
+    }
+  }, {
+    key: "isEIf",
+    value: function isEIf(element) {
+      return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-if';
     }
   }, {
     key: "activateEForEach",
@@ -152,6 +159,19 @@ function () {
         value: objName
       });
       return attrs;
+    }
+  }, {
+    key: "activateEIf",
+    value: function activateEIf(element, obj, objName, objNameAttribute) {
+      var toDisplay = new StringWithMappedObjectAndAppliedVariables(element.getAttribute('data-condition-to-display'), obj, objName).value();
+
+      if (toDisplay === 'true') {
+        var fragment = new DocumentFragmentWithAttributes(element.content.cloneNode(true), [{
+          name: objNameAttribute,
+          value: objName
+        }]);
+        element.parentNode.replaceChild(new ElementWithMappedObject(fragment, obj[objName], objNameAttribute).value(), element);
+      }
     }
   }]);
 
