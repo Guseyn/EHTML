@@ -9,9 +9,11 @@ class PushedStartStateToHistoryIfNeeded extends AsyncObject {
 
   syncCall () {
     return () => {
+      const favicon = document.querySelector("link[rel*='icon']")
       const state = {
         body: document.body.innerHTML,
-        title: document.title
+        title: document.title,
+        favicon: favicon ? favicon.href : null
       }
       if (sessionStorage.getItem('isFirstStatePushedToHistory') === 'false') {
         history.replaceState(

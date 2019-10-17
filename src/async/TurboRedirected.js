@@ -9,45 +9,61 @@ const PushedStartStateToHistoryIfNeeded = require('./PushedStartStateToHistoryIf
 const ExtractedDocument = require('./ExtractedDocument')
 const BodyInnerHTMLOfDocument = require('./BodyInnerHTMLOfDocument')
 const TitleOfDocument = require('./TitleOfDocument')
+const FaviconOfDocument = require('./FaviconOfDocument')
 const PushedStateToHistory = require('./PushedStateToHistory')
 const ChangedPageTitle = require('./ChangedPageTitle')
+const ChangedPageFavicon = require('./ChangedPageFavicon')
 
 class TurboRedirected {
-  constructor (href, headers) {
+  constructor (href, headers, ajaxFavicon) {
     return new PushedStartStateToHistoryIfNeeded().after(
-      new ExtractedDocument(
-        new StringFromBuffer(
-          new ResponseBody(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', href,
-                'method', 'GET',
-                'headers', headers
+      new ChangedPageFavicon(
+        document, ajaxFavicon, true
+      ).after(
+        new ExtractedDocument(
+          new StringFromBuffer(
+            new ResponseBody(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', href,
+                  'method', 'GET',
+                  'headers', headers
+                )
               )
             )
           )
-        )
-      ).as('DOC').after(
-        new BodyInnerHTMLOfDocument(
-          as('DOC')
-        ).as('BODY').after(
-          new TitleOfDocument(
+        ).as('DOC').after(
+          new BodyInnerHTMLOfDocument(
             as('DOC')
-          ).as('TITLE').after(
-            new PushedStateToHistory(
-              new CreatedOptions(
-                'body', as('BODY'),
-                'title', as('TITLE')
-              ),
-              href
-            ).after(
-              new ElementWithInnerHTML(
-                document.body,
-                as('BODY')
-              ).after(
-                new ChangedPageTitle(
-                  document,
-                  as('TITLE')
+          ).as('BODY').after(
+            new TitleOfDocument(
+              as('DOC')
+            ).as('TITLE').after(
+              new FaviconOfDocument(
+                as('DOC')
+              ).as('FAVICON').after(
+                new PushedStateToHistory(
+                  new CreatedOptions(
+                    'body', as('BODY'),
+                    'title', as('TITLE'),
+                    'favicon', as('FAVICON')
+                  ),
+                  href
+                ).after(
+                  new ElementWithInnerHTML(
+                    document.body,
+                    as('BODY')
+                  ).after(
+                    new ChangedPageTitle(
+                      document,
+                      as('TITLE')
+                    ).after(
+                      new ChangedPageFavicon(
+                        document,
+                        as('FAVICON')
+                      )
+                    )
+                  )
                 )
               )
             )

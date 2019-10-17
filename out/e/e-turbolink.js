@@ -53,7 +53,7 @@ function (_HTMLAnchorElement) {
       var _this = this;
 
       this.addEventListener('click', function () {
-        new TurboRedirected(_this.getAttribute('data-href'), new ParsedJSON(_this.getAttribute('data-headers') || '{}')).call();
+        new TurboRedirected(_this.getAttribute('data-href'), new ParsedJSON(_this.getAttribute('data-headers') || '{}'), _this.getAttribute('data-ajax-favicon')).call();
       });
     }
   }]);

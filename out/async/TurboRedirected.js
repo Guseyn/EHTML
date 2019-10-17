@@ -27,14 +27,18 @@ var BodyInnerHTMLOfDocument = require('./BodyInnerHTMLOfDocument');
 
 var TitleOfDocument = require('./TitleOfDocument');
 
+var FaviconOfDocument = require('./FaviconOfDocument');
+
 var PushedStateToHistory = require('./PushedStateToHistory');
 
 var ChangedPageTitle = require('./ChangedPageTitle');
 
-var TurboRedirected = function TurboRedirected(href, headers) {
+var ChangedPageFavicon = require('./ChangedPageFavicon');
+
+var TurboRedirected = function TurboRedirected(href, headers, ajaxFavicon) {
   _classCallCheck(this, TurboRedirected);
 
-  return new PushedStartStateToHistoryIfNeeded().after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE'))))))));
+  return new PushedStartStateToHistoryIfNeeded().after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE'), 'favicon', as('FAVICON')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON')))))))))));
 };
 
 module.exports = TurboRedirected;

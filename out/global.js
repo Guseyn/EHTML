@@ -31,6 +31,20 @@ window.onpopstate = function (event) {
   if (event.state) {
     document.body.innerHTML = event.state.body;
     document.title = event.state.title;
+
+    if (event.state.favicon) {
+      var oldLink = document.querySelector("link[rel*='icon']");
+      var newLink = document.createElement('link');
+      newLink.type = 'image/x-icon';
+      newLink.rel = 'shortcut icon';
+      newLink.href = event.state.favicon;
+
+      if (oldLink) {
+        document.head.removeChild(oldLink);
+      }
+
+      document.head.appendChild(newLink);
+    }
   }
 };
 

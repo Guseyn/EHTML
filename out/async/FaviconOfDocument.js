@@ -21,39 +21,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var PushedStartStateToHistoryIfNeeded =
+var FaviconOfDocument =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(PushedStartStateToHistoryIfNeeded, _AsyncObject);
+  _inherits(FaviconOfDocument, _AsyncObject);
 
-  function PushedStartStateToHistoryIfNeeded() {
-    _classCallCheck(this, PushedStartStateToHistoryIfNeeded);
+  function FaviconOfDocument(doc) {
+    _classCallCheck(this, FaviconOfDocument);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PushedStartStateToHistoryIfNeeded).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(FaviconOfDocument).call(this, doc));
   }
 
-  _createClass(PushedStartStateToHistoryIfNeeded, [{
+  _createClass(FaviconOfDocument, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {
-        var favicon = document.querySelector("link[rel*='icon']");
-        var state = {
-          body: document.body.innerHTML,
-          title: document.title,
-          favicon: favicon ? favicon.href : null
-        };
-
-        if (sessionStorage.getItem('isFirstStatePushedToHistory') === 'false') {
-          history.replaceState(state, null, location.pathname + location.search);
-          sessionStorage.setItem('isFirstStatePushedToHistory', 'true');
+      return function (doc) {
+        if (doc.head) {
+          return doc.head.querySelector("link[rel*='icon']").href;
         }
 
-        return state;
+        return null;
       };
     }
   }]);
 
-  return PushedStartStateToHistoryIfNeeded;
+  return FaviconOfDocument;
 }(AsyncObject);
 
-module.exports = PushedStartStateToHistoryIfNeeded;
+module.exports = FaviconOfDocument;
