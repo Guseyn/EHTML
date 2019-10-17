@@ -124,6 +124,6 @@ window.toggleElms = function (className) {
   _construct(ActionByNameWithParams, ['toggleElms', className].concat(elmSelectors)).value().call();
 };
 
-window.turboRedirect = function (target, href, headers) {
-  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers)).value().call();
+window.turboRedirect = function (target, href, headers, ajaxFavicon) {
+  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers), retrievedValue(target, ajaxFavicon)).value().call();
 };

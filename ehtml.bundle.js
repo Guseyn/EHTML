@@ -9208,8 +9208,8 @@ window.toggleElms = function (className) {
   _construct(ActionByNameWithParams, ['toggleElms', className].concat(elmSelectors)).value().call();
 };
 
-window.turboRedirect = function (target, href, headers) {
-  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers)).value().call();
+window.turboRedirect = function (target, href, headers, ajaxFavicon) {
+  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers), retrievedValue(target, ajaxFavicon)).value().call();
 };
 
 },{"./util/ActionByNameWithParams":195}],195:[function(require,module,exports){
@@ -9338,8 +9338,8 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers) {
-    return new TurboRedirected(href, headers);
+  turboRedirect: function turboRedirect(href, headers, favicon) {
+    return new TurboRedirected(href, headers, favicon);
   }
 };
 
