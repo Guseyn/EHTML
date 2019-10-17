@@ -18,7 +18,8 @@ E(
           this.getAttribute('data-href'),
           new ParsedJSON(
             this.getAttribute('data-headers') || '{}'
-          )
+          ),
+          this.getAttribute('data-ajax-favicon')
         ).call()
       })
     }

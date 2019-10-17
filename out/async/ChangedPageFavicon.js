@@ -21,39 +21,41 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var PushedStartStateToHistoryIfNeeded =
+var ChangedPageFavicon =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(PushedStartStateToHistoryIfNeeded, _AsyncObject);
+  _inherits(ChangedPageFavicon, _AsyncObject);
 
-  function PushedStartStateToHistoryIfNeeded() {
-    _classCallCheck(this, PushedStartStateToHistoryIfNeeded);
+  function ChangedPageFavicon(doc, favicon, ajax) {
+    _classCallCheck(this, ChangedPageFavicon);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PushedStartStateToHistoryIfNeeded).call(this));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChangedPageFavicon).call(this, doc, favicon, ajax));
   }
 
-  _createClass(PushedStartStateToHistoryIfNeeded, [{
+  _createClass(ChangedPageFavicon, [{
     key: "syncCall",
     value: function syncCall() {
-      return function () {
-        var favicon = document.querySelector("link[rel*='icon']");
-        var state = {
-          body: document.body.innerHTML,
-          title: document.title,
-          favicon: favicon ? favicon.href : null
-        };
+      return function (doc, favicon, ajax) {
+        if (favicon) {
+          var oldLink = document.querySelector("link[rel*='icon']");
+          var newLink = document.createElement('link');
+          newLink.type = ajax ? 'image/gif' : 'image/x-icon';
+          newLink.rel = 'shortcut icon';
+          newLink.href = favicon;
 
-        if (sessionStorage.getItem('isFirstStatePushedToHistory') === 'false') {
-          history.replaceState(state, null, location.pathname + location.search);
-          sessionStorage.setItem('isFirstStatePushedToHistory', 'true');
+          if (oldLink) {
+            document.head.removeChild(oldLink);
+          }
+
+          document.head.appendChild(newLink);
         }
 
-        return state;
+        return favicon;
       };
     }
   }]);
 
-  return PushedStartStateToHistoryIfNeeded;
+  return ChangedPageFavicon;
 }(AsyncObject);
 
-module.exports = PushedStartStateToHistoryIfNeeded;
+module.exports = ChangedPageFavicon;
