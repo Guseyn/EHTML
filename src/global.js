@@ -144,10 +144,11 @@ window.toggleElms = (className, ...elmSelectors) => {
   ).value().call()
 }
 
-window.turboRedirect = (target, href, headers) => {
+window.turboRedirect = (target, href, headers, ajaxFavicon) => {
   new ActionByNameWithParams(
     'turboRedirect',
     retrievedValue(target, href),
-    retrievedValue(target, headers)
+    retrievedValue(target, headers),
+    retrievedValue(target, ajaxFavicon)
   ).value().call()
 }

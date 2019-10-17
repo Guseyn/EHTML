@@ -133,8 +133,8 @@ const actions = {
     )
   },
 
-  turboRedirect: (href, headers) => {
-    return new TurboRedirected(href, headers)
+  turboRedirect: (href, headers, ajaxFavicon) => {
+    return new TurboRedirected(href, headers, ajaxFavicon)
   }
 }
 

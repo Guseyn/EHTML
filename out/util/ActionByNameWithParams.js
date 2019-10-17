@@ -123,8 +123,8 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers) {
-    return new TurboRedirected(href, headers);
+  turboRedirect: function turboRedirect(href, headers, ajaxFavicon) {
+    return new TurboRedirected(href, headers, ajaxFavicon);
   }
 };
 
