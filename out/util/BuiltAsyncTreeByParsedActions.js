@@ -21,7 +21,7 @@ function () {
     key: "value",
     value: function value() {
       if (this.parsedActions.length === 0) {
-        return new EmptyAsyncObject(this.values);
+        return new EmptyAsyncObject();
       }
 
       return this.buildAsyncTree();

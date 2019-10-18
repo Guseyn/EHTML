@@ -22,8 +22,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
-
 var StringWithMappedObjectAndAppliedVariables = require('./../async/StringWithMappedObjectAndAppliedVariables');
 
 var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
@@ -51,7 +49,9 @@ function () {
       var parsedActions = {};
 
       if (!this.actions) {
-        return new EmptyAsyncObject();
+        return {
+          length: 0
+        };
       }
 
       var splittedActions = this.actions.split(';').map(function (action) {

@@ -1,6 +1,5 @@
 'use strict'
 
-const EmptyAsyncObject = require('./../async/EmptyAsyncObject')
 const StringWithMappedObjectAndAppliedVariables = require('./../async/StringWithMappedObjectAndAppliedVariables')
 const ParsedJSONOrString = require('./../async/ParsedJSONOrString')
 const ActionByNameWithParams = require('./ActionByNameWithParams')
@@ -17,7 +16,9 @@ class ParsedActions {
   value () {
     const parsedActions = { }
     if (!this.actions) {
-      return new EmptyAsyncObject()
+      return {
+        length: 0
+      }
     }
     const splittedActions = this.actions
       .split(';')
