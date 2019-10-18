@@ -9338,8 +9338,8 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers, favicon) {
-    return new TurboRedirected(href, headers, favicon);
+  turboRedirect: function turboRedirect(href, headers, ajaxFavicon) {
+    return new TurboRedirected(href, headers, ajaxFavicon);
   }
 };
 
@@ -9398,7 +9398,7 @@ function () {
     key: "value",
     value: function value() {
       if (this.parsedActions.length === 0) {
-        return new EmptyAsyncObject(this.values);
+        return new EmptyAsyncObject();
       }
 
       return this.buildAsyncTree();
@@ -9701,8 +9701,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var EmptyAsyncObject = require('./../async/EmptyAsyncObject');
-
 var StringWithMappedObjectAndAppliedVariables = require('./../async/StringWithMappedObjectAndAppliedVariables');
 
 var ParsedJSONOrString = require('./../async/ParsedJSONOrString');
@@ -9730,7 +9728,9 @@ function () {
       var parsedActions = {};
 
       if (!this.actions) {
-        return new EmptyAsyncObject();
+        return {
+          length: 0
+        };
       }
 
       var splittedActions = this.actions.split(';').map(function (action) {
@@ -9781,7 +9781,7 @@ function () {
 
 module.exports = ParsedActions;
 
-},{"./../async/EmptyAsyncObject":162,"./../async/ParsedJSONOrString":171,"./../async/StringWithMappedObjectAndAppliedVariables":177,"./ActionByNameWithParams":195}],201:[function(require,module,exports){
+},{"./../async/ParsedJSONOrString":171,"./../async/StringWithMappedObjectAndAppliedVariables":177,"./ActionByNameWithParams":195}],201:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
