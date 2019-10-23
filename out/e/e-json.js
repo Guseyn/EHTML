@@ -42,6 +42,10 @@ var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
 
+var ShownElement = require('./../async/ShownElement');
+
+var HiddenElement = require('./../async/HiddenElement');
+
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
@@ -68,6 +72,11 @@ function (_HTMLElement) {
     value: function onRender() {
       var event = this.getAttribute('data-event');
       this.progressBar = new PreparedProgressBars([new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0]]).value()[0];
+      this.ajaxIcon = new ParsedElmSelectors(this.getAttribute('data-ajax-icon')).value()[0];
+
+      if (this.ajaxIcon) {
+        this.ajaxIcon.style.display = 'none';
+      }
 
       if (event) {
         this.addEventListener(event, this.activate);
@@ -78,7 +87,7 @@ function (_HTMLElement) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))))))).call();
+      new ShownElement(this.ajaxIcon).after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || ''), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar)))))))).call();
     }
   }]);
 

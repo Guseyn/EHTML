@@ -30,7 +30,7 @@
   </head>
 
   <body class="main">
-    <form id="form" is="e-form">
+    <form is="e-form" id="form">
       <input type="checkbox" name="isTrue"><br/>
       <input type="color" name="colorhash"><br/>
       <input type="date" name="date"><br/>
@@ -87,6 +87,7 @@
         data-request-headers="{}"
         data-upload-progress-bar="#uploadProgressBar"
         data-progress-bar="#progressBar"
+        data-ajax-icon="#ajaxIcon"
         data-response-object-name="saved"
         data-actions-on-response="
           saveToSessionStorage('saved', '${saved}');
@@ -100,6 +101,7 @@
         "
       />
 
+      <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
       <br/>
       <progress id="uploadProgressBar"></progress>
       <br/>

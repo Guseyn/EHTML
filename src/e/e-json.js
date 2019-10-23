@@ -5,6 +5,8 @@ const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const ShownElement = require('./../async/ShownElement')
+const HiddenElement = require('./../async/HiddenElement')
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
 const PreparedProgressBars = require('./../util/PreparedProgressBars')
@@ -25,6 +27,12 @@ E(
           this.getAttribute('data-progress-bar')
         ).value()[0]
       ]).value()[0]
+      this.ajaxIcon = new ParsedElmSelectors(
+        this.getAttribute('data-ajax-icon')
+      ).value()[0]
+      if (this.ajaxIcon) {
+        this.ajaxIcon.style.display = 'none'
+      }
       if (event) {
         this.addEventListener(event, this.activate)
       } else {
@@ -33,21 +41,27 @@ E(
     }
 
     activate () {
-      new AppliedActionsOnResponse(
-        this.tagName,
-        this.getAttribute('data-response-object-name'),
-        this.getAttribute('data-actions-on-response'),
-        new ParsedJSON(
-          new StringFromBuffer(
-            new ResponseBody(
-              new ResponseFromAjaxRequest(
-                new CreatedOptions(
-                  'url', this.getAttribute('data-src'),
-                  'method', 'GET',
-                  'headers', new ParsedJSON(
-                    this.getAttribute('data-headers') || '{}'
-                  ),
-                  'progressEvent', new ShowProgressEvent(this.progressBar)
+      new ShownElement(
+        this.ajaxIcon
+      ).after(
+        new AppliedActionsOnResponse(
+          this.tagName,
+          this.getAttribute('data-response-object-name'),
+          `hideElms('${this.getAttribute('data-ajax-icon')}');`.concat(
+            this.getAttribute('data-actions-on-response') || ''
+          ),
+          new ParsedJSON(
+            new StringFromBuffer(
+              new ResponseBody(
+                new ResponseFromAjaxRequest(
+                  new CreatedOptions(
+                    'url', this.getAttribute('data-src'),
+                    'method', 'GET',
+                    'headers', new ParsedJSON(
+                      this.getAttribute('data-headers') || '{}'
+                    ),
+                    'progressEvent', new ShowProgressEvent(this.progressBar)
+                  )
                 )
               )
             )
