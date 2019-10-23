@@ -6,7 +6,9 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON, StringifiedJSON } = browserified(require('@cuties/json'))
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
-const EnabledElements = require('./../async/EnabledElements')
+const ShownElement = require('./../async/ShownElement')
+const HiddenElement = require('./../async/HiddenElement')
+const EnabledElement = require('./../async/EnabledElement')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
 const FileInfo = require('./../util/FileInfo')
 const ShowProgressEvent = require('./../util/ShowProgressEvent')
@@ -50,6 +52,12 @@ E(
         const elm = elms[index]
         const eventName = elm.getAttribute('data-send-form-on')
         if (eventName) {
+          const ajaxIcon = new ParsedElmSelectors(
+            elm.getAttribute('data-ajax-icon')
+          ).value()[0]
+          if (ajaxIcon) {
+            ajaxIcon.style.display = 'none'
+          }
           elm.addEventListener(eventName, () => {
             this.submit(elm)
           })
@@ -64,32 +72,41 @@ E(
       const progressBar = new ParsedElmSelectors(
         target.getAttribute('data-progress-bar')
       ).value()[0]
+      const ajaxIcon = new ParsedElmSelectors(
+        target.getAttribute('data-ajax-icon')
+      ).value()[0]
       target.setAttribute('disabled', 'true')
       const requestBody = this.requestBody()
-      new ParsedJSON(
-        new ResponseBody(
-          new ResponseFromAjaxRequest(
-            new CreatedOptions(
-              'url', target.getAttribute('data-request-url'),
-              'headers', new ParsedJSON(
-                target.getAttribute('data-request-headers') || '{}'
+      new ShownElement(
+        ajaxIcon
+      ).after(
+        new ParsedJSON(
+          new ResponseBody(
+            new ResponseFromAjaxRequest(
+              new CreatedOptions(
+                'url', target.getAttribute('data-request-url'),
+                'headers', new ParsedJSON(
+                  target.getAttribute('data-request-headers') || '{}'
+                ),
+                'method', target.getAttribute('data-request-method') || 'POST',
+                'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
+                'progressEvent', new ShowProgressEvent(progressBar)
               ),
-              'method', target.getAttribute('data-request-method') || 'POST',
-              'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
-              'progressEvent', new ShowProgressEvent(progressBar)
-            ),
-            new StringifiedJSON(
-              requestBody
+              new StringifiedJSON(
+                requestBody
+              )
             )
           )
-        )
-      ).as('RESPONSE').after(
-        new EnabledElements([target]).after(
-          new AppliedActionsOnResponse(
-            target.tagName,
-            target.getAttribute('data-response-object-name'),
-            target.getAttribute('data-actions-on-response'),
-            as('RESPONSE')
+        ).as('RESPONSE').after(
+          new EnabledElement(target).after(
+            new AppliedActionsOnResponse(
+              target.tagName,
+              target.getAttribute('data-response-object-name'),
+              `hideElms('${target.getAttribute('data-ajax-icon')}');`.concat(
+                target.getAttribute('data-actions-on-response') || ''
+              ),
+              as('RESPONSE')
+            )
           )
         )
       ).call()

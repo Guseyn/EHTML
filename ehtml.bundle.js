@@ -8344,7 +8344,11 @@ var _browserified2 = browserified(require('@cuties/json')),
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
-var EnabledElements = require('./../async/EnabledElements');
+var ShownElement = require('./../async/ShownElement');
+
+var HiddenElement = require('./../async/HiddenElement');
+
+var EnabledElement = require('./../async/EnabledElement');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
@@ -8399,6 +8403,12 @@ function (_HTMLFormElement) {
         var eventName = elm.getAttribute('data-send-form-on');
 
         if (eventName) {
+          var ajaxIcon = new ParsedElmSelectors(elm.getAttribute('data-ajax-icon')).value()[0];
+
+          if (ajaxIcon) {
+            ajaxIcon.style.display = 'none';
+          }
+
           elm.addEventListener(eventName, function () {
             _this.submit(elm);
           });
@@ -8414,9 +8424,10 @@ function (_HTMLFormElement) {
     value: function submit(target) {
       var uploadProgressBar = new ParsedElmSelectors(target.getAttribute('data-upload-progress-bar')).value()[0];
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
+      var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
-      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
+      new ShownElement(ajaxIcon).after(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''), as('RESPONSE'))))).call();
     }
   }, {
     key: "requestBody",
@@ -8579,7 +8590,7 @@ function (_HTMLFormElement) {
   "extends": 'form'
 });
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElements":165,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElement":164,"./../async/HiddenElement":170,"./../async/ShownElement":179,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8864,6 +8875,10 @@ var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
     ResponseBody = _require2.ResponseBody;
 
+var ShownElement = require('./../async/ShownElement');
+
+var HiddenElement = require('./../async/HiddenElement');
+
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
@@ -8890,6 +8905,11 @@ function (_HTMLElement) {
     value: function onRender() {
       var event = this.getAttribute('data-event');
       this.progressBar = new PreparedProgressBars([new ParsedElmSelectors(this.getAttribute('data-progress-bar')).value()[0]]).value()[0];
+      this.ajaxIcon = new ParsedElmSelectors(this.getAttribute('data-ajax-icon')).value()[0];
+
+      if (this.ajaxIcon) {
+        this.ajaxIcon.style.display = 'none';
+      }
 
       if (event) {
         this.addEventListener(event, this.activate);
@@ -8900,14 +8920,14 @@ function (_HTMLElement) {
   }, {
     key: "activate",
     value: function activate() {
-      new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), this.getAttribute('data-actions-on-response'), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))))))).call();
+      new ShownElement(this.ajaxIcon).after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || ''), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar)))))))).call();
     }
   }]);
 
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowProgressEvent":209,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],192:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/HiddenElement":170,"./../async/ShownElement":179,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowProgressEvent":209,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],192:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }

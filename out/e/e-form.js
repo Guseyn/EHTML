@@ -43,7 +43,11 @@ var _browserified2 = browserified(require('@cuties/json')),
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
-var EnabledElements = require('./../async/EnabledElements');
+var ShownElement = require('./../async/ShownElement');
+
+var HiddenElement = require('./../async/HiddenElement');
+
+var EnabledElement = require('./../async/EnabledElement');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
 
@@ -98,6 +102,12 @@ function (_HTMLFormElement) {
         var eventName = elm.getAttribute('data-send-form-on');
 
         if (eventName) {
+          var ajaxIcon = new ParsedElmSelectors(elm.getAttribute('data-ajax-icon')).value()[0];
+
+          if (ajaxIcon) {
+            ajaxIcon.style.display = 'none';
+          }
+
           elm.addEventListener(eventName, function () {
             _this.submit(elm);
           });
@@ -113,9 +123,10 @@ function (_HTMLFormElement) {
     value: function submit(target) {
       var uploadProgressBar = new ParsedElmSelectors(target.getAttribute('data-upload-progress-bar')).value()[0];
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
+      var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
-      new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElements([target]).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), target.getAttribute('data-actions-on-response'), as('RESPONSE')))).call();
+      new ShownElement(ajaxIcon).after(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''), as('RESPONSE'))))).call();
     }
   }, {
     key: "requestBody",
