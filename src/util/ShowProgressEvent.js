@@ -1,7 +1,7 @@
 'use strict'
 
 class ShowProgressEvent {
-  constructor (progressBar) {
+  constructor (progressBar, removeProgressBarAfter = false) {
     if (progressBar) {
       return (event) => {
         if (event.lengthComputable) {
@@ -9,7 +9,11 @@ class ShowProgressEvent {
           const percentComplete = parseInt((event.loaded / event.total) * 100)
           progressBar.value = percentComplete
           if (progressBar.value === 100) {
-            progressBar.style.display = 'none'
+            if (removeProgressBarAfter) {
+              progressBar.parentNode.removeChild(progressBar)
+            } else {
+              progressBar.style.display = 'none'
+            }
           }
         }
       }

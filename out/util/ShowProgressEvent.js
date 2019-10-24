@@ -3,6 +3,8 @@
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ShowProgressEvent = function ShowProgressEvent(progressBar) {
+  var removeProgressBarAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
   _classCallCheck(this, ShowProgressEvent);
 
   if (progressBar) {
@@ -13,7 +15,11 @@ var ShowProgressEvent = function ShowProgressEvent(progressBar) {
         progressBar.value = percentComplete;
 
         if (progressBar.value === 100) {
-          progressBar.style.display = 'none';
+          if (removeProgressBarAfter) {
+            progressBar.parentNode.removeChild(progressBar);
+          } else {
+            progressBar.style.display = 'none';
+          }
         }
       }
     };

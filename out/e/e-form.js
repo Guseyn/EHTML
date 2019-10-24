@@ -45,8 +45,6 @@ var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ShownElement = require('./../async/ShownElement');
 
-var HiddenElement = require('./../async/HiddenElement');
-
 var EnabledElement = require('./../async/EnabledElement');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');

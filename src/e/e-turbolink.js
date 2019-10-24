@@ -19,7 +19,10 @@ E(
           new ParsedJSON(
             this.getAttribute('data-headers') || '{}'
           ),
-          this.getAttribute('data-ajax-favicon')
+          {
+            ajaxFavicon: this.getAttribute('data-ajax-favicon'),
+            progressBarClassName: this.getAttribute('data-with-progress-bar')
+          }
         ).call()
       })
     }

@@ -37,7 +37,8 @@ function (_AsyncObject) {
     value: function syncCall() {
       return function (doc) {
         if (doc.head) {
-          return doc.head.querySelector("link[rel*='icon']").href;
+          var favicon = doc.head.querySelector("link[rel*='icon']");
+          return favicon ? favicon.href : null;
         }
 
         return null;
