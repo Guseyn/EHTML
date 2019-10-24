@@ -7,18 +7,6 @@
 
 - [Motivation](#motivation)
 - [Usage](#usage)
-- [Elements](#elements)
-  - [e-html]()
-  - [e-json]()
-  - [e-form]()
-  - [e-google-oauth-button]()
-  - [e-local-storage-value]()
-  - [e-memory-storage-value]()
-  - [e-progress-bar]()
-  - [e-upload-progress-bar]()
-- [Supported actions](#supported-actions)
-- [`data-` attributes of regular elements]()
-- [Memory Storage](#memory-storage)
 
 # Motivation
 
@@ -37,59 +25,3 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 ```
 
 `ehtml.bundle.min.js` is not deployed yet(it'll be soon), but for now you can just save [this file](https://github.com/Guseyn/EHTML/blob/master/ehtml.bundle.min.js) locally.
-
-# Elements
-
-## `e-html`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-json`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-form`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-google-oauth-button`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-local-storage-value`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-## `e-memory-storage-value`
-
-**Purpose:** 
-
-**Attributes:**
-
-**Example:**
-
-# Supported actions
-
-# `data-` attributes of regular elements
-
-# Memory Storage
