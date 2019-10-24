@@ -7352,7 +7352,8 @@ function (_AsyncObject) {
     value: function syncCall() {
       return function (doc) {
         if (doc.head) {
-          return doc.head.querySelector("link[rel*='icon']").href;
+          var favicon = doc.head.querySelector("link[rel*='icon']");
+          return favicon ? favicon.href : null;
         }
 
         return null;
@@ -8122,7 +8123,9 @@ var _require2 = require('@page-libs/ajax'),
     ResponseBody = _require2.ResponseBody;
 
 var _require3 = require('@page-libs/dom'),
-    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
+    ElementWithInnerHTML = _require3.ElementWithInnerHTML,
+    ElementWithAppendedChildren = _require3.ElementWithAppendedChildren,
+    CreatedElement = _require3.CreatedElement;
 
 var PushedStartStateToHistoryIfNeeded = require('./PushedStartStateToHistoryIfNeeded');
 
@@ -8140,15 +8143,31 @@ var ChangedPageTitle = require('./ChangedPageTitle');
 
 var ChangedPageFavicon = require('./ChangedPageFavicon');
 
-var TurboRedirected = function TurboRedirected(href, headers, ajaxFavicon) {
+var ShowProgressEvent = require('./../util/ShowProgressEvent');
+
+var TurboRedirected = function TurboRedirected(href, headers, _ref) {
+  var progressBarClassName = _ref.progressBarClassName,
+      ajaxFavicon = _ref.ajaxFavicon;
+
   _classCallCheck(this, TurboRedirected);
 
-  return new PushedStartStateToHistoryIfNeeded().after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE'), 'favicon', as('FAVICON')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON')))))))))));
+  var progressBar;
+
+  if (progressBarClassName) {
+    progressBar = document.createElement('progress');
+    progressBar.setAttribute('class', progressBarClassName);
+    progressBar.style.display = 'none';
+    progressBar.max = 100;
+    progressBar.value = 0;
+    document.body.prepend(progressBar);
+  }
+
+  return new PushedStartStateToHistoryIfNeeded().after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers, 'progressEvent', new ShowProgressEvent(progressBar, true)))))).as('DOC').after(new BodyInnerHTMLOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new PushedStateToHistory(new CreatedOptions('body', as('BODY'), 'title', as('TITLE'), 'favicon', as('FAVICON')), href).after(new ElementWithInnerHTML(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON')))))))))));
 };
 
 module.exports = TurboRedirected;
 
-},{"./BodyInnerHTMLOfDocument":155,"./ChangedPageFavicon":156,"./ChangedPageTitle":157,"./ExtractedDocument":167,"./FaviconOfDocument":168,"./PushedStartStateToHistoryIfNeeded":175,"./PushedStateToHistory":176,"./TitleOfDocument":182,"@cuties/buffer":1,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131,"@page-libs/dom":144}],184:[function(require,module,exports){
+},{"./../util/ShowProgressEvent":209,"./BodyInnerHTMLOfDocument":155,"./ChangedPageFavicon":156,"./ChangedPageTitle":157,"./ExtractedDocument":167,"./FaviconOfDocument":168,"./PushedStartStateToHistoryIfNeeded":175,"./PushedStateToHistory":176,"./TitleOfDocument":182,"@cuties/buffer":1,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131,"@page-libs/dom":144}],184:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8345,8 +8364,6 @@ var _browserified2 = browserified(require('@cuties/json')),
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ShownElement = require('./../async/ShownElement');
-
-var HiddenElement = require('./../async/HiddenElement');
 
 var EnabledElement = require('./../async/EnabledElement');
 
@@ -8590,7 +8607,7 @@ function (_HTMLFormElement) {
   "extends": 'form'
 });
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElement":164,"./../async/HiddenElement":170,"./../async/ShownElement":179,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElement":164,"./../async/ShownElement":179,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8877,8 +8894,6 @@ var _require2 = require('@page-libs/ajax'),
 
 var ShownElement = require('./../async/ShownElement');
 
-var HiddenElement = require('./../async/HiddenElement');
-
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
@@ -8927,7 +8942,7 @@ function (_HTMLElement) {
   return _class;
 }(_wrapNativeSuper(HTMLElement)));
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/HiddenElement":170,"./../async/ShownElement":179,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowProgressEvent":209,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],192:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/ShownElement":179,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowProgressEvent":209,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],192:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -9249,7 +9264,10 @@ function (_HTMLAnchorElement) {
       var _this = this;
 
       this.addEventListener('click', function () {
-        new TurboRedirected(_this.getAttribute('data-href'), new ParsedJSON(_this.getAttribute('data-headers') || '{}'), _this.getAttribute('data-ajax-favicon')).call();
+        new TurboRedirected(_this.getAttribute('data-href'), new ParsedJSON(_this.getAttribute('data-headers') || '{}'), {
+          ajaxFavicon: _this.getAttribute('data-ajax-favicon'),
+          progressBarClassName: _this.getAttribute('data-with-progress-bar')
+        }).call();
       });
     }
   }]);
@@ -9570,8 +9588,13 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers, ajaxFavicon) {
-    return new TurboRedirected(href, headers, ajaxFavicon);
+  turboRedirect: function turboRedirect(href, headers, _ref) {
+    var progressBarClassName = _ref.progressBarClassName,
+        ajaxFavicon = _ref.ajaxFavicon;
+    return new TurboRedirected(href, headers, {
+      progressBarClassName: progressBarClassName,
+      ajaxFavicon: ajaxFavicon
+    });
   }
 };
 
@@ -10160,6 +10183,8 @@ module.exports = ShowFileReaderProgressEvent;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ShowProgressEvent = function ShowProgressEvent(progressBar) {
+  var removeProgressBarAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
   _classCallCheck(this, ShowProgressEvent);
 
   if (progressBar) {
@@ -10170,7 +10195,11 @@ var ShowProgressEvent = function ShowProgressEvent(progressBar) {
         progressBar.value = percentComplete;
 
         if (progressBar.value === 100) {
-          progressBar.style.display = 'none';
+          if (removeProgressBarAfter) {
+            progressBar.parentNode.removeChild(progressBar);
+          } else {
+            progressBar.style.display = 'none';
+          }
         }
       }
     };

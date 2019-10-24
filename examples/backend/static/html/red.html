@@ -18,7 +18,11 @@
       a {
         color: black;
         text-decoration: underline;
-        cursor: pointer;      }
+        cursor: pointer;
+      }
+      .progress-bar {
+        width: 100%;
+      }
     </style>
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
@@ -26,9 +30,9 @@
   <body class="main">
     <div class="circle" style="background: #FF0000;"></div>
     <div style="margin-left: 20px; margin-top: 20px;">
-      <a is="e-turbolink" data-href="/../html/red.html" data-ajax-favicon="/../images/ajax-loader.gif" style="color: #FF0000;">RED</a>
-      <a is="e-turbolink" data-href="/../html/green.html" data-ajax-favicon="/../images/ajax-loader.gif">GREEN</a>
-      <a is="e-turbolink" data-href="/../html/blue.html" data-ajax-favicon="/../images/ajax-loader.gif">BLUE</a>
+      <a is="e-turbolink" data-href="/../html/red.html" data-ajax-favicon="/../images/ajax-loader.gif" data-with-progress-bar="progress-bar" style="color: #FF0000;">RED</a>
+      <a is="e-turbolink" data-href="/../html/green.html" data-ajax-favicon="/../images/ajax-loader.gif" data-with-progress-bar="progress-bar">GREEN</a>
+      <a is="e-turbolink" data-href="/../html/blue.html" data-ajax-favicon="/../images/ajax-loader.gif" data-with-progress-bar="progress-bar">BLUE</a>
     </div>
   </body>
 

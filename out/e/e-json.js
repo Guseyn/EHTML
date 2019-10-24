@@ -44,8 +44,6 @@ var _require2 = require('@page-libs/ajax'),
 
 var ShownElement = require('./../async/ShownElement');
 
-var HiddenElement = require('./../async/HiddenElement');
-
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');

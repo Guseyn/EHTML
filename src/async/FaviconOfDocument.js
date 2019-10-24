@@ -10,7 +10,8 @@ class FaviconOfDocument extends AsyncObject {
   syncCall () {
     return (doc) => {
       if (doc.head) {
-        return doc.head.querySelector("link[rel*='icon']").href
+        const favicon = doc.head.querySelector("link[rel*='icon']")
+        return favicon ? favicon.href : null
       }
       return null
     }

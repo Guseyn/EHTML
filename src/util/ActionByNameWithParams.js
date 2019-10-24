@@ -133,8 +133,8 @@ const actions = {
     )
   },
 
-  turboRedirect: (href, headers, ajaxFavicon) => {
-    return new TurboRedirected(href, headers, ajaxFavicon)
+  turboRedirect: (href, headers, { progressBarClassName, ajaxFavicon }) => {
+    return new TurboRedirected(href, headers, { progressBarClassName, ajaxFavicon })
   }
 }
 

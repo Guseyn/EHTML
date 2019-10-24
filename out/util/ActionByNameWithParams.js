@@ -123,8 +123,13 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers, ajaxFavicon) {
-    return new TurboRedirected(href, headers, ajaxFavicon);
+  turboRedirect: function turboRedirect(href, headers, _ref) {
+    var progressBarClassName = _ref.progressBarClassName,
+        ajaxFavicon = _ref.ajaxFavicon;
+    return new TurboRedirected(href, headers, {
+      progressBarClassName: progressBarClassName,
+      ajaxFavicon: ajaxFavicon
+    });
   }
 };
 
