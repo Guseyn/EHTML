@@ -8123,9 +8123,7 @@ var _require2 = require('@page-libs/ajax'),
     ResponseBody = _require2.ResponseBody;
 
 var _require3 = require('@page-libs/dom'),
-    ElementWithInnerHTML = _require3.ElementWithInnerHTML,
-    ElementWithAppendedChildren = _require3.ElementWithAppendedChildren,
-    CreatedElement = _require3.CreatedElement;
+    ElementWithInnerHTML = _require3.ElementWithInnerHTML;
 
 var PushedStartStateToHistoryIfNeeded = require('./PushedStartStateToHistoryIfNeeded');
 
