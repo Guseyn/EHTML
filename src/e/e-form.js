@@ -29,6 +29,9 @@ E(
     }
 
     onRender () {
+      this.onsubmit = () => {
+        return false
+      }
       this.progressBars = new PreparedProgressBars(
         this.getElementsByTagName('progress')
       ).value()
@@ -39,28 +42,22 @@ E(
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value')
       this.buttons = this.getElementsByTagName('button')
       this.tuneFileInputs(this.filteredFileInputs(this.inputs))
-      this.propagateFormSendEvent(this.inputs)
-      this.propagateFormSendEvent(this.selects)
-      this.propagateFormSendEvent(this.textareas)
-      this.propagateFormSendEvent(this.localStorageValues)
-      this.propagateFormSendEvent(this.sessionStorageValues)
-      this.propagateFormSendEvent(this.buttons)
+      this.prepareFormElements(this.inputs)
+      this.prepareFormElements(this.selects)
+      this.prepareFormElements(this.textareas)
+      this.prepareFormElements(this.localStorageValues)
+      this.prepareFormElements(this.sessionStorageValues)
+      this.prepareFormElements(this.buttons)
     }
 
-    propagateFormSendEvent (elms) {
+    prepareFormElements (elms) {
       for (let index = 0; index < elms.length; index++) {
         const elm = elms[index]
-        const eventName = elm.getAttribute('data-send-form-on')
-        if (eventName) {
-          const ajaxIcon = new ParsedElmSelectors(
-            elm.getAttribute('data-ajax-icon')
-          ).value()[0]
-          if (ajaxIcon) {
-            ajaxIcon.style.display = 'none'
-          }
-          elm.addEventListener(eventName, () => {
-            this.submit(elm)
-          })
+        const ajaxIcon = new ParsedElmSelectors(
+          elm.getAttribute('data-ajax-icon')
+        ).value()[0]
+        if (ajaxIcon) {
+          ajaxIcon.style.display = 'none'
         }
       }
     }

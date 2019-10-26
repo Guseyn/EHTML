@@ -80,6 +80,10 @@ function (_HTMLFormElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {
+      this.onsubmit = function () {
+        return false;
+      };
+
       this.progressBars = new PreparedProgressBars(this.getElementsByTagName('progress')).value();
       this.inputs = this.getElementsByTagName('input');
       this.selects = this.getElementsByTagName('select');
@@ -88,37 +92,23 @@ function (_HTMLFormElement) {
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       this.buttons = this.getElementsByTagName('button');
       this.tuneFileInputs(this.filteredFileInputs(this.inputs));
-      this.propagateFormSendEvent(this.inputs);
-      this.propagateFormSendEvent(this.selects);
-      this.propagateFormSendEvent(this.textareas);
-      this.propagateFormSendEvent(this.localStorageValues);
-      this.propagateFormSendEvent(this.sessionStorageValues);
-      this.propagateFormSendEvent(this.buttons);
+      this.prepareFormElements(this.inputs);
+      this.prepareFormElements(this.selects);
+      this.prepareFormElements(this.textareas);
+      this.prepareFormElements(this.localStorageValues);
+      this.prepareFormElements(this.sessionStorageValues);
+      this.prepareFormElements(this.buttons);
     }
   }, {
-    key: "propagateFormSendEvent",
-    value: function propagateFormSendEvent(elms) {
-      var _this = this;
-
-      var _loop = function _loop(index) {
-        var elm = elms[index];
-        var eventName = elm.getAttribute('data-send-form-on');
-
-        if (eventName) {
-          var ajaxIcon = new ParsedElmSelectors(elm.getAttribute('data-ajax-icon')).value()[0];
-
-          if (ajaxIcon) {
-            ajaxIcon.style.display = 'none';
-          }
-
-          elm.addEventListener(eventName, function () {
-            _this.submit(elm);
-          });
-        }
-      };
-
+    key: "prepareFormElements",
+    value: function prepareFormElements(elms) {
       for (var index = 0; index < elms.length; index++) {
-        _loop(index);
+        var elm = elms[index];
+        var ajaxIcon = new ParsedElmSelectors(elm.getAttribute('data-ajax-icon')).value()[0];
+
+        if (ajaxIcon) {
+          ajaxIcon.style.display = 'none';
+        }
       }
     }
   }, {
@@ -227,11 +217,11 @@ function (_HTMLFormElement) {
   }, {
     key: "tuneFileInput",
     value: function tuneFileInput(fileInput) {
-      var _this2 = this;
+      var _this = this;
 
       var readProgressBar = new ParsedElmSelectors(fileInput.getAttribute('data-read-progress-bar')).value()[0];
       fileInput.addEventListener('change', function () {
-        _this2.readFilesContentForRequestBody(fileInput, readProgressBar);
+        _this.readFilesContentForRequestBody(fileInput, readProgressBar);
       });
     }
   }, {
