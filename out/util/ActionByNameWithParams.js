@@ -38,6 +38,9 @@ var _require3 = require('@page-libs/dom'),
 var _browserified2 = browserified(require('@cuties/async')),
     Logged = _browserified2.Logged;
 
+var _browserified3 = browserified(require('@cuties/if-else')),
+    If = _browserified3.If;
+
 var RedirectedLocation = require('./../async/RedirectedLocation');
 
 var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
@@ -67,6 +70,9 @@ var EncodedURI = require('./../async/EncodedURI');
 var TurboRedirected = require('./../async/TurboRedirected');
 
 var actions = {
+  "if": function _if(statement, action) {
+    return new If(statement, action);
+  },
   logToConsole: function logToConsole() {
     for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
       objs[_key] = arguments[_key];

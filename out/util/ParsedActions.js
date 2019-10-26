@@ -62,11 +62,29 @@ function () {
         return action.length !== 0;
       });
       splittedActions.forEach(function (action, index) {
-        var actionName = action.split('(')[0].trim();
+        var executedIfStatement = /if([\s]+)?(\(.+\))([\s]+)/.exec(action);
+        var ifStatement;
 
-        var actionParams = _this.actionParams(action, actionName);
+        if (executedIfStatement) {
+          ifStatement = executedIfStatement[0];
+          action = action.replace(ifStatement, '');
+        }
 
-        var parsedAction = _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value();
+        var actionName = _this.expressionName(action);
+
+        var actionParams = _this.expressionParams(action, actionName);
+
+        var parsedAction;
+
+        if (ifStatement) {
+          var ifStatementName = _this.expressionName(ifStatement);
+
+          var ifStatementParam = _this.expressionParams(ifStatement, ifStatementName)[0];
+
+          parsedAction = new ActionByNameWithParams(ifStatementName, ifStatementParam, _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value()).value();
+        } else {
+          parsedAction = _construct(ActionByNameWithParams, [actionName].concat(_toConsumableArray(actionParams))).value();
+        }
 
         parsedActions[index] = parsedAction;
       });
@@ -74,8 +92,13 @@ function () {
       return parsedActions;
     }
   }, {
-    key: "actionParams",
-    value: function actionParams(action, actionName) {
+    key: "expressionName",
+    value: function expressionName(action) {
+      return action.split('(')[0].trim();
+    }
+  }, {
+    key: "expressionParams",
+    value: function expressionParams(action, actionName) {
       var params = action.split(actionName)[1]; // eslint-disable-next-line no-eval
 
       return eval("this.funcWithParams".concat(params));
