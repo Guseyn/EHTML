@@ -1,8 +1,9 @@
 
 'use strict'
 
-const { browserified } = require('@page-libs/cutie')
-const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const { browserified, as } = require('@page-libs/cutie')
+const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode } = require('@page-libs/ajax')
+const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const E = require('./../E')
@@ -40,20 +41,32 @@ E(
           (googleUser) => {
             const body = {}
             body[this.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token
-            new AppliedActionsOnResponse(
-              this.tagName,
-              this.getAttribute('data-response-object-name'),
-              this.getAttribute('data-actions-on-response'),
-              new ParsedJSON(
-                new ResponseBody(
-                  new ResponseFromAjaxRequest(
-                    {
-                      url: this.getAttribute('data-redirect-url') || '/',
-                      method: 'POST'
-                    },
-                    JSON.stringify(body)
+            new ResponseFromAjaxRequest(
+              {
+                url: this.getAttribute('data-redirect-url') || '/',
+                method: 'POST'
+              },
+              JSON.stringify(body)
+            ).as('RESPONSE').after(
+              new AppliedActionsOnResponse(
+                this.tagName,
+                this.getAttribute('data-response-object-name') || 'responseObject',
+                new ParsedJSON(
+                  new StringFromBuffer(
+                    new ResponseBody(
+                      as('RESPONSE')
+                    )
                   )
-                )
+                ),
+                this.getAttribute('data-response-headers-name') || 'responseHeaders',
+                new ResponseHeaders(
+                  as('RESPONSE')
+                ),
+                this.getAttribute('data-response-status-code-name') || 'responseStatusCode',
+                new ResponseStatusCode(
+                  as('RESPONSE')
+                ),
+                this.getAttribute('data-actions-on-response')
               )
             ).call()
           },

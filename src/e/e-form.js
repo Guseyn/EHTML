@@ -2,9 +2,10 @@
 'use strict'
 
 const { browserified, as } = require('@page-libs/cutie')
-const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode } = require('@page-libs/ajax')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON, StringifiedJSON } = browserified(require('@cuties/json'))
+const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const ShownElement = require('./../async/ShownElement')
 const EnabledElement = require('./../async/EnabledElement')
@@ -79,32 +80,42 @@ E(
       new ShownElement(
         ajaxIcon
       ).after(
-        new ParsedJSON(
-          new ResponseBody(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', target.getAttribute('data-request-url'),
-                'headers', new ParsedJSON(
-                  target.getAttribute('data-request-headers') || '{}'
-                ),
-                'method', target.getAttribute('data-request-method') || 'POST',
-                'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
-                'progressEvent', new ShowProgressEvent(progressBar)
-              ),
-              new StringifiedJSON(
-                requestBody
-              )
-            )
+        new ResponseFromAjaxRequest(
+          new CreatedOptions(
+            'url', target.getAttribute('data-request-url'),
+            'headers', new ParsedJSON(
+              target.getAttribute('data-request-headers') || '{}'
+            ),
+            'method', target.getAttribute('data-request-method') || 'POST',
+            'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
+            'progressEvent', new ShowProgressEvent(progressBar)
+          ),
+          new StringifiedJSON(
+            requestBody
           )
         ).as('RESPONSE').after(
           new EnabledElement(target).after(
             new AppliedActionsOnResponse(
               target.tagName,
-              target.getAttribute('data-response-object-name'),
+              target.getAttribute('data-response-object-name') || 'responseObject',
+              new ParsedJSON(
+                new StringFromBuffer(
+                  new ResponseBody(
+                    as('RESPONSE')
+                  )
+                )
+              ),
+              target.getAttribute('data-response-headers-name') || 'responseHeaders',
+              new ResponseHeaders(
+                as('RESPONSE')
+              ),
+              target.getAttribute('data-response-status-code-name') || 'responseStatusCode',
+              new ResponseStatusCode(
+                as('RESPONSE')
+              ),
               `hideElms('${target.getAttribute('data-ajax-icon')}');`.concat(
                 target.getAttribute('data-actions-on-response') || ''
-              ),
-              as('RESPONSE')
+              )
             )
           )
         )

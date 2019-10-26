@@ -116,6 +116,12 @@ var actions = {
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-response-object-name');
   },
+  mapHeadersToElm: function mapHeadersToElm(headers, elmSelector) {
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), headers, 'data-response-headers-name');
+  },
+  mapStatusCodeToElm: function mapStatusCodeToElm(statusCode, elmSelector) {
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), statusCode, 'data-response-status-code-name');
+  },
   toggleElms: function toggleElms(className) {
     for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
       elmSelectors[_key5 - 1] = arguments[_key5];
