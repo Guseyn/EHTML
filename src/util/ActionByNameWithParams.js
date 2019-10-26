@@ -4,6 +4,7 @@ const { browserified } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent } = require('@page-libs/dom')
+const { Logged } = browserified(require('@cuties/async'))
 const RedirectedLocation = require('./../async/RedirectedLocation')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
 const SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue')
@@ -20,6 +21,10 @@ const EncodedURI = require('./../async/EncodedURI')
 const TurboRedirected = require('./../async/TurboRedirected')
 
 const actions = {
+  logToConsole: (...objs) => {
+    return new Logged(...objs)
+  },
+
   redirect: (url) => {
     return new RedirectedLocation(new EncodedURI(url))
   },

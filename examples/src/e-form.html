@@ -90,6 +90,7 @@
         data-response-object-name="saved"
         onclick="this.form.submit(this)"
         data-actions-on-response="
+          logToConsole('${saved}');
           saveToSessionStorage('saved', '${saved}');
           hideElms('#form');
           innerHTML('#result', '/../html/form-result.html');

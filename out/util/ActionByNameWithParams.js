@@ -35,6 +35,9 @@ var _require3 = require('@page-libs/dom'),
     ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML,
     ElementWithTextContent = _require3.ElementWithTextContent;
 
+var _browserified2 = browserified(require('@cuties/async')),
+    Logged = _browserified2.Logged;
+
 var RedirectedLocation = require('./../async/RedirectedLocation');
 
 var LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue');
@@ -64,6 +67,13 @@ var EncodedURI = require('./../async/EncodedURI');
 var TurboRedirected = require('./../async/TurboRedirected');
 
 var actions = {
+  logToConsole: function logToConsole() {
+    for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
+      objs[_key] = arguments[_key];
+    }
+
+    return _construct(Logged, objs);
+  },
   redirect: function redirect(url) {
     return new RedirectedLocation(new EncodedURI(url));
   },
@@ -74,29 +84,29 @@ var actions = {
     return new SessionStorageWithSetValue(sessionStorage, key, value);
   },
   hideElms: function hideElms() {
-    for (var _len = arguments.length, elmSelectors = new Array(_len), _key = 0; _key < _len; _key++) {
-      elmSelectors[_key] = arguments[_key];
+    for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      elmSelectors[_key2] = arguments[_key2];
     }
 
     return new HiddenElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   showElms: function showElms() {
-    for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      elmSelectors[_key2] = arguments[_key2];
+    for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      elmSelectors[_key3] = arguments[_key3];
     }
 
     return new ShownElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   disableElms: function disableElms() {
-    for (var _len3 = arguments.length, elmSelectors = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      elmSelectors[_key3] = arguments[_key3];
+    for (var _len4 = arguments.length, elmSelectors = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      elmSelectors[_key4] = arguments[_key4];
     }
 
     return new DisabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
   enableElms: function enableElms() {
-    for (var _len4 = arguments.length, elmSelectors = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-      elmSelectors[_key4] = arguments[_key4];
+    for (var _len5 = arguments.length, elmSelectors = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+      elmSelectors[_key5] = arguments[_key5];
     }
 
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
@@ -123,8 +133,8 @@ var actions = {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), statusCode, 'data-response-status-code-name');
   },
   toggleElms: function toggleElms(className) {
-    for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-      elmSelectors[_key5 - 1] = arguments[_key5];
+    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+      elmSelectors[_key6 - 1] = arguments[_key6];
     }
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
@@ -147,8 +157,8 @@ function () {
 
     this.name = name;
 
-    for (var _len6 = arguments.length, params = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-      params[_key6 - 1] = arguments[_key6];
+    for (var _len7 = arguments.length, params = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+      params[_key7 - 1] = arguments[_key7];
     }
 
     this.params = params;
