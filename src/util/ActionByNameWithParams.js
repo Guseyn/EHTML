@@ -126,6 +126,26 @@ const actions = {
     )
   },
 
+  mapHeadersToElm: (headers, elmSelector) => {
+    return new ElementWithMappedObject(
+      new FirstOf(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      headers,
+      'data-response-headers-name'
+    )
+  },
+
+  mapStatusCodeToElm: (statusCode, elmSelector) => {
+    return new ElementWithMappedObject(
+      new FirstOf(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      statusCode,
+      'data-response-status-code-name'
+    )
+  },
+
   toggleElms: (className, ...elmSelectors) => {
     return new ElementsWithToggledClass(
       className,

@@ -1,10 +1,10 @@
 'use strict'
 
-const { browserified } = require('@page-libs/cutie')
+const { browserified, as } = require('@page-libs/cutie')
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
-const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
+const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode } = require('@page-libs/ajax')
 const ShownElement = require('./../async/ShownElement')
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const ParsedElmSelectors = require('./../util/ParsedElmSelectors')
@@ -43,26 +43,36 @@ E(
       new ShownElement(
         this.ajaxIcon
       ).after(
-        new AppliedActionsOnResponse(
-          this.tagName,
-          this.getAttribute('data-response-object-name'),
-          `hideElms('${this.getAttribute('data-ajax-icon')}');`.concat(
-            this.getAttribute('data-actions-on-response') || ''
-          ),
-          new ParsedJSON(
-            new StringFromBuffer(
-              new ResponseBody(
-                new ResponseFromAjaxRequest(
-                  new CreatedOptions(
-                    'url', this.getAttribute('data-src'),
-                    'method', 'GET',
-                    'headers', new ParsedJSON(
-                      this.getAttribute('data-headers') || '{}'
-                    ),
-                    'progressEvent', new ShowProgressEvent(this.progressBar)
-                  )
+        new ResponseFromAjaxRequest(
+          new CreatedOptions(
+            'url', this.getAttribute('data-src'),
+            'method', 'GET',
+            'headers', new ParsedJSON(
+              this.getAttribute('data-headers') || '{}'
+            ),
+            'progressEvent', new ShowProgressEvent(this.progressBar)
+          )
+        ).as('RESPONSE').after(
+          new AppliedActionsOnResponse(
+            this.tagName,
+            this.getAttribute('data-response-object-name') || 'responseObject',
+            new ParsedJSON(
+              new StringFromBuffer(
+                new ResponseBody(
+                  as('RESPONSE')
                 )
               )
+            ),
+            this.getAttribute('data-response-headers-name') || 'responseHeaders',
+            new ResponseHeaders(
+              as('RESPONSE')
+            ),
+            this.getAttribute('data-response-status-code-name') || 'responseStatusCode',
+            new ResponseStatusCode(
+              as('RESPONSE')
+            ),
+            `hideElms('${this.getAttribute('data-ajax-icon')}');`.concat(
+              this.getAttribute('data-actions-on-response') || ''
             )
           )
         )

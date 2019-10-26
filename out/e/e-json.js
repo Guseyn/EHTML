@@ -27,7 +27,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -40,7 +41,9 @@ var _browserified3 = browserified(require('@cuties/buffer')),
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
 var ShownElement = require('./../async/ShownElement');
 
@@ -85,7 +88,7 @@ function (_HTMLElement) {
   }, {
     key: "activate",
     value: function activate() {
-      new ShownElement(this.ajaxIcon).after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || ''), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar)))))))).call();
+      new ShownElement(this.ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))).as('RESPONSE').after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), this.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), this.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || '')))).call();
     }
   }]);
 

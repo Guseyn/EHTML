@@ -27,14 +27,20 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
-var _browserified = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified.ParsedJSON;
+var _browserified = browserified(require('@cuties/buffer')),
+    StringFromBuffer = _browserified.StringFromBuffer;
+
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
@@ -85,10 +91,10 @@ function (_HTMLButtonElement) {
         auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
           body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+          new ResponseFromAjaxRequest({
             url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body))))).call();
+          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), _this2.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), _this2.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), _this2.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });

@@ -32,7 +32,9 @@ var _require = require('@page-libs/cutie'),
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -40,6 +42,9 @@ var _browserified = browserified(require('@cuties/object')),
 var _browserified2 = browserified(require('@cuties/json')),
     ParsedJSON = _browserified2.ParsedJSON,
     StringifiedJSON = _browserified2.StringifiedJSON;
+
+var _browserified3 = browserified(require('@cuties/buffer')),
+    StringFromBuffer = _browserified3.StringFromBuffer;
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
@@ -124,7 +129,7 @@ function (_HTMLFormElement) {
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
-      new ShownElement(ajaxIcon).after(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''), as('RESPONSE'))))).call();
+      new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
     }
   }, {
     key: "requestBody",

@@ -31,14 +31,16 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, obj, objName) {
+  function ParsedActions(actions, tagName, resObj, objName, headersName, statusCodeName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
     this.actions = actions;
     this.tagName = tagName;
-    this.obj = obj;
+    this.resObj = resObj;
     this.objName = objName;
+    this.headersName = headersName;
+    this.statusCodeName = statusCodeName;
   }
 
   _createClass(ParsedActions, [{
@@ -92,7 +94,7 @@ function () {
           param = JSON.stringify(param);
         }
 
-        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(param, _this2.obj, _this2.objName));
+        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(new StringWithMappedObjectAndAppliedVariables(new StringWithMappedObjectAndAppliedVariables(param, _this2.resObj, _this2.objName), _this2.resObj, _this2.headersName), _this2.resObj, _this2.statusCodeName));
       });
     }
   }]);

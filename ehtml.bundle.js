@@ -6629,11 +6629,11 @@ var ParsedActions = require('./../util/ParsedActions');
 
 var BuiltAsyncTreeByParsedActions = require('./../util/BuiltAsyncTreeByParsedActions');
 
-var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objName, actions, obj) {
+var AppliedActionsOnResponse = function AppliedActionsOnResponse(tagName, objName, obj, headersName, headers, statusCodeName, statusCode, actions) {
   _classCallCheck(this, AppliedActionsOnResponse);
 
-  var OBJ = {};
-  return new TheSameObjectWithValue(OBJ, objName, obj).after(new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, OBJ, objName).value()).value());
+  var resObj = {};
+  return new TheSameObjectWithValue(resObj, objName, obj).after(new TheSameObjectWithValue(resObj, headersName, headers).after(new TheSameObjectWithValue(resObj, statusCodeName, statusCode).after(new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, resObj, objName, headersName, statusCodeName).value()).value())));
 };
 
 module.exports = AppliedActionsOnResponse;
@@ -8350,7 +8350,9 @@ var _require = require('@page-libs/cutie'),
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -8358,6 +8360,9 @@ var _browserified = browserified(require('@cuties/object')),
 var _browserified2 = browserified(require('@cuties/json')),
     ParsedJSON = _browserified2.ParsedJSON,
     StringifiedJSON = _browserified2.StringifiedJSON;
+
+var _browserified3 = browserified(require('@cuties/buffer')),
+    StringFromBuffer = _browserified3.StringFromBuffer;
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
@@ -8442,7 +8447,7 @@ function (_HTMLFormElement) {
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
-      new ShownElement(ajaxIcon).after(new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)))).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name'), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''), as('RESPONSE'))))).call();
+      new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
     }
   }, {
     key: "requestBody",
@@ -8605,7 +8610,7 @@ function (_HTMLFormElement) {
   "extends": 'form'
 });
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElement":164,"./../async/ShownElement":179,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"./../async/EnabledElement":164,"./../async/ShownElement":179,"./../util/FileInfo":203,"./../util/ParsedElmSelectors":205,"./../util/PreparedProgressBars":206,"./../util/ShowFileReaderEndEvent":207,"./../util/ShowFileReaderProgressEvent":208,"./../util/ShowProgressEvent":209,"@cuties/buffer":1,"@cuties/json":80,"@cuties/object":85,"@page-libs/ajax":120,"@page-libs/cutie":131}],188:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8635,14 +8640,20 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
-var _browserified = browserified(require('@cuties/json')),
-    ParsedJSON = _browserified.ParsedJSON;
+var _browserified = browserified(require('@cuties/buffer')),
+    StringFromBuffer = _browserified.StringFromBuffer;
+
+var _browserified2 = browserified(require('@cuties/json')),
+    ParsedJSON = _browserified2.ParsedJSON;
 
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
@@ -8693,10 +8704,10 @@ function (_HTMLButtonElement) {
         auth2.attachClickHandler(_this2, {}, function (googleUser) {
           var body = {};
           body[_this2.getAttribute('data-request-token-key') || 'googleToken'] = googleUser.getAuthResponse().id_token;
-          new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name'), _this2.getAttribute('data-actions-on-response'), new ParsedJSON(new ResponseBody(new ResponseFromAjaxRequest({
+          new ResponseFromAjaxRequest({
             url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body))))).call();
+          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), _this2.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), _this2.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), _this2.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
@@ -8724,7 +8735,7 @@ function (_HTMLButtonElement) {
   "extends": 'button'
 });
 
-},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"@cuties/json":80,"@page-libs/ajax":120,"@page-libs/cutie":131}],189:[function(require,module,exports){
+},{"./../E":153,"./../async/AppliedActionsOnResponse":154,"@cuties/buffer":1,"@cuties/json":80,"@page-libs/ajax":120,"@page-libs/cutie":131}],189:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8875,7 +8886,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var _require = require('@page-libs/cutie'),
-    browserified = _require.browserified;
+    browserified = _require.browserified,
+    as = _require.as;
 
 var _browserified = browserified(require('@cuties/object')),
     CreatedOptions = _browserified.CreatedOptions;
@@ -8888,7 +8900,9 @@ var _browserified3 = browserified(require('@cuties/buffer')),
 
 var _require2 = require('@page-libs/ajax'),
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+    ResponseBody = _require2.ResponseBody,
+    ResponseHeaders = _require2.ResponseHeaders,
+    ResponseStatusCode = _require2.ResponseStatusCode;
 
 var ShownElement = require('./../async/ShownElement');
 
@@ -8933,7 +8947,7 @@ function (_HTMLElement) {
   }, {
     key: "activate",
     value: function activate() {
-      new ShownElement(this.ajaxIcon).after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name'), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || ''), new ParsedJSON(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar)))))))).call();
+      new ShownElement(this.ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))).as('RESPONSE').after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), this.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), this.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || '')))).call();
     }
   }]);
 
@@ -9579,6 +9593,12 @@ var actions = {
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
     return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-response-object-name');
   },
+  mapHeadersToElm: function mapHeadersToElm(headers, elmSelector) {
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), headers, 'data-response-headers-name');
+  },
+  mapStatusCodeToElm: function mapStatusCodeToElm(statusCode, elmSelector) {
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), statusCode, 'data-response-status-code-name');
+  },
   toggleElms: function toggleElms(className) {
     for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
       elmSelectors[_key5 - 1] = arguments[_key5];
@@ -9963,14 +9983,16 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, obj, objName) {
+  function ParsedActions(actions, tagName, resObj, objName, headersName, statusCodeName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
     this.actions = actions;
     this.tagName = tagName;
-    this.obj = obj;
+    this.resObj = resObj;
     this.objName = objName;
+    this.headersName = headersName;
+    this.statusCodeName = statusCodeName;
   }
 
   _createClass(ParsedActions, [{
@@ -10024,7 +10046,7 @@ function () {
           param = JSON.stringify(param);
         }
 
-        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(param, _this2.obj, _this2.objName));
+        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(new StringWithMappedObjectAndAppliedVariables(new StringWithMappedObjectAndAppliedVariables(param, _this2.resObj, _this2.objName), _this2.resObj, _this2.headersName), _this2.resObj, _this2.statusCodeName));
       });
     }
   }]);

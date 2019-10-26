@@ -18,7 +18,9 @@ class StringWithMappedObjectAndAppliedVariables {
       )
     )
     if (this.obj) {
-      this.str = this.stringWithMappedObject(this.str, this.obj, this.objName)
+      this.str = this.stringWithMappedObject(
+        this.str, this.obj, this.objName
+      )
       return this.str
     }
     return this.evalString(this.str)
