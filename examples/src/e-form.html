@@ -88,9 +88,15 @@
         data-progress-bar="#progressBar"
         data-ajax-icon="#ajaxIcon"
         data-response-object-name="saved"
+        data-response-headers-name="savedHeaders"
+        data-response-status-code-name="savedStatusCode"
         onclick="this.form.submit(this)"
         data-actions-on-response="
-          logToConsole('${saved}');
+          logToConsole('object: ', '${saved}');
+          logToConsole('headers: ', '${savedHeaders}');
+          logToConsole('status code: ', '${savedStatusCode}');
+          if ('${savedStatusCode === 200}') logToConsole('status code is 200');
+          if ('${savedStatusCode === 400}') logToConsole('status code is 400');
           saveToSessionStorage('saved', '${saved}');
           hideElms('#form');
           innerHTML('#result', '/../html/form-result.html');

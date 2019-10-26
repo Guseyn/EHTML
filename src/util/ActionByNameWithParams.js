@@ -5,6 +5,7 @@ const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ResponseFromAjaxRequest, ResponseBody } = require('@page-libs/ajax')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent } = require('@page-libs/dom')
 const { Logged } = browserified(require('@cuties/async'))
+const { If } = browserified(require('@cuties/if-else'))
 const RedirectedLocation = require('./../async/RedirectedLocation')
 const LocalStorageWithSetValue = require('./../async/LocalStorageWithSetValue')
 const SessionStorageWithSetValue = require('./../async/SessionStorageWithSetValue')
@@ -21,6 +22,10 @@ const EncodedURI = require('./../async/EncodedURI')
 const TurboRedirected = require('./../async/TurboRedirected')
 
 const actions = {
+  if: (statement, action) => {
+    return new If(statement, action)
+  },
+
   logToConsole: (...objs) => {
     return new Logged(...objs)
   },

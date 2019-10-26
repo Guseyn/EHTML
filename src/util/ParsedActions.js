@@ -27,18 +27,41 @@ class ParsedActions {
       .map(action => action.trim())
       .filter(action => action.length !== 0)
     splittedActions.forEach((action, index) => {
-      const actionName = action.split('(')[0].trim()
-      const actionParams = this.actionParams(action, actionName)
-      const parsedAction = new ActionByNameWithParams(
-        actionName, ...actionParams
-      ).value()
+      const executedIfStatement = /if([\s]+)?(\(.+\))([\s]+)/.exec(action)
+      let ifStatement
+      if (executedIfStatement) {
+        ifStatement = executedIfStatement[0]
+        action = action.replace(ifStatement, '')
+      }
+      const actionName = this.expressionName(action)
+      const actionParams = this.expressionParams(action, actionName)
+      let parsedAction
+      if (ifStatement) {
+        const ifStatementName = this.expressionName(ifStatement)
+        const ifStatementParam = this.expressionParams(ifStatement, ifStatementName)[0]
+        parsedAction = new ActionByNameWithParams(
+          ifStatementName,
+          ifStatementParam,
+          new ActionByNameWithParams(
+            actionName, ...actionParams
+          ).value()
+        ).value()
+      } else {
+        parsedAction = new ActionByNameWithParams(
+          actionName, ...actionParams
+        ).value()
+      }
       parsedActions[index] = parsedAction
     })
     parsedActions.length = splittedActions.length
     return parsedActions
   }
 
-  actionParams (action, actionName) {
+  expressionName (action) {
+    return action.split('(')[0].trim()
+  }
+
+  expressionParams (action, actionName) {
     const params = action.split(actionName)[1]
     // eslint-disable-next-line no-eval
     return eval(`this.funcWithParams${params}`)
