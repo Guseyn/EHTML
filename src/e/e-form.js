@@ -17,6 +17,19 @@ const ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent')
 const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const E = require('./../E')
 
+const VALIDATION_PATTERNS = {
+  date: /\\/g,
+  dateTime: /\\/g,
+  email: /\\/g,
+  month: /\\/g,
+  number: /\\/g,
+  password: /\\/g,
+  tel: /\\/g,
+  time: /\\/g,
+  url: /\\/g,
+  week: /\\/g
+}
+
 E(
   'e-form',
   class extends HTMLFormElement {
@@ -74,6 +87,13 @@ E(
       ).value()[0]
       target.setAttribute('disabled', 'true')
       const requestBody = this.requestBody()
+      const validations = []
+      this.validateFormElements(this.inputs, requestBody, validations)
+      this.validateFormElements(this.selects, requestBody, validations)
+      this.validateFormElements(this.textareas, requestBody, validations)
+      this.validateFormElements(this.localStorageValues, requestBody, validations)
+      this.validateFormElements(this.sessionStorageValues, requestBody, validations)
+      console.log(validations)
       new ShownElement(
         ajaxIcon
       ).after(
@@ -119,6 +139,47 @@ E(
       ).call()
     }
 
+    validateFormElements (elements, requestBody, results) {
+      for (let i = 0; i < elements.length; i++) {
+        const element = elements[i]
+        results.push(this.validateFormElement(element, requestBody))
+      }
+    }
+
+    validateFormElement (element, requestBody) {
+      const validationPatternAttribute = element.getAttribute('data-validate-as')
+      const requiredAttribute = element.getAttribute('required')
+      const nameAttribute = element.getAttribute('name')
+      let value = requestBody[nameAttribute]
+      if (typeof value === 'string') {
+        value = value.trim()
+      }
+      if (requiredAttribute) {
+        if (!value) {
+          // TODO: apply error style on element
+          return {
+            status: false,
+            message: element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
+            element: element
+          }
+        }
+      }
+      if (validationPatternAttribute) {
+        const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute)
+        // TODO: apply error style on element
+        if (!validationPattern.test(value)) {
+          return {
+            status: false,
+            message: element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`,
+            element: element
+          }
+        }
+      }
+      return {
+        status: true
+      }
+    }
+
     requestBody () {
       const requestBody = {}
       this.retrievedValuesFromInputsForRequestBody(this.inputs, requestBody)
@@ -140,7 +201,16 @@ E(
             requestBody[input.name] = input.value
           }
         } else if (input.type.toLowerCase() === 'checkbox') {
-          requestBody[input.name] = input.checked
+          if (!requestBody[input.name]) {
+            requestBody[input.name] = []
+          }
+          const inputValue = input.value
+          if (!inputValue) {
+            throw new Error('checkbox must have \'value\' attribute')
+          }
+          const inputValueObj = {}
+          inputValueObj[inputValue] = input.checked
+          requestBody[input.name].push(inputValueObj)
         } else if (input.type.toLowerCase() === 'file') {
           requestBody[input.name] = input.filesInfo
         } else {

@@ -66,6 +66,18 @@ var PreparedProgressBars = require('./../util/PreparedProgressBars');
 
 var E = require('./../E');
 
+var VALIDATION_PATTERNS = {
+  date: /\\/g,
+  dateTime: /\\/g,
+  email: /\\/g,
+  month: /\\/g,
+  number: /\\/g,
+  password: /\\/g,
+  tel: /\\/g,
+  time: /\\/g,
+  url: /\\/g,
+  week: /\\/g
+};
 E('e-form',
 /*#__PURE__*/
 function (_HTMLFormElement) {
@@ -119,7 +131,61 @@ function (_HTMLFormElement) {
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
+      var validations = [];
+      this.validateFormElements(this.inputs, requestBody, validations);
+      this.validateFormElements(this.selects, requestBody, validations);
+      this.validateFormElements(this.textareas, requestBody, validations);
+      this.validateFormElements(this.localStorageValues, requestBody, validations);
+      this.validateFormElements(this.sessionStorageValues, requestBody, validations);
+      console.log(validations);
       new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
+    }
+  }, {
+    key: "validateFormElements",
+    value: function validateFormElements(elements, requestBody, results) {
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        results.push(this.validateFormElement(element, requestBody));
+      }
+    }
+  }, {
+    key: "validateFormElement",
+    value: function validateFormElement(element, requestBody) {
+      var validationPatternAttribute = element.getAttribute('data-validate-as');
+      var requiredAttribute = element.getAttribute('required');
+      var nameAttribute = element.getAttribute('name');
+      var value = requestBody[nameAttribute];
+
+      if (typeof value === 'string') {
+        value = value.trim();
+      }
+
+      if (requiredAttribute) {
+        if (!value) {
+          // TODO: apply error style on element
+          return {
+            status: false,
+            message: element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"),
+            element: element
+          };
+        }
+      }
+
+      if (validationPatternAttribute) {
+        var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute); // TODO: apply error style on element
+
+        if (!validationPattern.test(value)) {
+          return {
+            status: false,
+            message: element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern),
+            element: element
+          };
+        }
+      }
+
+      return {
+        status: true
+      };
     }
   }, {
     key: "requestBody",
@@ -147,7 +213,19 @@ function (_HTMLFormElement) {
             requestBody[input.name] = input.value;
           }
         } else if (input.type.toLowerCase() === 'checkbox') {
-          requestBody[input.name] = input.checked;
+          if (!requestBody[input.name]) {
+            requestBody[input.name] = [];
+          }
+
+          var inputValue = input.value;
+
+          if (!inputValue) {
+            throw new Error('checkbox must have \'value\' attribute');
+          }
+
+          var inputValueObj = {};
+          inputValueObj[inputValue] = input.checked;
+          requestBody[input.name].push(inputValueObj);
         } else if (input.type.toLowerCase() === 'file') {
           requestBody[input.name] = input.filesInfo;
         } else {
