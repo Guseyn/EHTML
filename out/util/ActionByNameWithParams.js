@@ -145,9 +145,11 @@ var actions = {
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
   },
-  turboRedirect: function turboRedirect(href, headers, _ref) {
-    var progressBarClassName = _ref.progressBarClassName,
+  turboRedirect: function turboRedirect(href, headers) {
+    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        progressBarClassName = _ref.progressBarClassName,
         ajaxFavicon = _ref.ajaxFavicon;
+
     return new TurboRedirected(href, headers, {
       progressBarClassName: progressBarClassName,
       ajaxFavicon: ajaxFavicon

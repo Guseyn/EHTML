@@ -31,12 +31,14 @@
 
   <body class="main">
     <form is="e-form" id="form">
-      <input type="checkbox" name="isTrue"><br/>
+      <input type="checkbox" name="selected" value="first"><br/>
+      <input type="checkbox" name="selected" value="second"><br/>
+      <input type="checkbox" name="selected" value="third"><br/>
       <input type="color" name="colorhash"><br/>
       <input type="date" name="date"><br/>
       <input type="datetime-local" name="dateTimeLocal"><br/>
       <input type="email" name="email"><br/>
-      <input type="file" name="files1" data-read-progress-bar="#readProgressBar1" multiple><br/>
+      <input type="file" name="files1" data-read-progress-bar="#readProgressBar1" multiple required><br/>
       <progress id="readProgressBar1"></progress><br/>
       <input type="file" name="files2" data-read-progress-bar="#readProgressBar2" multiple><br/>
       <progress id="readProgressBar2"></progress><br/>
