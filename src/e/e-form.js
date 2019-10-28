@@ -42,6 +42,7 @@ E(
     }
 
     onRender () {
+      this.setAttribute('novalidate', 'true')
       this.onsubmit = () => {
         return false
       }
@@ -55,6 +56,10 @@ E(
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value')
       this.buttons = this.getElementsByTagName('button')
       this.tuneFileInputs(this.filteredFileInputs(this.inputs))
+      this.prepareDifferentFormElements()
+    }
+
+    prepareDifferentFormElements () {
       this.prepareFormElements(this.inputs)
       this.prepareFormElements(this.selects)
       this.prepareFormElements(this.textareas)
@@ -85,58 +90,78 @@ E(
       const ajaxIcon = new ParsedElmSelectors(
         target.getAttribute('data-ajax-icon')
       ).value()[0]
-      target.setAttribute('disabled', 'true')
       const requestBody = this.requestBody()
       const validations = []
+      this.validateDifferentFormElements(requestBody, validations)
+      if (this.isFormValid(validations)) {
+        target.setAttribute('disabled', 'true')
+        new ShownElement(
+          ajaxIcon
+        ).after(
+          new ResponseFromAjaxRequest(
+            new CreatedOptions(
+              'url', target.getAttribute('data-request-url'),
+              'headers', new ParsedJSON(
+                target.getAttribute('data-request-headers') || '{}'
+              ),
+              'method', target.getAttribute('data-request-method') || 'POST',
+              'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
+              'progressEvent', new ShowProgressEvent(progressBar)
+            ),
+            new StringifiedJSON(
+              requestBody
+            )
+          ).as('RESPONSE').after(
+            new EnabledElement(target).after(
+              new AppliedActionsOnResponse(
+                target.tagName,
+                target.getAttribute('data-response-object-name') || 'responseObject',
+                new ParsedJSON(
+                  new StringFromBuffer(
+                    new ResponseBody(
+                      as('RESPONSE')
+                    )
+                  )
+                ),
+                target.getAttribute('data-response-headers-name') || 'responseHeaders',
+                new ResponseHeaders(
+                  as('RESPONSE')
+                ),
+                target.getAttribute('data-response-status-code-name') || 'responseStatusCode',
+                new ResponseStatusCode(
+                  as('RESPONSE')
+                ),
+                `hideElms('${target.getAttribute('data-ajax-icon')}');`.concat(
+                  target.getAttribute('data-actions-on-response') || ''
+                )
+              )
+            )
+          )
+        ).call()
+      } else {
+        // target.removeAttribute('disabled')
+      }
+    }
+
+    isFormValid (validations) {
+      for (let i = 0; i < validations.length; i++) {
+        if (!validations[i]) {
+          this.showErrorForFormElement(
+            this,
+            this.getAttribute('data-validation-error-message') || `the form is invalid`
+          )
+          return false
+        }
+      }
+      return true
+    }
+
+    validateDifferentFormElements (requestBody, validations) {
       this.validateFormElements(this.inputs, requestBody, validations)
       this.validateFormElements(this.selects, requestBody, validations)
       this.validateFormElements(this.textareas, requestBody, validations)
       this.validateFormElements(this.localStorageValues, requestBody, validations)
       this.validateFormElements(this.sessionStorageValues, requestBody, validations)
-      console.log(validations)
-      new ShownElement(
-        ajaxIcon
-      ).after(
-        new ResponseFromAjaxRequest(
-          new CreatedOptions(
-            'url', target.getAttribute('data-request-url'),
-            'headers', new ParsedJSON(
-              target.getAttribute('data-request-headers') || '{}'
-            ),
-            'method', target.getAttribute('data-request-method') || 'POST',
-            'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar),
-            'progressEvent', new ShowProgressEvent(progressBar)
-          ),
-          new StringifiedJSON(
-            requestBody
-          )
-        ).as('RESPONSE').after(
-          new EnabledElement(target).after(
-            new AppliedActionsOnResponse(
-              target.tagName,
-              target.getAttribute('data-response-object-name') || 'responseObject',
-              new ParsedJSON(
-                new StringFromBuffer(
-                  new ResponseBody(
-                    as('RESPONSE')
-                  )
-                )
-              ),
-              target.getAttribute('data-response-headers-name') || 'responseHeaders',
-              new ResponseHeaders(
-                as('RESPONSE')
-              ),
-              target.getAttribute('data-response-status-code-name') || 'responseStatusCode',
-              new ResponseStatusCode(
-                as('RESPONSE')
-              ),
-              `hideElms('${target.getAttribute('data-ajax-icon')}');`.concat(
-                target.getAttribute('data-actions-on-response') || ''
-              )
-            )
-          )
-        )
-      ).call()
     }
 
     validateFormElements (elements, requestBody, results) {
@@ -148,36 +173,48 @@ E(
 
     validateFormElement (element, requestBody) {
       const validationPatternAttribute = element.getAttribute('data-validate-as')
-      const requiredAttribute = element.getAttribute('required')
+      const requiredAttribute = element.hasAttribute('required')
       const nameAttribute = element.getAttribute('name')
       let value = requestBody[nameAttribute]
       if (typeof value === 'string') {
         value = value.trim()
       }
       if (requiredAttribute) {
-        if (!value) {
-          // TODO: apply error style on element
-          return {
-            status: false,
-            message: element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
-            element: element
-          }
+        if (!value || (Array.isArray(value) && value.length <= (element.getAttribute('data-validation-at-least-number') || 0))) {
+          this.showErrorForFormElement(
+            element,
+            element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`
+          )
+          return false
         }
       }
       if (validationPatternAttribute) {
         const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute)
-        // TODO: apply error style on element
         if (!validationPattern.test(value)) {
-          return {
-            status: false,
-            message: element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`,
-            element: element
-          }
+          this.showErrorForFormElement(
+            element,
+            element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`
+          )
+          return false
         }
       }
-      return {
-        status: true
+      return true
+    }
+
+    showErrorForFormElement (element, errorMessage) {
+      const elementWithErrorMessageBox = document.createElement('div')
+      const messageBox = document.createElement('div')
+      messageBox.innerText = errorMessage
+      element.parentNode.replaceChild(elementWithErrorMessageBox, element)
+      elementWithErrorMessageBox.appendChild(element)
+      elementWithErrorMessageBox.appendChild(messageBox)
+      const listener = () => {
+        if (elementWithErrorMessageBox.parentNode) {
+          elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
+        }
+        element.removeEventListener('focus', listener)
       }
+      element.addEventListener('focus', listener)
     }
 
     requestBody () {
@@ -278,7 +315,13 @@ E(
       fileInput.filesInfo = []
       const filesRead = { count: 0 }
       for (let index = 0; index < fileInput.files.length; index++) {
-        this.readFileContentForRequestBody(fileInput, readProgressBar, index, filesRead, fileInput.files.length)
+        this.readFileContentForRequestBody(
+          fileInput,
+          readProgressBar,
+          index,
+          filesRead,
+          fileInput.files.length
+        )
       }
     }
 
