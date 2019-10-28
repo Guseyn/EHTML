@@ -8898,6 +8898,8 @@ function (_HTMLFormElement) {
   _createClass(_class, [{
     key: "onRender",
     value: function onRender() {
+      this.setAttribute('novalidate', 'true');
+
       this.onsubmit = function () {
         return false;
       };
@@ -8910,6 +8912,11 @@ function (_HTMLFormElement) {
       this.sessionStorageValues = this.getElementsByTagName('e-session-storage-value');
       this.buttons = this.getElementsByTagName('button');
       this.tuneFileInputs(this.filteredFileInputs(this.inputs));
+      this.prepareDifferentFormElements();
+    }
+  }, {
+    key: "prepareDifferentFormElements",
+    value: function prepareDifferentFormElements() {
       this.prepareFormElements(this.inputs);
       this.prepareFormElements(this.selects);
       this.prepareFormElements(this.textareas);
@@ -8935,16 +8942,36 @@ function (_HTMLFormElement) {
       var uploadProgressBar = new ParsedElmSelectors(target.getAttribute('data-upload-progress-bar')).value()[0];
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
-      target.setAttribute('disabled', 'true');
       var requestBody = this.requestBody();
       var validations = [];
+      this.validateDifferentFormElements(requestBody, validations);
+
+      if (this.isFormValid(validations)) {
+        target.setAttribute('disabled', 'true');
+        new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
+      } else {// target.removeAttribute('disabled')
+      }
+    }
+  }, {
+    key: "isFormValid",
+    value: function isFormValid(validations) {
+      for (var i = 0; i < validations.length; i++) {
+        if (!validations[i]) {
+          this.showErrorForFormElement(this, this.getAttribute('data-validation-error-message') || "the form is invalid");
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }, {
+    key: "validateDifferentFormElements",
+    value: function validateDifferentFormElements(requestBody, validations) {
       this.validateFormElements(this.inputs, requestBody, validations);
       this.validateFormElements(this.selects, requestBody, validations);
       this.validateFormElements(this.textareas, requestBody, validations);
       this.validateFormElements(this.localStorageValues, requestBody, validations);
       this.validateFormElements(this.sessionStorageValues, requestBody, validations);
-      console.log(validations);
-      new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
     }
   }, {
     key: "validateFormElements",
@@ -8958,7 +8985,7 @@ function (_HTMLFormElement) {
     key: "validateFormElement",
     value: function validateFormElement(element, requestBody) {
       var validationPatternAttribute = element.getAttribute('data-validate-as');
-      var requiredAttribute = element.getAttribute('required');
+      var requiredAttribute = element.hasAttribute('required');
       var nameAttribute = element.getAttribute('name');
       var value = requestBody[nameAttribute];
 
@@ -8967,31 +8994,42 @@ function (_HTMLFormElement) {
       }
 
       if (requiredAttribute) {
-        if (!value) {
-          // TODO: apply error style on element
-          return {
-            status: false,
-            message: element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"),
-            element: element
-          };
+        if (!value || Array.isArray(value) && value.length <= (element.getAttribute('data-validation-at-least-number') || 0)) {
+          this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"));
+          return false;
         }
       }
 
       if (validationPatternAttribute) {
-        var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute); // TODO: apply error style on element
+        var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute);
 
         if (!validationPattern.test(value)) {
-          return {
-            status: false,
-            message: element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern),
-            element: element
-          };
+          this.showErrorForFormElement(element, element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern));
+          return false;
         }
       }
 
-      return {
-        status: true
+      return true;
+    }
+  }, {
+    key: "showErrorForFormElement",
+    value: function showErrorForFormElement(element, errorMessage) {
+      var elementWithErrorMessageBox = document.createElement('div');
+      var messageBox = document.createElement('div');
+      messageBox.innerText = errorMessage;
+      element.parentNode.replaceChild(elementWithErrorMessageBox, element);
+      elementWithErrorMessageBox.appendChild(element);
+      elementWithErrorMessageBox.appendChild(messageBox);
+
+      var listener = function listener() {
+        if (elementWithErrorMessageBox.parentNode) {
+          elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox);
+        }
+
+        element.removeEventListener('focus', listener);
       };
+
+      element.addEventListener('focus', listener);
     }
   }, {
     key: "requestBody",
