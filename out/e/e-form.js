@@ -64,7 +64,8 @@ var ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent');
 
 var PreparedProgressBars = require('./../util/PreparedProgressBars');
 
-var E = require('./../E');
+var E = require('./../E'); // TODO: add regexps
+
 
 var VALIDATION_PATTERNS = {
   date: /\\/g,
@@ -154,7 +155,7 @@ function (_HTMLFormElement) {
     value: function isFormValid(validations) {
       for (var i = 0; i < validations.length; i++) {
         if (!validations[i]) {
-          this.showErrorForFormElement(this, this.getAttribute('data-validation-error-message') || "the form is invalid");
+          this.showErrorForFormElement(this, this.getAttribute('data-validation-bad-format-error-message') || "the form is invalid", this.getAttribute('data-validation-error-class-for-element'), this.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -197,14 +198,29 @@ function (_HTMLFormElement) {
         }
 
         if (this.isFile(element)) {
-          if (value.length <= (element.getAttribute('data-validation-min-file-number') || 0)) {
-            this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          var minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 0;
+
+          if (value.length <= minFilesNumber) {
+            this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " must have at least ").concat(minFilesNumber, " files"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
         }
 
-        if (this.isCheckbox(element)) {// TODO: check if the value is true for the name (as it's required)
-          // TODO: check if number (data-validation-min-selected-number) is valid
+        if (this.isCheckbox(element)) {
+          var checkboxValue = element.getAttribute('value');
+
+          if (!checkboxValue) {
+            throw new Error('checkbox must have \'value\' attribute');
+          }
+
+          var checkboxValueIndex = value.findIndex(function (v) {
+            return Object.keys(v)[0] === checkboxValue;
+          });
+
+          if (!value[checkboxValueIndex][checkboxValue]) {
+            this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required to be true for this value"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            return false;
+          }
         }
       }
 
@@ -212,7 +228,7 @@ function (_HTMLFormElement) {
         var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute);
 
         if (!validationPattern.test(value)) {
-          this.showErrorForFormElement(element, element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          this.showErrorForFormElement(element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -262,6 +278,7 @@ function (_HTMLFormElement) {
         }
 
         element.removeEventListener('focus', listener);
+        element.focus();
       };
 
       element.addEventListener('focus', listener);
@@ -270,7 +287,10 @@ function (_HTMLFormElement) {
     key: "hideAllErrorsForForm",
     value: function hideAllErrorsForForm() {
       this.validationErrorBoxes.forEach(function (errorBox) {
-        errorBox.elementWithErrorMessageBox.parentNode.replaceChild(errorBox.element, errorBox.elementWithErrorMessageBox);
+        if (errorBox.elementWithErrorMessageBox.parentNode) {
+          errorBox.elementWithErrorMessageBox.parentNode.replaceChild(errorBox.element, errorBox.elementWithErrorMessageBox);
+        }
+
         var elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element');
 
         if (elementErrorClass) {
