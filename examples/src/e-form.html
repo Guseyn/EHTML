@@ -29,51 +29,71 @@
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
+  <!-- TODO:// add validation attributes -->
+
   <body class="main">
     <form is="e-form" id="form">
-      <input type="checkbox" name="selected" value="first"><br/>
-      <input type="checkbox" name="selected" value="second"><br/>
-      <input type="checkbox" name="selected" value="third"><br/>
-      <input type="color" name="colorhash"><br/>
-      <input type="date" name="date"><br/>
-      <input type="datetime-local" name="dateTimeLocal"><br/>
-      <input type="email" name="email"><br/>
+      <input
+        type="checkbox"
+        name="selected"
+        value="first"
+        required
+        data-validation-at-least-number="1">
+      <br/>
+      <input
+        type="checkbox"
+        name="selected"
+        value="second"
+        required
+        data-validation-at-least-number="1">
+      <br/>
+      <input
+        type="checkbox"
+        name="selected"
+        value="third"
+        data-validation-at-least-number="1"
+        required>
+      <br/>
+      <input type="color" name="colorhash" required><br/>
+      <input type="date" name="date" required><br/>
+      <input type="datetime-local" name="dateTimeLocal" required><br/>
+      <input type="email" name="email" required><br/>
       <input type="file" name="files1" data-read-progress-bar="#readProgressBar1" multiple required><br/>
       <progress id="readProgressBar1"></progress><br/>
-      <input type="file" name="files2" data-read-progress-bar="#readProgressBar2" multiple><br/>
+      <input type="file" name="files2" data-read-progress-bar="#readProgressBar2" multiple required><br/>
       <progress id="readProgressBar2"></progress><br/>
       <input type="hidden" name="hidden"><br/>
-      <input type="month" name="month"><br/>
+      <input type="month" name="month" required><br/>
       <input type="number" name="number" required><br/>
-      <input type="password" name="password"><br/>
+      <input type="password" name="password" required><br/>
       <fieldset name="number">
         <legend>Choose your number</legend>
 
-        <input type="radio" id="one" name="number" value="one">
+        <input type="radio" id="one" name="number" value="one" required>
         <label for="one">One</label><br/>
 
-        <input type="radio" id="two" name="number" value="two">
+        <input type="radio" id="two" name="number" value="two" required>
         <label for="two">Two</label><br/>
 
-        <input type="radio" id="three" name="number" value="three">
+        <input type="radio" id="three" name="number" value="three" required>
         <label for="three">Three</label>
       </fieldset>
-      <input type="range" name="range"><br/>
-      <input type="search" name="search"><br/>
-      <input type="tel" name="tel"><br/>
-      <input type="text" name="text"><br/>
-      <input type="time" name="time"><br/>
-      <input type="url" name="url"><br/>
-      <input type="week" name="week"><br/><br/>
+      <input type="range" name="range" required><br/>
+      <input type="search" name="search" required><br/>
+      <input type="tel" name="tel" required><br/>
+      <input type="text" name="text" required><br/>
+      <input type="time" name="time" required><br/>
+      <input type="url" name="url" required><br/>
+      <input type="week" name="week" required><br/><br/>
 
       <label for="color-select">Choose a color:</label>
-      <select id="color-select" name="color">
+      <select id="color-select" name="color" required>
         <option value="red" name="color">Red</option>
         <option value="green" name="color">Green</option>
         <option value="blue" name="color">Blue</option>
       </select><br/><br/>
 
-      <textarea id="text" name="bigText" rows="5" cols="33">Big text...</textarea><br/>
+      <textarea id="text" name="bigText" rows="5" cols="33" required>Big text...</textarea><br/>
 
       <e-local-storage-value name="localValue" data-key="localValue"></e-local-storage-value>
       <e-session-storage-value name="sessionValue" data-key="sessionValue"></e-session-storage-value>

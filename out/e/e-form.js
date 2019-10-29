@@ -93,6 +93,7 @@ function (_HTMLFormElement) {
     key: "onRender",
     value: function onRender() {
       this.setAttribute('novalidate', 'true');
+      this.validationErrorBoxes = [];
 
       this.onsubmit = function () {
         return false;
@@ -137,13 +138,15 @@ function (_HTMLFormElement) {
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];
       var requestBody = this.requestBody();
+      this.hideAllErrorsForForm();
       var validations = [];
       this.validateDifferentFormElements(requestBody, validations);
 
       if (this.isFormValid(validations)) {
         target.setAttribute('disabled', 'true');
         new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
-      } else {// target.removeAttribute('disabled')
+      } else {
+        this.scrollToFirstErrorBox();
       }
     }
   }, {
@@ -188,9 +191,20 @@ function (_HTMLFormElement) {
       }
 
       if (requiredAttribute) {
-        if (!value || Array.isArray(value) && value.length <= (element.getAttribute('data-validation-at-least-number') || 0)) {
-          this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"));
+        if (!value) {
+          this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
+        }
+
+        if (this.isFile(element)) {
+          if (value.length <= (element.getAttribute('data-validation-min-file-number') || 0)) {
+            this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            return false;
+          }
+        }
+
+        if (this.isCheckbox(element)) {// TODO: check if the value is true for the name (as it's required)
+          // TODO: check if number (data-validation-min-selected-number) is valid
         }
       }
 
@@ -198,7 +212,7 @@ function (_HTMLFormElement) {
         var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute);
 
         if (!validationPattern.test(value)) {
-          this.showErrorForFormElement(element, element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern));
+          this.showErrorForFormElement(element, element.getAttribute('data-validation-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -206,8 +220,18 @@ function (_HTMLFormElement) {
       return true;
     }
   }, {
+    key: "isCheckbox",
+    value: function isCheckbox(element) {
+      return element instanceof HTMLInputElement && element.type.toLowerCase() === 'checkbox';
+    }
+  }, {
+    key: "isFile",
+    value: function isFile(element) {
+      return element instanceof HTMLInputElement && element.type.toLowerCase() === 'file';
+    }
+  }, {
     key: "showErrorForFormElement",
-    value: function showErrorForFormElement(element, errorMessage) {
+    value: function showErrorForFormElement(element, errorMessage, elementErrorClass, messageBoxErrorClass) {
       var elementWithErrorMessageBox = document.createElement('div');
       var messageBox = document.createElement('div');
       messageBox.innerText = errorMessage;
@@ -215,15 +239,50 @@ function (_HTMLFormElement) {
       elementWithErrorMessageBox.appendChild(element);
       elementWithErrorMessageBox.appendChild(messageBox);
 
+      if (elementErrorClass) {
+        element.classList.toggle(elementErrorClass);
+      }
+
+      if (messageBoxErrorClass) {
+        messageBox.classList.toggle(messageBoxErrorClass);
+      }
+
+      this.validationErrorBoxes.push({
+        elementWithErrorMessageBox: elementWithErrorMessageBox,
+        element: element
+      });
+
       var listener = function listener() {
         if (elementWithErrorMessageBox.parentNode) {
           elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox);
+
+          if (elementErrorClass) {
+            element.classList.toggle(elementErrorClass);
+          }
         }
 
         element.removeEventListener('focus', listener);
       };
 
       element.addEventListener('focus', listener);
+    }
+  }, {
+    key: "hideAllErrorsForForm",
+    value: function hideAllErrorsForForm() {
+      this.validationErrorBoxes.forEach(function (errorBox) {
+        errorBox.elementWithErrorMessageBox.parentNode.replaceChild(errorBox.element, errorBox.elementWithErrorMessageBox);
+        var elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element');
+
+        if (elementErrorClass) {
+          errorBox.element.classList.toggle(elementErrorClass);
+        }
+      });
+      this.validationErrorBoxes = [];
+    }
+  }, {
+    key: "scrollToFirstErrorBox",
+    value: function scrollToFirstErrorBox() {
+      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView();
     }
   }, {
     key: "requestBody",
