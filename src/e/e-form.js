@@ -43,6 +43,7 @@ E(
 
     onRender () {
       this.setAttribute('novalidate', 'true')
+      this.validationErrorBoxes = []
       this.onsubmit = () => {
         return false
       }
@@ -91,6 +92,7 @@ E(
         target.getAttribute('data-ajax-icon')
       ).value()[0]
       const requestBody = this.requestBody()
+      this.hideAllErrorsForForm()
       const validations = []
       this.validateDifferentFormElements(requestBody, validations)
       if (this.isFormValid(validations)) {
@@ -139,7 +141,7 @@ E(
           )
         ).call()
       } else {
-        // target.removeAttribute('disabled')
+        this.scrollToFirstErrorBox()
       }
     }
 
@@ -180,12 +182,29 @@ E(
         value = value.trim()
       }
       if (requiredAttribute) {
-        if (!value || (Array.isArray(value) && value.length <= (element.getAttribute('data-validation-at-least-number') || 0))) {
+        if (!value) {
           this.showErrorForFormElement(
             element,
-            element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`
+            element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
+            element.getAttribute('data-validation-error-class-for-element'),
+            element.getAttribute('data-validation-error-class-for-message-box')
           )
           return false
+        }
+        if (this.isFile(element)) {
+          if (value.length <= (element.getAttribute('data-validation-min-file-number') || 0)) {
+            this.showErrorForFormElement(
+              element,
+              element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
+              element.getAttribute('data-validation-error-class-for-element'),
+              element.getAttribute('data-validation-error-class-for-message-box')
+            )
+            return false
+          }
+        }
+        if (this.isCheckbox(element)) {
+          // TODO: check if the value is true for the name (as it's required)
+          // TODO: check if number (data-validation-min-selected-number) is valid
         }
       }
       if (validationPatternAttribute) {
@@ -193,7 +212,9 @@ E(
         if (!validationPattern.test(value)) {
           this.showErrorForFormElement(
             element,
-            element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`
+            element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`,
+            element.getAttribute('data-validation-error-class-for-element'),
+            element.getAttribute('data-validation-error-class-for-message-box')
           )
           return false
         }
@@ -201,20 +222,60 @@ E(
       return true
     }
 
-    showErrorForFormElement (element, errorMessage) {
+    isCheckbox (element) {
+      return element instanceof HTMLInputElement &&
+        element.type.toLowerCase() === 'checkbox'
+    }
+
+    isFile (element) {
+      return element instanceof HTMLInputElement &&
+        element.type.toLowerCase() === 'file'
+    }
+
+    showErrorForFormElement (element, errorMessage, elementErrorClass, messageBoxErrorClass) {
       const elementWithErrorMessageBox = document.createElement('div')
       const messageBox = document.createElement('div')
       messageBox.innerText = errorMessage
       element.parentNode.replaceChild(elementWithErrorMessageBox, element)
       elementWithErrorMessageBox.appendChild(element)
       elementWithErrorMessageBox.appendChild(messageBox)
+      if (elementErrorClass) {
+        element.classList.toggle(elementErrorClass)
+      }
+      if (messageBoxErrorClass) {
+        messageBox.classList.toggle(messageBoxErrorClass)
+      }
+      this.validationErrorBoxes.push({
+        elementWithErrorMessageBox: elementWithErrorMessageBox,
+        element: element
+      })
       const listener = () => {
         if (elementWithErrorMessageBox.parentNode) {
           elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
+          if (elementErrorClass) {
+            element.classList.toggle(elementErrorClass)
+          }
         }
         element.removeEventListener('focus', listener)
       }
       element.addEventListener('focus', listener)
+    }
+
+    hideAllErrorsForForm () {
+      this.validationErrorBoxes.forEach(errorBox => {
+        errorBox.elementWithErrorMessageBox.parentNode.replaceChild(
+          errorBox.element, errorBox.elementWithErrorMessageBox
+        )
+        const elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element')
+        if (elementErrorClass) {
+          errorBox.element.classList.toggle(elementErrorClass)
+        }
+      })
+      this.validationErrorBoxes = []
+    }
+
+    scrollToFirstErrorBox () {
+      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView()
     }
 
     requestBody () {
