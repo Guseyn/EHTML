@@ -17,6 +17,8 @@ const ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent')
 const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const E = require('./../E')
 
+// TODO: add regexps
+
 const VALIDATION_PATTERNS = {
   date: /\\/g,
   dateTime: /\\/g,
@@ -150,7 +152,9 @@ E(
         if (!validations[i]) {
           this.showErrorForFormElement(
             this,
-            this.getAttribute('data-validation-error-message') || `the form is invalid`
+            this.getAttribute('data-validation-bad-format-error-message') || `the form is invalid`,
+            this.getAttribute('data-validation-error-class-for-element'),
+            this.getAttribute('data-validation-error-class-for-message-box')
           )
           return false
         }
@@ -192,10 +196,11 @@ E(
           return false
         }
         if (this.isFile(element)) {
-          if (value.length <= (element.getAttribute('data-validation-min-file-number') || 0)) {
+          const minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 0
+          if (value.length <= minFilesNumber) {
             this.showErrorForFormElement(
               element,
-              element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
+              element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} must have at least ${minFilesNumber} files`,
               element.getAttribute('data-validation-error-class-for-element'),
               element.getAttribute('data-validation-error-class-for-message-box')
             )
@@ -203,8 +208,20 @@ E(
           }
         }
         if (this.isCheckbox(element)) {
-          // TODO: check if the value is true for the name (as it's required)
-          // TODO: check if number (data-validation-min-selected-number) is valid
+          const checkboxValue = element.getAttribute('value')
+          if (!checkboxValue) {
+            throw new Error('checkbox must have \'value\' attribute')
+          }
+          const checkboxValueIndex = value.findIndex(v => Object.keys(v)[0] === checkboxValue)
+          if (!value[checkboxValueIndex][checkboxValue]) {
+            this.showErrorForFormElement(
+              element,
+              element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required to be true for this value`,
+              element.getAttribute('data-validation-error-class-for-element'),
+              element.getAttribute('data-validation-error-class-for-message-box')
+            )
+            return false
+          }
         }
       }
       if (validationPatternAttribute) {
@@ -212,7 +229,7 @@ E(
         if (!validationPattern.test(value)) {
           this.showErrorForFormElement(
             element,
-            element.getAttribute('data-validation-error-message') || `${nameAttribute} must have format ${validationPattern}`,
+            element.getAttribute('data-validation-bad-format-error-message') || `${nameAttribute} must have format ${validationPattern}`,
             element.getAttribute('data-validation-error-class-for-element'),
             element.getAttribute('data-validation-error-class-for-message-box')
           )
@@ -257,15 +274,18 @@ E(
           }
         }
         element.removeEventListener('focus', listener)
+        element.focus()
       }
       element.addEventListener('focus', listener)
     }
 
     hideAllErrorsForForm () {
       this.validationErrorBoxes.forEach(errorBox => {
-        errorBox.elementWithErrorMessageBox.parentNode.replaceChild(
-          errorBox.element, errorBox.elementWithErrorMessageBox
-        )
+        if (errorBox.elementWithErrorMessageBox.parentNode) {
+          errorBox.elementWithErrorMessageBox.parentNode.replaceChild(
+            errorBox.element, errorBox.elementWithErrorMessageBox
+          )
+        }
         const elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element')
         if (elementErrorClass) {
           errorBox.element.classList.toggle(elementErrorClass)
