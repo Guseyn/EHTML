@@ -22,17 +22,21 @@
   <body class="main">
     <e-page-url data-url-pattern="/e-json-with-url-params.html?userId={userId}"></e-page-url>
     <form is="e-form">
-      <input type="text" name="id" placeholder="user id" />
+      <input
+        type="text"
+        name="id"
+        placeholder="user id" 
+        required/>
       <input
         type="submit"
         name="main"
         value="Send request"
         id="send"
-        data-send-form-on="click"
         data-request-url="https://guseyn.com/echo"
         data-request-method="POST"
         data-request-headers="{}"
         data-response-object-name="user"
+        onclick="this.form.submit(this)"
         data-actions-on-response="
           turboRedirect('/../e-json-with-url-params.html?userId=${user.id}')
         "
