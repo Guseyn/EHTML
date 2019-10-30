@@ -8870,20 +8870,19 @@ var ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent');
 
 var PreparedProgressBars = require('./../util/PreparedProgressBars');
 
-var E = require('./../E'); // TODO: add regexps
-
+var E = require('./../E');
 
 var VALIDATION_PATTERNS = {
-  date: /\\/g,
-  dateTime: /\\/g,
-  email: /\\/g,
-  month: /\\/g,
-  number: /\\/g,
-  password: /\\/g,
-  tel: /\\/g,
-  time: /\\/g,
-  url: /\\/g,
-  week: /\\/g
+  date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
+  dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
+  email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+  month: /(January|February|March|April|May|June|July|August|September|October|November|December) \d\d\d\d/,
+  number: /(\d)+/,
+  password: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/,
+  tel: /[0-9]{0,14}$/,
+  time: /\d\d:\d\d/,
+  // eslint-disable-next-line  no-useless-escape
+  url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 };
 E('e-form',
 /*#__PURE__*/
@@ -8988,7 +8987,7 @@ function (_HTMLFormElement) {
   }, {
     key: "validateFormElement",
     value: function validateFormElement(element, requestBody) {
-      var validationPatternAttribute = element.getAttribute('data-validate-as');
+      var validationPatternAttribute = element.getAttribute('pattern');
       var requiredAttribute = element.hasAttribute('required');
       var nameAttribute = element.getAttribute('name');
       var value = requestBody[nameAttribute];
@@ -9062,11 +9061,11 @@ function (_HTMLFormElement) {
       elementWithErrorMessageBox.appendChild(messageBox);
 
       if (elementErrorClass) {
-        element.classList.toggle(elementErrorClass);
+        element.classList.add(elementErrorClass);
       }
 
       if (messageBoxErrorClass) {
-        messageBox.classList.toggle(messageBoxErrorClass);
+        messageBox.classList.add(messageBoxErrorClass);
       }
 
       this.validationErrorBoxes.push({
@@ -9079,7 +9078,7 @@ function (_HTMLFormElement) {
           elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox);
 
           if (elementErrorClass) {
-            element.classList.toggle(elementErrorClass);
+            element.classList.remove(elementErrorClass);
           }
         }
 
@@ -9100,7 +9099,7 @@ function (_HTMLFormElement) {
         var elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element');
 
         if (elementErrorClass) {
-          errorBox.element.classList.toggle(elementErrorClass);
+          errorBox.element.classList.remove(elementErrorClass);
         }
       });
       this.validationErrorBoxes = [];
