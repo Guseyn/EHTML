@@ -17,19 +17,17 @@ const ShowFileReaderEndEvent = require('./../util/ShowFileReaderEndEvent')
 const PreparedProgressBars = require('./../util/PreparedProgressBars')
 const E = require('./../E')
 
-// TODO: add regexps
-
 const VALIDATION_PATTERNS = {
-  date: /\\/g,
-  dateTime: /\\/g,
-  email: /\\/g,
-  month: /\\/g,
-  number: /\\/g,
-  password: /\\/g,
-  tel: /\\/g,
-  time: /\\/g,
-  url: /\\/g,
-  week: /\\/g
+  date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
+  dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
+  email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+  month: /(January|February|March|April|May|June|July|August|September|October|November|December) \d\d\d\d/,
+  number: /(\d)+/,
+  password: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/,
+  tel: /[0-9]{0,14}$/,
+  time: /\d\d:\d\d/,
+  // eslint-disable-next-line  no-useless-escape
+  url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
 E(
@@ -178,7 +176,7 @@ E(
     }
 
     validateFormElement (element, requestBody) {
-      const validationPatternAttribute = element.getAttribute('data-validate-as')
+      const validationPatternAttribute = element.getAttribute('pattern')
       const requiredAttribute = element.hasAttribute('required')
       const nameAttribute = element.getAttribute('name')
       let value = requestBody[nameAttribute]
@@ -257,10 +255,10 @@ E(
       elementWithErrorMessageBox.appendChild(element)
       elementWithErrorMessageBox.appendChild(messageBox)
       if (elementErrorClass) {
-        element.classList.toggle(elementErrorClass)
+        element.classList.add(elementErrorClass)
       }
       if (messageBoxErrorClass) {
-        messageBox.classList.toggle(messageBoxErrorClass)
+        messageBox.classList.add(messageBoxErrorClass)
       }
       this.validationErrorBoxes.push({
         elementWithErrorMessageBox: elementWithErrorMessageBox,
@@ -270,7 +268,7 @@ E(
         if (elementWithErrorMessageBox.parentNode) {
           elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
           if (elementErrorClass) {
-            element.classList.toggle(elementErrorClass)
+            element.classList.remove(elementErrorClass)
           }
         }
         element.removeEventListener('focus', listener)
@@ -288,7 +286,7 @@ E(
         }
         const elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element')
         if (elementErrorClass) {
-          errorBox.element.classList.toggle(elementErrorClass)
+          errorBox.element.classList.remove(elementErrorClass)
         }
       })
       this.validationErrorBoxes = []

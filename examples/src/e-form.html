@@ -18,8 +18,9 @@
         font: 1em 'Fira Sans', sans-serif;
       }
 
-      input, fieldset {
+      input, fieldset, select, textarea, progress {
         margin-top: 1em;
+        display: block;
       }
 
       e-form {
@@ -51,7 +52,7 @@
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="checkbox"
         name="selected"
@@ -59,7 +60,7 @@
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="checkbox"
         name="selected"
@@ -67,85 +68,91 @@
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="color"
         name="colorhash"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input 
         type="date" 
         name="date"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="datetime-local"
         name="dateTimeLocal"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="email"
         name="email"
         required
+        pattern="email"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="file"
         name="files1"
         data-read-progress-bar="#readProgressBar1"
         multiple required
+        data-validation-min-files-number="2"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
-      <progress id="readProgressBar1"></progress><br/>
+      
+      <progress id="readProgressBar1"></progress>
       <input
         type="file"
         name="files2"
         data-read-progress-bar="#readProgressBar2"
         multiple required
         data-validation-error-class-for-element="elm-error"
-        data-validation-error-class-for-message-box="message-error"><br/>
-      <progress id="readProgressBar2"></progress><br/>
+        data-validation-error-class-for-message-box="message-error">
+      <progress id="readProgressBar2"></progress>
       <input
         type="hidden" 
         name="hidden">
-      <br/>
+      
       <input
         type="month"
         name="month"
         required
+        pattern="month"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="number"
         name="realNumber"
         required
+        pattern="number"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="password"
         name="password"
         required
+        pattern="password"
+        data-validation-bad-format-error-message="password is not strong enough"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <fieldset name="number">
         <legend>Choose your number</legend>
 
         <input type="radio" id="one" name="number" value="one" checked>
-        <label for="one">One</label><br/>
+        <label for="one">One</label>
 
         <input type="radio" id="two" name="number" value="two">
-        <label for="two">Two</label><br/>
+        <label for="two">Two</label>
 
         <input type="radio" id="three" name="number" value="three">
         <label for="three">Three</label>
@@ -156,49 +163,53 @@
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="search"
         name="search"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="tel"
         name="tel"
         required
+        pattern="tel"
+        data-validation-absence-error-message="phone number is required"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="text"
         name="text"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="time"
         name="time"
         required
+        pattern="time"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="url"
         name="url"
         required
+        pattern="url"
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/>
+      
       <input
         type="week"
         name="week"
         required
         data-validation-error-class-for-element="elm-error"
         data-validation-error-class-for-message-box="message-error">
-      <br/><br/>
+      
 
       <label for="color-select">Choose a color:</label>
       <select
@@ -211,7 +222,7 @@
         <option value="green" name="color">Green</option>
         <option value="blue" name="color">Blue</option>
       </select>
-      <br/><br/>
+      
 
       <textarea
         id="text"
@@ -223,7 +234,7 @@
         data-validation-error-class-for-message-box="message-error">
           Big text...
       </textarea>
-      <br/>
+      
 
       <e-local-storage-value name="localValue" data-key="localValue"></e-local-storage-value>
       <e-session-storage-value name="sessionValue" data-key="sessionValue"></e-session-storage-value>
@@ -261,11 +272,11 @@
       />
 
       <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
-      <br/>
+      
       <progress id="uploadProgressBar"></progress>
-      <br/>
+      
       <progress id="progressBar"></progress>
-      <br/>
+      
     </form>
     <div id="result" style="display: none;"></div>
     <div id="result-with-only-files" style="display: none;">
