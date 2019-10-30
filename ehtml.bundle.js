@@ -8940,6 +8940,10 @@ function (_HTMLFormElement) {
   }, {
     key: "submit",
     value: function submit(target) {
+      if (!target) {
+        throw new Error('you must pass target in submit method like: \'this.form.submit(this)\'');
+      }
+
       var uploadProgressBar = new ParsedElmSelectors(target.getAttribute('data-upload-progress-bar')).value()[0];
       var progressBar = new ParsedElmSelectors(target.getAttribute('data-progress-bar')).value()[0];
       var ajaxIcon = new ParsedElmSelectors(target.getAttribute('data-ajax-icon')).value()[0];

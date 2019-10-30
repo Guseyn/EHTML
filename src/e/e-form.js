@@ -82,6 +82,9 @@ E(
     }
 
     submit (target) {
+      if (!target) {
+        throw new Error('you must pass target in submit method like: \'this.form.submit(this)\'')
+      }
       const uploadProgressBar = new ParsedElmSelectors(
         target.getAttribute('data-upload-progress-bar')
       ).value()[0]
