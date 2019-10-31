@@ -28,49 +28,41 @@
     <e-json 
       id="block1"
       data-src="/../user?id=1"
-      data-response-object-name="user1"
-      data-response-headers-name="user1Headers"
-      data-response-status-code-name="user1StatusCode"
+      data-response-name="user1"
       data-actions-on-response="
         mapObjToElm('${user1}', '#block1');
-        mapHeadersToElm('${user1Headers}', '#block1');
-        mapStatusCodeToElm('${user1StatusCode}', '#block1');
       "
     >
       <div class="with-border">
-        <div data-text="First user headers: ${user1Headers}"></div>
-        <div data-text="First user status code: ${user1StatusCode}"></div>
+        <div data-text="First user headers: ${user1.headers}"></div>
+        <div data-text="First user status code: ${user1.statusCode}"></div>
         <div data-text="First user info:"></div>
-        <div data-text="id: ${user1.id}"></div>
-        <div data-text="name: ${user1.name}"></div>
-        <div data-text="email: ${user1.email}"></div>
+        <div data-text="id: ${user1.body.id}"></div>
+        <div data-text="name: ${user1.body.name}"></div>
+        <div data-text="email: ${user1.body.email}"></div>
         <br/>
         <e-json
           id="block2"
           data-src="/../user?id=2"
-          data-response-object-name="user2"
-          data-response-headers-name="user2Headers"
-          data-response-status-code-name="user2StatusCode"
+          data-response-name="user2"
           data-actions-on-response="
             mapObjToElm('${user2}', '#block2');
-            mapHeadersToElm('${user2Headers}', '#block2');
-            mapStatusCodeToElm('${user2StatusCode}', '#block2');
           "
         >
           <div class="with-border" data-text="Second user in the first user block:">
-            <div data-text="Second user headers: ${user2Headers}"></div>
-            <div data-text="Second user status code: ${user2StatusCode}"></div>
-            <div data-text="We can get here first user headers: ${user1Headers}"></div>
-            <div data-text="We can get here first user status code: ${user1StatusCode}"></div>
+            <div data-text="Second user headers: ${user2.headers}"></div>
+            <div data-text="Second user status code: ${user2.statusCode}"></div>
+            <div data-text="We can get here first user headers: ${user1.headers}"></div>
+            <div data-text="We can get here first user status code: ${user1.statusCode}"></div>
             <div data-text="Second user info:">
-              <div data-text="id: ${user2.id}"></div>
-              <div data-text="name: ${user2.name}"></div>
-              <div data-text="email: ${user2.email}"></div>
+              <div data-text="id: ${user2.body.id}"></div>
+              <div data-text="name: ${user2.body.name}"></div>
+              <div data-text="email: ${user2.body.email}"></div>
               <br/>
               <div data-text="We can get info of the first user again:">
-                <div data-text="id: ${user1.id}"></div>
-                <div data-text="name: ${user1.name}"></div>
-                <div data-text="email: ${user1.email}"></div>
+                <div data-text="id: ${user1.body.id}"></div>
+                <div data-text="name: ${user1.body.name}"></div>
+                <div data-text="email: ${user1.body.email}"></div>
               </div>
               <br/>
               <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
@@ -83,24 +75,20 @@
     <e-json
       id="block4"
       data-src="/../user?id=1"
-      data-response-object-name="user1"
-      data-response-headers-name="user1Headers"
-      data-response-status-code-name="user1StatusCode"
+      data-response-name="user1"
       data-actions-on-response="
         mapObjToElm('${user1}', '#block4');
-        mapHeadersToElm('${user1Headers}', '#block4');
-        mapStatusCodeToElm('${user1StatusCode}', '#block4');
       "
       data-event="click"
     >
       <div class="with-border">
         <span style="text-decoration: underline;">Click here to load user1</span>
-        <div data-text="First user headers: ${user1Headers}"></div>
-        <div data-text="First user status code: ${user1StatusCode}"></div>
+        <div data-text="First user headers: ${user1.headers}"></div>
+        <div data-text="First user status code: ${user1.statusCode}"></div>
         <div data-text="First user info:" style="margin-top: 4px;"></div>
-        <div data-text="id: ${user1.id}"></div>
-        <div data-text="name: ${user1.name}"></div>
-        <div data-text="email: ${user1.email}"></div>
+        <div data-text="id: ${user1.body.id}"></div>
+        <div data-text="name: ${user1.body.name}"></div>
+        <div data-text="email: ${user1.body.email}"></div>
       </div>
     </e-json>
   </body>

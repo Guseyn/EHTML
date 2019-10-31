@@ -25,9 +25,9 @@
     <e-json
       id="block"
       data-src="/../users"
-      data-response-object-name="users"
+      data-response-name="users"
       data-actions-on-response="
-        mapObjToElm('${users}', '#block');
+        mapObjToElm('${users.body}', '#block');
         hideElms('#click-here')
       "
       data-event="click"

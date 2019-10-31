@@ -42,6 +42,8 @@ var _browserified = browserified(require('@cuties/buffer')),
 var _browserified2 = browserified(require('@cuties/json')),
     ParsedJSON = _browserified2.ParsedJSON;
 
+var JSResponseByHTTPReponseComponents = require('./../async/JSResponseByHTTPReponseComponents');
+
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var E = require('./../E');
@@ -94,7 +96,7 @@ function (_HTMLButtonElement) {
           new ResponseFromAjaxRequest({
             url: _this2.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), _this2.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), _this2.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), _this2.getAttribute('data-actions-on-response'))).call();
+          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.tagName, _this2.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), _this2.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
           console.log(JSON.stringify(error, undefined, 2));
         });
