@@ -46,6 +46,8 @@ var _browserified2 = browserified(require('@cuties/json')),
 var _browserified3 = browserified(require('@cuties/buffer')),
     StringFromBuffer = _browserified3.StringFromBuffer;
 
+var JSResponseByHTTPReponseComponents = require('./../async/JSResponseByHTTPReponseComponents');
+
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ShownElement = require('./../async/ShownElement');
@@ -70,7 +72,7 @@ var VALIDATION_PATTERNS = {
   date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
   dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
   email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-  month: /(January|February|March|April|May|June|July|August|September|October|November|December) \d\d\d\d/,
+  month: /^\d\d\d\d-\d\d$/,
   number: /(\d)+/,
   password: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/,
   tel: /[0-9]{0,14}$/,
@@ -148,7 +150,7 @@ function (_HTMLFormElement) {
 
       if (this.isFormValid(validations)) {
         target.setAttribute('disabled', 'true');
-        new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), target.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), target.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
+        new ShownElement(ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(uploadProgressBar), 'progressEvent', new ShowProgressEvent(progressBar)), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), "hideElms('".concat(target.getAttribute('data-ajax-icon'), "');").concat(target.getAttribute('data-actions-on-response') || ''))))).call();
       } else {
         this.scrollToFirstErrorBox();
       }
@@ -201,9 +203,9 @@ function (_HTMLFormElement) {
         }
 
         if (this.isFile(element)) {
-          var minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 0;
+          var minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 1;
 
-          if (value.length <= minFilesNumber) {
+          if (value.length < minFilesNumber) {
             this.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " must have at least ").concat(minFilesNumber, " files"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }

@@ -132,27 +132,7 @@ const actions = {
         new ParsedElmSelectors(elmSelector)
       ),
       obj,
-      'data-response-object-name'
-    )
-  },
-
-  mapHeadersToElm: (headers, elmSelector) => {
-    return new ElementWithMappedObject(
-      new FirstOf(
-        new ParsedElmSelectors(elmSelector)
-      ),
-      headers,
-      'data-response-headers-name'
-    )
-  },
-
-  mapStatusCodeToElm: (statusCode, elmSelector) => {
-    return new ElementWithMappedObject(
-      new FirstOf(
-        new ParsedElmSelectors(elmSelector)
-      ),
-      statusCode,
-      'data-response-status-code-name'
+      'data-response-name'
     )
   },
 

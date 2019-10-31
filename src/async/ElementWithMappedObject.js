@@ -9,8 +9,8 @@ class AsyncElementWithMappedObject extends AsyncObject {
   }
 
   syncCall () {
-    return (element, obj, objNameAttribute) => {
-      return new ElementWithMappedObject(element, obj, objNameAttribute).value()
+    return (element, response, objNameAttribute) => {
+      return new ElementWithMappedObject(element, response, objNameAttribute).value()
     }
   }
 }

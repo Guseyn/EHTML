@@ -5,6 +5,7 @@ const { browserified, as } = require('@page-libs/cutie')
 const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode } = require('@page-libs/ajax')
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
 const { ParsedJSON } = browserified(require('@cuties/json'))
+const JSResponseByHTTPReponseComponents = require('./../async/JSResponseByHTTPReponseComponents')
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const E = require('./../E')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
@@ -50,21 +51,21 @@ E(
             ).as('RESPONSE').after(
               new AppliedActionsOnResponse(
                 this.tagName,
-                this.getAttribute('data-response-object-name') || 'responseObject',
-                new ParsedJSON(
-                  new StringFromBuffer(
-                    new ResponseBody(
-                      as('RESPONSE')
+                this.getAttribute('data-response-name') || 'response',
+                new JSResponseByHTTPReponseComponents(
+                  new ParsedJSON(
+                    new StringFromBuffer(
+                      new ResponseBody(
+                        as('RESPONSE')
+                      )
                     )
+                  ),
+                  new ResponseHeaders(
+                    as('RESPONSE')
+                  ),
+                  new ResponseStatusCode(
+                    as('RESPONSE')
                   )
-                ),
-                this.getAttribute('data-response-headers-name') || 'responseHeaders',
-                new ResponseHeaders(
-                  as('RESPONSE')
-                ),
-                this.getAttribute('data-response-status-code-name') || 'responseStatusCode',
-                new ResponseStatusCode(
-                  as('RESPONSE')
                 ),
                 this.getAttribute('data-actions-on-response')
               )

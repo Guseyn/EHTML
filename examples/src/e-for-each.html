@@ -25,9 +25,9 @@
     <e-json
       id="block"
       data-src="/../users"
-      data-response-object-name="users"
+      data-response-name="users"
       data-actions-on-response="
-        mapObjToElm('${users}', '#block');
+        mapObjToElm('${users.body}', '#block');
         hideElms('#click-here')
       "
       data-event="click"
@@ -43,9 +43,9 @@
           <e-json
             id="block-user-${user.id}"
             data-src="/../user?id=${user.id}"
-            data-response-object-name="innerUser"
+            data-response-name="innerUser"
             data-actions-on-response="
-              mapObjToElm('${innerUser}', '#block-user-${user.id}');
+              mapObjToElm('${innerUser.body}', '#block-user-${user.id}');
               hideElms('#click-here')
             "
           >
@@ -60,9 +60,9 @@
             <e-json
               id="block-user-${user.id}-${connection.index}"
               data-src="/../user?id=${user.id}"
-              data-response-object-name="innerUser"
+              data-response-name="innerUser"
               data-actions-on-response="
-                mapObjToElm('${innerUser}', '#block-user-${user.id}-${connection.index}');
+                mapObjToElm('${innerUser.body}', '#block-user-${user.id}-${connection.index}');
                 hideElms('#click-here')
               "
             >

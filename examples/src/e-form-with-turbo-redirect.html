@@ -33,10 +33,10 @@
         data-request-url="https://guseyn.com/echo"
         data-request-method="POST"
         data-request-headers="{}"
-        data-response-object-name="user"
+        data-response-name="user"
         onclick="this.form.submit(this)"
         data-actions-on-response="
-          turboRedirect('/../e-json-with-url-params.html?userId=${user.id}')
+          turboRedirect('/../e-json-with-url-params.html?userId=${user.body.id}')
         "
       />
     </form>
