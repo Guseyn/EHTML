@@ -6,6 +6,7 @@ const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCo
 const { CreatedOptions } = browserified(require('@cuties/object'))
 const { ParsedJSON, StringifiedJSON } = browserified(require('@cuties/json'))
 const { StringFromBuffer } = browserified(require('@cuties/buffer'))
+const JSResponseByHTTPReponseComponents = require('./../async/JSResponseByHTTPReponseComponents')
 const AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse')
 const ShownElement = require('./../async/ShownElement')
 const EnabledElement = require('./../async/EnabledElement')
@@ -21,7 +22,7 @@ const VALIDATION_PATTERNS = {
   date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
   dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
   email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-  month: /(January|February|March|April|May|June|July|August|September|October|November|December) \d\d\d\d/,
+  month: /^\d\d\d\d-\d\d$/,
   number: /(\d)+/,
   password: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/,
   tel: /[0-9]{0,14}$/,
@@ -120,21 +121,21 @@ E(
             new EnabledElement(target).after(
               new AppliedActionsOnResponse(
                 target.tagName,
-                target.getAttribute('data-response-object-name') || 'responseObject',
-                new ParsedJSON(
-                  new StringFromBuffer(
-                    new ResponseBody(
-                      as('RESPONSE')
+                target.getAttribute('data-response-name') || 'response',
+                new JSResponseByHTTPReponseComponents(
+                  new ParsedJSON(
+                    new StringFromBuffer(
+                      new ResponseBody(
+                        as('RESPONSE')
+                      )
                     )
+                  ),
+                  new ResponseHeaders(
+                    as('RESPONSE')
+                  ),
+                  new ResponseStatusCode(
+                    as('RESPONSE')
                   )
-                ),
-                target.getAttribute('data-response-headers-name') || 'responseHeaders',
-                new ResponseHeaders(
-                  as('RESPONSE')
-                ),
-                target.getAttribute('data-response-status-code-name') || 'responseStatusCode',
-                new ResponseStatusCode(
-                  as('RESPONSE')
                 ),
                 `hideElms('${target.getAttribute('data-ajax-icon')}');`.concat(
                   target.getAttribute('data-actions-on-response') || ''
@@ -197,8 +198,8 @@ E(
           return false
         }
         if (this.isFile(element)) {
-          const minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 0
-          if (value.length <= minFilesNumber) {
+          const minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 1
+          if (value.length < minFilesNumber) {
             this.showErrorForFormElement(
               element,
               element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} must have at least ${minFilesNumber} files`,

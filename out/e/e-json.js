@@ -47,6 +47,8 @@ var _require2 = require('@page-libs/ajax'),
 
 var ShownElement = require('./../async/ShownElement');
 
+var JSResponseByHTTPReponseComponents = require('./../async/JSResponseByHTTPReponseComponents');
+
 var AppliedActionsOnResponse = require('./../async/AppliedActionsOnResponse');
 
 var ParsedElmSelectors = require('./../util/ParsedElmSelectors');
@@ -88,7 +90,7 @@ function (_HTMLElement) {
   }, {
     key: "activate",
     value: function activate() {
-      new ShownElement(this.ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))).as('RESPONSE').after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-object-name') || 'responseObject', new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), this.getAttribute('data-response-headers-name') || 'responseHeaders', new ResponseHeaders(as('RESPONSE')), this.getAttribute('data-response-status-code-name') || 'responseStatusCode', new ResponseStatusCode(as('RESPONSE')), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || '')))).call();
+      new ShownElement(this.ajaxIcon).after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(this.progressBar))).as('RESPONSE').after(new AppliedActionsOnResponse(this.tagName, this.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), "hideElms('".concat(this.getAttribute('data-ajax-icon'), "');").concat(this.getAttribute('data-actions-on-response') || '')))).call();
     }
   }]);
 

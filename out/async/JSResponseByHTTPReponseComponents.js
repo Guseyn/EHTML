@@ -21,29 +21,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('@page-libs/cutie'),
     AsyncObject = _require.AsyncObject;
 
-var ElementWithMappedObject = require('./../util/ElementWithMappedObject');
-
-var AsyncElementWithMappedObject =
+var JSResponseByHTTPReponseComponents =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(AsyncElementWithMappedObject, _AsyncObject);
+  _inherits(JSResponseByHTTPReponseComponents, _AsyncObject);
 
-  function AsyncElementWithMappedObject(element, obj, objNameAttribute) {
-    _classCallCheck(this, AsyncElementWithMappedObject);
+  function JSResponseByHTTPReponseComponents(body, headers, statusCode) {
+    _classCallCheck(this, JSResponseByHTTPReponseComponents);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObject).call(this, element, obj, objNameAttribute));
+    return _possibleConstructorReturn(this, _getPrototypeOf(JSResponseByHTTPReponseComponents).call(this, body, headers, statusCode));
   }
 
-  _createClass(AsyncElementWithMappedObject, [{
+  _createClass(JSResponseByHTTPReponseComponents, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (element, response, objNameAttribute) {
-        return new ElementWithMappedObject(element, response, objNameAttribute).value();
+      return function (body, headers, statusCode) {
+        return {
+          body: body,
+          headers: headers,
+          statusCode: statusCode
+        };
       };
     }
   }]);
 
-  return AsyncElementWithMappedObject;
+  return JSResponseByHTTPReponseComponents;
 }(AsyncObject);
 
-module.exports = AsyncElementWithMappedObject;
+module.exports = JSResponseByHTTPReponseComponents;
