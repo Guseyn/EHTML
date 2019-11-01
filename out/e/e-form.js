@@ -307,7 +307,10 @@ function (_HTMLFormElement) {
   }, {
     key: "scrollToFirstErrorBox",
     value: function scrollToFirstErrorBox() {
-      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView();
+      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
     }
   }, {
     key: "requestBody",
