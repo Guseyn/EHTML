@@ -297,7 +297,10 @@ E(
     }
 
     scrollToFirstErrorBox () {
-      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView()
+      this.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      })
     }
 
     requestBody () {
