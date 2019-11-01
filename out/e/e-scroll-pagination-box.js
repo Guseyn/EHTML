@@ -28,6 +28,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var E = require('./../E');
 
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
+
 E('e-scroll-pagination-box',
 /*#__PURE__*/
 function (_HTMLTemplateElement) {
@@ -41,7 +43,20 @@ function (_HTMLTemplateElement) {
 
   _createClass(_class, [{
     key: "onRender",
-    value: function onRender() {}
+    value: function onRender() {
+      /* if (!this.getAttribute('name')) {
+        throw new Error(`${this} must have name attribute`)
+      } */
+      var box = document.createElement('div');
+
+      for (var i = 0; i < this.attributes.length; i++) {
+        box.setAttribute(this.attributes[i].name, this.attributes[i].value);
+      }
+
+      var fragment = new DocumentFragmentWithAttributes(this.content.cloneNode(true));
+      box.appendChild(fragment);
+      this.parentNode.replaceChild(box, this);
+    }
   }]);
 
   return _class;

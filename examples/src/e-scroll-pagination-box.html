@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-scroll-pagination-box.html?page=page&size=10 -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>e-for-each</title>
+    <style type="text/css">
+      .user-box {
+        border: 1px solid grey;
+        height: 60px;
+        width: 180px;
+        margin-top: 10px;
+        padding: 5px;
+      }
+      .scroll-box {
+        height: 260px;
+        width: 200px;
+        border: 1px solid grey;
+        overflow: auto;
+        padding: 5px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <e-page-url data-url-pattern="/e-scroll-pagination-box.html?page={page}&size={size}"></e-page-url>
+    <template class="scroll-box" is="e-scroll-pagination-box" data-page-start-number="0" >
+      <e-json
+        id="block"
+        data-src="/../users?page=0&size=20"
+        data-response-name="users"
+        data-actions-on-response="
+          mapObjToElm('${users}', '#block');
+        "
+      >
+        <template is="e-for-each" data-list-to-iterate="${users.body}" data-item-name="user">
+          <div class="user-box">
+            <div data-text="user id: ${user.id + urlParams.size * 1}"></div>
+            <div data-text="user name: ${user.name}"></div>
+            <div data-text="user email: ${user.email}"></div>
+          </div>
+        </template>
+      </e-json>
+    </template>
+  </body>
+
+</html>

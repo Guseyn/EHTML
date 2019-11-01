@@ -1,8 +1,10 @@
 'use strict'
 
+const { as } = require('@cuties/cutie')
 const { Endpoint } = require('@cuties/rest')
-const { RequestParam, EndedResponse, WrittenResponse, ResponseWithHeader, ResponseWithStatusMessage, ResponseWithStatusCode } = require('@cuties/http')
-const { StringifiedJSON } = require('@cuties/json')
+const { EndedResponse, WrittenResponse, ResponseWithHeader, ResponseWithStatusMessage, ResponseWithStatusCode } = require('@cuties/http')
+const { RequestParams } = require('@cuties/rest')
+const { StringifiedJSON, Value } = require('@cuties/json')
 const Users = require('./../objects/Users')
 const User = require('./../objects/User')
 const UsersByPageAndSize = require('./../objects/UsersByPageAndSize')
@@ -72,30 +74,32 @@ const listOfUsers = new Users(
   new User(60)
 )
 
-class GetUsersEndpoint extends Endpoint {
+class GetUsersByPageAndSizeEndpoint extends Endpoint {
   constructor (regexp, type) {
     super(regexp, type)
   }
 
   body (request, response) {
-    return new EndedResponse(
-      new WrittenResponse(
-        new ResponseWithHeader(
-          new ResponseWithStatusMessage(
-            new ResponseWithStatusCode(response, 200), 'ok'
-          ),
-          'Content-Type', 'application/json'
-        ),
-        new StringifiedJSON(
-          new UsersByPageAndSize(
-            listOfUsers,
-            new RequestParam(
-              request,
-              'page'
+    return new RequestParams(request).as('REQUEST_PARAMS').after(
+      new EndedResponse(
+        new WrittenResponse(
+          new ResponseWithHeader(
+            new ResponseWithStatusMessage(
+              new ResponseWithStatusCode(response, 200), 'ok'
             ),
-            new RequestParam(
-              request,
-              'size'
+            'Content-Type', 'application/json'
+          ),
+          new StringifiedJSON(
+            new UsersByPageAndSize(
+              listOfUsers,
+              new Value(
+                as('REQUEST_PARAMS'),
+                'page'
+              ),
+              new Value(
+                as('REQUEST_PARAMS'),
+                'size'
+              )
             )
           )
         )
@@ -104,4 +108,4 @@ class GetUsersEndpoint extends Endpoint {
   }
 }
 
-module.exports = GetUsersEndpoint
+module.exports = GetUsersByPageAndSizeEndpoint

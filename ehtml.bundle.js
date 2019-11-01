@@ -9849,6 +9849,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var E = require('./../E');
 
+var DocumentFragmentWithAttributes = require('./../util/DocumentFragmentWithAttributes');
+
 E('e-scroll-pagination-box',
 /*#__PURE__*/
 function (_HTMLTemplateElement) {
@@ -9862,7 +9864,20 @@ function (_HTMLTemplateElement) {
 
   _createClass(_class, [{
     key: "onRender",
-    value: function onRender() {}
+    value: function onRender() {
+      /* if (!this.getAttribute('name')) {
+        throw new Error(`${this} must have name attribute`)
+      } */
+      var box = document.createElement('div');
+
+      for (var i = 0; i < this.attributes.length; i++) {
+        box.setAttribute(this.attributes[i].name, this.attributes[i].value);
+      }
+
+      var fragment = new DocumentFragmentWithAttributes(this.content.cloneNode(true));
+      box.appendChild(fragment);
+      this.parentNode.replaceChild(box, this);
+    }
   }]);
 
   return _class;
@@ -9870,7 +9885,7 @@ function (_HTMLTemplateElement) {
   "extends": 'template'
 });
 
-},{"./../E":169}],212:[function(require,module,exports){
+},{"./../E":169,"./../util/DocumentFragmentWithAttributes":219}],212:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -10394,7 +10409,7 @@ var actions = {
     return new ElementWithChangedValue(new FirstOf(new ParsedElmSelectors(elmSelector)), newValue);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-response-name');
+    return new ElementWithMappedObject(new FirstOf(new ParsedElmSelectors(elmSelector)), obj, 'data-object-name');
   },
   toggleElms: function toggleElms(className) {
     for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {

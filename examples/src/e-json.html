@@ -32,6 +32,7 @@
       data-actions-on-response="
         mapObjToElm('${user1}', '#block1');
       "
+      data-object-name="user1"
     >
       <div class="with-border">
         <div data-text="First user headers: ${user1.headers}"></div>
@@ -48,6 +49,7 @@
           data-actions-on-response="
             mapObjToElm('${user2}', '#block2');
           "
+          data-object-name="user2"
         >
           <div class="with-border" data-text="Second user in the first user block:">
             <div data-text="Second user headers: ${user2.headers}"></div>
@@ -65,7 +67,7 @@
                 <div data-text="email: ${user1.body.email}"></div>
               </div>
               <br/>
-              <textarea data-value="There are users with ids: ${user1.id}, ${user2.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
+              <textarea data-value="There are users with ids: ${user1.body.id}, ${user2.body.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
             </div>
           </div>
           <br/>
@@ -79,6 +81,7 @@
       data-actions-on-response="
         mapObjToElm('${user1}', '#block4');
       "
+      data-object-name="user1"
       data-event="click"
     >
       <div class="with-border">
