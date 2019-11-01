@@ -132,7 +132,7 @@ const actions = {
         new ParsedElmSelectors(elmSelector)
       ),
       obj,
-      'data-response-name'
+      'data-object-name'
     )
   },
 

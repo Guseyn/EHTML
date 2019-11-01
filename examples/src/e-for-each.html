@@ -25,11 +25,12 @@
     <e-json
       id="block"
       data-src="/../users"
-      data-response-name="users"
+      data-response-name="usersResponse"
       data-actions-on-response="
-        mapObjToElm('${users.body}', '#block');
+        mapObjToElm('${usersResponse.body}', '#block');
         hideElms('#click-here')
       "
+      data-object-name="users"
       data-event="click"
     >
       <div class="with-border">
@@ -43,11 +44,12 @@
           <e-json
             id="block-user-${user.id}"
             data-src="/../user?id=${user.id}"
-            data-response-name="innerUser"
+            data-response-name="innerUserResponse"
             data-actions-on-response="
-              mapObjToElm('${innerUser.body}', '#block-user-${user.id}');
+              mapObjToElm('${innerUserResponse.body}', '#block-user-${user.id}');
               hideElms('#click-here')
             "
+            data-object-name="innerUser"
           >
             <div data-text="inner id: ${innerUser.id}"></div>
           </e-json>
@@ -60,11 +62,12 @@
             <e-json
               id="block-user-${user.id}-${connection.index}"
               data-src="/../user?id=${user.id}"
-              data-response-name="innerUser"
+              data-response-name="innerUserResponse"
               data-actions-on-response="
-                mapObjToElm('${innerUser.body}', '#block-user-${user.id}-${connection.index}');
+                mapObjToElm('${innerUserResponse.body}', '#block-user-${user.id}-${connection.index}');
                 hideElms('#click-here')
               "
+              data-object-name="innerUser"
             >
               <div>
                 <i data-text="inner id for each connection: ${innerUser.id}(${connection.name})"></i>
