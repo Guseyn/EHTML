@@ -14,9 +14,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'src',
+          cwd: 'src2',
           src: ['**/*.js'],
-          dest: 'out',
+          dest: 'out2',
           ext: '.js'
         }]
       }
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     browserify: {
       dist: {
         files: {
-          'ehtml.bundle.js': ['out/**/*.js']
+          'ehtml2.bundle.js': ['out2/**/*.js']
         }
       }
     },
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
       },
       my_target: {
         files: {
-          'ehtml.bundle.min.js': ['ehtml.bundle.js']
+          'ehtml2.bundle.min.js': ['ehtml2.bundle.js']
         }
       }
     }
