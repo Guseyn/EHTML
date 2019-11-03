@@ -21,29 +21,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('./../cutie/exports'),
     AsyncObject = _require.AsyncObject;
 
-var UnwrappedTemplate =
+var JSResponseByHTTPReponseComponents =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(UnwrappedTemplate, _AsyncObject);
+  _inherits(JSResponseByHTTPReponseComponents, _AsyncObject);
 
-  function UnwrappedTemplate(template) {
-    _classCallCheck(this, UnwrappedTemplate);
+  function JSResponseByHTTPReponseComponents(body, headers, statusCode) {
+    _classCallCheck(this, JSResponseByHTTPReponseComponents);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedTemplate).call(this, parent));
+    return _possibleConstructorReturn(this, _getPrototypeOf(JSResponseByHTTPReponseComponents).call(this, body, headers, statusCode));
   }
 
-  _createClass(UnwrappedTemplate, [{
+  _createClass(JSResponseByHTTPReponseComponents, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (template) {
-        var fragment = template.content.cloneNode(true);
-        template.parentNode.replaceChild(fragment, template);
-        return fragment;
+      return function (body, headers, statusCode) {
+        return {
+          body: body,
+          headers: headers,
+          statusCode: statusCode
+        };
       };
     }
   }]);
 
-  return UnwrappedTemplate;
+  return JSResponseByHTTPReponseComponents;
 }(AsyncObject);
 
-module.exports = UnwrappedTemplate;
+module.exports = JSResponseByHTTPReponseComponents;

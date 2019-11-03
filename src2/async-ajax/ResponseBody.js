@@ -1,3 +1,5 @@
+'use strict'
+
 const { AsyncObject } = require('./../cutie/exports')
 
 class ResponseBody extends AsyncObject {

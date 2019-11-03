@@ -1,9 +1,15 @@
 'use strict'
 
-const HTMLTemplate = require('./templates/HTMLTemplate')
+const { StringWithMappedObjectAndAppliedVariables } = require('./string/exports')
 
-const TEMPLATES = {
-  'html': HTMLTemplate
+const {
+  EHTML,
+  EJSON
+} = require('./E/exports')
+
+const ELEMENTS = {
+  'e-html': EHTML,
+  'e-json': EJSON
 }
 
 class MutationObservation {
@@ -26,21 +32,23 @@ class MutationObservation {
   }
 
   activateAllTemplatesInNode (node) {
-    if (this.isTemplate(node)) {
-      const nodeName = node.getAttribute('name')
-      if (nodeName && TEMPLATES[nodeName] && !node.activated) {
-        new TEMPLATES[nodeName](node).activate()
-        node.activated = true
+    const nodeName = node.nodeName.toLowerCase()
+    if (ELEMENTS[nodeName] && !node.activated) {
+      node.activated = true
+      for (let i = 0; i < node.attributes.length; i++) {
+        node.setAttribute(
+          node.attributes[i].name,
+          new StringWithMappedObjectAndAppliedVariables(
+            node.attributes[i].value
+          ).value()
+        )
       }
+      new ELEMENTS[nodeName](node).activate()
     }
     const childNodes = node.childNodes
     for (let i = 0; i < childNodes.length; i++) {
       this.activateAllTemplatesInNode(childNodes[i])
     }
-  }
-
-  isTemplate (node) {
-    return node.nodeName.toLowerCase() === 'template'
   }
 }
 

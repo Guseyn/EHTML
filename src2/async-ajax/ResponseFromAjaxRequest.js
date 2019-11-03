@@ -1,3 +1,5 @@
+'use strict'
+
 const { AsyncObject } = require('./../cutie/exports')
 const responseFromAjaxRequest = require('./custom-calls/responseFromAjaxRequest')
 

@@ -25,8 +25,8 @@ var _require = require('./../async-dom/exports'),
     ElementWithInnerHTML = _require.ElementWithInnerHTML;
 
 var _require2 = require('./../async-ajax/exports'),
-    ResponseBody = _require2.ResponseBody,
     ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody,
     CreatedOptions = _require2.CreatedOptions;
 
 var _require3 = require('./../async-json/exports'),

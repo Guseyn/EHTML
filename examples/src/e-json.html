@@ -21,11 +21,11 @@
         margin-top: 10px;
       }
     </style>
-    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    <script src="/../js/ehtml2.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
-    <e-json 
+    <e-json
       id="block1"
       data-src="/../user?id=1"
       data-response-name="user1"
@@ -72,26 +72,6 @@
           </div>
           <br/>
         </e-json>
-      </div>
-    </e-json>
-    <e-json
-      id="block4"
-      data-src="/../user?id=1"
-      data-response-name="user1"
-      data-actions-on-response="
-        mapObjToElm('${user1}', '#block4');
-      "
-      data-object-name="user1"
-      data-event="click"
-    >
-      <div class="with-border">
-        <span style="text-decoration: underline;">Click here to load user1</span>
-        <div data-text="First user headers: ${user1.headers}"></div>
-        <div data-text="First user status code: ${user1.statusCode}"></div>
-        <div data-text="First user info:" style="margin-top: 4px;"></div>
-        <div data-text="id: ${user1.body.id}"></div>
-        <div data-text="name: ${user1.body.name}"></div>
-        <div data-text="email: ${user1.body.email}"></div>
       </div>
     </e-json>
   </body>
