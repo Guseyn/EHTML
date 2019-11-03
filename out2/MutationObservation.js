@@ -6,10 +6,16 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var HTMLTemplate = require('./templates/HTMLTemplate');
+var _require = require('./string/exports'),
+    StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
 
-var TEMPLATES = {
-  'html': HTMLTemplate
+var _require2 = require('./E/exports'),
+    EHTML = _require2.EHTML,
+    EJSON = _require2.EJSON;
+
+var ELEMENTS = {
+  'e-html': EHTML,
+  'e-json': EJSON
 };
 
 var MutationObservation =
@@ -67,25 +73,23 @@ function () {
   }, {
     key: "activateAllTemplatesInNode",
     value: function activateAllTemplatesInNode(node) {
-      if (this.isTemplate(node)) {
-        var nodeName = node.getAttribute('name');
+      var nodeName = node.nodeName.toLowerCase();
 
-        if (nodeName && TEMPLATES[nodeName] && !node.activated) {
-          new TEMPLATES[nodeName](node).activate();
-          node.activated = true;
+      if (ELEMENTS[nodeName] && !node.activated) {
+        node.activated = true;
+
+        for (var i = 0; i < node.attributes.length; i++) {
+          node.setAttribute(node.attributes[i].name, new StringWithMappedObjectAndAppliedVariables(node.attributes[i].value).value());
         }
+
+        new ELEMENTS[nodeName](node).activate();
       }
 
       var childNodes = node.childNodes;
 
-      for (var i = 0; i < childNodes.length; i++) {
-        this.activateAllTemplatesInNode(childNodes[i]);
+      for (var _i = 0; _i < childNodes.length; _i++) {
+        this.activateAllTemplatesInNode(childNodes[_i]);
       }
-    }
-  }, {
-    key: "isTemplate",
-    value: function isTemplate(node) {
-      return node.nodeName.toLowerCase() === 'template';
     }
   }]);
 

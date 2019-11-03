@@ -1,6 +1,6 @@
 'use strict'
 
-class Template {
+class E {
   constructor (node) {
     this.node = node
   }
@@ -10,4 +10,4 @@ class Template {
   }
 }
 
-module.exports = Template
+module.exports = E

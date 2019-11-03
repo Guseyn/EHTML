@@ -1,17 +1,17 @@
 'use strict'
 
-const Template = require('./Template')
-const { UnwrappedTemplate, ElementWithInnerHTML } = require('./../async-dom/exports')
-const { ResponseBody, ResponseFromAjaxRequest, CreatedOptions } = require('./../async-ajax/exports')
+const E = require('./E')
+const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('./../async-dom/exports')
+const { ResponseFromAjaxRequest, ResponseBody, CreatedOptions } = require('./../async-ajax/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 
-class HTMLTemplate extends Template {
+class EHTML extends E {
   constructor (node) {
     super(node)
   }
 
   activate () {
-    new UnwrappedTemplate(
+    new UnwrappedChildrenOfParent(
       new ElementWithInnerHTML(
         this.node,
         new ResponseBody(
@@ -30,4 +30,4 @@ class HTMLTemplate extends Template {
   }
 }
 
-module.exports = HTMLTemplate
+module.exports = EHTML

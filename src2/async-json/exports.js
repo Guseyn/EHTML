@@ -1,3 +1,4 @@
 module.exports = {
-  ParsedJSON: require('./ParsedJSON')
+  ParsedJSON: require('./ParsedJSON'),
+  ParsedJSONOrString: require('./ParsedJSONOrString')
 }
