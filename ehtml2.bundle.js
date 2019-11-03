@@ -4456,8 +4456,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var _require = require('./../string/exports'),
     StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
 
-var _require2 = require('./../dom/exports'),
-    DocumentFragmentWithAttributes = _require2.DocumentFragmentWithAttributes;
+var DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes');
 
 var ElementWithMappedObject =
 /*#__PURE__*/
@@ -4629,7 +4628,7 @@ function () {
 
 module.exports = ElementWithMappedObject;
 
-},{"./../dom/exports":92,"./../string/exports":101}],92:[function(require,module,exports){
+},{"./../string/exports":101,"./DocumentFragmentWithAttributes":90}],92:[function(require,module,exports){
 "use strict";
 
 module.exports = {
