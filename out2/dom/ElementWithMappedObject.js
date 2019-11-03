@@ -9,8 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var _require = require('./../string/exports'),
     StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
 
-var _require2 = require('./../dom/exports'),
-    DocumentFragmentWithAttributes = _require2.DocumentFragmentWithAttributes;
+var DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes');
 
 var ElementWithMappedObject =
 /*#__PURE__*/

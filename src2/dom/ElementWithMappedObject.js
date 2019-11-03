@@ -1,7 +1,7 @@
 'use strict'
 
 const { StringWithMappedObjectAndAppliedVariables } = require('./../string/exports')
-const { DocumentFragmentWithAttributes } = require('./../dom/exports')
+const DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes')
 
 class ElementWithMappedObject {
   constructor (element, obj, objNameAttribute) {

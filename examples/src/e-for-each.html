@@ -18,7 +18,7 @@
         padding: 10px;
       }
     </style>
-    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    <script src="/../js/ehtml2.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
@@ -31,10 +31,8 @@
         hideElms('#click-here')
       "
       data-object-name="users"
-      data-event="click"
     >
       <div class="with-border">
-        <span style="text-decoration: underline;" id="click-here">Click here to load users</span>
         <div data-text="${users.length} users have been loaded"></div>
         <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user">
           <hr/>
