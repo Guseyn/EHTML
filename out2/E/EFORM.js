@@ -56,9 +56,6 @@ var _require8 = require('./../events/exports'),
     ShowFileReaderProgressEvent = _require8.ShowFileReaderProgressEvent,
     ShowFileReaderEndEvent = _require8.ShowFileReaderEndEvent;
 
-var _require9 = require('./../async-array/exports'),
-    First = _require9.First;
-
 var VALIDATION_PATTERNS = {
   date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
   dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
@@ -141,8 +138,12 @@ function (_E) {
       form.hideAllErrorsForForm = this.hideAllErrorsForForm;
       form.validateDifferentFormElements = this.validateDifferentFormElements;
       form.validateFormElements = this.validateFormElements;
+      form.validateFormElement = this.validateFormElement;
       form.isFormValid = this.isFormValid;
+      form.isCheckbox = this.isCheckbox;
+      form.isFile = this.isFile;
       form.scrollToFirstErrorBox = this.scrollToFirstErrorBox;
+      form.showErrorForFormElement = this.showErrorForFormElement;
     }
   }, {
     key: "prepareDifferentFormElements",
@@ -189,6 +190,7 @@ function (_E) {
       this.hideAllErrorsForForm(this);
       var validations = [];
       this.validateDifferentFormElements(this, requestBody, validations);
+      console.log(validations);
 
       if (this.isFormValid(this, validations)) {
         new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))).call();
@@ -201,7 +203,7 @@ function (_E) {
     value: function isFormValid(form, validations) {
       for (var i = 0; i < validations.length; i++) {
         if (!validations[i]) {
-          form.showErrorForFormElement(form, form.getAttribute('data-validation-bad-format-error-message') || "the form is invalid", form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, form, form.getAttribute('data-validation-bad-format-error-message') || "the form is invalid", form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -211,18 +213,18 @@ function (_E) {
   }, {
     key: "validateDifferentFormElements",
     value: function validateDifferentFormElements(form, requestBody, validations) {
-      form.validateFormElements(form.inputs, requestBody, validations);
-      form.validateFormElements(form.selects, requestBody, validations);
-      form.validateFormElements(form.textareas, requestBody, validations);
-      form.validateFormElements(form.localStorageValues, requestBody, validations);
-      form.validateFormElements(form.sessionStorageValues, requestBody, validations);
+      form.validateFormElements(form, form.inputs, requestBody, validations);
+      form.validateFormElements(form, form.selects, requestBody, validations);
+      form.validateFormElements(form, form.textareas, requestBody, validations);
+      form.validateFormElements(form, form.localStorageValues, requestBody, validations);
+      form.validateFormElements(form, form.sessionStorageValues, requestBody, validations);
     }
   }, {
     key: "validateFormElements",
     value: function validateFormElements(form, elements, requestBody, results) {
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
-        results.push(form.validateFormElement(element, requestBody));
+        results.push(form.validateFormElement(form, element, requestBody));
       }
     }
   }, {
@@ -239,7 +241,7 @@ function (_E) {
 
       if (requiredAttribute) {
         if (!value) {
-          form.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
 
@@ -247,7 +249,7 @@ function (_E) {
           var minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 1;
 
           if (value.length < minFilesNumber) {
-            form.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " must have at least ").concat(minFilesNumber, " files"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " must have at least ").concat(minFilesNumber, " files"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
         }
@@ -264,7 +266,7 @@ function (_E) {
           });
 
           if (!value[checkboxValueIndex][checkboxValue]) {
-            form.showErrorForFormElement(element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required to be true for this value"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required to be true for this value"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
         }
@@ -274,7 +276,7 @@ function (_E) {
         var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute);
 
         if (!validationPattern.test(value)) {
-          form.showErrorForFormElement(element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -463,7 +465,7 @@ function (_E) {
     value: function tuneFileInput(fileInput) {
       var _this = this;
 
-      var readProgressBar = document.querySelectorAll(fileInput.getAttribute('data-read-progress-bar'));
+      var readProgressBar = document.querySelector(fileInput.getAttribute('data-read-progress-bar'));
       fileInput.addEventListener('change', function () {
         _this.readFilesContentForRequestBody(fileInput, readProgressBar);
       });
