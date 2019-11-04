@@ -20,54 +20,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./E');
 
-var _require = require('./../cutie/exports'),
-    as = _require.as;
-
-var _require2 = require('./../async-dom/exports'),
-    FirstParsedElmSelector = _require2.FirstParsedElmSelector,
-    PreparedProgressBar = _require2.PreparedProgressBar,
-    ShownElement = _require2.ShownElement,
-    HiddenElement = _require2.HiddenElement;
-
-var _require3 = require('./../async-ajax/exports'),
-    ResponseFromAjaxRequest = _require3.ResponseFromAjaxRequest,
-    ResponseBody = _require3.ResponseBody,
-    ResponseHeaders = _require3.ResponseHeaders,
-    ResponseStatusCode = _require3.ResponseStatusCode,
-    JSResponseByHTTPReponseComponents = _require3.JSResponseByHTTPReponseComponents,
-    CreatedOptions = _require3.CreatedOptions;
-
-var _require4 = require('./../async-json/exports'),
-    ParsedJSON = _require4.ParsedJSON;
-
-var _require5 = require('./../async-string/exports'),
-    StringFromBuffer = _require5.StringFromBuffer;
-
-var _require6 = require('./../events/exports'),
-    ShowProgressEvent = _require6.ShowProgressEvent;
-
-var _require7 = require('./../actions/exports'),
-    AppliedActionsOnResponse = _require7.AppliedActionsOnResponse;
-
-var EJSON =
+var ESESSION_STORAGE_VALUE =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EJSON, _E);
+  _inherits(ESESSION_STORAGE_VALUE, _E);
 
-  function EJSON(node) {
-    _classCallCheck(this, EJSON);
+  function ESESSION_STORAGE_VALUE(node) {
+    _classCallCheck(this, ESESSION_STORAGE_VALUE);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EJSON).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ESESSION_STORAGE_VALUE).call(this, node));
   }
 
-  _createClass(EJSON, [{
+  _createClass(ESESSION_STORAGE_VALUE, [{
     key: "activate",
     value: function activate() {
-      new ShownElement(new FirstParsedElmSelector(this.node.getAttribute('data-ajax-icon')).as('AJAX_ICON')).after(new PreparedProgressBar(new FirstParsedElmSelector(this.node.getAttribute('data-progress-bar'))).as('PROGRESS_BAR').after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-headers') || '{}'), 'progressEvent', new ShowProgressEvent(as('PROGRESS_BAR')))).as('RESPONSE').after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(this.node.tagName, this.node.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), this.node.getAttribute('data-actions-on-response')))))).call();
+      var _this = this;
+
+      this.node.name = this.node.getAttribute('name');
+
+      this.node.value = function () {
+        return sessionStorage.getItem(_this.node.getAttribute('data-key'));
+      };
     }
   }]);
 
-  return EJSON;
+  return ESESSION_STORAGE_VALUE;
 }(E);
 
-module.exports = EJSON;
+module.exports = ESESSION_STORAGE_VALUE;

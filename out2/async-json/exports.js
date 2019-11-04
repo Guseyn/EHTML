@@ -2,5 +2,6 @@
 
 module.exports = {
   ParsedJSON: require('./ParsedJSON'),
-  ParsedJSONOrString: require('./ParsedJSONOrString')
+  ParsedJSONOrString: require('./ParsedJSONOrString'),
+  StringifiedJSON: require('./StringifiedJSON')
 };

@@ -11,11 +11,17 @@ var _require = require('./string/exports'),
 
 var _require2 = require('./E/exports'),
     EHTML = _require2.EHTML,
-    EJSON = _require2.EJSON;
+    EJSON = _require2.EJSON,
+    EFORM = _require2.EFORM,
+    ELOCAL_STORAGE_VALUE = _require2.ELOCAL_STORAGE_VALUE,
+    ESESSION_STORAGE_VALUE = _require2.ESESSION_STORAGE_VALUE;
 
 var ELEMENTS = {
   'e-html': EHTML,
-  'e-json': EJSON
+  'e-json': EJSON,
+  'e-form': EFORM,
+  'e-local-storage-value': ELOCAL_STORAGE_VALUE,
+  'e-session-storage-value': ESESSION_STORAGE_VALUE
 };
 
 var MutationObservation =
@@ -45,7 +51,7 @@ function () {
               for (var i = 0; i < mutation.addedNodes.length; i++) {
                 var node = mutation.addedNodes[i];
 
-                _this.activateAllTemplatesInNode(node);
+                _this.activateNodeWithItsChildNodes(node);
               }
             }
           }
@@ -71,8 +77,8 @@ function () {
       });
     }
   }, {
-    key: "activateAllTemplatesInNode",
-    value: function activateAllTemplatesInNode(node) {
+    key: "activateNodeWithItsChildNodes",
+    value: function activateNodeWithItsChildNodes(node) {
       var nodeName = node.nodeName.toLowerCase();
 
       if (ELEMENTS[nodeName] && !node.activated) {
@@ -88,7 +94,7 @@ function () {
       var childNodes = node.childNodes;
 
       for (var _i = 0; _i < childNodes.length; _i++) {
-        this.activateAllTemplatesInNode(childNodes[_i]);
+        this.activateNodeWithItsChildNodes(childNodes[_i]);
       }
     }
   }]);
