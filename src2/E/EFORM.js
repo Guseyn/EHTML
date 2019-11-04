@@ -9,7 +9,6 @@ const { StringFromBuffer } = require('./../async-string/exports')
 const { AppliedActionsOnResponse } = require('./../actions/exports')
 const { FileInfo } = require('./../file/exports')
 const { ShowProgressEvent, ShowFileReaderProgressEvent, ShowFileReaderEndEvent } = require('./../events/exports')
-const { First } = require('./../async-array/exports')
 
 const VALIDATION_PATTERNS = {
   date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
