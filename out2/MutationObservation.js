@@ -9,20 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var _require = require('./string/exports'),
     StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
 
-var _require2 = require('./E/exports'),
-    EHTML = _require2.EHTML,
-    EJSON = _require2.EJSON,
-    EFORM = _require2.EFORM,
-    ELOCAL_STORAGE_VALUE = _require2.ELOCAL_STORAGE_VALUE,
-    ESESSION_STORAGE_VALUE = _require2.ESESSION_STORAGE_VALUE;
-
-var ELEMENTS = {
-  'e-html': EHTML,
-  'e-json': EJSON,
-  'e-form': EFORM,
-  'e-local-storage-value': ELOCAL_STORAGE_VALUE,
-  'e-session-storage-value': ESESSION_STORAGE_VALUE
-};
+var ELEMENTS = require('./E/exports');
 
 var MutationObservation =
 /*#__PURE__*/
