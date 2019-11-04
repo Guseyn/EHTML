@@ -4,12 +4,18 @@ const { StringWithMappedObjectAndAppliedVariables } = require('./string/exports'
 
 const {
   EHTML,
-  EJSON
+  EJSON,
+  EFORM,
+  ELOCAL_STORAGE_VALUE,
+  ESESSION_STORAGE_VALUE
 } = require('./E/exports')
 
 const ELEMENTS = {
   'e-html': EHTML,
-  'e-json': EJSON
+  'e-json': EJSON,
+  'e-form': EFORM,
+  'e-local-storage-value': ELOCAL_STORAGE_VALUE,
+  'e-session-storage-value': ESESSION_STORAGE_VALUE
 }
 
 class MutationObservation {
@@ -23,7 +29,7 @@ class MutationObservation {
         if (mutation.type === 'childList') {
           for (let i = 0; i < mutation.addedNodes.length; i++) {
             const node = mutation.addedNodes[i]
-            this.activateAllTemplatesInNode(node)
+            this.activateNodeWithItsChildNodes(node)
           }
         }
       }
@@ -31,7 +37,7 @@ class MutationObservation {
     observer.observe(this.targetNode, { attributes: true, childList: true, subtree: true })
   }
 
-  activateAllTemplatesInNode (node) {
+  activateNodeWithItsChildNodes (node) {
     const nodeName = node.nodeName.toLowerCase()
     if (ELEMENTS[nodeName] && !node.activated) {
       node.activated = true
@@ -47,7 +53,7 @@ class MutationObservation {
     }
     const childNodes = node.childNodes
     for (let i = 0; i < childNodes.length; i++) {
-      this.activateAllTemplatesInNode(childNodes[i])
+      this.activateNodeWithItsChildNodes(childNodes[i])
     }
   }
 }

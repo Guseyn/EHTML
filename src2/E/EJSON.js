@@ -2,9 +2,8 @@
 
 const E = require('./E')
 const { as } = require('./../cutie/exports')
-const { ParsedElmSelectors, PreparedProgressBar, ShownElement, HiddenElement } = require('./../async-dom/exports')
+const { FirstParsedElmSelector, PreparedProgressBar, ShownElement, HiddenElement } = require('./../async-dom/exports')
 const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode, JSResponseByHTTPReponseComponents, CreatedOptions } = require('./../async-ajax/exports')
-const { First } = require('./../async-array/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
 const { ShowProgressEvent } = require('./../events/exports')
@@ -17,17 +16,13 @@ class EJSON extends E {
 
   activate () {
     new ShownElement(
-      new First(
-        new ParsedElmSelectors(
-          this.node.getAttribute('data-ajax-icon')
-        )
+      new FirstParsedElmSelector(
+        this.node.getAttribute('data-ajax-icon')
       ).as('AJAX_ICON')
     ).after(
       new PreparedProgressBar(
-        new First(
-          new ParsedElmSelectors(
-            this.node.getAttribute('data-progress-bar')
-          )
+        new FirstParsedElmSelector(
+          this.node.getAttribute('data-progress-bar')
         )
       ).as('PROGRESS_BAR').after(
         new ResponseFromAjaxRequest(
