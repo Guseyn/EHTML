@@ -79,8 +79,12 @@ class EFORM extends E {
     form.hideAllErrorsForForm = this.hideAllErrorsForForm
     form.validateDifferentFormElements = this.validateDifferentFormElements
     form.validateFormElements = this.validateFormElements
+    form.validateFormElement = this.validateFormElement
     form.isFormValid = this.isFormValid
+    form.isCheckbox = this.isCheckbox
+    form.isFile = this.isFile
     form.scrollToFirstErrorBox = this.scrollToFirstErrorBox
+    form.showErrorForFormElement = this.showErrorForFormElement
   }
 
   prepareDifferentFormElements () {
@@ -123,6 +127,7 @@ class EFORM extends E {
     this.hideAllErrorsForForm(this)
     const validations = []
     this.validateDifferentFormElements(this, requestBody, validations)
+    console.log(validations)
     if (this.isFormValid(this, validations)) {
       new DisabledElement(
         target
@@ -195,6 +200,7 @@ class EFORM extends E {
       if (!validations[i]) {
         form.showErrorForFormElement(
           form,
+          form,
           form.getAttribute('data-validation-bad-format-error-message') || `the form is invalid`,
           form.getAttribute('data-validation-error-class-for-element'),
           form.getAttribute('data-validation-error-class-for-message-box')
@@ -206,17 +212,17 @@ class EFORM extends E {
   }
 
   validateDifferentFormElements (form, requestBody, validations) {
-    form.validateFormElements(form.inputs, requestBody, validations)
-    form.validateFormElements(form.selects, requestBody, validations)
-    form.validateFormElements(form.textareas, requestBody, validations)
-    form.validateFormElements(form.localStorageValues, requestBody, validations)
-    form.validateFormElements(form.sessionStorageValues, requestBody, validations)
+    form.validateFormElements(form, form.inputs, requestBody, validations)
+    form.validateFormElements(form, form.selects, requestBody, validations)
+    form.validateFormElements(form, form.textareas, requestBody, validations)
+    form.validateFormElements(form, form.localStorageValues, requestBody, validations)
+    form.validateFormElements(form, form.sessionStorageValues, requestBody, validations)
   }
 
   validateFormElements (form, elements, requestBody, results) {
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i]
-      results.push(form.validateFormElement(element, requestBody))
+      results.push(form.validateFormElement(form, element, requestBody))
     }
   }
 
@@ -231,6 +237,7 @@ class EFORM extends E {
     if (requiredAttribute) {
       if (!value) {
         form.showErrorForFormElement(
+          form,
           element,
           element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
           element.getAttribute('data-validation-error-class-for-element'),
@@ -242,6 +249,7 @@ class EFORM extends E {
         const minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 1
         if (value.length < minFilesNumber) {
           form.showErrorForFormElement(
+            form,
             element,
             element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} must have at least ${minFilesNumber} files`,
             element.getAttribute('data-validation-error-class-for-element'),
@@ -258,6 +266,7 @@ class EFORM extends E {
         const checkboxValueIndex = value.findIndex(v => Object.keys(v)[0] === checkboxValue)
         if (!value[checkboxValueIndex][checkboxValue]) {
           form.showErrorForFormElement(
+            form,
             element,
             element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required to be true for this value`,
             element.getAttribute('data-validation-error-class-for-element'),
@@ -271,6 +280,7 @@ class EFORM extends E {
       const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute)
       if (!validationPattern.test(value)) {
         form.showErrorForFormElement(
+          form,
           element,
           element.getAttribute('data-validation-bad-format-error-message') || `${nameAttribute} must have format ${validationPattern}`,
           element.getAttribute('data-validation-error-class-for-element'),
@@ -430,7 +440,7 @@ class EFORM extends E {
   }
 
   tuneFileInput (fileInput) {
-    const readProgressBar = document.querySelectorAll(
+    const readProgressBar = document.querySelector(
       fileInput.getAttribute('data-read-progress-bar')
     )
     fileInput.addEventListener('change', () => {
