@@ -28,33 +28,35 @@ var _require2 = require('./../async-ajax/exports'),
     ResponseBody = _require2.ResponseBody,
     ResponseHeaders = _require2.ResponseHeaders,
     ResponseStatusCode = _require2.ResponseStatusCode,
-    CreatedOptions = _require2.CreatedOptions,
     JSResponseByHTTPReponseComponents = _require2.JSResponseByHTTPReponseComponents;
 
-var _require3 = require('./../async-dom/exports'),
-    ShownElement = _require3.ShownElement,
-    HiddenElement = _require3.HiddenElement,
-    EnabledElement = _require3.EnabledElement,
-    DisabledElement = _require3.DisabledElement,
-    FirstParsedElmSelector = _require3.FirstParsedElmSelector;
+var _require3 = require('./../async-object/exports'),
+    CreatedOptions = _require3.CreatedOptions;
 
-var _require4 = require('./../async-json/exports'),
-    ParsedJSON = _require4.ParsedJSON,
-    StringifiedJSON = _require4.StringifiedJSON;
+var _require4 = require('./../async-dom/exports'),
+    ShownElement = _require4.ShownElement,
+    HiddenElement = _require4.HiddenElement,
+    EnabledElement = _require4.EnabledElement,
+    DisabledElement = _require4.DisabledElement,
+    FirstParsedElmSelector = _require4.FirstParsedElmSelector;
 
-var _require5 = require('./../async-string/exports'),
-    StringFromBuffer = _require5.StringFromBuffer;
+var _require5 = require('./../async-json/exports'),
+    ParsedJSON = _require5.ParsedJSON,
+    StringifiedJSON = _require5.StringifiedJSON;
 
-var _require6 = require('./../actions/exports'),
-    AppliedActionsOnResponse = _require6.AppliedActionsOnResponse;
+var _require6 = require('./../async-string/exports'),
+    StringFromBuffer = _require6.StringFromBuffer;
 
-var _require7 = require('./../file/exports'),
-    FileInfo = _require7.FileInfo;
+var _require7 = require('./../actions/exports'),
+    AppliedActionsOnResponse = _require7.AppliedActionsOnResponse;
 
-var _require8 = require('./../events/exports'),
-    ShowProgressEvent = _require8.ShowProgressEvent,
-    ShowFileReaderProgressEvent = _require8.ShowFileReaderProgressEvent,
-    ShowFileReaderEndEvent = _require8.ShowFileReaderEndEvent;
+var _require8 = require('./../file/exports'),
+    FileInfo = _require8.FileInfo;
+
+var _require9 = require('./../events/exports'),
+    ShowProgressEvent = _require9.ShowProgressEvent,
+    ShowFileReaderProgressEvent = _require9.ShowFileReaderProgressEvent,
+    ShowFileReaderEndEvent = _require9.ShowFileReaderEndEvent;
 
 var VALIDATION_PATTERNS = {
   date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
@@ -105,6 +107,7 @@ function (_E) {
     value: function replaceWithForm() {
       var form = document.createElement('form');
       form.setAttribute('novalidate', 'true');
+      form.setAttribute('data-e-form', 'true');
 
       for (var i = 0; i < this.node.attributes.length; i++) {
         form.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);

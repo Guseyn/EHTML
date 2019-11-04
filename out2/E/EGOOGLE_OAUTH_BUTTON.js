@@ -71,6 +71,7 @@ function (_E) {
     key: "replaceWithButton",
     value: function replaceWithButton() {
       var button = document.createElement('button');
+      button.setAttribute('data-e-google-oauth-button', 'true');
 
       for (var i = 0; i < this.node.attributes.length; i++) {
         button.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);

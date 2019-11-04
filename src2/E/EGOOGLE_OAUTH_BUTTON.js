@@ -26,6 +26,7 @@ class EGOOGLE_OAUTH_BUTTON extends E {
 
   replaceWithButton () {
     const button = document.createElement('button')
+    button.setAttribute('data-e-google-oauth-button', 'true')
     for (let i = 0; i < this.node.attributes.length; i++) {
       button.setAttribute(
         this.node.attributes[i].name,

@@ -1,6 +1,7 @@
 'use strict'
 
-const { ResponseFromAjaxRequest, ResponseBody, CreatedOptions } = require('./../async-ajax/exports')
+const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
+const { CreatedOptions } = require('./../async-object/exports')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ParsedElmSelectors } = require('./../async-dom/exports')
 const { Logged } = require('./../async-log/exports')
 const { If } = require('./../async-if-else/exports')

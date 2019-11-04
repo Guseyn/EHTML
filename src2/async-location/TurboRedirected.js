@@ -2,13 +2,14 @@
 
 const { as } = require('./../cutie/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
-const { ResponseFromAjaxRequest, ResponseBody, CreatedOptions } = require('./../async-ajax/exports')
-const { ElementWithInnerHTML, BodyInnerHTMLOfDocument, ExtractedDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./../async-dom/exports')
+const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
+const { CreatedOptions } = require('./../async-object/exports')
+const { ElementWithInnerHTML, ExtractedDocument, BodyInnerHTMLOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./../async-dom/exports')
 const { PushedStartStateToHistoryIfNeeded, PushedStateToHistory } = require('./../async-history/exports')
 const { ShowProgressEvent } = require('./../events/exports')
 
 class TurboRedirected {
-  constructor (href, headers, { progressBarClassName, ajaxFavicon }) {
+  constructor (href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon }) {
     let progressBar
     if (progressBarClassName) {
       progressBar = document.createElement('progress')
@@ -16,7 +17,11 @@ class TurboRedirected {
       progressBar.style.display = 'none'
       progressBar.max = 100
       progressBar.value = 0
-      document.body.prepend(progressBar)
+      if (progressBarPlace) {
+        document.querySelector(progressBarPlace).prepend(progressBar)
+      } else {
+        document.body.prepend(progressBar)
+      }
     }
     return new PushedStartStateToHistoryIfNeeded().after(
       new ChangedPageFavicon(
