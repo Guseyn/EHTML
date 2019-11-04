@@ -2,7 +2,8 @@
 
 const E = require('./E')
 const { as } = require('./../cutie/exports')
-const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode, CreatedOptions, JSResponseByHTTPReponseComponents } = require('./../async-ajax/exports')
+const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode, JSResponseByHTTPReponseComponents } = require('./../async-ajax/exports')
+const { CreatedOptions } = require('./../async-object/exports')
 const { ShownElement, HiddenElement, EnabledElement, DisabledElement, FirstParsedElmSelector } = require('./../async-dom/exports')
 const { ParsedJSON, StringifiedJSON } = require('./../async-json/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
@@ -49,6 +50,7 @@ class EFORM extends E {
   replaceWithForm () {
     const form = document.createElement('form')
     form.setAttribute('novalidate', 'true')
+    form.setAttribute('data-e-form', 'true')
     for (let i = 0; i < this.node.attributes.length; i++) {
       form.setAttribute(
         this.node.attributes[i].name,

@@ -34,20 +34,22 @@ var _require3 = require('./../async-ajax/exports'),
     ResponseBody = _require3.ResponseBody,
     ResponseHeaders = _require3.ResponseHeaders,
     ResponseStatusCode = _require3.ResponseStatusCode,
-    JSResponseByHTTPReponseComponents = _require3.JSResponseByHTTPReponseComponents,
-    CreatedOptions = _require3.CreatedOptions;
+    JSResponseByHTTPReponseComponents = _require3.JSResponseByHTTPReponseComponents;
 
-var _require4 = require('./../async-json/exports'),
-    ParsedJSON = _require4.ParsedJSON;
+var _require4 = require('./../async-object/exports'),
+    CreatedOptions = _require4.CreatedOptions;
 
-var _require5 = require('./../async-string/exports'),
-    StringFromBuffer = _require5.StringFromBuffer;
+var _require5 = require('./../async-json/exports'),
+    ParsedJSON = _require5.ParsedJSON;
 
-var _require6 = require('./../events/exports'),
-    ShowProgressEvent = _require6.ShowProgressEvent;
+var _require6 = require('./../async-string/exports'),
+    StringFromBuffer = _require6.StringFromBuffer;
 
-var _require7 = require('./../actions/exports'),
-    AppliedActionsOnResponse = _require7.AppliedActionsOnResponse;
+var _require7 = require('./../events/exports'),
+    ShowProgressEvent = _require7.ShowProgressEvent;
+
+var _require8 = require('./../actions/exports'),
+    AppliedActionsOnResponse = _require8.AppliedActionsOnResponse;
 
 var EJSON =
 /*#__PURE__*/

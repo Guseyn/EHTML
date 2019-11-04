@@ -2,7 +2,8 @@
 
 const E = require('./E')
 const { UnwrappedChildrenOfParent, ElementWithInnerHTML } = require('./../async-dom/exports')
-const { ResponseFromAjaxRequest, ResponseBody, CreatedOptions } = require('./../async-ajax/exports')
+const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
+const { CreatedOptions } = require('./../async-object/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 
 class EHTML extends E {
