@@ -24,15 +24,15 @@ const mapperForSrc = (url) => {
 const watcherEvent = (eventType, fileName) => {
   if (eventType === 'change') {
     new SpawnedCommand('grunt').after(
-      new CopiedFile('ehtml2.bundle.min.js', './examples/backend/static/js/ehtml2.bundle.min.js')
+      new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js')
     ).call()
   }
 }
 
 new SpawnedCommand('grunt').after(
-  new ExecutedLint(process, './src', './src2', './test', './examples/backend/endpoints', './examples/backend/objects', './examples/backend/server.js').after(
-    new WatcherWithEventTypeAndFilenameListener('./src2', { persistent: true, recursive: true, encoding: 'utf8' }, watcherEvent).after(
-      new CopiedFile('ehtml2.bundle.min.js', './examples/backend/static/js/ehtml2.bundle.min.js').after(
+  new ExecutedLint(process, './src', './test', './examples/backend/endpoints', './examples/backend/objects', './examples/backend/server.js').after(
+    new WatcherWithEventTypeAndFilenameListener('./src', { persistent: true, recursive: true, encoding: 'utf8' }, watcherEvent).after(
+      new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js').after(
         new Backend(
           'http',
           8000,
