@@ -9,5 +9,6 @@ module.exports = {
   'e-google-oauth-button': require('./EGOOGLE_OAUTH_BUTTON'),
   'e-page-url': require('./EPAGE_URL'),
   'e-var-map': require('./EVAR_MAP'),
-  'e-turbolink': require('./ETURBOLINK')
+  'e-turbolink': require('./ETURBOLINK'),
+  'e-select': require('./ESELECT')
 };
