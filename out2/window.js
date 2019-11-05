@@ -132,6 +132,17 @@ window.toggleElms = function (className) {
   _construct(ActionByNameWithParams, ['toggleElms', className].concat(elmSelectors)).value().call();
 };
 
-window.turboRedirect = function (target, href, headers, ajaxFavicon) {
-  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers), retrievedValue(target, ajaxFavicon)).value().call();
+window.turboRedirect = function (target, href) {
+  var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+  var _ref = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {},
+      progressBarPlace = _ref.progressBarPlace,
+      progressBarClassName = _ref.progressBarClassName,
+      ajaxFavicon = _ref.ajaxFavicon;
+
+  new ActionByNameWithParams('turboRedirect', retrievedValue(target, href), retrievedValue(target, headers), {
+    progressBarPlace: progressBarPlace,
+    progressBarClassName: progressBarClassName,
+    ajaxFavicon: ajaxFavicon
+  }).value().call();
 };

@@ -132,10 +132,12 @@ var actions = {
   },
   turboRedirect: function turboRedirect(href, headers) {
     var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        progressBarPlace = _ref.progressBarPlace,
         progressBarClassName = _ref.progressBarClassName,
         ajaxFavicon = _ref.ajaxFavicon;
 
     return new TurboRedirected(href, headers, {
+      progressBarPlace: progressBarPlace,
       progressBarClassName: progressBarClassName,
       ajaxFavicon: ajaxFavicon
     });

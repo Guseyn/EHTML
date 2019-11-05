@@ -170,11 +170,11 @@ window.toggleElms = (className, ...elmSelectors) => {
   ).value().call()
 }
 
-window.turboRedirect = (target, href, headers, ajaxFavicon) => {
+window.turboRedirect = (target, href, headers = { }, { progressBarPlace, progressBarClassName, ajaxFavicon } = { }) => {
   new ActionByNameWithParams(
     'turboRedirect',
     retrievedValue(target, href),
     retrievedValue(target, headers),
-    retrievedValue(target, ajaxFavicon)
+    { progressBarPlace, progressBarClassName, ajaxFavicon }
   ).value().call()
 }
