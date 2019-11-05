@@ -5,6 +5,7 @@ const { ExecutedLint } = require('@cuties/wall')
 const { SpawnedCommand } = require('@cuties/spawn')
 const { Backend, RestApi, ServingFilesEndpoint, NotFoundEndpoint } = require('@cuties/rest')
 const { CopiedFile, WatcherWithEventTypeAndFilenameListener } = require('@cuties/fs')
+const CustomIndexEndpoint = require('./endpoints/CustomIndexEndpoint')
 const GetUsersByPageAndSizeEndpoint = require('./endpoints/GetUsersByPageAndSizeEndpoint')
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
 const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
@@ -38,6 +39,10 @@ new SpawnedCommand('grunt').after(
           8000,
           '127.0.0.1',
           new RestApi(
+            new CustomIndexEndpoint(
+              './examples/backend/static/html/index.html',
+              new NotFoundEndpoint(new RegExp(/\/not-found/))
+            ),
             new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/), 'GET'),
             new GetUsersByPageAndSizeEndpoint(new RegExp(/^\/users\?page=(\d+)&size=(\d+)/), 'GET'),
             new GetUsersEndpoint(new RegExp(/^\/users/), 'GET'),
