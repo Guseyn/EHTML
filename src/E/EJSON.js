@@ -31,7 +31,7 @@ class EJSON extends E {
             'url', this.node.getAttribute('data-src'),
             'method', 'GET',
             'headers', new ParsedJSON(
-              this.node.getAttribute('data-headers') || '{}'
+              this.node.getAttribute('data-request-headers') || '{}'
             ),
             'progressEvent', new ShowProgressEvent(
               as('PROGRESS_BAR')
