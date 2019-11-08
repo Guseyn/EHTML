@@ -115,7 +115,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </html>
   ```
 
-  The main benefit of using this element is that you can much more easily modify your big html files. So, instead of having on big html file where you have to find a specific part of it to modify, you can just find a file, which contains this specific part and do changes there.
+  The main benefit of using this element is that you can much more easily modify your big html files. So, instead of having one big html file where you have to find a specific part of it to modify, you can just find a file, which contains this specific part and make changes there.
 
   Of course, this element make an additional http(s) request for fetching a specific part, but you can always cache the files, so it would not cause any performance issues.
 </details>
