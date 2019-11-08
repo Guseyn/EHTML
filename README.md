@@ -125,7 +125,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 <details>
   <summary><b>E-JSON</b></summary>
 
-  `e-json` allows you to fetch `json` resource by `GET` request from the server and apply some actions on response. So, for example, let's say you have an endpoint `/getAlbum/{title}`, which returns following response:
+  `e-json` allows you to fetch `json` resource by `GET` request from the server and apply some actions on response. So, for example, let's say you have an endpoint `/album/{title}`, which returns following response:
 
   ```json
     title = 'Humbug'
@@ -145,7 +145,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   ```html
     <e-json
-      data-src="/../getAlbum/Humbug"
+      data-src="/../album/Humbug"
       data-response-name="albumResponse"
       data-actions-on-response="
         mapObjToElm('${albumResponse.body}', '#album-info');
