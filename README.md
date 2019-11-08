@@ -71,7 +71,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </div>
   ```
 
-  And then you open `articles.html` in a browser, it will be rendered as if you included all the parts in one file:
+  And when you open `articles.html` in a browser, it will be rendered as if you included all the parts in one file:
 
   ```html
     <!-- /../html/articles.html -->
