@@ -68,7 +68,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   ```html
     <div class="article">
-      <!-- some content -->
+      <!-- some content of the first article -->
     </div>
   ```
 
