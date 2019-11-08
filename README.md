@@ -27,7 +27,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 # Supported elements
 
 <details>
-  <summary><b>e-html</b></summary>
+  <summary><b>E-HTML</b></summary>
   Sometimes html files can be very big, so why not just split them into different smaller html files and put sort of links to them in the main html file? `e-html` allows you to do that, introducing a module system in HTML.
 
   So, let's say we have main `articles.html` file
