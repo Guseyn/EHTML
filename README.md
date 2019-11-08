@@ -164,7 +164,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </e-json>
   ```
 
-  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
+  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ headerName: headerValue, ... }`.
 
