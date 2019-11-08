@@ -6,6 +6,8 @@
 
 - [Motivation](#motivation)
 - [Usage](#usage)
+- [Supported elements](#supported-elements)
+  - [e-html](#e-html)
 
 # Motivation
 
