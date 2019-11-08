@@ -153,13 +153,13 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     >
       <div id="album-info" data-object-name="album">
         <div data-text="Title: ${album.title}"></div>
-        <div data-text="Title: ${album.artist}"></div>
-        <div data-text="Title: ${album.type}"></div>
-        <div data-text="Title: ${album.releaseDate}"></div>
-        <div data-text="Title: ${album.genre}"></div>
-        <div data-text="Title: ${album.length}"></div>
-        <div data-text="Title: ${album.label}"></div>
-        <div data-text="Title: ${album.producer}"></div>
+        <div data-text="Artist: ${album.artist}"></div>
+        <div data-text="Type: ${album.type}"></div>
+        <div data-text="Release date: ${album.releaseDate}"></div>
+        <div data-text="Genre: ${album.genre}"></div>
+        <div data-text="Length: ${album.length}"></div>
+        <div data-text="Label: ${album.label}"></div>
+        <div data-text="Producer: ${album.producer}"></div>
       </div>
     </e-json>
   ```
