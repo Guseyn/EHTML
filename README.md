@@ -164,11 +164,141 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </e-json>
   ```
 
-  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
+  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. It's important to mention that you can map object only to an element, which is in `e-json` that provides the object for mapping. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ "headerName": "headerValue", ... }`.
 
   You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from server. You can see how to use them in the [examples](#examples).
+
+</details>
+
+<details>
+  <summary><b>E-FOR-EACH template</b></summary>
+
+  You can use standard `template` html element with attribute `is="e-for-each"` for iterating some object for mapping to an element. So, let's say you have an endpoint `/album/{title}/songs`, which returns following response:
+
+  ```json
+    title = 'Humbug'
+    {
+      "title": "Humbug",
+      "artist": "Arctic Monkeys",
+      "songs": [
+        { "title": "My Propeller", "length": "3:27" },
+        { "title": "Crying Lightning", "length": "3:43" },
+        { "title": "Dangerous Animals", "length": "3:30" },
+        { "title": "Secret Door", "length": "3:43" },
+        { "title": "Potion Approaching", "length": "3:32" },
+        { "title": "Fire and the Thud", "length": "3:57" },
+        { "title": "Cornerstone", "length": "3:18" },
+        { "title": "Dance Little Liar", "length": "4:43" },
+        { "title": "Pretty Visitors", "length": "3:40" },
+        { "title": "The Jeweller's Hands", "length": "5:42" }
+      ]
+    }
+  ```
+
+  Then your html code would be something like this:
+
+  ```html
+    <e-json
+      data-src="/../album/Humbug/songs"
+      data-response-name="albumResponse"
+      data-actions-on-response="
+        mapObjToElm('${albumResponse.body}', '#album-info');
+      "
+    >
+      <div id="album-info" data-object-name="album">
+
+        <div data-text="Title: ${album.title}"></div>
+        <div data-text="Artist: ${album.artist}"></div>
+
+        <div><b data-text="${album.songs.length} songs:"></b></div>
+        <template is="e-for-each" data-list-to-iterate="${album.songs}" data-item-name="song">
+          <div class="song-box">
+            <div data-text="No. ${song.index}/${album.songs.length}"></div>
+            <div data-text="Title: ${song.title}"></div>
+            <div data-text="Length: ${song.length}"></div>
+          </div>
+        </template>
+        <div data-text="Total length: ${album.songs.reduce((total, song) => {return total + song.length})}"></div>
+
+      </div>
+    </e-json>
+  ```
+
+  So, as you can see it's pretty straightforward: `e-for-each template` has attribute `data-list-to-iterate` where you can specify the list from the mapped object that you want to iterate. And attribute `data-item-name` specifies the name of the item that you want to map to the `template`. You can also use `index` property of the item in the mapping which starts from 1.
+
+  When you open a browser, `template` will be replaced with its inner `n` times duplicated content for each item, where `n` is the length of list that has been iterated.
+
+  ```html
+    <e-json
+      data-src="/../album/Humbug/songs"
+      data-response-name="albumResponse"
+      data-actions-on-response="
+        mapObjToElm('${albumResponse.body}', '#album-info');
+      "
+    >
+      <div id="album-info" data-object-name="album">
+
+        <div>Title: Humbug</div>
+        <div>Artist: Arctic Monkeys</div>
+
+        <div><b>10 songs:</b></div>
+        <div class="song-box">
+          div>No. 1/10</div>
+          <div>Title: My Propeller</div>
+          <div>Length: 3:27</div>
+        </div>
+        <div class="song-box">
+          div>No. 2/10</div>
+          <div>Title: Crying Lightning</div>
+          <div>Length: 3:43</div>
+        </div>
+        <div class="song-box">
+          div>No. 3/10</div>
+          <div>Title: Dangerous Animals</div>
+          <div>Length: 3:30</div>
+        </div>
+        <div class="song-box">
+          div>No. 4/10</div>
+          <div>Title: Secret Door</div>
+          <div>Length: 3:43</div>
+        </div>
+        <div class="song-box">
+          div>No. 5/10</div>
+          <div>Title: Potion Approaching</div>
+          <div>Length: 3:32</div>
+        </div>
+        <div class="song-box">
+          div>No. 6/10</div>
+          <div>Title: Fire and the Thud</div>
+          <div>Length: 3:57</div>
+        </div>
+        <div class="song-box">
+          div>No. 7/10</div>
+          <div>Title: Cornerstone</div>
+          <div>Length: 3:18</div>
+        </div>
+        <div class="song-box">
+          div>No. 8/10</div>
+          <div>Title: Dance Little Liar</div>
+          <div>Length: 4:43</div>
+        </div>
+        <div class="song-box">
+          div>No. 9/10</div>
+          <div>Title: Pretty Visitors</div>
+          <div>Length: 3:40</div>
+        </div>
+        <div class="song-box">
+          div>No. 10/10</div>
+          <div>Title: The Jeweller's Hands</div>
+          <div>Length: 5:42</div>
+        </div>
+        <div>Total length: 39:20</div>
+
+      </div>
+    </e-json>
+  ```
 
 </details>
 
