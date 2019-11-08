@@ -125,7 +125,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 <details>
   <summary><b>E-JSON</b></summary>
 
-  `e-json` allows you to fetch `json` resource by `GET` request from the server and apply some actions on response. So, for example, let's say you have an endpoint `/album/{title}`, which returns following response:
+  `e-json` allows you to fetch `json` resource by `GET` request from the server and apply some actions on the response. So, for example, let's say you have an endpoint `/album/{title}`, which returns following response:
 
   ```json
     title = 'Humbug'
