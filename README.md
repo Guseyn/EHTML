@@ -7,7 +7,6 @@
 - [Motivation](#motivation)
 - [Usage](#usage)
 - [Supported elements](#supported-elements)
-  - [e-html](#e-html)
 
 # Motivation
 
@@ -27,94 +26,95 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 # Supported elements
 
-## e-html
+<details>
+  <summary><b>e-html</b></summary>
+  Sometimes html files can be very big, so why not just split them into different smaller html files and put sort of links to them in the main html file? `e-html` allows you to do that, introducing a module system in HTML.
 
-Sometimes html files can be very big, so why not just split them into different smaller html files and put sort of links to them in the main html file? `e-html` allows you to do that, introducing a module system in HTML.
+  So, let's say we have main `articles.html` file
 
-So, let's say we have main `articles.html` file
+  ```html
+    <!-- /../html/articles.html -->
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
-```html
-<!-- /../html/articles.html -->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+      <head>
+        <link rel="shortcut icon" href="/../images/favicon.ico"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>e-html</title>
+        <link rel="stylesheet" href="/../css/main.css">
+        <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+      </head>
 
-  <head>
-    <link rel="shortcut icon" href="/../images/favicon.ico"/>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>e-html</title>
-    <link rel="stylesheet" href="/../css/main.css">
-    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
-  </head>
+      <body class="main">
+        <div class="articles">
 
-  <body class="main">
-    <div class="articles">
+          <e-html data-src="/../html/first.html"></e-html>
+          <e-html data-src="/../html/second.html"></e-html>
+          <e-html data-src="/../html/third.html"></e-html>
+          <e-html data-src="/../html/fourth.html"></e-html>
+          <e-html data-src="/../html/fifth.html"></e-html>
+          <e-html data-src="/../html/sixth.html"></e-html>
 
-      <e-html data-src="/../html/first.html"></e-html>
-      <e-html data-src="/../html/second.html"></e-html>
-      <e-html data-src="/../html/third.html"></e-html>
-      <e-html data-src="/../html/fourth.html"></e-html>
-      <e-html data-src="/../html/fifth.html"></e-html>
-      <e-html data-src="/../html/sixth.html"></e-html>
+        </div>
+      </body>
 
+    </html>
+  ```
+
+  and as you can see, we have 6 `e-html` tags there. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
+
+  And for example, `first.html` would look something like this
+
+  ```html
+    <div class="article">
+      <!-- some content -->
     </div>
-  </body>
+  ```
 
-</html>
-```
+  And then you open `articles.html` in a browser, it will be rendered as if you included all the parts in one file:
 
-and as you can see, we have 6 `e-html` tags there. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
+  ```html
+    <!-- /../html/articles.html -->
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
-And for example, `first.html` would look something like this
+      <head>
+        <link rel="shortcut icon" href="/../images/favicon.ico"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>e-html</title>
+        <link rel="stylesheet" href="/../css/main.css">
+        <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+      </head>
 
-```html
-<div class="article">
-  <!-- some content -->
-</div>
-```
+      <body class="main">
+        <div class="articles">
 
-And then you open `articles.html` in a browser, it will be rendered as if you included all the parts in one file:
+          <div class="article">
+            <!-- content of the first article -->
+          </div>
+          <div class="article">
+            <!-- content of the second article -->
+          </div>
+          <div class="article">
+            <!-- content of the third article -->
+          </div>
+          <div class="article">
+            <!-- content of the fourth article -->
+          </div>
+          <div class="article">
+            <!-- content of the fith article -->
+          </div>
+          <div class="article">
+            <!-- content of the sixth article -->
+          </div>
 
-```html
-<!-- /../html/articles.html -->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+        </div>
+      </body>
 
-  <head>
-    <link rel="shortcut icon" href="/../images/favicon.ico"/>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>e-html</title>
-    <link rel="stylesheet" href="/../css/main.css">
-    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
-  </head>
+    </html>
+  ```
 
-  <body class="main">
-    <div class="articles">
+  The main benefit of using this element is that you can much more easily modify your big html files. So, instead of having on big html file where you have to find a specific part of it to modify, you can just find a file, which contains this specific part and do changes there.
 
-      <div class="article">
-        <!-- content of the first article -->
-      </div>
-      <div class="article">
-        <!-- content of the second article -->
-      </div>
-      <div class="article">
-        <!-- content of the third article -->
-      </div>
-      <div class="article">
-        <!-- content of the fourth article -->
-      </div>
-      <div class="article">
-        <!-- content of the fith article -->
-      </div>
-      <div class="article">
-        <!-- content of the sixth article -->
-      </div>
-
-    </div>
-  </body>
-
-</html>
-```
-
-The main benefit of using this element is that you can much more easily modify your big html files. So, instead of having on big html file where you have to find a specific part of it to modify, you can just find a file, which contains this specific part and do changes there.
-
-Of course, this element make an additional http(s) request for fetching a specific part, but you can always cache the files, so it would not cause performance issues.
+  Of course, this element make an additional http(s) request for fetching a specific part, but you can always cache the files, so it would not cause performance issues.
+</details>
