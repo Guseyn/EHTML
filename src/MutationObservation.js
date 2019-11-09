@@ -1,7 +1,5 @@
 'use strict'
 
-const { StringWithMappedObjectAndAppliedVariables } = require('./string/exports')
-
 const ELEMENTS = require('./E/exports')
 
 class MutationObservation {
@@ -27,15 +25,9 @@ class MutationObservation {
     const nodeName = node.nodeName.toLowerCase()
     if (ELEMENTS[nodeName] && !node.activated) {
       node.activated = true
-      for (let i = 0; i < node.attributes.length; i++) {
-        node.setAttribute(
-          node.attributes[i].name,
-          new StringWithMappedObjectAndAppliedVariables(
-            node.attributes[i].value
-          ).value()
-        )
-      }
-      new ELEMENTS[nodeName](node).activate()
+      new ELEMENTS[nodeName](node)
+        .applyVariablesToAttributes()
+        .activate()
     }
     const childNodes = node.childNodes
     for (let i = 0; i < childNodes.length; i++) {
