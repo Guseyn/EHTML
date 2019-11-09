@@ -227,7 +227,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   So, as you can see it's pretty straightforward: `e-for-each template` has attribute `data-list-to-iterate` where you can specify the list from the mapped object that you want to iterate. And attribute `data-item-name` specifies the name of the item that you want to map to the `template`. You can also use `index` property of the item in the mapping which starts from 1.
 
-  When you open a browser, `template` will be replaced with its inner `n` times duplicated content for each item, where `n` is the length of list that has been iterated:
+  When you open a browser, `template` will be replaced with its `n` times duplicated inner content for each item, where `n` is the length of list that has been iterated:
 
   ```html
     <e-json
@@ -244,52 +244,52 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
         <div><b>10 songs:</b></div>
         <div class="song-box">
-          div>No. 1/10</div>
+          <div>No. 1/10</div>
           <div>Title: My Propeller</div>
           <div>Length: 3:27</div>
         </div>
         <div class="song-box">
-          div>No. 2/10</div>
+          <div>No. 2/10</div>
           <div>Title: Crying Lightning</div>
           <div>Length: 3:43</div>
         </div>
         <div class="song-box">
-          div>No. 3/10</div>
+          <div>No. 3/10</div>
           <div>Title: Dangerous Animals</div>
           <div>Length: 3:30</div>
         </div>
         <div class="song-box">
-          div>No. 4/10</div>
+          <div>No. 4/10</div>
           <div>Title: Secret Door</div>
           <div>Length: 3:43</div>
         </div>
         <div class="song-box">
-          div>No. 5/10</div>
+          <div>No. 5/10</div>
           <div>Title: Potion Approaching</div>
           <div>Length: 3:32</div>
         </div>
         <div class="song-box">
-          div>No. 6/10</div>
+          <div>No. 6/10</div>
           <div>Title: Fire and the Thud</div>
           <div>Length: 3:57</div>
         </div>
         <div class="song-box">
-          div>No. 7/10</div>
+          <div>No. 7/10</div>
           <div>Title: Cornerstone</div>
           <div>Length: 3:18</div>
         </div>
         <div class="song-box">
-          div>No. 8/10</div>
+          <div>No. 8/10</div>
           <div>Title: Dance Little Liar</div>
           <div>Length: 4:43</div>
         </div>
         <div class="song-box">
-          div>No. 9/10</div>
+          <div>No. 9/10</div>
           <div>Title: Pretty Visitors</div>
           <div>Length: 3:40</div>
         </div>
         <div class="song-box">
-          div>No. 10/10</div>
+          <div>No. 10/10</div>
           <div>Title: The Jeweller's Hands</div>
           <div>Length: 5:42</div>
         </div>
@@ -378,17 +378,17 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
         <div><b>Songs that shorter than 3:30:</b></div>
         <div class="song-box">
-          div>No. 1/10</div>
+          <div>No. 1/10</div>
           <div>Title: My Propeller</div>
           <div>Length: 3:27</div>
         </div>
         <div class="song-box">
-          div>No. 3/10</div>
+          <div>No. 3/10</div>
           <div>Title: Dangerous Animals</div>
           <div>Length: 3:30</div>
         </div>
         <div class="song-box">
-          div>No. 7/10</div>
+          <div>No. 7/10</div>
           <div>Title: Cornerstone</div>
           <div>Length: 3:18</div>
         </div>
@@ -396,6 +396,80 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       </div>
     </e-json>
   ```
+
+</details>
+
+<details>
+  <summary><b>E-FORM</b></summary>
+
+   Custom element `e-form` is a great solution, if you want to send data from your form in JSON format. So, let's say you have an endpoint `/artist/{name}/albums/add` with method 'POST' and expected request body is something like:
+
+  ```json
+    name = 'Arctic Monkeys'
+    {
+      "title": "Humbug",
+      "type": "studio album",
+      "releaseDate": "19 August 2009",
+      "genre": ["psychedelic rock", "hard rock", "stoner rock", "desert rock"],
+      "length": "39:20",
+      "label": "Domino",
+      "producer": "James Ford, Joshua Homme"
+    }
+  ```
+
+  Then you can make this request with following html code:
+
+  ```html
+    <e-form>
+      
+      Title:
+      <input type="text" name="title">
+      
+      Type:
+      <input type="radio" name="type" value="studio album" checked>
+      <label for="one">One</label>
+
+      <input type="radio" name="type" value="live album" checked>
+      <label for="one">One</label>
+
+      Release date:
+      <input type="date" name="releaseDate">
+
+      Genre:
+      <input type="checkbox" name="genre" value="psychedelic rock">
+      <input type="checkbox" name="genre" value="hard rock">
+      <input type="checkbox" name="genre" value="stoner rock">
+      <input type="checkbox" name="genre" value="desert rock">
+
+      Total length:
+      <input type="time" name="totalLength">
+
+      Producer:
+      <input type="text" name="producer">
+
+      <button
+        id="send"
+        data-request-url="/artist/Arctic_Monkeys/albums/add"
+        data-request-method="POST"
+        data-request-headers="{}"
+        data-ajax-icon="#ajaxIcon"
+        data-response-name="savedAlbum"
+        onclick="this.form.submit(this)"
+        data-actions-on-response="
+          logToConsole('response: ', '${savedAlbum}');
+        "
+      />
+
+      <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
+      
+    </e-form>
+  ```
+
+  So, like standard `form` element `e-form` can have inputs with different types, selects, radio buttons, checkboxes and textareas. Every item in `e-form` mast have `name` attribute, which will be used as a key in the request body. And `value` of every item is used as a value for corresponding name in the request body. This element will be rendered as a standard `form` element with attribute `data-e-form="true"`, but it will send its data as json object. You can do it by attaching events on buttons or other active elements with function: `this.form.submit(this)`, which constructs a request body by the form's items and submits it. This approach is much better than standard `action` attribute in the `form` tag because you can attach different requests on several active elements using the same form. 
+
+  Also you have to add other information about the request you want to make in the attributes: `data-request-url`, `data-request-method`, `data-request-headers`. You can even add attributes like `data-ajax-icon`, `data-progress-bar` and `data-upload-progress-bar` which can display progress of the request.
+
+  You can also do validation of your e-forms by attributes: `required`, `pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#examples).
 
 </details>
 

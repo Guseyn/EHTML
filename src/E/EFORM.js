@@ -129,7 +129,6 @@ class EFORM extends E {
     this.hideAllErrorsForForm(this)
     const validations = []
     this.validateDifferentFormElements(this, requestBody, validations)
-    console.log(validations)
     if (this.isFormValid(this, validations)) {
       new DisabledElement(
         target
@@ -265,8 +264,7 @@ class EFORM extends E {
         if (!checkboxValue) {
           throw new Error('checkbox must have \'value\' attribute')
         }
-        const checkboxValueIndex = value.findIndex(v => Object.keys(v)[0] === checkboxValue)
-        if (!value[checkboxValueIndex][checkboxValue]) {
+        if (value.indexOf(checkboxValue) === -1) {
           form.showErrorForFormElement(
             form,
             element,
@@ -384,9 +382,9 @@ class EFORM extends E {
         if (!inputValue) {
           throw new Error('checkbox must have \'value\' attribute')
         }
-        const inputValueObj = {}
-        inputValueObj[inputValue] = input.checked
-        requestBody[input.name].push(inputValueObj)
+        if (input.checked) {
+          requestBody[input.name].push(inputValue)
+        }
       } else if (input.type.toLowerCase() === 'file') {
         requestBody[input.name] = input.filesInfo
       } else {
