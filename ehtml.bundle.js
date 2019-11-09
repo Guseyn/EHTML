@@ -1561,7 +1561,6 @@ function (_E) {
       this.hideAllErrorsForForm(this);
       var validations = [];
       this.validateDifferentFormElements(this, requestBody, validations);
-      console.log(validations);
 
       if (this.isFormValid(this, validations)) {
         new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))).call();
@@ -1632,11 +1631,7 @@ function (_E) {
             throw new Error('checkbox must have \'value\' attribute');
           }
 
-          var checkboxValueIndex = value.findIndex(function (v) {
-            return Object.keys(v)[0] === checkboxValue;
-          });
-
-          if (!value[checkboxValueIndex][checkboxValue]) {
+          if (value.indexOf(checkboxValue) === -1) {
             form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required to be true for this value"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
@@ -1762,9 +1757,9 @@ function (_E) {
             throw new Error('checkbox must have \'value\' attribute');
           }
 
-          var inputValueObj = {};
-          inputValueObj[inputValue] = input.checked;
-          requestBody[input.name].push(inputValueObj);
+          if (input.checked) {
+            requestBody[input.name].push(inputValue);
+          }
         } else if (input.type.toLowerCase() === 'file') {
           requestBody[input.name] = input.filesInfo;
         } else {
