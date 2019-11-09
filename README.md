@@ -36,7 +36,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   So, let's say we have main `articles.html` file
 
   ```html
-    <!-- /../html/articles.html -->
+    <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
       <head>
@@ -77,7 +77,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   And when you open `articles.html` in a browser, it will be rendered as if you included all the parts in one file:
 
   ```html
-    <!-- /../html/articles.html -->
+    <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
       <head>
@@ -325,7 +325,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     }
   ```
 
-  And you would like to display only song that shorter than '3:30' in length. Then your html code would be something like this:
+  And you would like to display only songs that shorter than '3:30' in length. Then your html code would be something like this:
 
   ```html
     <e-json
@@ -465,11 +465,111 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </e-form>
   ```
 
-  So, like standard `form` element `e-form` can have inputs with different types, selects, radio buttons, checkboxes and textareas. Every item in `e-form` mast have `name` attribute, which will be used as a key in the request body. And `value` of every item is used as a value for corresponding name in the request body. This element will be rendered as a standard `form` element with attribute `data-e-form="true"`, but it will send its data as json object. You can do it by attaching events on buttons or other active elements with function: `this.form.submit(this)`, which constructs a request body by the form's items and submits it. This approach is much better than standard `action` attribute in the `form` tag because you can attach different requests on several active elements using the same form. 
+  So, like standard `form` element `e-form` can have inputs with different types, selects, radio buttons, checkboxes and textareas. Every item in `e-form` mast have `name` attribute, which will be used as a key in the request body. And `value` of every item is used as a value for corresponding name in the request body.
+
+  This element will be rendered as a standard `form` element with attribute `data-e-form="true"`, but it will send its data as json object. You can do it by attaching events on buttons or other active elements with function: `this.form.submit(this)`, which constructs a request body by the form's items and submits it. Such approach is much better than standard `action` attribute in the `form` tag because you can attach different requests on several active elements using the same form. 
 
   Also you have to add other information about the request you want to make in the attributes: `data-request-url`, `data-request-method`, `data-request-headers`. You can even add attributes like `data-ajax-icon`, `data-progress-bar` and `data-upload-progress-bar` which can display progress of the request.
 
+  Like for `e-json`, you can do [some actions on response](#suppoted-actions-on-response) with the name that you specify in `data-response-name` attribute. In this case, we just log the response from the request. 
+
   You can also do validation of your e-forms by attributes: `required`, `pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#examples).
+
+</details>
+
+<details>
+  <summary><b>E-LOCAL-STORAGE-VALUE and E-SESSION-STORAGE-VALUE</b></summary>
+
+  For retrieving values from local storage you can use `e-local-storage-value` and use it in a form:
+
+  ```html
+    <e-form>
+      
+      <e-local-storage-value name="jwt" data-key="jwtToken"></e-local-storage-value>
+
+      <button
+        id="send"
+        data-request-url="/verify"
+        data-request-method="POST"
+        data-request-headers="{}"
+        data-ajax-icon="#ajaxIcon"
+        data-response-name="response"
+        onclick="this.form.submit(this)"
+        data-actions-on-response="
+          logToConsole('response: ', '${response}');
+        "
+      />
+
+      <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
+      
+    </e-form>
+  ```
+
+  Element `e-local-storage-value` behaves like any input element in the `e-form`: it has attribute `name` which will be used as a key in request body, and value of the `e-local-storage-value` is a value that is stored in the local storage with the key that you specify in the `data-key` attribute.
+
+  So, in this case `e-form` will construct following request body:
+
+  ```json
+    {
+      "jwt": "some value from local storage with key jwtToken (it's like localStorage.getItem('jwtToken'))" 
+    }
+  ```
+
+  Element `e-session-storage-value` works in the same way as `e-local-storage-value` but with session storage:
+
+  ```html
+    <e-form>
+      
+      <e-local-session-value name="sessionToken" data-key="token"></e-local-storage-value>
+
+      <button
+        id="send"
+        data-request-url="/verify/"
+        data-request-method="POST"
+        data-request-headers="{}"
+        data-ajax-icon="#ajaxIcon"
+        data-response-name="response"
+        onclick="this.form.submit(this)"
+        data-actions-on-response="
+          logToConsole('response: ', '${response}');
+        "
+      />
+
+      <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
+      
+    </e-form>
+  ```
+
+</details>
+
+<details>
+  <summary><b>E-GOOGLE-OAUTH-BUTTON</b></summary>
+
+  You can integrate Google Sign-In into your web app just by adding one button:
+
+  ```html
+    <e-google-oauth-button
+      class="customSignIn"
+      data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com"
+      data-redirect-url="/../google"
+      data-cookiepolicy="single_host_origin"
+      data-scope="profile"
+      data-request-token-key="googleToken"
+      data-response-name="responseWithToken"
+      data-actions-on-response="
+        saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
+      "
+    >
+      <span id="google-icon" class="icon"></span>
+      <span class="buttonText">Sign in with Google</span>
+    </e-google-oauth-button>
+  ```
+
+  It will be rendered as simple button with attribute `data-e-google-oauth-button="true`. You can configure google oauth with custom attributes: `data-client-id`, `data-redirect-url`, `data-cookiepolicy`, `data-scope`.
+
+  Attribute `data-request-token-key` specifies the key in request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google` would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
+
+  Demo of `e-google-oauth-button` you can find in th [examples](#examples).
 
 </details>
 
