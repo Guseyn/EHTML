@@ -49,7 +49,7 @@
             </div>
             <div><b>Even connections:</b></div>
             <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
-              <template is="e-if" data-condition-to-display="${connection.index * 1 % 2 === 0}">
+              <template is="e-if" data-condition-to-display="${(connection.index * 1 % 2) === 0}">
                 <div>
                   <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
                   <br/>
