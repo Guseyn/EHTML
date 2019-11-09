@@ -565,11 +565,11 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </e-google-oauth-button>
   ```
 
-  It will be rendered as simple button with attribute `data-e-google-oauth-button="true`. You can configure google oauth with custom attributes: `data-client-id`, `data-redirect-url`, `data-cookiepolicy`, `data-scope`.
+  It will be rendered as a simple button with attribute `data-e-google-oauth-button="true"`. You can configure google oauth with custom attributes: `data-client-id`, `data-redirect-url`, `data-cookiepolicy`, `data-scope`.
 
-  Attribute `data-request-token-key` specifies the key in request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google` would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
+  Attribute `data-request-token-key` specifies the a key in request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google`(which you specified in the `data-redirect-url`) would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
 
-  Demo of `e-google-oauth-button` you can find in th [examples](#examples).
+  Demo of `e-google-oauth-button` you can find in the [examples](#examples).
 
 </details>
 
