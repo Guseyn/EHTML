@@ -511,7 +511,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   ```json
     {
-      "jwt": "some value from local storage with key jwtToken (it's like localStorage.getItem('jwtToken'))" 
+      "jwt": "some value from local storage with key 'jwtToken' (it's like localStorage.getItem('jwtToken'))" 
     }
   ```
 
@@ -540,6 +540,14 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     </e-form>
   ```
 
+  ```json
+    {
+      "sessionToken": "some value from session storage with key 'token' (it's like sessionStorage.getItem('token'))" 
+    }
+  ```
+
+  You can also get items from local and session storages in the attributes of any elements that **EHTML** provides and in the attributes of elements that `e-var-map` element contains. You can do it via following expression in attributes: `some-attr="${localStorage.itemName}"` or `some-attr="${sessionStorage.itemName}"`.
+
 </details>
 
 <details>
@@ -567,9 +575,30 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   It will be rendered as a simple button with attribute `data-e-google-oauth-button="true"`. You can configure google oauth with custom attributes: `data-client-id`, `data-redirect-url`, `data-cookiepolicy` and `data-scope`.
 
-  Attribute `data-request-token-key` specifies a key in request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google`(which you specified in the `data-redirect-url`) would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
+  Attribute `data-request-token-key` specifies a key in the request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google`(which you specified in the `data-redirect-url`) would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
 
   Demo of `e-google-oauth-button` you can find in the [examples](#examples).
+
+</details>
+
+<details>
+  <summary><b>E-PAGE-URL</b></summary>
+
+  You can define url parameters via `e-page-url`:
+
+  ```html
+    <e-page-url data-url-pattern="/album/{title}"></e-page-url>
+  ```
+
+  Or for example:
+
+  ```html
+    <e-page-url data-url-pattern="/artists?search={query}"></e-page-url>
+  ```
+
+  It's important to place `e-page-url` in the beginning of `body` tag. And then you can get url parameters in any attributes of any elements that **EHTML** provides and also in the attributes of elements that `e-var-map` element contains (just like items from local and session storages). You can do it via `urlParams` object: `some-attr="${urlParams.someValue}"`.
+
+  So, for example, you opened url `http://0.0.0.0:8000/album/Humbug` in a browser, then with `e-page-url` that contains attribute `data-url-pattern="/album/{title}"` you would have `urlParams = { "title": "Humbug" }`.
 
 </details>
 
