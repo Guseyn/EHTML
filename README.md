@@ -220,7 +220,6 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
             <div data-text="Length: ${song.length}"></div>
           </div>
         </template>
-        <div data-text="Total length: ${album.songs.reduce((total, song) => {return total + song.length})}"></div>
 
       </div>
     </e-json>
@@ -228,7 +227,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   So, as you can see it's pretty straightforward: `e-for-each template` has attribute `data-list-to-iterate` where you can specify the list from the mapped object that you want to iterate. And attribute `data-item-name` specifies the name of the item that you want to map to the `template`. You can also use `index` property of the item in the mapping which starts from 1.
 
-  When you open a browser, `template` will be replaced with its inner `n` times duplicated content for each item, where `n` is the length of list that has been iterated.
+  When you open a browser, `template` will be replaced with its inner `n` times duplicated content for each item, where `n` is the length of list that has been iterated:
 
   ```html
     <e-json
@@ -294,7 +293,105 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
           <div>Title: The Jeweller's Hands</div>
           <div>Length: 5:42</div>
         </div>
-        <div>Total length: 39:20</div>
+
+      </div>
+    </e-json>
+  ```
+
+</details>
+
+<details>
+  <summary><b>E-IF template</b></summary>
+
+   This standard `template` html element with attribute `is="e-if"` decides if some particular part of html needs to be displayed or not while mapping some object to an element. So, let's say you have an endpoint `/album/{title}/songs`, which returns following response:
+
+  ```json
+    title = 'Humbug'
+    {
+      "title": "Humbug",
+      "artist": "Arctic Monkeys",
+      "songs": [
+        { "title": "My Propeller", "length": "3:27" },
+        { "title": "Crying Lightning", "length": "3:43" },
+        { "title": "Dangerous Animals", "length": "3:30" },
+        { "title": "Secret Door", "length": "3:43" },
+        { "title": "Potion Approaching", "length": "3:32" },
+        { "title": "Fire and the Thud", "length": "3:57" },
+        { "title": "Cornerstone", "length": "3:18" },
+        { "title": "Dance Little Liar", "length": "4:43" },
+        { "title": "Pretty Visitors", "length": "3:40" },
+        { "title": "The Jeweller's Hands", "length": "5:42" }
+      ]
+    }
+  ```
+
+  And you would like to display only song that shorter than '3:30' in length. Then your html code would be something like this:
+
+  ```html
+    <e-json
+      data-src="/../album/Humbug/songs"
+      data-response-name="albumResponse"
+      data-actions-on-response="
+        mapObjToElm('${albumResponse.body}', '#album-info');
+      "
+    >
+      <div id="album-info" data-object-name="album">
+
+        <div data-text="Title: ${album.title}"></div>
+        <div data-text="Artist: ${album.artist}"></div>
+
+        <div><b>Songs that shorter than 3:30:</b></div>
+        <template is="e-for-each" data-list-to-iterate="${album.songs}" data-item-name="song">
+
+          <template is="e-if"
+            data-condition-to-display="${(song.length.split(':')[0] * 60 + song.length.split(':')[1] * 1) <= 210}"
+          >
+            <div class="song-box">
+              <div data-text="No. ${song.index}/${album.songs.length}"></div>
+              <div data-text="Title: ${song.title}"></div>
+              <div data-text="Length: ${song.length}"></div>
+            </div>
+          </template>
+        
+        </template>
+
+      </div>
+    </e-json>
+  ```
+
+  This element has only one attribute `data-condition-to-display` that specifies a condition whether inner content of the template has to be displayed.
+
+  When you open a browser, you will see:
+
+  ```html
+    <e-json
+      data-src="/../album/Humbug/songs"
+      data-response-name="albumResponse"
+      data-actions-on-response="
+        mapObjToElm('${albumResponse.body}', '#album-info');
+      "
+    >
+      <div id="album-info" data-object-name="album">
+
+        <div>Title: Humbug</div>
+        <div>Artist: Arctic Monkeys</div>
+
+        <div><b>Songs that shorter than 3:30:</b></div>
+        <div class="song-box">
+          div>No. 1/10</div>
+          <div>Title: My Propeller</div>
+          <div>Length: 3:27</div>
+        </div>
+        <div class="song-box">
+          div>No. 3/10</div>
+          <div>Title: Dangerous Animals</div>
+          <div>Length: 3:30</div>
+        </div>
+        <div class="song-box">
+          div>No. 7/10</div>
+          <div>Title: Cornerstone</div>
+          <div>Length: 3:18</div>
+        </div>
 
       </div>
     </e-json>
