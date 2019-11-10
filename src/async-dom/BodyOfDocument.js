@@ -1,6 +1,6 @@
 'use strict'
 
-const { AsyncObject } = require('@page-libs/cutie')
+const { AsyncObject } = require('./../cutie/exports')
 
 class BodyOfDocument extends AsyncObject {
   constructor (doc) {

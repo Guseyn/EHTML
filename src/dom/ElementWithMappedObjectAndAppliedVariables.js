@@ -44,11 +44,13 @@ class ElementWithMappedObjectAndAppliedVariables {
   }
 
   isEForEach (element) {
-    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-for-each'
+    return element.nodeName.toLowerCase() === 'template' &&
+      element.getAttribute('is').toLowerCase() === 'e-for-each'
   }
 
   isEIf (element) {
-    return element.nodeName.toLowerCase() === 'template' && element.getAttribute('is').toLowerCase() === 'e-if'
+    return element.nodeName.toLowerCase() === 'template' &&
+      element.getAttribute('is').toLowerCase() === 'e-if'
   }
 
   activateEForEach (element, obj, objName, objNameAttribute) {

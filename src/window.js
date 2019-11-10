@@ -8,7 +8,7 @@ const { CreatedOptions } = require('./async-object/exports')
 const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./async-dom/exports')
 
 window.eMappedRegExps = {}
-window.eMappedObjects = {}
+window.eMappedObjects = []
 
 if (!window.customElements) {
   window.stop()
