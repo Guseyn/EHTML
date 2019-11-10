@@ -546,7 +546,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     }
   ```
 
-  You can also get items from local and session storages in the attributes of any elements that **EHTML** provides and in the attributes of elements that `e-var-map` element contains. You can do it via following expression in attributes: `some-attr="${localStorage.itemName}"` or `some-attr="${sessionStorage.itemName}"`.
+  You can also get items from local and session storages in the attributes of any elements: `some-attr="${localStorage.itemName}"` or `some-attr="${sessionStorage.itemName}"`.
 
 </details>
 
@@ -582,23 +582,87 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-PAGE-URL</b></summary>
+  <summary><b>E-PAGE-WITH-URL template</b></summary>
 
-  You can define url parameters via `e-page-url`:
+  You can define url parameters via template with attribute `is="e-page-with-url"`:
 
   ```html
-    <e-page-url data-url-pattern="/album/{title}"></e-page-url>
+    <body>
+      <template is="e-page-with-url" data-url-pattern="/album/{title}">
+        <!-- content -->
+      </template>
+    </body>
   ```
 
   Or for example:
 
   ```html
-    <e-page-url data-url-pattern="/artists?search={query}"></e-page-url>
+    <body>
+      <template is="e-page-with-url" data-url-pattern="/artists?search={query}">
+        <!-- content -->
+      </e-page-with-url>
+    </body>
   ```
 
-  It's important to place `e-page-url` in the beginning of `body` tag. And then you can get url parameters in any attributes of any elements that **EHTML** provides and also in the attributes of elements that `e-var-map` element contains (just like items from local and session storages). You can do it via `urlParams` object: `some-attr="${urlParams.someValue}"`.
+  You can get url parameters in any attributes of any elements via `urlParams` object: `some-attr="${urlParams.someValue}"`. It's important to place `e-page-with-url` in the beginning of `<body>` with all elements that use `urlParams` inside of it:
 
-  So, for example, you opened url `http://0.0.0.0:8000/album/Humbug` in a browser, then with `e-page-url` that contains attribute `data-url-pattern="/album/{title}"` you would have `urlParams = { "title": "Humbug" }`.
+  ```html
+    <body>
+      <template is="e-page-with-url" data-url-pattern="/album/{title}">
+        
+        <div data-text="Album title: ${urlParams.title}"></div>
+
+      </template>
+    </body>
+  ```
+
+  So, for example, when you open url `http://0.0.0.0:8000/album/Humbug` in a browser, you would see:
+
+  ```html
+    <body>
+        
+      <div>Album title: Humbug</div>
+
+    </body>
+  ```
+
+  Element `e-page-with-url` is a template because we have to initialize `urlParams` before we render all elements that use them. 
+
+  More details you can find in the [examples](#examples).
+
+</details>
+
+<details>
+  <summary><b>E-TURBOLINK</b></summary>
+
+  **EHTML** supports [turbolinks](https://github.com/turbolinks/turbolinks) via `e-turbolink`. The main difference from classic turbolinks is that `e-tubolink` does not merge `<head>` from the page it fetches. The idea behind this decision was that it would make rendered html code much cleaner(but this decision is still discussable).
+
+  ```html
+    <e-turbolink data-href="/../html/next.html" data-ajax-favicon="/../images/ajax-loader.gif">next page</e-turbolink>
+  ```
+
+  `e-turbolink` will be rendered as a simple link `<a>` with attribute `data-e-turbolink="true"`. When you click on a `e-turbolink`, it fetches a page which is served with the path that you specify in the attribute `data-href`, extracts `<body>` from there and swaps it with current `<body>`. Also it saves history, so you can use Reload, Back and Forward buttons in the browser.
+
+  As `e-turbolink` does not merge `<head>`, you have to design it in a way so it would work for every page, that you want to "turbolink" there.
+
+  Also you can specify ajax favicon via attribute `data-ajax-favicon`, but it probably would not work for Chrome, as it does not support `gif` format in the favicons.
+
+  But you can use progress bars instad via `data-with-progress-bar`:
+
+  ```html
+    <e-turbolink data-href="/../html/next.html" data-with-progress-bar="progress-bar">next page</e-turbolink>
+  ```
+  where value of this attribute is a css class:
+
+  ```css
+    .progress-bar {
+      width: 100%;
+    }
+  ```
+
+  You can also specify a place for the progress bar via attribute `data-progress-bar-place`, by default it's `body`.
+
+  Demo of `e-turbolink` you can find in the [examples](#examples).
 
 </details>
 

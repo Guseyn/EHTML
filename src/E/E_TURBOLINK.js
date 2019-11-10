@@ -4,7 +4,7 @@ const E = require('./E')
 const { TurboRedirected } = require('./../async-location/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 
-class ETURBOLINK extends E {
+class E_TURBOLINK extends E {
   constructor (node) {
     super(node)
   }
@@ -44,4 +44,4 @@ class ETURBOLINK extends E {
   }
 }
 
-module.exports = ETURBOLINK
+module.exports = E_TURBOLINK

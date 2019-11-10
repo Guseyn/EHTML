@@ -10,7 +10,7 @@ const { StringFromBuffer } = require('./../async-string/exports')
 const { ShowProgressEvent } = require('./../events/exports')
 const { AppliedActionsOnResponse } = require('./../actions/exports')
 
-class EJSON extends E {
+class E_JSON extends E {
   constructor (node) {
     super(node)
   }
@@ -68,4 +68,4 @@ class EJSON extends E {
   }
 }
 
-module.exports = EJSON
+module.exports = E_JSON

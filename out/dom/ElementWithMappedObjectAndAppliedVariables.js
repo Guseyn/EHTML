@@ -11,18 +11,18 @@ var _require = require('./../string/exports'),
 
 var DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes');
 
-var ElementWithMappedObject =
+var ElementWithMappedObjectAndAppliedVariables =
 /*#__PURE__*/
 function () {
-  function ElementWithMappedObject(element, obj, objNameAttribute) {
-    _classCallCheck(this, ElementWithMappedObject);
+  function ElementWithMappedObjectAndAppliedVariables(element, obj, objNameAttribute) {
+    _classCallCheck(this, ElementWithMappedObjectAndAppliedVariables);
 
     this.element = element;
     this.obj = obj;
     this.objNameAttribute = objNameAttribute;
   }
 
-  _createClass(ElementWithMappedObject, [{
+  _createClass(ElementWithMappedObjectAndAppliedVariables, [{
     key: "value",
     value: function value() {
       if (this.obj) {
@@ -139,9 +139,9 @@ function () {
       list.forEach(function (item, index) {
         item.index = index + 1;
         var itemFragment = new DocumentFragmentWithAttributes(element.content.cloneNode(true), _this2.itemFragmentAttributesForEForEach(element, objNameAttribute, objName));
-        fragment.appendChild(new ElementWithMappedObject(itemFragment, item, 'data-item-name').value());
+        fragment.appendChild(new ElementWithMappedObjectAndAppliedVariables(itemFragment, item, 'data-item-name').value());
       });
-      element.parentNode.replaceChild(new ElementWithMappedObject(fragment, obj[objName], objNameAttribute).value(), element);
+      element.parentNode.replaceChild(new ElementWithMappedObjectAndAppliedVariables(fragment, obj[objName], objNameAttribute).value(), element);
     }
   }, {
     key: "itemFragmentAttributesForEForEach",
@@ -171,12 +171,12 @@ function () {
           name: objNameAttribute,
           value: objName
         }]);
-        element.parentNode.replaceChild(new ElementWithMappedObject(fragment, obj[objName], objNameAttribute).value(), element);
+        element.parentNode.replaceChild(new ElementWithMappedObjectAndAppliedVariables(fragment, obj[objName], objNameAttribute).value(), element);
       }
     }
   }]);
 
-  return ElementWithMappedObject;
+  return ElementWithMappedObjectAndAppliedVariables;
 }();
 
-module.exports = ElementWithMappedObject;
+module.exports = ElementWithMappedObjectAndAppliedVariables;

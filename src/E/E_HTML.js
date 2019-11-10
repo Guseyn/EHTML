@@ -6,7 +6,7 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/expor
 const { CreatedOptions } = require('./../async-object/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 
-class EHTML extends E {
+class E_HTML extends E {
   constructor (node) {
     super(node)
   }
@@ -31,4 +31,4 @@ class EHTML extends E {
   }
 }
 
-module.exports = EHTML
+module.exports = E_HTML

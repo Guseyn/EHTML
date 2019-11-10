@@ -2,7 +2,7 @@
 
 const E = require('./E')
 
-class ELOCAL_STORAGE_VALUE extends E {
+class E_LOCAL_STORAGE_VALUE extends E {
   constructor (node) {
     super(node)
   }
@@ -17,4 +17,4 @@ class ELOCAL_STORAGE_VALUE extends E {
   }
 }
 
-module.exports = ELOCAL_STORAGE_VALUE
+module.exports = E_LOCAL_STORAGE_VALUE

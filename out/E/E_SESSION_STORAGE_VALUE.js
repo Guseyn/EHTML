@@ -18,33 +18,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('./../cutie/exports'),
-    AsyncObject = _require.AsyncObject;
+var E = require('./E');
 
-var _require2 = require('./../dom/exports'),
-    ElementWithMappedObject = _require2.ElementWithMappedObject;
-
-var AsyncElementWithMappedObject =
+var E_SESSION_STORAGE_VALUE =
 /*#__PURE__*/
-function (_AsyncObject) {
-  _inherits(AsyncElementWithMappedObject, _AsyncObject);
+function (_E) {
+  _inherits(E_SESSION_STORAGE_VALUE, _E);
 
-  function AsyncElementWithMappedObject(element, obj, objNameAttribute) {
-    _classCallCheck(this, AsyncElementWithMappedObject);
+  function E_SESSION_STORAGE_VALUE(node) {
+    _classCallCheck(this, E_SESSION_STORAGE_VALUE);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObject).call(this, element, obj, objNameAttribute));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_SESSION_STORAGE_VALUE).call(this, node));
   }
 
-  _createClass(AsyncElementWithMappedObject, [{
-    key: "syncCall",
-    value: function syncCall() {
-      return function (element, response, objNameAttribute) {
-        return new ElementWithMappedObject(element, response, objNameAttribute).value();
+  _createClass(E_SESSION_STORAGE_VALUE, [{
+    key: "activate",
+    value: function activate() {
+      var _this = this;
+
+      this.node.name = this.node.getAttribute('name');
+
+      this.node.value = function () {
+        return sessionStorage.getItem(_this.node.getAttribute('data-key'));
       };
     }
   }]);
 
-  return AsyncElementWithMappedObject;
-}(AsyncObject);
+  return E_SESSION_STORAGE_VALUE;
+}(E);
 
-module.exports = AsyncElementWithMappedObject;
+module.exports = E_SESSION_STORAGE_VALUE;

@@ -6,8 +6,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var _require = require('./string/exports'),
-    StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
+var _require = require('./dom/exports'),
+    ElementWithMappedObjectAndAppliedVariables = _require.ElementWithMappedObjectAndAppliedVariables;
 
 var ELEMENTS = require('./E/exports');
 
@@ -38,7 +38,11 @@ function () {
               for (var i = 0; i < mutation.addedNodes.length; i++) {
                 var node = mutation.addedNodes[i];
 
-                _this.activateNodeWithItsChildNodes(node);
+                if (!node.observedByEHTML) {
+                  node.observedByEHTML = true;
+
+                  _this.activateNodeWithItsChildNodes(_this.mappedNodeWithVariablesIfItsBody(node));
+                }
               }
             }
           }
@@ -58,7 +62,6 @@ function () {
         }
       });
       observer.observe(this.targetNode, {
-        attributes: true,
         childList: true,
         subtree: true
       });
@@ -66,23 +69,44 @@ function () {
   }, {
     key: "activateNodeWithItsChildNodes",
     value: function activateNodeWithItsChildNodes(node) {
-      var nodeName = node.nodeName.toLowerCase();
+      var nodeName = this.nodeName(node);
 
-      if (ELEMENTS[nodeName] && !node.activated) {
-        node.activated = true;
-
-        for (var i = 0; i < node.attributes.length; i++) {
-          node.setAttribute(node.attributes[i].name, new StringWithMappedObjectAndAppliedVariables(node.attributes[i].value).value());
+      if (ELEMENTS[nodeName]) {
+        if (!node.activatedByEHTML) {
+          node.activatedByEHTML = true;
+          new ELEMENTS[nodeName](node).activate();
         }
-
-        new ELEMENTS[nodeName](node).activate();
       }
 
       var childNodes = node.childNodes;
 
-      for (var _i = 0; _i < childNodes.length; _i++) {
-        this.activateNodeWithItsChildNodes(childNodes[_i]);
+      for (var i = 0; i < childNodes.length; i++) {
+        this.activateNodeWithItsChildNodes(childNodes[i]);
       }
+    }
+  }, {
+    key: "nodeName",
+    value: function nodeName(node) {
+      return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase();
+    }
+  }, {
+    key: "mappedNodeWithVariablesIfItsBody",
+    value: function mappedNodeWithVariablesIfItsBody(node) {
+      if (this.isBody(node)) {
+        return new ElementWithMappedObjectAndAppliedVariables(node).value();
+      }
+
+      return node;
+    }
+  }, {
+    key: "isBody",
+    value: function isBody(node) {
+      return node.nodeName.toLowerCase() === 'body';
+    }
+  }, {
+    key: "isEPageWithUrl",
+    value: function isEPageWithUrl(node) {
+      return node.nodeName.toLowerCase() === 'template' && node.getAttribute('is').toLowerCase() === 'e-page-with-url';
     }
   }]);
 

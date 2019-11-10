@@ -2,7 +2,7 @@
 
 const E = require('./E')
 
-class ESESSION_STORAGE_VALUE extends E {
+class E_SESSION_STORAGE_VALUE extends E {
   constructor (node) {
     super(node)
   }
@@ -17,4 +17,4 @@ class ESESSION_STORAGE_VALUE extends E {
   }
 }
 
-module.exports = ESESSION_STORAGE_VALUE
+module.exports = E_SESSION_STORAGE_VALUE

@@ -71,18 +71,18 @@ var VALIDATION_PATTERNS = {
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 };
 
-var EFORM =
+var E_FORM =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EFORM, _E);
+  _inherits(E_FORM, _E);
 
-  function EFORM(node) {
-    _classCallCheck(this, EFORM);
+  function E_FORM(node) {
+    _classCallCheck(this, E_FORM);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EFORM).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_FORM).call(this, node));
   }
 
-  _createClass(EFORM, [{
+  _createClass(E_FORM, [{
     key: "activate",
     value: function activate() {
       this.setup();
@@ -516,7 +516,7 @@ function (_E) {
     }
   }]);
 
-  return EFORM;
+  return E_FORM;
 }(E);
 
-module.exports = EFORM;
+module.exports = E_FORM;

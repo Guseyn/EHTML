@@ -20,18 +20,18 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./E');
 
-var ESESSION_STORAGE_VALUE =
+var E_LOCAL_STORAGE_VALUE =
 /*#__PURE__*/
 function (_E) {
-  _inherits(ESESSION_STORAGE_VALUE, _E);
+  _inherits(E_LOCAL_STORAGE_VALUE, _E);
 
-  function ESESSION_STORAGE_VALUE(node) {
-    _classCallCheck(this, ESESSION_STORAGE_VALUE);
+  function E_LOCAL_STORAGE_VALUE(node) {
+    _classCallCheck(this, E_LOCAL_STORAGE_VALUE);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ESESSION_STORAGE_VALUE).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_LOCAL_STORAGE_VALUE).call(this, node));
   }
 
-  _createClass(ESESSION_STORAGE_VALUE, [{
+  _createClass(E_LOCAL_STORAGE_VALUE, [{
     key: "activate",
     value: function activate() {
       var _this = this;
@@ -39,12 +39,12 @@ function (_E) {
       this.node.name = this.node.getAttribute('name');
 
       this.node.value = function () {
-        return sessionStorage.getItem(_this.node.getAttribute('data-key'));
+        return localStorage.getItem(_this.node.getAttribute('data-key'));
       };
     }
   }]);
 
-  return ESESSION_STORAGE_VALUE;
+  return E_LOCAL_STORAGE_VALUE;
 }(E);
 
-module.exports = ESESSION_STORAGE_VALUE;
+module.exports = E_LOCAL_STORAGE_VALUE;

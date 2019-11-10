@@ -41,18 +41,18 @@ var _require5 = require('./../actions/exports'),
 
 var GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js';
 
-var EGOOGLE_OAUTH_BUTTON =
+var E_GOOGLE_OAUTH_BUTTON =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EGOOGLE_OAUTH_BUTTON, _E);
+  _inherits(E_GOOGLE_OAUTH_BUTTON, _E);
 
-  function EGOOGLE_OAUTH_BUTTON(node) {
-    _classCallCheck(this, EGOOGLE_OAUTH_BUTTON);
+  function E_GOOGLE_OAUTH_BUTTON(node) {
+    _classCallCheck(this, E_GOOGLE_OAUTH_BUTTON);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EGOOGLE_OAUTH_BUTTON).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_GOOGLE_OAUTH_BUTTON).call(this, node));
   }
 
-  _createClass(EGOOGLE_OAUTH_BUTTON, [{
+  _createClass(E_GOOGLE_OAUTH_BUTTON, [{
     key: "activate",
     value: function activate() {
       var _this = this;
@@ -128,7 +128,7 @@ function (_E) {
     }
   }]);
 
-  return EGOOGLE_OAUTH_BUTTON;
+  return E_GOOGLE_OAUTH_BUTTON;
 }(E);
 
-module.exports = EGOOGLE_OAUTH_BUTTON;
+module.exports = E_GOOGLE_OAUTH_BUTTON;

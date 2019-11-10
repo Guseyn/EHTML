@@ -2,5 +2,5 @@
 
 module.exports = {
   DocumentFragmentWithAttributes: require('./DocumentFragmentWithAttributes'),
-  ElementWithMappedObject: require('./ElementWithMappedObject')
+  ElementWithMappedObjectAndAppliedVariables: require('./ElementWithMappedObjectAndAppliedVariables')
 };

@@ -2,7 +2,7 @@
 
 const E = require('./E')
 
-class ESELECT extends E {
+class E_SELECT extends E {
   constructor (node) {
     super(node)
   }
@@ -37,4 +37,4 @@ class ESELECT extends E {
   }
 }
 
-module.exports = ESELECT
+module.exports = E_SELECT

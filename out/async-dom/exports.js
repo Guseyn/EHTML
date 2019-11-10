@@ -10,7 +10,7 @@ module.exports = {
   ElementWithAdditionalHTML: require('./ElementWithAdditionalHTML'),
   ElementWithChangedValue: require('./ElementWithChangedValue'),
   ElementWithInnerHTML: require('./ElementWithInnerHTML'),
-  ElementWithMappedObject: require('./ElementWithMappedObject'),
+  ElementWithMappedObjectAndAppliedVariables: require('./ElementWithMappedObjectAndAppliedVariables'),
   ElementWithTextContent: require('./ElementWithTextContent'),
   ElementsWithToggledClass: require('./ElementsWithToggledClass'),
   EnabledElement: require('./EnabledElement'),
