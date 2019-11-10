@@ -68,8 +68,8 @@ function () {
   }, {
     key: "mapObjToAttribute",
     value: function mapObjToAttribute(child, attrName, attrValue, obj, objName) {
-      if (this.isForApplying(attrName)) {
-        child.setAttribute(attrName, new StringWithMappedObjectAndAppliedVariables(child.getAttribute(attrName), obj, objName).value());
+      if (this.isForApplying(child, attrName)) {
+        child.setAttribute(attrName, new StringWithMappedObjectAndAppliedVariables(attrValue, obj, objName).value());
 
         if (attrName === 'data-text') {
           this.handleDataTextAttribute(child);
@@ -112,9 +112,9 @@ function () {
     }
   }, {
     key: "isForApplying",
-    value: function isForApplying(attrName) {
+    value: function isForApplying(element, attrName) {
       var attributesForNotApplying = ['data-list-to-iterate', 'data-condition-to-display'];
-      return attributesForNotApplying.indexOf(attrName) === -1;
+      return attributesForNotApplying.indexOf(attrName) === -1 && this.hasParamsInAttributeToApply(element, attrName);
     }
   }, {
     key: "isEForEach",

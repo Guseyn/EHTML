@@ -46,11 +46,11 @@ class ElementWithMappedObjectAndAppliedVariables {
   }
 
   mapObjToAttribute (child, attrName, attrValue, obj, objName) {
-    if (this.isForApplying(attrName)) {
+    if (this.isForApplying(child, attrName)) {
       child.setAttribute(
         attrName,
         new StringWithMappedObjectAndAppliedVariables(
-          child.getAttribute(attrName), obj, objName
+          attrValue, obj, objName
         ).value()
       )
       if (attrName === 'data-text') {
@@ -90,12 +90,12 @@ class ElementWithMappedObjectAndAppliedVariables {
     )
   }
 
-  isForApplying (attrName) {
+  isForApplying (element, attrName) {
     const attributesForNotApplying = [
       'data-list-to-iterate',
       'data-condition-to-display'
     ]
-    return attributesForNotApplying.indexOf(attrName) === -1
+    return attributesForNotApplying.indexOf(attrName) === -1 && this.hasParamsInAttributeToApply(element, attrName)
   }
 
   isEForEach (element) {

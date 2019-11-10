@@ -674,7 +674,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 <details>
   <summary><b>E-SELECT</b></summary>
 
-  Standard `select` can be better. For example, it would be great if could set a value to it, so it would be selected on render. `e-select` does such thing:
+  Standard `select` can be better. For example, it would be great if we could set a value to it, so it would be selected automatically on render. `e-select` does such thing:
 
   ```html
   <e-select
@@ -693,5 +693,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 # Supported actions on response
+
+
 
 # Examples

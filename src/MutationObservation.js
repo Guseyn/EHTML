@@ -1,6 +1,6 @@
 'use strict'
 
-const { ElementWithMappedObjectAndAppliedVariables } = require('./dom/exports')
+const { StringWithMappedObjectAndAppliedVariables } = require('./string/exports')
 const ELEMENTS = require('./E/exports')
 
 class MutationObservation {
@@ -17,7 +17,7 @@ class MutationObservation {
             if (!node.observedByEHTML) {
               node.observedByEHTML = true
               this.activateNodeWithItsChildNodes(
-                this.mappedNodeWithVariablesIfItsBody(
+                this.withMappedVariablesToAttributes(
                   node
                 )
               )
@@ -47,13 +47,64 @@ class MutationObservation {
     return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase()
   }
 
-  mappedNodeWithVariablesIfItsBody (node) {
-    if (this.isBody(node)) {
-      return new ElementWithMappedObjectAndAppliedVariables(
-        node
-      ).value()
+  withMappedVariablesToAttributes (node) {
+    if (node.getAttribute) {
+      for (let i = 0; i < node.attributes.length; i++) {
+        const attrName = node.attributes[i].name
+        const attrValue = node.attributes[i].value
+        if (this.isForApplying(node, attrName)) {
+          node.setAttribute(
+            attrName,
+            new StringWithMappedObjectAndAppliedVariables(
+              attrValue
+            ).value()
+          )
+          if (attrName === 'data-text') {
+            this.handleDataTextAttribute(node)
+          } else if (attrName === 'data-value') {
+            this.handleDataValueAttribute(node)
+          }
+        }
+      }
     }
     return node
+  }
+
+  handleDataTextAttribute (node) {
+    if (!this.hasParamsInAttributeToApply(node, 'data-text')) {
+      this.insertTextIntoElm(node, node.getAttribute('data-text'))
+      node.removeAttribute('data-text')
+    }
+  }
+
+  handleDataValueAttribute (node) {
+    if (!this.hasParamsInAttributeToApply(node, 'data-value')) {
+      node.value = node.getAttribute('data-value')
+      node.removeAttribute('data-value')
+    }
+  }
+
+  insertTextIntoElm (node, text) {
+    const textNode = document.createTextNode(text)
+    if (node.childNodes.length === 0) {
+      node.appendChild(textNode)
+    } else {
+      node.insertBefore(textNode, node.childNodes[0])
+    }
+  }
+
+  hasParamsInAttributeToApply (node, attrName) {
+    return /\$\{([^${}]+)\}/g.test(
+      node.getAttribute(attrName)
+    )
+  }
+
+  isForApplying (node, attrName) {
+    const attributesForNotApplying = [
+      'data-list-to-iterate',
+      'data-condition-to-display'
+    ]
+    return attributesForNotApplying.indexOf(attrName) === -1 && this.hasParamsInAttributeToApply(node, attrName)
   }
 
   isBody (node) {
