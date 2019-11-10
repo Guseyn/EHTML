@@ -39,42 +39,12 @@
           <div>
             <b data-text="${user.index}/${users.length}. Info of user with id ${user.id}:"></b>
           </div>
-          <e-json
-            id="block-user-${user.id}"
-            data-src="/../user?id=${user.id}"
-            data-response-name="innerUserResponse"
-            data-actions-on-response="
-              mapObjToElm('${innerUserResponse.body}', '#block-user-${user.id}');
-              hideElms('#click-here')
-            "
-            data-object-name="innerUser"
-          >
-            <div data-text="inner id: ${innerUser.id}"></div>
-          </e-json>
           <div data-text="name: ${user.name}"></div>
           <div data-text="email: ${user.email}"></div>
           <div>
             <i data-text="user has ${user.connections.length} connections:"></i>
           </div>
           <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
-            <e-json
-              id="block-user-${user.id}-${connection.index}"
-              data-src="/../user?id=${user.id}"
-              data-response-name="innerUserResponse"
-              data-actions-on-response="
-                mapObjToElm('${innerUserResponse.body}', '#block-user-${user.id}-${connection.index}');
-                hideElms('#click-here')
-              "
-              data-object-name="innerUser"
-            >
-              <div>
-                <i data-text="inner id for each connection: ${innerUser.id}(${connection.name})"></i>
-                <br/>
-                <i data-text="inner id + connection index: ${innerUser.id} + ${connection.index} = ${innerUser.id * 1 + connection.index * 1}"></i>
-                <br/>
-                <i data-text="innerId^2: ${Math.pow(innerUser.id, 2)}"></i>
-              </div>
-            </e-json>
             <div>
               <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
               <br/>

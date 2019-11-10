@@ -1,6 +1,6 @@
 'use strict'
 
-const { StringWithMappedObjectAndAppliedVariables } = require('./string/exports')
+const { ElementWithUpdatedAttributesWithVariablesAndMappedObject } = require('./dom/exports')
 const ELEMENTS = require('./E/exports')
 
 class MutationObservation {
@@ -9,23 +9,25 @@ class MutationObservation {
   }
 
   run () {
-    const observer = new MutationObserver((mutationsList, observer) => {
-      for (let mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-          for (let i = 0; i < mutation.addedNodes.length; i++) {
-            const node = mutation.addedNodes[i]
-            if (!node.observedByEHTML) {
-              node.observedByEHTML = true
-              this.activateNodeWithItsChildNodes(
-                this.withMappedVariablesToAttributes(
-                  node
+    const observer = new MutationObserver(
+      (mutationsList, observer) => {
+        for (let mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            for (let i = 0; i < mutation.addedNodes.length; i++) {
+              const node = mutation.addedNodes[i]
+              if (!node.observedByEHTML) {
+                node.observedByEHTML = true
+                this.activateNodeWithItsChildNodes(
+                  new ElementWithUpdatedAttributesWithVariablesAndMappedObject(
+                    node
+                  ).value()
                 )
-              )
+              }
             }
           }
         }
       }
-    })
+    )
     observer.observe(this.targetNode, { childList: true, subtree: true })
   }
 
@@ -47,72 +49,20 @@ class MutationObservation {
     return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase()
   }
 
-  withMappedVariablesToAttributes (node) {
-    if (node.getAttribute) {
-      for (let i = 0; i < node.attributes.length; i++) {
-        const attrName = node.attributes[i].name
-        const attrValue = node.attributes[i].value
-        if (this.isForApplying(node, attrName)) {
-          node.setAttribute(
-            attrName,
-            new StringWithMappedObjectAndAppliedVariables(
-              attrValue
-            ).value()
-          )
-          if (attrName === 'data-text') {
-            this.handleDataTextAttribute(node)
-          } else if (attrName === 'data-value') {
-            this.handleDataValueAttribute(node)
-          }
-        }
-      }
-    }
-    return node
-  }
-
-  handleDataTextAttribute (node) {
-    if (!this.hasParamsInAttributeToApply(node, 'data-text')) {
-      this.insertTextIntoElm(node, node.getAttribute('data-text'))
-      node.removeAttribute('data-text')
-    }
-  }
-
-  handleDataValueAttribute (node) {
-    if (!this.hasParamsInAttributeToApply(node, 'data-value')) {
-      node.value = node.getAttribute('data-value')
-      node.removeAttribute('data-value')
-    }
-  }
-
-  insertTextIntoElm (node, text) {
-    const textNode = document.createTextNode(text)
-    if (node.childNodes.length === 0) {
-      node.appendChild(textNode)
-    } else {
-      node.insertBefore(textNode, node.childNodes[0])
-    }
-  }
-
-  hasParamsInAttributeToApply (node, attrName) {
-    return /\$\{([^${}]+)\}/g.test(
-      node.getAttribute(attrName)
-    )
-  }
-
   isForApplying (node, attrName) {
     const attributesForNotApplying = [
       'data-list-to-iterate',
       'data-condition-to-display'
     ]
-    return attributesForNotApplying.indexOf(attrName) === -1 && this.hasParamsInAttributeToApply(node, attrName)
-  }
-
-  isBody (node) {
-    return node.nodeName.toLowerCase() === 'body'
+    return attributesForNotApplying.indexOf(attrName) === -1
   }
 
   isEPageWithUrl (node) {
-    return node.nodeName.toLowerCase() === 'template' && node.getAttribute('is').toLowerCase() === 'e-page-with-url'
+    if (node.nodeName.toLowerCase() === 'e-page-with-url') {
+      throw new Error('e-page-with-url must be <template>')
+    }
+    return node.nodeName.toLowerCase() === 'template' &&
+      node.getAttribute('is').toLowerCase() === 'e-page-with-url'
   }
 }
 

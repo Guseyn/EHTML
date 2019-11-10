@@ -9,6 +9,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var _require = require('./../string/exports'),
     StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
 
+var ElementWithUpdatedAttributesWithVariablesAndMappedObject = require('./ElementWithUpdatedAttributesWithVariablesAndMappedObject');
+
 var DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes');
 
 var ElementWithMappedObjectAndAppliedVariables =
@@ -47,16 +49,7 @@ function () {
       var _this = this;
 
       element.childNodes.forEach(function (child) {
-        if (child.getAttribute) {
-          for (var i = 0; i < child.attributes.length; i++) {
-            var attrName = child.attributes[i].name;
-            var attrValue = child.attributes[i].value;
-
-            _this.mapObjToAttribute(child, attrName, attrValue, obj, objName);
-          }
-        }
-
-        _this.mapObjToChildren(child, obj, objName);
+        _this.mapObjToChildren(new ElementWithUpdatedAttributesWithVariablesAndMappedObject(child, obj, objName).value(), obj, objName);
 
         if (_this.isEForEach(child)) {
           _this.activateEForEach(child, obj, objName, _this.objNameAttribute);
@@ -64,57 +57,6 @@ function () {
           _this.activateEIf(child, obj, objName, _this.objNameAttribute);
         }
       });
-    }
-  }, {
-    key: "mapObjToAttribute",
-    value: function mapObjToAttribute(child, attrName, attrValue, obj, objName) {
-      if (this.isForApplying(child, attrName)) {
-        child.setAttribute(attrName, new StringWithMappedObjectAndAppliedVariables(attrValue, obj, objName).value());
-
-        if (attrName === 'data-text') {
-          this.handleDataTextAttribute(child);
-        } else if (attrName === 'data-value') {
-          this.handleDataValueAttribute(child);
-        }
-      }
-    }
-  }, {
-    key: "handleDataTextAttribute",
-    value: function handleDataTextAttribute(element) {
-      if (!this.hasParamsInAttributeToApply(element, 'data-text')) {
-        this.insertTextIntoElm(element, element.getAttribute('data-text'));
-        element.removeAttribute('data-text');
-      }
-    }
-  }, {
-    key: "handleDataValueAttribute",
-    value: function handleDataValueAttribute(element) {
-      if (!this.hasParamsInAttributeToApply(element, 'data-value')) {
-        element.value = element.getAttribute('data-value');
-        element.removeAttribute('data-value');
-      }
-    }
-  }, {
-    key: "insertTextIntoElm",
-    value: function insertTextIntoElm(element, text) {
-      var textNode = document.createTextNode(text);
-
-      if (element.childNodes.length === 0) {
-        element.appendChild(textNode);
-      } else {
-        element.insertBefore(textNode, element.childNodes[0]);
-      }
-    }
-  }, {
-    key: "hasParamsInAttributeToApply",
-    value: function hasParamsInAttributeToApply(element, attrName) {
-      return /\$\{([^${}]+)\}/g.test(element.getAttribute(attrName));
-    }
-  }, {
-    key: "isForApplying",
-    value: function isForApplying(element, attrName) {
-      var attributesForNotApplying = ['data-list-to-iterate', 'data-condition-to-display'];
-      return attributesForNotApplying.indexOf(attrName) === -1 && this.hasParamsInAttributeToApply(element, attrName);
     }
   }, {
     key: "isEForEach",
