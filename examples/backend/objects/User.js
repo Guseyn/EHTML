@@ -14,11 +14,11 @@ class User extends AsyncObject {
         name: `Name${id}`,
         email: `${id}@email.com`,
         connections: [
-          { name: 'conn1' },
-          { name: 'conn2' },
-          { name: 'conn3' },
-          { name: 'conn4' },
-          { name: 'conn5' }
+          { name: 'conn1', ports: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { name: 'conn2', ports: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { name: 'conn3', ports: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { name: 'conn4', ports: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { name: 'conn5', ports: [{ id: 1 }, { id: 2 }, { id: 3 }] }
         ]
       }
     }
