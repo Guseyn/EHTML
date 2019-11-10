@@ -17,12 +17,12 @@
   </head>
 
   <body class="main">
-    <e-page-with-url data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}">
+    <template is="e-page-with-url" data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}">
       <input data-value="${urlParams.one}"/>
       <input data-value="${urlParams.two}"/>
       <input data-value="${urlParams.three}"/>
       <input data-value="${urlParams.query}"/>
-    </e-page-with-url>
+    </template>
   </body>
 
 </html>

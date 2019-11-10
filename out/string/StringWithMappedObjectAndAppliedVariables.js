@@ -25,7 +25,7 @@ function () {
   _createClass(StringWithMappedObjectAndAppliedVariables, [{
     key: "value",
     value: function value() {
-      this.str = this.stringWithLocalStorageVariables(this.stringWithSessionStorageVariables(this.stringWithUrlParams(this.str)));
+      this.str = this.stringWithVariables(this.str);
 
       if (this.obj) {
         this.str = this.stringWithMappedObject(this.str, this.obj, this.objName);
@@ -35,29 +35,19 @@ function () {
       return this.evalString(this.str);
     }
   }, {
-    key: "stringWithLocalStorageVariables",
-    value: function stringWithLocalStorageVariables(str) {
+    key: "stringWithVariables",
+    value: function stringWithVariables(str) {
       return str.replace(this.objRegExp('localStorage'), function (match, p1) {
         var expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(localStorage.getItem(p1.split('.')[1]), "'");
         });
         return expression;
-      });
-    }
-  }, {
-    key: "stringWithSessionStorageVariables",
-    value: function stringWithSessionStorageVariables(str) {
-      return str.replace(this.objRegExp('sessionStorage'), function (match, p1) {
+      }).replace(this.objRegExp('sessionStorage'), function (match, p1) {
         var expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, function (match, p1) {
           return "'".concat(sessionStorage.getItem(p1.split('.')[1]), "'");
         });
         return expression;
-      });
-    }
-  }, {
-    key: "stringWithUrlParams",
-    value: function stringWithUrlParams(str) {
-      return str.replace(this.objRegExp('urlParams'), function (match, p1) {
+      }).replace(this.objRegExp('urlParams'), function (match, p1) {
         var expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, function (match, p1) {
           // eslint-disable-next-line no-eval
           return eval("'urlParams".concat(p1, "'"));
@@ -83,8 +73,8 @@ function () {
         } catch (error) {
           var _res = match.replace(p5, function () {
             var name = uuidv4();
-            window[name] = obj[objName];
-            return "window['".concat(name, "']");
+            window.eMappedObjects[name] = obj[objName];
+            return "window.eMappedObjects['".concat(name, "']");
           });
 
           return _res;

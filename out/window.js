@@ -32,6 +32,7 @@ var _require6 = require('./async-dom/exports'),
     ChangedPageFavicon = _require6.ChangedPageFavicon;
 
 window.eMappedRegExps = {};
+window.eMappedObjects = {};
 
 if (!window.customElements) {
   window.stop();

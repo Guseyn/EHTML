@@ -10,13 +10,7 @@ class StringWithMappedObjectAndAppliedVariables {
   }
 
   value () {
-    this.str = this.stringWithLocalStorageVariables(
-      this.stringWithSessionStorageVariables(
-        this.stringWithUrlParams(
-          this.str
-        )
-      )
-    )
+    this.str = this.stringWithVariables(this.str)
     if (this.obj) {
       this.str = this.stringWithMappedObject(
         this.str, this.obj, this.objName
@@ -26,26 +20,18 @@ class StringWithMappedObjectAndAppliedVariables {
     return this.evalString(this.str)
   }
 
-  stringWithLocalStorageVariables (str) {
+  stringWithVariables (str) {
     return str.replace(this.objRegExp('localStorage'), (match, p1) => {
       const expression = match.replace(/localStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${localStorage.getItem(p1.split('.')[1])}'`
       })
       return expression
-    })
-  }
-
-  stringWithSessionStorageVariables (str) {
-    return str.replace(this.objRegExp('sessionStorage'), (match, p1) => {
+    }).replace(this.objRegExp('sessionStorage'), (match, p1) => {
       const expression = match.replace(/sessionStorage(\.[^{}$\s]+)?/g, (match, p1) => {
         return `'${sessionStorage.getItem(p1.split('.')[1])}'`
       })
       return expression
-    })
-  }
-
-  stringWithUrlParams (str) {
-    return str.replace(this.objRegExp('urlParams'), (match, p1) => {
+    }).replace(this.objRegExp('urlParams'), (match, p1) => {
       const expression = match.replace(/urlParams(\.[^{}$\s]+)?/g, (match, p1) => {
         // eslint-disable-next-line no-eval
         return eval(`'urlParams${p1}'`)
@@ -72,8 +58,8 @@ class StringWithMappedObjectAndAppliedVariables {
         } catch (error) {
           const res = match.replace(p5, () => {
             const name = uuidv4()
-            window[name] = obj[objName]
-            return `window['${name}']`
+            window.eMappedObjects[name] = obj[objName]
+            return `window.eMappedObjects['${name}']`
           })
           return res
         }
