@@ -1,8 +1,9 @@
 'use strict'
 
+const { ElementWithMappedObjectAndAppliedVariables } = require('./../dom/exports')
 const E = require('./E')
 
-class EPAGE_URL extends E {
+class E_PAGE_WITH_URL extends E {
   constructor (node) {
     super(node)
   }
@@ -21,6 +22,11 @@ class EPAGE_URL extends E {
       }
     )
     window.urlParams = urlParams
+    this.node.parentNode.replaceChild(
+      new ElementWithMappedObjectAndAppliedVariables(
+        this.node.content.cloneNode(true)
+      ).value(), this.node
+    )
   }
 
   parsedUrl (url) {
@@ -37,4 +43,4 @@ class EPAGE_URL extends E {
   }
 }
 
-module.exports = EPAGE_URL
+module.exports = E_PAGE_WITH_URL

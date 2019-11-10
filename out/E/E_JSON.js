@@ -51,25 +51,25 @@ var _require7 = require('./../events/exports'),
 var _require8 = require('./../actions/exports'),
     AppliedActionsOnResponse = _require8.AppliedActionsOnResponse;
 
-var EJSON =
+var E_JSON =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EJSON, _E);
+  _inherits(E_JSON, _E);
 
-  function EJSON(node) {
-    _classCallCheck(this, EJSON);
+  function E_JSON(node) {
+    _classCallCheck(this, E_JSON);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EJSON).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_JSON).call(this, node));
   }
 
-  _createClass(EJSON, [{
+  _createClass(E_JSON, [{
     key: "activate",
     value: function activate() {
       new ShownElement(new FirstParsedElmSelector(this.node.getAttribute('data-ajax-icon')).as('AJAX_ICON')).after(new PreparedProgressBar(new FirstParsedElmSelector(this.node.getAttribute('data-progress-bar'))).as('PROGRESS_BAR').after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-request-headers') || '{}'), 'progressEvent', new ShowProgressEvent(as('PROGRESS_BAR')))).as('RESPONSE').after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(this.node.tagName, this.node.getAttribute('data-response-name') || 'response', new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), this.node.getAttribute('data-actions-on-response')))))).call();
     }
   }]);
 
-  return EJSON;
+  return E_JSON;
 }(E);
 
-module.exports = EJSON;
+module.exports = E_JSON;

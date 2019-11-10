@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- http://localhost:8000/e-page-url.html/1/2/3?q=query -->
+<!-- http://localhost:8000/e-page-with-url.html/1/2/3?q=query -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
@@ -17,13 +17,12 @@
   </head>
 
   <body class="main">
-    <e-page-url data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}"></e-page-url>
-    <e-var-map>
+    <e-page-with-url data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}">
       <input data-value="${urlParams.one}"/>
       <input data-value="${urlParams.two}"/>
       <input data-value="${urlParams.three}"/>
       <input data-value="${urlParams.query}"/>
-    </e-var-map>
+    </e-page-with-url>
   </body>
 
 </html>

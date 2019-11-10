@@ -21,27 +21,38 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var E = require('./E');
 
 var _require = require('./../async-dom/exports'),
-    ElementWithMappedObject = _require.ElementWithMappedObject;
+    UnwrappedChildrenOfParent = _require.UnwrappedChildrenOfParent,
+    ElementWithInnerHTML = _require.ElementWithInnerHTML;
 
-var EVAR_MAP =
+var _require2 = require('./../async-ajax/exports'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
+
+var _require3 = require('./../async-object/exports'),
+    CreatedOptions = _require3.CreatedOptions;
+
+var _require4 = require('./../async-json/exports'),
+    ParsedJSON = _require4.ParsedJSON;
+
+var E_HTML =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EVAR_MAP, _E);
+  _inherits(E_HTML, _E);
 
-  function EVAR_MAP(node) {
-    _classCallCheck(this, EVAR_MAP);
+  function E_HTML(node) {
+    _classCallCheck(this, E_HTML);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EVAR_MAP).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_HTML).call(this, node));
   }
 
-  _createClass(EVAR_MAP, [{
+  _createClass(E_HTML, [{
     key: "activate",
     value: function activate() {
-      new ElementWithMappedObject(this.node).call();
+      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this.node, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-headers') || '{}')))))).call();
     }
   }]);
 
-  return EVAR_MAP;
+  return E_HTML;
 }(E);
 
-module.exports = EVAR_MAP;
+module.exports = E_HTML;

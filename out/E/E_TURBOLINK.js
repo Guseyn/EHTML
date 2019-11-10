@@ -20,39 +20,58 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./E');
 
-var _require = require('./../async-dom/exports'),
-    UnwrappedChildrenOfParent = _require.UnwrappedChildrenOfParent,
-    ElementWithInnerHTML = _require.ElementWithInnerHTML;
+var _require = require('./../async-location/exports'),
+    TurboRedirected = _require.TurboRedirected;
 
-var _require2 = require('./../async-ajax/exports'),
-    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
-    ResponseBody = _require2.ResponseBody;
+var _require2 = require('./../async-json/exports'),
+    ParsedJSON = _require2.ParsedJSON;
 
-var _require3 = require('./../async-object/exports'),
-    CreatedOptions = _require3.CreatedOptions;
-
-var _require4 = require('./../async-json/exports'),
-    ParsedJSON = _require4.ParsedJSON;
-
-var EHTML =
+var E_TURBOLINK =
 /*#__PURE__*/
 function (_E) {
-  _inherits(EHTML, _E);
+  _inherits(E_TURBOLINK, _E);
 
-  function EHTML(node) {
-    _classCallCheck(this, EHTML);
+  function E_TURBOLINK(node) {
+    _classCallCheck(this, E_TURBOLINK);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EHTML).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_TURBOLINK).call(this, node));
   }
 
-  _createClass(EHTML, [{
+  _createClass(E_TURBOLINK, [{
     key: "activate",
     value: function activate() {
-      new UnwrappedChildrenOfParent(new ElementWithInnerHTML(this.node, new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-headers') || '{}')))))).call();
+      var _this = this;
+
+      this.replaceWithLink();
+      this.node.addEventListener('click', function () {
+        new TurboRedirected(_this.node.getAttribute('data-href'), new ParsedJSON(_this.node.getAttribute('data-headers') || '{}'), {
+          ajaxFavicon: _this.node.getAttribute('data-ajax-favicon'),
+          progressBarClassName: _this.node.getAttribute('data-with-progress-bar'),
+          progressBarPlace: _this.node.getAttribute('data-progress-bar-place')
+        }).call();
+      });
+    }
+  }, {
+    key: "replaceWithLink",
+    value: function replaceWithLink() {
+      var link = document.createElement('a');
+      link.setAttribute('data-e-turbolink', 'true');
+
+      for (var i = 0; i < this.node.attributes.length; i++) {
+        link.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);
+      }
+
+      while (this.node.firstChild) {
+        var child = this.node.removeChild(this.node.firstChild);
+        link.appendChild(child);
+      }
+
+      this.node.parentNode.replaceChild(link, this.node);
+      this.node = link;
     }
   }]);
 
-  return EHTML;
+  return E_TURBOLINK;
 }(E);
 
-module.exports = EHTML;
+module.exports = E_TURBOLINK;

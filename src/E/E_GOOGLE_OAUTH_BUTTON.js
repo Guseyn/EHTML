@@ -8,7 +8,7 @@ const { ParsedJSON } = require('./../async-json/exports')
 const { AppliedActionsOnResponse } = require('./../actions/exports')
 const GOOGLE_API_SRC = 'https://apis.google.com/js/api:client.js'
 
-class EGOOGLE_OAUTH_BUTTON extends E {
+class E_GOOGLE_OAUTH_BUTTON extends E {
   constructor (node) {
     super(node)
   }
@@ -105,4 +105,4 @@ class EGOOGLE_OAUTH_BUTTON extends E {
   }
 }
 
-module.exports = EGOOGLE_OAUTH_BUTTON
+module.exports = E_GOOGLE_OAUTH_BUTTON

@@ -35,7 +35,7 @@ var _require3 = require('./../async-dom/exports'),
     ShownElements = _require3.ShownElements,
     DisabledElements = _require3.DisabledElements,
     EnabledElements = _require3.EnabledElements,
-    ElementWithMappedObject = _require3.ElementWithMappedObject,
+    ElementWithMappedObjectAndAppliedVariables = _require3.ElementWithMappedObjectAndAppliedVariables,
     ElementsWithToggledClass = _require3.ElementsWithToggledClass,
     ElementWithChangedValue = _require3.ElementWithChangedValue,
     ParsedElmSelectors = _require3.ParsedElmSelectors;
@@ -121,7 +121,7 @@ var actions = {
     return new ElementWithChangedValue(new First(new ParsedElmSelectors(elmSelector)), newValue);
   },
   mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj, 'data-object-name');
+    return new ElementWithMappedObjectAndAppliedVariables(new First(new ParsedElmSelectors(elmSelector)), obj, 'data-object-name');
   },
   toggleElms: function toggleElms(className) {
     for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {

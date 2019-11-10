@@ -18,55 +18,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./E');
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
 
-var ESELECT =
+var _require2 = require('./../dom/exports'),
+    ElementWithMappedObjectAndAppliedVariables = _require2.ElementWithMappedObjectAndAppliedVariables;
+
+var AsyncElementWithMappedObjectAndAppliedVariables =
 /*#__PURE__*/
-function (_E) {
-  _inherits(ESELECT, _E);
+function (_AsyncObject) {
+  _inherits(AsyncElementWithMappedObjectAndAppliedVariables, _AsyncObject);
 
-  function ESELECT(node) {
-    _classCallCheck(this, ESELECT);
+  function AsyncElementWithMappedObjectAndAppliedVariables(element, obj, objNameAttribute) {
+    _classCallCheck(this, AsyncElementWithMappedObjectAndAppliedVariables);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ESELECT).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObjectAndAppliedVariables).call(this, element, obj, objNameAttribute));
   }
 
-  _createClass(ESELECT, [{
-    key: "activate",
-    value: function activate() {
-      this.replaceWithSelect();
-      var value = this.node.getAttribute('value');
-
-      for (var index = 0; index < this.node.options.length; index++) {
-        var item = this.node.options.item(index);
-
-        if (item.value === value) {
-          this.node.selectedIndex = index;
-          break;
-        }
-      }
-    }
-  }, {
-    key: "replaceWithSelect",
-    value: function replaceWithSelect() {
-      var select = document.createElement('select');
-      select.setAttribute('data-e-select', 'true');
-
-      for (var i = 0; i < this.node.attributes.length; i++) {
-        select.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);
-      }
-
-      while (this.node.firstChild) {
-        var child = this.node.removeChild(this.node.firstChild);
-        select.appendChild(child);
-      }
-
-      this.node.parentNode.replaceChild(select, this.node);
-      this.node = select;
+  _createClass(AsyncElementWithMappedObjectAndAppliedVariables, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (element, response, objNameAttribute) {
+        return new ElementWithMappedObjectAndAppliedVariables(element, response, objNameAttribute).value();
+      };
     }
   }]);
 
-  return ESELECT;
-}(E);
+  return AsyncElementWithMappedObjectAndAppliedVariables;
+}(AsyncObject);
 
-module.exports = ESELECT;
+module.exports = AsyncElementWithMappedObjectAndAppliedVariables;

@@ -24,7 +24,7 @@ const VALIDATION_PATTERNS = {
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
-class EFORM extends E {
+class E_FORM extends E {
   constructor (node) {
     super(node)
   }
@@ -496,4 +496,4 @@ class EFORM extends E {
   }
 }
 
-module.exports = EFORM
+module.exports = E_FORM

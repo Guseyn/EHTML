@@ -20,58 +20,53 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./E');
 
-var _require = require('./../async-location/exports'),
-    TurboRedirected = _require.TurboRedirected;
-
-var _require2 = require('./../async-json/exports'),
-    ParsedJSON = _require2.ParsedJSON;
-
-var ETURBOLINK =
+var E_SELECT =
 /*#__PURE__*/
 function (_E) {
-  _inherits(ETURBOLINK, _E);
+  _inherits(E_SELECT, _E);
 
-  function ETURBOLINK(node) {
-    _classCallCheck(this, ETURBOLINK);
+  function E_SELECT(node) {
+    _classCallCheck(this, E_SELECT);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ETURBOLINK).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_SELECT).call(this, node));
   }
 
-  _createClass(ETURBOLINK, [{
+  _createClass(E_SELECT, [{
     key: "activate",
     value: function activate() {
-      var _this = this;
+      this.replaceWithSelect();
+      var value = this.node.getAttribute('value');
 
-      this.replaceWithLink();
-      this.node.addEventListener('click', function () {
-        new TurboRedirected(_this.node.getAttribute('data-href'), new ParsedJSON(_this.node.getAttribute('data-headers') || '{}'), {
-          ajaxFavicon: _this.node.getAttribute('data-ajax-favicon'),
-          progressBarClassName: _this.node.getAttribute('data-with-progress-bar'),
-          progressBarPlace: _this.node.getAttribute('data-progress-bar-place')
-        }).call();
-      });
+      for (var index = 0; index < this.node.options.length; index++) {
+        var item = this.node.options.item(index);
+
+        if (item.value === value) {
+          this.node.selectedIndex = index;
+          break;
+        }
+      }
     }
   }, {
-    key: "replaceWithLink",
-    value: function replaceWithLink() {
-      var link = document.createElement('a');
-      link.setAttribute('data-e-turbolink', 'true');
+    key: "replaceWithSelect",
+    value: function replaceWithSelect() {
+      var select = document.createElement('select');
+      select.setAttribute('data-e-select', 'true');
 
       for (var i = 0; i < this.node.attributes.length; i++) {
-        link.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);
+        select.setAttribute(this.node.attributes[i].name, this.node.attributes[i].value);
       }
 
       while (this.node.firstChild) {
         var child = this.node.removeChild(this.node.firstChild);
-        link.appendChild(child);
+        select.appendChild(child);
       }
 
-      this.node.parentNode.replaceChild(link, this.node);
-      this.node = link;
+      this.node.parentNode.replaceChild(select, this.node);
+      this.node = select;
     }
   }]);
 
-  return ETURBOLINK;
+  return E_SELECT;
 }(E);
 
-module.exports = ETURBOLINK;
+module.exports = E_SELECT;

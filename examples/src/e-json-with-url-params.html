@@ -20,44 +20,47 @@
   </head>
 
   <body class="main">
-    <e-page-url data-url-pattern="/e-json-with-url-params.html?userId={userId}"></e-page-url>
-    <form is="e-form">
-      <input
-        type="text"
-        name="id"
-        placeholder="user id" 
-        required/>
-      <input
-        type="submit"
-        name="main"
-        value="Send request"
-        id="send"
-        data-request-url="https://guseyn.com/echo"
-        data-request-method="POST"
-        data-request-headers="{}"
+    <template is="e-page-with-url" data-url-pattern="/e-json-with-url-params.html?userId={userId}">
+
+      <form is="e-form">
+        <input
+          type="text"
+          name="id"
+          placeholder="user id" 
+          required/>
+        <input
+          type="submit"
+          name="main"
+          value="Send request"
+          id="send"
+          data-request-url="https://guseyn.com/echo"
+          data-request-method="POST"
+          data-request-headers="{}"
+          data-response-name="user"
+          onclick="this.form.submit(this)"
+          data-actions-on-response="
+            turboRedirect('/../e-json-with-url-params.html?userId=${user.body.id}')
+          "
+        />
+      </form>
+      <e-json 
+        id="block"
+        data-src="/../user?id=${urlParams.userId}"
         data-response-name="user"
-        onclick="this.form.submit(this)"
         data-actions-on-response="
-          turboRedirect('/../e-json-with-url-params.html?userId=${user.body.id}')
+          mapObjToElm('${user.body}', '#block');
         "
-      />
-    </form>
-    <e-json 
-      id="block"
-      data-src="/../user?id=${urlParams.userId}"
-      data-response-name="user"
-      data-actions-on-response="
-        mapObjToElm('${user.body}', '#block');
-      "
-      data-object-name="user"
-    >
-      <div class="with-border">
-        <div data-text="Info of the user with id ${user.id}"></div>
-        <div data-text="id: ${user.id}"></div>
-        <div data-text="name: ${user.name}"></div>
-        <div data-text="email: ${user.email}"></div>
-      </div>
-    </e-json>
+        data-object-name="user"
+      >
+        <div class="with-border">
+          <div data-text="Info of the user with id ${user.id}"></div>
+          <div data-text="id: ${user.id}"></div>
+          <div data-text="name: ${user.name}"></div>
+          <div data-text="email: ${user.email}"></div>
+        </div>
+      </e-json>
+
+    </template>
   </body>
 
 </html>

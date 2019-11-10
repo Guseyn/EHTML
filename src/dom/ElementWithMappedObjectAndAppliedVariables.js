@@ -3,7 +3,7 @@
 const { StringWithMappedObjectAndAppliedVariables } = require('./../string/exports')
 const DocumentFragmentWithAttributes = require('./DocumentFragmentWithAttributes')
 
-class ElementWithMappedObject {
+class ElementWithMappedObjectAndAppliedVariables {
   constructor (element, obj, objNameAttribute) {
     this.element = element
     this.obj = obj
@@ -128,13 +128,13 @@ class ElementWithMappedObject {
         )
       )
       fragment.appendChild(
-        new ElementWithMappedObject(
+        new ElementWithMappedObjectAndAppliedVariables(
           itemFragment, item, 'data-item-name'
         ).value()
       )
     })
     element.parentNode.replaceChild(
-      new ElementWithMappedObject(
+      new ElementWithMappedObjectAndAppliedVariables(
         fragment, obj[objName], objNameAttribute
       ).value(),
       element
@@ -169,7 +169,7 @@ class ElementWithMappedObject {
         }]
       )
       element.parentNode.replaceChild(
-        new ElementWithMappedObject(
+        new ElementWithMappedObjectAndAppliedVariables(
           fragment, obj[objName], objNameAttribute
         ).value(),
         element
@@ -178,4 +178,4 @@ class ElementWithMappedObject {
   }
 }
 
-module.exports = ElementWithMappedObject
+module.exports = ElementWithMappedObjectAndAppliedVariables

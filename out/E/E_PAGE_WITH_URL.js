@@ -18,33 +18,51 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+var _require = require('./../dom/exports'),
+    ElementWithMappedObjectAndAppliedVariables = _require.ElementWithMappedObjectAndAppliedVariables;
+
 var E = require('./E');
 
-var ELOCAL_STORAGE_VALUE =
+var E_PAGE_WITH_URL =
 /*#__PURE__*/
 function (_E) {
-  _inherits(ELOCAL_STORAGE_VALUE, _E);
+  _inherits(E_PAGE_WITH_URL, _E);
 
-  function ELOCAL_STORAGE_VALUE(node) {
-    _classCallCheck(this, ELOCAL_STORAGE_VALUE);
+  function E_PAGE_WITH_URL(node) {
+    _classCallCheck(this, E_PAGE_WITH_URL);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ELOCAL_STORAGE_VALUE).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_PAGE_WITH_URL).call(this, node));
   }
 
-  _createClass(ELOCAL_STORAGE_VALUE, [{
+  _createClass(E_PAGE_WITH_URL, [{
     key: "activate",
     value: function activate() {
-      var _this = this;
-
-      this.node.name = this.node.getAttribute('name');
-
-      this.node.value = function () {
-        return localStorage.getItem(_this.node.getAttribute('data-key'));
-      };
+      var urlParams = {};
+      var urlPattern = this.node.getAttribute('data-url-pattern');
+      var locationUrl = window.location.pathname + window.location.search;
+      var parsedUrlPattern = this.parsedUrl(urlPattern);
+      var parsedLocationUrl = this.parsedUrl(locationUrl);
+      parsedUrlPattern.forEach(function (part, index) {
+        if (/^\{([^{}\s.]+)}$/g.test(part)) {
+          urlParams[/^\{([^{}\s.]+)}$/g.exec(part)[1]] = parsedLocationUrl[index];
+        }
+      });
+      window.urlParams = urlParams;
+      this.node.parentNode.replaceChild(new ElementWithMappedObjectAndAppliedVariables(this.node.content.cloneNode(true)).value(), this.node);
+    }
+  }, {
+    key: "parsedUrl",
+    value: function parsedUrl(url) {
+      var urlParts = url.split(/\?/g);
+      var beforeQuery = urlParts[0] || '';
+      var afterQuery = urlParts[1] || '';
+      return beforeQuery.split(/\//g).concat(afterQuery.split(/&?[^&{}\s.]+=/g)).filter(function (part) {
+        return part !== '';
+      });
     }
   }]);
 
-  return ELOCAL_STORAGE_VALUE;
+  return E_PAGE_WITH_URL;
 }(E);
 
-module.exports = ELOCAL_STORAGE_VALUE;
+module.exports = E_PAGE_WITH_URL;
