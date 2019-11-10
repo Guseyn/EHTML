@@ -9,8 +9,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var uuidv4 = require('uuid/v4');
-
 var StringWithMappedObjectAndAppliedVariables =
 /*#__PURE__*/
 function () {
@@ -72,9 +70,14 @@ function () {
           return res;
         } catch (error) {
           var _res = match.replace(p5, function () {
-            var name = uuidv4();
-            window.eMappedObjects[name] = obj[objName];
-            return "window.eMappedObjects['".concat(name, "']");
+            var objectIndex = window.eMappedObjects.indexOf(obj);
+
+            if (objectIndex === -1) {
+              window.eMappedObjects.push(obj);
+              return "window.eMappedObjects['".concat(objectIndex + 1, "']['").concat(objName, "']");
+            } else {
+              return "window.eMappedObjects['".concat(objectIndex, "']['").concat(objName, "']");
+            }
           });
 
           return _res;

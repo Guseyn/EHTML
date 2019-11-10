@@ -1,7 +1,5 @@
 'use string'
 
-const uuidv4 = require('uuid/v4')
-
 class StringWithMappedObjectAndAppliedVariables {
   constructor (str, obj, objName) {
     this.str = str
@@ -57,9 +55,13 @@ class StringWithMappedObjectAndAppliedVariables {
           return res
         } catch (error) {
           const res = match.replace(p5, () => {
-            const name = uuidv4()
-            window.eMappedObjects[name] = obj[objName]
-            return `window.eMappedObjects['${name}']`
+            const objectIndex = window.eMappedObjects.indexOf(obj)
+            if (objectIndex === -1) {
+              window.eMappedObjects.push(obj)
+              return `window.eMappedObjects['${objectIndex + 1}']['${objName}']`
+            } else {
+              return `window.eMappedObjects['${objectIndex}']['${objName}']`
+            }
           })
           return res
         }
