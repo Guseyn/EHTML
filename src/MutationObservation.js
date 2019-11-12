@@ -14,10 +14,7 @@ class MutationObservation {
           if (mutation.type === 'childList') {
             for (let i = 0; i < mutation.addedNodes.length; i++) {
               const node = mutation.addedNodes[i]
-              if (!node.observedByEHTML) {
-                node.observedByEHTML = true
-                this.activateNodeWithItsChildNodes(node)
-              }
+              this.processNodeWithItsChildNodes(node)
             }
           }
         }
@@ -26,22 +23,25 @@ class MutationObservation {
     observer.observe(this.targetNode, { childList: true, subtree: true })
   }
 
-  activateNodeWithItsChildNodes (node) {
-    const nodeName = this.nodeName(node)
-    node = this.nodeWithProcessedAttributes(node)
-    if (ELEMENTS[nodeName]) {
-      if (!node.activatedByEHTML) {
-        node.activatedByEHTML = true
-        new ELEMENTS[nodeName](node).activate()
+  processNodeWithItsChildNodes (node) {
+    if (!node.observedByEHTML) {
+      node.observedByEHTML = true
+      const nodeName = this.nodeName(node)
+      this.processedAttributesOfNode(node)
+      if (ELEMENTS[nodeName]) {
+        if (!node.activatedByEHTML) {
+          node.activatedByEHTML = true
+          new ELEMENTS[nodeName](node).activate()
+        }
       }
-    }
-    const childNodes = node.childNodes
-    for (let i = 0; i < childNodes.length; i++) {
-      this.activateNodeWithItsChildNodes(childNodes[i])
+      const childNodes = node.childNodes
+      for (let i = 0; i < childNodes.length; i++) {
+        this.processNodeWithItsChildNodes(childNodes[i])
+      }
     }
   }
 
-  nodeWithProcessedAttributes (node) {
+  processedAttributesOfNode (node) {
     if (node.attributes) {
       for (let i = 0; i < node.attributes.length; i++) {
         const attr = node.attributes[i]
@@ -74,7 +74,6 @@ class MutationObservation {
         }
       }
     }
-    return node
   }
 
   isForProcessing (attr) {
