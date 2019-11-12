@@ -27,7 +27,7 @@ class MutationObservation {
     if (!node.observedByEHTML) {
       node.observedByEHTML = true
       const nodeName = this.nodeName(node)
-      this.processedAttributesOfNode(node)
+      this.processAttributesOfNode(node)
       if (ELEMENTS[nodeName]) {
         if (!node.activatedByEHTML) {
           node.activatedByEHTML = true
@@ -41,7 +41,7 @@ class MutationObservation {
     }
   }
 
-  processedAttributesOfNode (node) {
+  processAttributesOfNode (node) {
     if (node.attributes) {
       for (let i = 0; i < node.attributes.length; i++) {
         const attr = node.attributes[i]
