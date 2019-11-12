@@ -22,7 +22,7 @@ class E_PAGE_WITH_URL extends E {
     )
     window.urlParams = urlParams
     this.node.parentNode.replaceChild(
-      this.node.content.cloneNode(true), this.node
+      document.importNode(this.node.content, true), this.node
     )
   }
 

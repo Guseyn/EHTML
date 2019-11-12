@@ -28,10 +28,7 @@
           name="id"
           placeholder="user id" 
           required/>
-        <input
-          type="submit"
-          name="main"
-          value="Send request"
+        <button
           id="send"
           data-request-url="https://guseyn.com/echo"
           data-request-method="POST"
@@ -41,7 +38,7 @@
           data-actions-on-response="
             turboRedirect('/../e-json-with-url-params.html?userId=${user.body.id}')
           "
-        />
+        >Submit</button>
       </form>
       <e-json 
         data-src="/../user?id=${urlParams.userId}"

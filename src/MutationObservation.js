@@ -16,9 +16,7 @@ class MutationObservation {
               const node = mutation.addedNodes[i]
               if (!node.observedByEHTML) {
                 node.observedByEHTML = true
-                this.activateNodeWithItsChildNodes(
-                  this.nodeWithProcessedAttributes(node)
-                )
+                this.activateNodeWithItsChildNodes(node)
               }
             }
           }
@@ -30,6 +28,7 @@ class MutationObservation {
 
   activateNodeWithItsChildNodes (node) {
     const nodeName = this.nodeName(node)
+    node = this.nodeWithProcessedAttributes(node)
     if (ELEMENTS[nodeName]) {
       if (!node.activatedByEHTML) {
         node.activatedByEHTML = true
@@ -44,27 +43,36 @@ class MutationObservation {
 
   nodeWithProcessedAttributes (node) {
     if (node.attributes) {
-      const elmAttributes = Array.from(node.attributes)
-      elmAttributes.forEach(attr => {
+      for (let i = 0; i < node.attributes.length; i++) {
+        const attr = node.attributes[i]
         if (this.isForProcessing(attr)) {
           node.setAttribute(
             attr.name,
             attr.value.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
-              try {
-                // eslint-disable-next-line no-eval
-                const appliedExpression = eval(p1)
-                if (typeof appliedExpression === 'object') {
-                  return JSON.stringify(appliedExpression)
-                }
-                return appliedExpression
-              } catch (err) {
-                console.log(attr)
-                throw err
+              // eslint-disable-next-line no-eval
+              const appliedExpression = eval(p1)
+              if (typeof appliedExpression === 'object') {
+                return JSON.stringify(appliedExpression)
               }
+              return appliedExpression
             })
           )
+          if (attr.name === 'data-text') {
+            const textNode = document.createTextNode(
+              attr.value
+            )
+            if (node.childNodes.length === 0) {
+              node.appendChild(textNode)
+            } else {
+              node.insertBefore(textNode, node.childNodes[0])
+            }
+            node.removeAttribute('data-text')
+          } else if (attr.name === 'data-value') {
+            node.value = attr.value
+            node.removeAttribute('data-value')
+          }
         }
-      })
+      }
     }
     return node
   }

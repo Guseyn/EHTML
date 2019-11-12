@@ -45,7 +45,7 @@ function (_E) {
         }
       });
       window.urlParams = urlParams;
-      this.node.parentNode.replaceChild(this.node.content.cloneNode(true), this.node);
+      this.node.parentNode.replaceChild(document.importNode(this.node.content, true), this.node);
     }
   }, {
     key: "parsedUrl",
