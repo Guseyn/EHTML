@@ -26,8 +26,7 @@
   </head>
 
   <body class="main">
-    <e-page-url data-url-pattern="/turbo-actions.html?color={color}"></e-page-url>
-    <e-var-map>
+    <template is="e-page-with-url" data-url-pattern="/turbo-actions.html?color={color}">
       <e-select
         name="color" 
         value="${urlParams.color}"
@@ -44,7 +43,7 @@
       <div id="color" width="100px;">
         <div class="inner" style="background: ${urlParams.color}; width: 100px; height: 100px;"></div>
       </div>
-    </e-var-map>
+    </template>
   </body>
 
 </html>

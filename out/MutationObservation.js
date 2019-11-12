@@ -40,7 +40,7 @@ function () {
                 if (!node.observedByEHTML) {
                   node.observedByEHTML = true;
 
-                  _this.activateNodeWithItsChildNodes(_this.nodeWithProcessedAttributes(node));
+                  _this.activateNodeWithItsChildNodes(node);
                 }
               }
             }
@@ -69,6 +69,7 @@ function () {
     key: "activateNodeWithItsChildNodes",
     value: function activateNodeWithItsChildNodes(node) {
       var nodeName = this.nodeName(node);
+      node = this.nodeWithProcessedAttributes(node);
 
       if (ELEMENTS[nodeName]) {
         if (!node.activatedByEHTML) {
@@ -86,29 +87,38 @@ function () {
   }, {
     key: "nodeWithProcessedAttributes",
     value: function nodeWithProcessedAttributes(node) {
-      var _this2 = this;
-
       if (node.attributes) {
-        var elmAttributes = Array.from(node.attributes);
-        elmAttributes.forEach(function (attr) {
-          if (_this2.isForProcessing(attr)) {
+        for (var i = 0; i < node.attributes.length; i++) {
+          var attr = node.attributes[i];
+
+          if (this.isForProcessing(attr)) {
             node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
-              try {
-                // eslint-disable-next-line no-eval
-                var appliedExpression = eval(p1);
+              // eslint-disable-next-line no-eval
+              var appliedExpression = eval(p1);
 
-                if (_typeof(appliedExpression) === 'object') {
-                  return JSON.stringify(appliedExpression);
-                }
-
-                return appliedExpression;
-              } catch (err) {
-                console.log(attr);
-                throw err;
+              if (_typeof(appliedExpression) === 'object') {
+                return JSON.stringify(appliedExpression);
               }
+
+              return appliedExpression;
             }));
+
+            if (attr.name === 'data-text') {
+              var textNode = document.createTextNode(attr.value);
+
+              if (node.childNodes.length === 0) {
+                node.appendChild(textNode);
+              } else {
+                node.insertBefore(textNode, node.childNodes[0]);
+              }
+
+              node.removeAttribute('data-text');
+            } else if (attr.name === 'data-value') {
+              node.value = attr.value;
+              node.removeAttribute('data-value');
+            }
           }
-        });
+        }
       }
 
       return node;
