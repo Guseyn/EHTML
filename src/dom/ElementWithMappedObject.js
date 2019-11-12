@@ -125,6 +125,7 @@ class ElementWithMappedObject {
         ${listDefinitionExpressionBody}
       `
     )
+    const listFragment = document.createDocumentFragment()
     list.forEach((item, index) => {
       item.index = index + 1
       const itemInitialization = `
@@ -133,9 +134,9 @@ class ElementWithMappedObject {
       `
       const itemContentNode = document.importNode(node.content, true)
       this.map(itemContentNode, obj, itemInitialization)
-      node.parentNode.insertBefore(itemContentNode, node)
+      listFragment.appendChild(itemContentNode)
     })
-    node.parentNode.removeChild(node)
+    node.parentNode.replaceChild(listFragment, node)
   }
 
   appliedExpressionsInString (string, initialization, obj) {

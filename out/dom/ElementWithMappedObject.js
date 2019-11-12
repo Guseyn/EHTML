@@ -149,6 +149,7 @@ function () {
       var listDefinitionExpressionBody = this.getBodyOfExpression(listDefinitionExpression); // eslint-disable-next-line no-eval
 
       var list = eval("\n        ".concat(initialization, "\n        ").concat(listDefinitionExpressionBody, "\n      "));
+      var listFragment = document.createDocumentFragment();
       list.forEach(function (item, index) {
         item.index = index + 1;
         var itemInitialization = "\n        ".concat(initialization, "\n        const ").concat(itemName, " = ").concat(listDefinitionExpressionBody, "[").concat(index, "]\n      ");
@@ -156,9 +157,9 @@ function () {
 
         _this3.map(itemContentNode, obj, itemInitialization);
 
-        node.parentNode.insertBefore(itemContentNode, node);
+        listFragment.appendChild(itemContentNode);
       });
-      node.parentNode.removeChild(node);
+      node.parentNode.replaceChild(listFragment, node);
     }
   }, {
     key: "appliedExpressionsInString",

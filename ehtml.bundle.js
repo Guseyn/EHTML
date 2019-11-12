@@ -1204,11 +1204,7 @@ function () {
               for (var i = 0; i < mutation.addedNodes.length; i++) {
                 var node = mutation.addedNodes[i];
 
-                if (!node.observedByEHTML) {
-                  node.observedByEHTML = true;
-
-                  _this.activateNodeWithItsChildNodes(node);
-                }
+                _this.processNodeWithItsChildNodes(node);
               }
             }
           }
@@ -1233,27 +1229,30 @@ function () {
       });
     }
   }, {
-    key: "activateNodeWithItsChildNodes",
-    value: function activateNodeWithItsChildNodes(node) {
-      var nodeName = this.nodeName(node);
-      node = this.nodeWithProcessedAttributes(node);
+    key: "processNodeWithItsChildNodes",
+    value: function processNodeWithItsChildNodes(node) {
+      if (!node.observedByEHTML) {
+        node.observedByEHTML = true;
+        var nodeName = this.nodeName(node);
+        this.processedAttributesOfNode(node);
 
-      if (ELEMENTS[nodeName]) {
-        if (!node.activatedByEHTML) {
-          node.activatedByEHTML = true;
-          new ELEMENTS[nodeName](node).activate();
+        if (ELEMENTS[nodeName]) {
+          if (!node.activatedByEHTML) {
+            node.activatedByEHTML = true;
+            new ELEMENTS[nodeName](node).activate();
+          }
         }
-      }
 
-      var childNodes = node.childNodes;
+        var childNodes = node.childNodes;
 
-      for (var i = 0; i < childNodes.length; i++) {
-        this.activateNodeWithItsChildNodes(childNodes[i]);
+        for (var i = 0; i < childNodes.length; i++) {
+          this.processNodeWithItsChildNodes(childNodes[i]);
+        }
       }
     }
   }, {
-    key: "nodeWithProcessedAttributes",
-    value: function nodeWithProcessedAttributes(node) {
+    key: "processedAttributesOfNode",
+    value: function processedAttributesOfNode(node) {
       if (node.attributes) {
         for (var i = 0; i < node.attributes.length; i++) {
           var attr = node.attributes[i];
@@ -1287,8 +1286,6 @@ function () {
           }
         }
       }
-
-      return node;
     }
   }, {
     key: "isForProcessing",
@@ -5768,6 +5765,7 @@ function () {
       var listDefinitionExpressionBody = this.getBodyOfExpression(listDefinitionExpression); // eslint-disable-next-line no-eval
 
       var list = eval("\n        ".concat(initialization, "\n        ").concat(listDefinitionExpressionBody, "\n      "));
+      var listFragment = document.createDocumentFragment();
       list.forEach(function (item, index) {
         item.index = index + 1;
         var itemInitialization = "\n        ".concat(initialization, "\n        const ").concat(itemName, " = ").concat(listDefinitionExpressionBody, "[").concat(index, "]\n      ");
@@ -5775,9 +5773,9 @@ function () {
 
         _this3.map(itemContentNode, obj, itemInitialization);
 
-        node.parentNode.insertBefore(itemContentNode, node);
+        listFragment.appendChild(itemContentNode);
       });
-      node.parentNode.removeChild(node);
+      node.parentNode.replaceChild(listFragment, node);
     }
   }, {
     key: "appliedExpressionsInString",
