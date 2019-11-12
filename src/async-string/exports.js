@@ -1,4 +1,3 @@
 module.exports = {
-  StringFromBuffer: require('./StringFromBuffer'),
-  StringWithMappedObjectAndAppliedVariables: require('./StringWithMappedObjectAndAppliedVariables')
+  StringFromBuffer: require('./StringFromBuffer')
 }

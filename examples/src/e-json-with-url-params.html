@@ -44,20 +44,20 @@
         />
       </form>
       <e-json 
-        id="block"
         data-src="/../user?id=${urlParams.userId}"
         data-response-name="user"
         data-actions-on-response="
           mapObjToElm('${user.body}', '#block');
         "
-        data-object-name="user"
       >
-        <div class="with-border">
-          <div data-text="Info of the user with id ${user.id}"></div>
-          <div data-text="id: ${user.id}"></div>
-          <div data-text="name: ${user.name}"></div>
-          <div data-text="email: ${user.email}"></div>
-        </div>
+        <template id="block" data-object-name="user">
+          <div class="with-border">
+            <div data-text="Info of the user with id ${user.id}"></div>
+            <div data-text="id: ${user.id}"></div>
+            <div data-text="name: ${user.name}"></div>
+            <div data-text="email: ${user.email}"></div>
+          </div>
+        </template>
       </e-json>
 
     </template>

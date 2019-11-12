@@ -1,6 +1,5 @@
 'use strict'
 
-const { ElementWithMappedObjectAndAppliedVariables } = require('./../dom/exports')
 const E = require('./E')
 
 class E_PAGE_WITH_URL extends E {
@@ -23,9 +22,7 @@ class E_PAGE_WITH_URL extends E {
     )
     window.urlParams = urlParams
     this.node.parentNode.replaceChild(
-      new ElementWithMappedObjectAndAppliedVariables(
-        this.node.content.cloneNode(true)
-      ).value(), this.node
+      this.node.content.cloneNode(true), this.node
     )
   }
 

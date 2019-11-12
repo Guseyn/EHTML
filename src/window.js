@@ -7,9 +7,6 @@ const { ResponseFromAjaxRequest, ResponseBody } = require('./async-ajax/exports'
 const { CreatedOptions } = require('./async-object/exports')
 const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./async-dom/exports')
 
-window.eMappedRegExps = {}
-window.eMappedObjects = []
-
 if (!window.customElements) {
   window.stop()
   throw new Error('Your browser does not support custom elements so you cannot use EHTML as it\'s based on them.')

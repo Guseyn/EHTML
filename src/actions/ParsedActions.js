@@ -1,7 +1,5 @@
 'use strict'
 
-const { StringWithMappedObjectAndAppliedVariables } = require('./../async-string/exports')
-const { ParsedJSONOrString } = require('./../async-json/exports')
 const ActionByNameWithParams = require('./ActionByNameWithParams')
 
 class ParsedActions {
@@ -67,17 +65,19 @@ class ParsedActions {
 
   funcWithParams (...params) {
     return params.map(param => {
-      if (typeof param === 'object') {
-        param = JSON.stringify(param)
-      }
-      return new ParsedJSONOrString(
-        new StringWithMappedObjectAndAppliedVariables(
-          param,
-          this.resObj,
-          this.resName
-        )
-      )
+      return this.evaluatedParam(param, this.resObj, this.resName)
     })
+  }
+
+  evaluatedParam (param, resObj, resName) {
+    if (!/^\$\{([^${}]+)\}$/g.test(param)) {
+      return param
+    }
+    // eslint-disable-next-line no-eval
+    return eval(`
+      const ${resName} = resObj
+      ${param.replace(/^\$\{([^${}]+)\}$/g, (match, p1) => { return p1 })}
+    `)
   }
 }
 

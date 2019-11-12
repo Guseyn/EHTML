@@ -1,22 +1,25 @@
 'use strict'
 
-const { TheSameObjectWithValue } = require('./../async-object/exports')
+const { AsyncObject } = require('./../cutie/exports')
 const ParsedActions = require('./ParsedActions')
 const BuiltAsyncTreeByParsedActions = require('./BuiltAsyncTreeByParsedActions')
 
-class AppliedActionsOnResponse {
+class AppliedActionsOnResponse extends AsyncObject {
   constructor (tagName, resName, res, actions) {
-    const resObj = {}
-    return new TheSameObjectWithValue(resObj, resName, res).after(
+    super(tagName, resName, res, actions)
+  }
+
+  syncCall () {
+    return (tagName, resName, res, actions) => {
       new BuiltAsyncTreeByParsedActions(
         new ParsedActions(
           actions,
           tagName,
-          resObj,
+          res,
           resName
         ).value()
-      ).value()
-    )
+      ).value().call()
+    }
   }
 }
 
