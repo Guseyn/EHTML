@@ -151,7 +151,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapObjToElm('${albumResponse.body}', '#album-info');
     ">
 
-    <div id="album-info" data-object-name="album">
+    <template id="album-info" data-object-name="album">
       <div data-text="Title: ${album.title}"></div>
       <div data-text="Artist: ${album.artist}"></div>
       <div data-text="Type: ${album.type}"></div>
@@ -160,15 +160,15 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       <div data-text="Length: ${album.length}"></div>
       <div data-text="Label: ${album.label}"></div>
       <div data-text="Producer: ${album.producer}"></div>
-    </div>
+    </template>
   </e-json>
   ```
 
-  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. It's important to mention that you can map object only to an element, which is in `e-json` that provides the object for mapping. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
+  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. It's important to mention that you can map object only to an element, which is in `e-json` that provides the object for mapping and also the mapping element must be `<template>`. More details about actions on response you can find in [this section](#suppoted-actions-on-response).
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ "headerName": "headerValue", ... }`.
 
-  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from server. You can see how to use them in the [examples](#examples).
+  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#examples).
 
 </details>
 
@@ -207,7 +207,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapObjToElm('${albumResponse.body}', '#album-info');
     ">
 
-    <div id="album-info" data-object-name="album">
+    <tempalte id="album-info" data-object-name="album">
 
       <div data-text="Title: ${album.title}"></div>
       <div data-text="Artist: ${album.artist}"></div>
@@ -221,7 +221,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
         </div>
       </template>
 
-    </div>
+    </template>
   </e-json>
   ```
 
@@ -237,7 +237,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapObjToElm('${albumResponse.body}', '#album-info');
     ">
 
-    <div id="album-info" data-object-name="album">
+    <template id="album-info" data-object-name="album">
 
       <div>Title: Humbug</div>
       <div>Artist: Arctic Monkeys</div>
@@ -294,7 +294,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
         <div>Length: 5:42</div>
       </div>
 
-    </div>
+    </template>
   </e-json>
   ```
 
@@ -335,7 +335,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapObjToElm('${albumResponse.body}', '#album-info');
     ">
 
-    <div id="album-info" data-object-name="album">
+    <template id="album-info" data-object-name="album">
 
       <div data-text="Title: ${album.title}"></div>
       <div data-text="Artist: ${album.artist}"></div>
@@ -355,7 +355,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       
       </template>
 
-    </div>
+    </template>
   </e-json>
   ```
 
@@ -371,7 +371,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapObjToElm('${albumResponse.body}', '#album-info');
     ">
 
-    <div id="album-info" data-object-name="album">
+    <template id="album-info" data-object-name="album">
 
       <div>Title: Humbug</div>
       <div>Artist: Arctic Monkeys</div>
@@ -393,7 +393,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
         <div>Length: 3:18</div>
       </div>
 
-    </div>
+    </template>
   </e-json>
   ```
 

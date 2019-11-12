@@ -39,20 +39,20 @@ class ElementWithMappedObject {
                     attr.value, initialization, obj
                   )
                 )
-                if (attr.name === 'data-text') {
-                  const textNode = document.createTextNode(
-                    attr.value
-                  )
-                  if (node.childNodes.length === 0) {
-                    node.appendChild(textNode)
-                  } else {
-                    node.insertBefore(textNode, node.childNodes[0])
-                  }
-                  node.removeAttribute('data-text')
-                } else if (attr.name === 'data-value') {
-                  node.value = attr.value
-                  node.removeAttribute('data-value')
+              }
+              if (attr.name === 'data-text') {
+                const textNode = document.createTextNode(
+                  attr.value
+                )
+                if (node.childNodes.length === 0) {
+                  node.appendChild(textNode)
+                } else {
+                  node.insertBefore(textNode, node.childNodes[0])
                 }
+                node.removeAttribute('data-text')
+              } else if (attr.name === 'data-value') {
+                node.value = attr.value
+                node.removeAttribute('data-value')
               }
             }
           )
