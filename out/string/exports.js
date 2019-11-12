@@ -1,6 +1,5 @@
 "use strict";
 
 module.exports = {
-  StringBuffer: require('./StringBuffer'),
-  StringWithMappedObjectAndAppliedVariables: require('./StringWithMappedObjectAndAppliedVariables')
+  StringBuffer: require('./StringBuffer')
 };

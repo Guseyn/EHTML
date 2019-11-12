@@ -23,50 +23,49 @@
 
   <body class="main">
     <e-json
-      id="block"
       data-src="/../users"
       data-response-name="usersResponse"
       data-actions-on-response="
-        mapObjToElm('${usersResponse.body}', '#block');
-        hideElms('#click-here')
+        mapObjToElm('${usersResponse.body}', '#usersBox');
       "
-      data-object-name="users"
     >
-      <div class="with-border">
-        <div data-text="${users.length} users have been loaded"></div>
-        <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user">
-          <hr/>
-          <div>
-            <b data-text="${user.index}/${users.length}. Info of user with id ${user.id}:"></b>
-          </div>
-          <div data-text="name: ${user.name}"></div>
-          <div data-text="email: ${user.email}"></div>
-          <div>
-            <i data-text="user has ${user.connections.length} connections:"></i>
-          </div>
-          <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
+      <template id="usersBox" data-object-name="users">
+        <div class="with-border">
+          <div data-text="${users.length} users have been loaded"></div>
+          <template is="e-for-each" data-list-to-iterate="${users}" data-item-name="user">
+            <hr/>
             <div>
-              <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
-              <br/>
-              <i data-text="is last connection: ${connection.index === user.connections.length}"></i>
-              <br/>
-              <i data-text="is not last connection: ${!(connection.index === user.connections.length)}"></i>
-              <br/>
-              <i>Ports:</i>
-              <br/>
-              <template is="e-for-each" data-list-to-iterate="${connection.ports}" data-item-name="port">
-                <i data-text="${port.id}"></i>
-                <br/>
-                <i data-text="let's get here users length: ${users.length}"></i>
-                <i data-text="let's get here connections length: ${user.connections.length}"></i>
-                <i data-text="let's get here ports length: ${connection.ports.length}"></i>
-                <i data-text="let's get here sum length: ${users.length user.connections.length}"></i>
-                <br/>
-              </template>
+              <b data-text="${user.index}/${users.length}. Info of user with id ${user.id}:"></b>
             </div>
+            <div data-text="name: ${user.name}"></div>
+            <div data-text="email: ${user.email}"></div>
+            <div>
+              <i data-text="user has ${user.connections.length} connections:"></i>
+            </div>
+            <template is="e-for-each" data-list-to-iterate="${user.connections}" data-item-name="connection">
+              <div>
+                <i data-text="${connection.index}/${user.connections.length}. connection name: ${connection.name}"></i>
+                <br/>
+                <i data-text="is last connection: ${connection.index === user.connections.length}"></i>
+                <br/>
+                <i data-text="is not last connection: ${!(connection.index === user.connections.length)}"></i>
+                <br/>
+                <i>Ports:</i>
+                <br/>
+                <template is="e-for-each" data-list-to-iterate="${connection.ports}" data-item-name="port">
+                  <i data-text="${port.id}"></i>
+                  <br/>
+                  <i data-text="let's get here users length: ${users.length}"></i>
+                  <i data-text="let's get here connections length: ${user.connections.length}"></i>
+                  <i data-text="let's get here ports length: ${connection.ports.length}"></i>
+                  <i data-text="let's get here sum length: ${users.length + user.connections.length}"></i>
+                  <br/>
+                </template>
+              </div>
+            </template>
           </template>
-        </template>
-      </div>
+        </div>
+      </template>
     </e-json>
   </body>
 

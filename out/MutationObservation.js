@@ -1,13 +1,12 @@
 'use strict';
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var _require = require('./dom/exports'),
-    ElementWithUpdatedAttributesWithVariablesAndMappedObject = _require.ElementWithUpdatedAttributesWithVariablesAndMappedObject;
 
 var ELEMENTS = require('./E/exports');
 
@@ -41,7 +40,7 @@ function () {
                 if (!node.observedByEHTML) {
                   node.observedByEHTML = true;
 
-                  _this.activateNodeWithItsChildNodes(new ElementWithUpdatedAttributesWithVariablesAndMappedObject(node).value());
+                  _this.activateNodeWithItsChildNodes(_this.nodeWithProcessedAttributes(node));
                 }
               }
             }
@@ -85,15 +84,44 @@ function () {
       }
     }
   }, {
+    key: "nodeWithProcessedAttributes",
+    value: function nodeWithProcessedAttributes(node) {
+      var _this2 = this;
+
+      if (node.attributes) {
+        var elmAttributes = Array.from(node.attributes);
+        elmAttributes.forEach(function (attr) {
+          if (_this2.isForProcessing(attr)) {
+            node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+              try {
+                // eslint-disable-next-line no-eval
+                var appliedExpression = eval(p1);
+
+                if (_typeof(appliedExpression) === 'object') {
+                  return JSON.stringify(appliedExpression);
+                }
+
+                return appliedExpression;
+              } catch (err) {
+                console.log(attr);
+                throw err;
+              }
+            }));
+          }
+        });
+      }
+
+      return node;
+    }
+  }, {
+    key: "isForProcessing",
+    value: function isForProcessing(attr) {
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
+    }
+  }, {
     key: "nodeName",
     value: function nodeName(node) {
       return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase();
-    }
-  }, {
-    key: "isForApplying",
-    value: function isForApplying(node, attrName) {
-      var attributesForNotApplying = ['data-list-to-iterate', 'data-condition-to-display'];
-      return attributesForNotApplying.indexOf(attrName) === -1;
     }
   }, {
     key: "isEPageWithUrl",
@@ -102,7 +130,22 @@ function () {
         throw new Error('e-page-with-url must be <template>');
       }
 
-      return node.nodeName.toLowerCase() === 'template' && node.getAttribute('is').toLowerCase() === 'e-page-with-url';
+      if (this.isTemplate(node)) {
+        var templateType = node.getAttribute('is');
+
+        if (templateType) {
+          return templateType === 'e-page-with-url';
+        }
+
+        return false;
+      }
+
+      return false;
+    }
+  }, {
+    key: "isTemplate",
+    value: function isTemplate(node) {
+      return node.nodeName.toLowerCase() === 'template';
     }
   }]);
 

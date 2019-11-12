@@ -1,7 +1,5 @@
 'use strict';
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -21,12 +19,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var _require = require('./../async-string/exports'),
-    StringWithMappedObjectAndAppliedVariables = _require.StringWithMappedObjectAndAppliedVariables;
-
-var _require2 = require('./../async-json/exports'),
-    ParsedJSONOrString = _require2.ParsedJSONOrString;
 
 var ActionByNameWithParams = require('./ActionByNameWithParams');
 
@@ -113,12 +105,20 @@ function () {
       }
 
       return params.map(function (param) {
-        if (_typeof(param) === 'object') {
-          param = JSON.stringify(param);
-        }
-
-        return new ParsedJSONOrString(new StringWithMappedObjectAndAppliedVariables(param, _this2.resObj, _this2.resName));
+        return _this2.evaluatedParam(param, _this2.resObj, _this2.resName);
       });
+    }
+  }, {
+    key: "evaluatedParam",
+    value: function evaluatedParam(param, resObj, resName) {
+      if (!/^\$\{([^${}]+)\}$/g.test(param)) {
+        return param;
+      } // eslint-disable-next-line no-eval
+
+
+      return eval("\n      const ".concat(resName, " = resObj\n      ").concat(param.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+        return p1;
+      }), "\n    "));
     }
   }]);
 

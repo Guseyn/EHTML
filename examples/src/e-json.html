@@ -26,53 +26,45 @@
 
   <body class="main">
     <e-json
-      id="block1"
       data-src="/../user?id=1"
       data-response-name="user1"
       data-actions-on-response="
         mapObjToElm('${user1}', '#block1');
       "
-      data-object-name="user1"
     >
-      <div class="with-border">
-        <div data-text="First user headers: ${user1.headers}"></div>
-        <div data-text="First user status code: ${user1.statusCode}"></div>
-        <div data-text="First user info:"></div>
-        <div data-text="id: ${user1.body.id}"></div>
-        <div data-text="name: ${user1.body.name}"></div>
-        <div data-text="email: ${user1.body.email}"></div>
-        <br/>
-        <e-json
-          id="block2"
-          data-src="/../user?id=2"
-          data-response-name="user2"
-          data-actions-on-response="
-            mapObjToElm('${user2}', '#block2');
-          "
-          data-object-name="user2"
-        >
-          <div class="with-border" data-text="Second user in the first user block:">
-            <div data-text="Second user headers: ${user2.headers}"></div>
-            <div data-text="Second user status code: ${user2.statusCode}"></div>
-            <div data-text="We can get here first user headers: ${user1.headers}"></div>
-            <div data-text="We can get here first user status code: ${user1.statusCode}"></div>
-            <div data-text="Second user info:">
-              <div data-text="id: ${user2.body.id}"></div>
-              <div data-text="name: ${user2.body.name}"></div>
-              <div data-text="email: ${user2.body.email}"></div>
-              <br/>
-              <div data-text="We can get info of the first user again:">
-                <div data-text="id: ${user1.body.id}"></div>
-                <div data-text="name: ${user1.body.name}"></div>
-                <div data-text="email: ${user1.body.email}"></div>
-              </div>
-              <br/>
-              <textarea data-value="There are users with ids: ${user1.body.id}, ${user2.body.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
-            </div>
+      <template id="block1" data-object-name="user1">
+        <div class="with-border">
+          <div data-text="First user headers: ${user1.headers}"></div>
+          <div data-text="First user status code: ${user1.statusCode}"></div>
+          <div data-text="First user info:"></div>
+          <div data-text="id: ${user1.body.id}"></div>
+          <div data-text="name: ${user1.body.name}"></div>
+          <div data-text="email: ${user1.body.email}"></div>
+        </div>
+      </template>
+    </e-json>
+    <e-json
+      data-src="/../user?id=2"
+      data-response-name="user2"
+      data-actions-on-response="
+        mapObjToElm('${user2}', '#block2');
+      "
+      data-object-name="user2"
+    >
+      <template id="block2" data-object-name="user2">
+        <div class="with-border" data-text="Second user in the first user block:">
+          <div data-text="Second user headers: ${user2.headers}"></div>
+          <div data-text="Second user status code: ${user2.statusCode}"></div>
+          <div data-text="Second user info:">
+            <div data-text="id: ${user2.body.id}"></div>
+            <div data-text="name: ${user2.body.name}"></div>
+            <div data-text="email: ${user2.body.email}"></div>
+            <br/>
+            <textarea data-value="user2.id: ${user2.body.id}, we can put this information in textarea" style="width: 200px; height: 100px;"></textarea>
           </div>
-          <br/>
-        </e-json>
-      </div>
+        </div>
+      </template>
+      <br/>
     </e-json>
   </body>
 

@@ -18,48 +18,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./E');
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
 
-var E_PAGE_WITH_URL =
+var _require2 = require('./../dom/exports'),
+    ElementWithMappedObject = _require2.ElementWithMappedObject;
+
+var AsyncElementWithMappedObject =
 /*#__PURE__*/
-function (_E) {
-  _inherits(E_PAGE_WITH_URL, _E);
+function (_AsyncObject) {
+  _inherits(AsyncElementWithMappedObject, _AsyncObject);
 
-  function E_PAGE_WITH_URL(node) {
-    _classCallCheck(this, E_PAGE_WITH_URL);
+  function AsyncElementWithMappedObject(element, obj) {
+    _classCallCheck(this, AsyncElementWithMappedObject);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(E_PAGE_WITH_URL).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AsyncElementWithMappedObject).call(this, element, obj));
   }
 
-  _createClass(E_PAGE_WITH_URL, [{
-    key: "activate",
-    value: function activate() {
-      var urlParams = {};
-      var urlPattern = this.node.getAttribute('data-url-pattern');
-      var locationUrl = window.location.pathname + window.location.search;
-      var parsedUrlPattern = this.parsedUrl(urlPattern);
-      var parsedLocationUrl = this.parsedUrl(locationUrl);
-      parsedUrlPattern.forEach(function (part, index) {
-        if (/^\{([^{}\s.]+)}$/g.test(part)) {
-          urlParams[/^\{([^{}\s.]+)}$/g.exec(part)[1]] = parsedLocationUrl[index];
-        }
-      });
-      window.urlParams = urlParams;
-      this.node.parentNode.replaceChild(this.node.content.cloneNode(true), this.node);
-    }
-  }, {
-    key: "parsedUrl",
-    value: function parsedUrl(url) {
-      var urlParts = url.split(/\?/g);
-      var beforeQuery = urlParts[0] || '';
-      var afterQuery = urlParts[1] || '';
-      return beforeQuery.split(/\//g).concat(afterQuery.split(/&?[^&{}\s.]+=/g)).filter(function (part) {
-        return part !== '';
-      });
+  _createClass(AsyncElementWithMappedObject, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (element, response) {
+        return new ElementWithMappedObject(element, response).value();
+      };
     }
   }]);
 
-  return E_PAGE_WITH_URL;
-}(E);
+  return AsyncElementWithMappedObject;
+}(AsyncObject);
 
-module.exports = E_PAGE_WITH_URL;
+module.exports = AsyncElementWithMappedObject;

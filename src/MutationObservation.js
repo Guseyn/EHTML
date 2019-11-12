@@ -1,6 +1,5 @@
 'use strict'
 
-const { ElementWithUpdatedAttributesWithVariablesAndMappedObject } = require('./dom/exports')
 const ELEMENTS = require('./E/exports')
 
 class MutationObservation {
@@ -18,9 +17,7 @@ class MutationObservation {
               if (!node.observedByEHTML) {
                 node.observedByEHTML = true
                 this.activateNodeWithItsChildNodes(
-                  new ElementWithUpdatedAttributesWithVariablesAndMappedObject(
-                    node
-                  ).value()
+                  this.nodeWithProcessedAttributes(node)
                 )
               }
             }
@@ -45,24 +42,62 @@ class MutationObservation {
     }
   }
 
-  nodeName (node) {
-    return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase()
+  nodeWithProcessedAttributes (node) {
+    if (node.attributes) {
+      const elmAttributes = Array.from(node.attributes)
+      elmAttributes.forEach(attr => {
+        if (this.isForProcessing(attr)) {
+          node.setAttribute(
+            attr.name,
+            attr.value.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+              try {
+                // eslint-disable-next-line no-eval
+                const appliedExpression = eval(p1)
+                if (typeof appliedExpression === 'object') {
+                  return JSON.stringify(appliedExpression)
+                }
+                return appliedExpression
+              } catch (err) {
+                console.log(attr)
+                throw err
+              }
+            })
+          )
+        }
+      })
+    }
+    return node
   }
 
-  isForApplying (node, attrName) {
-    const attributesForNotApplying = [
+  isForProcessing (attr) {
+    return [
+      'data-actions-on-response',
       'data-list-to-iterate',
-      'data-condition-to-display'
-    ]
-    return attributesForNotApplying.indexOf(attrName) === -1
+      'data-item-name'
+    ].indexOf(attr.name) === -1 &&
+      /\$\{([^${}]+)\}/g.test(attr.value)
+  }
+
+  nodeName (node) {
+    return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase()
   }
 
   isEPageWithUrl (node) {
     if (node.nodeName.toLowerCase() === 'e-page-with-url') {
       throw new Error('e-page-with-url must be <template>')
     }
-    return node.nodeName.toLowerCase() === 'template' &&
-      node.getAttribute('is').toLowerCase() === 'e-page-with-url'
+    if (this.isTemplate(node)) {
+      const templateType = node.getAttribute('is')
+      if (templateType) {
+        return templateType === 'e-page-with-url'
+      }
+      return false
+    }
+    return false
+  }
+
+  isTemplate (node) {
+    return node.nodeName.toLowerCase() === 'template'
   }
 }
 

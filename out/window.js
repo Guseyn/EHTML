@@ -31,9 +31,6 @@ var _require6 = require('./async-dom/exports'),
     ChangedPageTitle = _require6.ChangedPageTitle,
     ChangedPageFavicon = _require6.ChangedPageFavicon;
 
-window.eMappedRegExps = {};
-window.eMappedObjects = [];
-
 if (!window.customElements) {
   window.stop();
   throw new Error('Your browser does not support custom elements so you cannot use EHTML as it\'s based on them.');
