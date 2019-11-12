@@ -1234,7 +1234,7 @@ function () {
       if (!node.observedByEHTML) {
         node.observedByEHTML = true;
         var nodeName = this.nodeName(node);
-        this.processedAttributesOfNode(node);
+        this.processAttributesOfNode(node);
 
         if (ELEMENTS[nodeName]) {
           if (!node.activatedByEHTML) {
@@ -1251,8 +1251,8 @@ function () {
       }
     }
   }, {
-    key: "processedAttributesOfNode",
-    value: function processedAttributesOfNode(node) {
+    key: "processAttributesOfNode",
+    value: function processAttributesOfNode(node) {
       if (node.attributes) {
         for (var i = 0; i < node.attributes.length; i++) {
           var attr = node.attributes[i];
