@@ -1,5 +1,7 @@
 'use strict';
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -111,14 +113,26 @@ function () {
   }, {
     key: "evaluatedParam",
     value: function evaluatedParam(param, resObj, resName) {
-      if (!/^\$\{([^${}]+)\}$/g.test(param)) {
+      if (typeof param === 'string') {
+        if (!/\$\{([^${}]+)\}/g.test(param)) {
+          return param;
+        } // eslint-disable-next-line no-eval
+
+
+        return eval("\n        const ".concat(resName, " = resObj\n        ").concat(param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+          return p1;
+        }), "\n      "));
+      }
+
+      if (_typeof(param) === 'object') {
+        for (var key in param) {
+          param[key] = this.evaluatedParam(param[key], resObj, resName);
+        }
+
         return param;
-      } // eslint-disable-next-line no-eval
+      }
 
-
-      return eval("\n      const ".concat(resName, " = resObj\n      ").concat(param.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
-        return p1;
-      }), "\n    "));
+      return param;
     }
   }]);
 

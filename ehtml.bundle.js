@@ -1402,8 +1402,23 @@ var actions = {
 
     return _construct(Logged, objs);
   },
+  mapObjToElm: function mapObjToElm(obj, elmSelector) {
+    return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj);
+  },
   redirect: function redirect(url) {
     return new RedirectedLocation(new EncodedURI(url));
+  },
+  turboRedirect: function turboRedirect(href, headers) {
+    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        progressBarPlace = _ref.progressBarPlace,
+        progressBarClassName = _ref.progressBarClassName,
+        ajaxFavicon = _ref.ajaxFavicon;
+
+    return new TurboRedirected(href, headers, {
+      progressBarPlace: progressBarPlace,
+      progressBarClassName: progressBarClassName,
+      ajaxFavicon: ajaxFavicon
+    });
   },
   saveToLocalStorage: function saveToLocalStorage(key, value) {
     return new LocalStorageWithSetValue(localStorage, key, value);
@@ -1439,6 +1454,13 @@ var actions = {
 
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
+  toggleElms: function toggleElms(className) {
+    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+      elmSelectors[_key6 - 1] = arguments[_key6];
+    }
+
+    return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
+  },
   innerHTML: function innerHTML(elmSelector, url, headers) {
     return new ElementWithInnerHTML(new First(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
@@ -1450,28 +1472,6 @@ var actions = {
   },
   changeValueOf: function changeValueOf(elmSelector, newValue) {
     return new ElementWithChangedValue(new First(new ParsedElmSelectors(elmSelector)), newValue);
-  },
-  mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj);
-  },
-  toggleElms: function toggleElms(className) {
-    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-      elmSelectors[_key6 - 1] = arguments[_key6];
-    }
-
-    return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
-  },
-  turboRedirect: function turboRedirect(href, headers) {
-    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-        progressBarPlace = _ref.progressBarPlace,
-        progressBarClassName = _ref.progressBarClassName,
-        ajaxFavicon = _ref.ajaxFavicon;
-
-    return new TurboRedirected(href, headers, {
-      progressBarPlace: progressBarPlace,
-      progressBarClassName: progressBarClassName,
-      ajaxFavicon: ajaxFavicon
-    });
   }
 };
 
@@ -1620,6 +1620,8 @@ module.exports = BuiltAsyncTreeByParsedActions;
 },{"./../async/exports":86}],16:[function(require,module,exports){
 'use strict';
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -1731,14 +1733,26 @@ function () {
   }, {
     key: "evaluatedParam",
     value: function evaluatedParam(param, resObj, resName) {
-      if (!/^\$\{([^${}]+)\}$/g.test(param)) {
+      if (typeof param === 'string') {
+        if (!/\$\{([^${}]+)\}/g.test(param)) {
+          return param;
+        } // eslint-disable-next-line no-eval
+
+
+        return eval("\n        const ".concat(resName, " = resObj\n        ").concat(param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+          return p1;
+        }), "\n      "));
+      }
+
+      if (_typeof(param) === 'object') {
+        for (var key in param) {
+          param[key] = this.evaluatedParam(param[key], resObj, resName);
+        }
+
         return param;
-      } // eslint-disable-next-line no-eval
+      }
 
-
-      return eval("\n      const ".concat(resName, " = resObj\n      ").concat(param.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
-        return p1;
-      }), "\n    "));
+      return param;
     }
   }]);
 
