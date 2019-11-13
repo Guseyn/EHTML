@@ -836,7 +836,28 @@ Also, you can use simple `if` statement for each action if you want them to be i
 
 You can specify only one action for each `if` statement, and each `if` statement must be without curly braces.
 
+You can also use actions in event listeners of elements, more details about that you can find in the [examples](#examples).
+
 # Examples
 
 # Answers for potential negative testimonials
 
+<details>
+  <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary>
+
+  It's true. Right now **EHTML** has few essential features that you can use only for very simple applications like admin pages or something like that. But it's only the first version, and new features and tools in this library is just a question of time and effort that me and probably you can put into it.
+
+  But even now you can build quite interesting things just using simple html: load pages with some information, send forms, make navigations with turbolinks, make authorization via google and get url parameters by specified pattern.
+
+  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things with it so easily that no other library can do.
+
+</details>
+
+<details>
+  <summary><b>But you still use inline JavaScript in HTML!</b></summary>
+
+  It's true. But it's not so critical and at least it looks declarative if you just invoke functions there and no more. In the future we can introduce new different components which could encapsulate all predefined events and behaviour, so we would not have to write even inline JavaScript. But for the moment, it's good enough as a temporary solution.
+
+</details>
+
+If you have any questions or concers about **EHTML**, please feel free to share them in the [issues](https://github.com/Guseyn/EHTML/issues).
