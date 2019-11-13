@@ -39,6 +39,7 @@
             </div>
             <div data-text="name: ${user.name}"></div>
             <div data-text="email: ${user.email}"></div>
+            <div data-text="count: ${console.log('count')}"></div>
             <div>
               <i data-text="user has ${user.connections.length} connections:"></i>
             </div>
@@ -50,6 +51,7 @@
                 <br/>
                 <i data-text="is not last connection: ${!(connection.index === user.connections.length)}"></i>
                 <br/>
+                <div data-text="count: ${console.log('innerCount')}"></div>
                 <i>Ports:</i>
                 <br/>
                 <template is="e-for-each" data-list-to-iterate="${connection.ports}" data-item-name="port">

@@ -71,8 +71,23 @@ var actions = {
 
     return _construct(Logged, objs);
   },
+  mapObjToElm: function mapObjToElm(obj, elmSelector) {
+    return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj);
+  },
   redirect: function redirect(url) {
     return new RedirectedLocation(new EncodedURI(url));
+  },
+  turboRedirect: function turboRedirect(href, headers) {
+    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        progressBarPlace = _ref.progressBarPlace,
+        progressBarClassName = _ref.progressBarClassName,
+        ajaxFavicon = _ref.ajaxFavicon;
+
+    return new TurboRedirected(href, headers, {
+      progressBarPlace: progressBarPlace,
+      progressBarClassName: progressBarClassName,
+      ajaxFavicon: ajaxFavicon
+    });
   },
   saveToLocalStorage: function saveToLocalStorage(key, value) {
     return new LocalStorageWithSetValue(localStorage, key, value);
@@ -108,6 +123,13 @@ var actions = {
 
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
+  toggleElms: function toggleElms(className) {
+    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+      elmSelectors[_key6 - 1] = arguments[_key6];
+    }
+
+    return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
+  },
   innerHTML: function innerHTML(elmSelector, url, headers) {
     return new ElementWithInnerHTML(new First(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
@@ -119,28 +141,6 @@ var actions = {
   },
   changeValueOf: function changeValueOf(elmSelector, newValue) {
     return new ElementWithChangedValue(new First(new ParsedElmSelectors(elmSelector)), newValue);
-  },
-  mapObjToElm: function mapObjToElm(obj, elmSelector) {
-    return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj);
-  },
-  toggleElms: function toggleElms(className) {
-    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-      elmSelectors[_key6 - 1] = arguments[_key6];
-    }
-
-    return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
-  },
-  turboRedirect: function turboRedirect(href, headers) {
-    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-        progressBarPlace = _ref.progressBarPlace,
-        progressBarClassName = _ref.progressBarClassName,
-        ajaxFavicon = _ref.ajaxFavicon;
-
-    return new TurboRedirected(href, headers, {
-      progressBarPlace: progressBarPlace,
-      progressBarClassName: progressBarClassName,
-      ajaxFavicon: ajaxFavicon
-    });
   }
 };
 

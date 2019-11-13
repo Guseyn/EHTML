@@ -19,8 +19,21 @@ const actions = {
     return new Logged(...objs)
   },
 
+  mapObjToElm: (obj, elmSelector) => {
+    return new ElementWithMappedObject(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      obj
+    )
+  },
+
   redirect: (url) => {
     return new RedirectedLocation(new EncodedURI(url))
+  },
+
+  turboRedirect: (href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon } = { }) => {
+    return new TurboRedirected(href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon })
   },
 
   saveToLocalStorage: (key, value) => {
@@ -51,6 +64,13 @@ const actions = {
 
   enableElms: (...elmSelectors) => {
     return new EnabledElements(
+      new ParsedElmSelectors(...elmSelectors)
+    )
+  },
+
+  toggleElms: (className, ...elmSelectors) => {
+    return new ElementsWithToggledClass(
+      className,
       new ParsedElmSelectors(...elmSelectors)
     )
   },
@@ -113,26 +133,6 @@ const actions = {
       ),
       newValue
     )
-  },
-
-  mapObjToElm: (obj, elmSelector) => {
-    return new ElementWithMappedObject(
-      new First(
-        new ParsedElmSelectors(elmSelector)
-      ),
-      obj
-    )
-  },
-
-  toggleElms: (className, ...elmSelectors) => {
-    return new ElementsWithToggledClass(
-      className,
-      new ParsedElmSelectors(...elmSelectors)
-    )
-  },
-
-  turboRedirect: (href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon } = { }) => {
-    return new TurboRedirected(href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon })
   }
 }
 
