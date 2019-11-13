@@ -688,7 +688,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 # Supported actions on response
 
-**EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response`.
+**EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response` with response, which name you have to specify in the attribute `data-response-name`.
 
 <details>
   <summary><b>logToConsole</b></summary>
