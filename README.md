@@ -840,7 +840,7 @@ You can also use actions in event listeners of elements, more details about that
 
 # Examples
 
-# Answers for potential negative testimonials
+# Answers for potential testimonials
 
 <details>
   <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary><br>
