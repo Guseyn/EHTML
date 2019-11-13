@@ -823,7 +823,9 @@ You can combine several actions on one response:
   "
 ```
 
-You must use delimiter `;` between actions. Also you can use simple `if` statement for each action if you want them to be invoked only in the particular cases:
+You must use delimiter `;` between actions.
+
+Also, you can use simple `if` statement for each action if you want them to be invoked only in the particular cases:
 
 ```html
   data-actions-on-response="
