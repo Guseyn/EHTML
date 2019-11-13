@@ -2,12 +2,14 @@
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on an HTML page for different purposes and use cases. The main idea and goal of this library is to provide convinient way to get rid of all your JavaScript code on the client side.
 
+**Disclaimer:** "I cannot build complex things with EHTML yet, but I can build simple things with it so easily that no other library can do."
+
 # Contents
 
 - [Motivation](#motivation)
 - [Usage](#usage)
 - [Supported elements](#supported-elements)
-- [Suppoted actions on response](#suppoted-actions-on-response)
+- [Supported actions on response](#supported-actions-on-response)
 - [Examples](#examples)
 
 # Motivation
