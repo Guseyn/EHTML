@@ -811,7 +811,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 </details>
 
-<hr/>
+##
 
 You can combine several actions on one response:
 
