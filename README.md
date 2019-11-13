@@ -29,7 +29,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 # Supported elements
 
 <details>
-  <summary><b>E-HTML</b></summary>
+  <summary><b>E-HTML</b></summary><br>
   
   Sometimes html files can be very big, so why not just split them into different smaller html files and put sort of links to them in the main html file? `e-html` allows you to do that by introducing a module system in HTML.
 
@@ -123,7 +123,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-JSON</b></summary>
+  <summary><b>E-JSON</b></summary><br>
   
   `e-json` allows you to fetch `json` resource by `GET` request from the server and apply some actions on the response. So, for example, let's say you have an endpoint `/album/{title}`, which returns following response:
 
@@ -173,7 +173,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-FOR-EACH template</b></summary>
+  <summary><b>E-FOR-EACH template</b></summary><br>
   
   You can use standard `template` html element with attribute `is="e-for-each"` for iterating some object for mapping to an element. So, let's say you have an endpoint `/album/{title}/songs`, which returns following response:
 
@@ -298,7 +298,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-IF template</b></summary>
+  <summary><b>E-IF template</b></summary><br>
   
    This standard `template` html element with attribute `is="e-if"` decides if some particular part of html needs to be displayed or not while mapping some object to an element. So, let's say you have an endpoint `/album/{title}/songs`, which returns following response:
 
@@ -394,7 +394,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-FORM</b></summary>
+  <summary><b>E-FORM</b></summary><br>
   
    Custom element `e-form` is a great solution, if you want to send data from your form in JSON format. So, let's say you have an endpoint `/artist/{name}/albums/add` with method 'POST' and expected request body is something like:
 
@@ -472,7 +472,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-LOCAL-STORAGE-VALUE and E-SESSION-STORAGE-VALUE</b></summary>
+  <summary><b>E-LOCAL-STORAGE-VALUE and E-SESSION-STORAGE-VALUE</b></summary><br>
   
   For retrieving values from local storage you can use `e-local-storage-value` and use it in a form:
 
@@ -545,7 +545,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-GOOGLE-OAUTH-BUTTON</b></summary>
+  <summary><b>E-GOOGLE-OAUTH-BUTTON</b></summary><br>
   
   You can integrate Google Sign-In into your web app just by adding one button:
 
@@ -577,7 +577,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-PAGE-WITH-URL template</b></summary>
+  <summary><b>E-PAGE-WITH-URL template</b></summary><br>
   
   You can define url parameters via template with attribute `is="e-page-with-url"`:
 
@@ -628,7 +628,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-TURBOLINK</b></summary>
+  <summary><b>E-TURBOLINK</b></summary><br>
   
   **EHTML** supports [turbolinks](https://github.com/turbolinks/turbolinks) via `e-turbolink`. The main difference from classic turbolinks is that `e-tubolink` does not merge `<head>` from the page it fetches. The idea behind this decision was that it would make rendered html code much cleaner(but this decision is still discussable).
 
@@ -666,7 +666,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-SELECT</b></summary>
+  <summary><b>E-SELECT</b></summary><br>
   
   Standard `select` can be better. For example, it would be great if we could set a value to it, so it would be selected automatically on render. `e-select` does such thing:
 
@@ -691,7 +691,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 **EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response` with response, which name you have to specify in the attribute `data-response-name`.
 
 <details>
-  <summary><b>logToConsole</b></summary>
+  <summary><b>logToConsole</b></summary><br>
   
   If you just want to log response to console, use `logToConsole` function:
 
@@ -702,7 +702,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>mapObjToElm</b></summary>
+  <summary><b>mapObjToElm</b></summary><br>
   
   You can map response object to element which must be `<template>`.
 
@@ -715,7 +715,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>redirect</b></summary>
+  <summary><b>redirect</b></summary><br>
   
   You can redirect on response:
 
@@ -726,7 +726,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>turboRedirect</b></summary>
+  <summary><b>turboRedirect</b></summary><br>
   
   You can redirect in the turbo style on response:
 
@@ -740,7 +740,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>saveToLocalStorage / saveToSessionStorage</b></summary>
+  <summary><b>saveToLocalStorage / saveToSessionStorage</b></summary><br>
   
   You can save some value from the response to the `localStorage` or `sessionStorage`:
 
@@ -757,7 +757,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>hideElms / showElms / disableElms / enableElms</b></summary>
+  <summary><b>hideElms / showElms / disableElms / enableElms</b></summary><br>
   
   You can hide, show, disable and enable elements on response:
 
@@ -773,7 +773,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>toggleElms</b></summary>
+  <summary><b>toggleElms</b></summary><br>
   
   You can toggle class name for elments on response:
 
@@ -784,7 +784,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>innerHTML / addHTMLTo / textContent</b></summary>
+  <summary><b>innerHTML / addHTMLTo / textContent</b></summary><br>
   
   You can load html or text content into some element from some resource on response:
 
@@ -801,7 +801,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>changeValueOf</b></summary>
+  <summary><b>changeValueOf</b></summary><br>
   
   You can change the value of some input element on response:
 
@@ -843,7 +843,7 @@ You can also use actions in event listeners of elements, more details about that
 # Answers for potential negative testimonials
 
 <details>
-  <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary>
+  <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary><br>
   
   It's true. Right now **EHTML** has few essential features that you can use only for very simple applications like admin pages or something like that. But it's only the first version, and new features and tools in this library is just a question of time and effort that me and probably you can put into it.
 
@@ -854,7 +854,7 @@ You can also use actions in event listeners of elements, more details about that
 </details>
 
 <details>
-  <summary><b>But you still use inline JavaScript in HTML!</b></summary>
+  <summary><b>But you still use inline JavaScript in HTML!</b></summary><br>
   
   It's true. But it's not so critical and at least it looks declarative if you just invoke functions there and no more. In the future we can introduce new different components which could encapsulate all predefined events and behaviour, so we would not have to write even inline JavaScript. But for the moment, it's good enough as a temporary solution.
 
