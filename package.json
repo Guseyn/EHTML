@@ -35,6 +35,7 @@
     "@cuties/cutie": "^1.7.5",
     "@cuties/fs": "^1.2.4",
     "@cuties/https": "^1.1.4",
+    "@cuties/is": "^1.1.3",
     "@cuties/json": "^1.1.1",
     "@cuties/jwt": "^1.0.4",
     "@cuties/oauth": "^1.0.3",
