@@ -857,7 +857,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Simple EHTML page
 
-<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="450px"></img>
+<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="480px" height="300px"></img>
 
 <details>
   <summary><b>code</b></summary><br>
