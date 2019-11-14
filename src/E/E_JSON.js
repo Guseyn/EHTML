@@ -43,7 +43,7 @@ class E_JSON extends E {
           ).after(
             new AppliedActionsOnResponse(
               this.node.tagName,
-              this.node.getAttribute('data-response-name') || 'response',
+              this.node.getAttribute('data-response-name'),
               new JSResponseByHTTPReponseComponents(
                 new ParsedJSON(
                   new StringFromBuffer(

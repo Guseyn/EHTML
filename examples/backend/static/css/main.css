@@ -76,7 +76,7 @@ li {
   padding: 0 0.5em;
 }
 
-img:not(.photo):not(.project-logo):not(.article-logo):not(.youtube-video-play):not(.left-to-link) {
+img:not(.photo):not(.project-logo):not(.article-logo):not(.youtube-video-play):not(.left-to-link):not(.ajax-icon) {
   width: 100%;
   height: auto;
 }
@@ -173,14 +173,6 @@ iframe {
   margin: 0 auto;
   padding-bottom: 4em;
   overflow: hidden;
-}
-
-.photo {
-  width: 240px;
-  height: 240px;
-  display: block;
-  margin: 0 auto;
-  border-radius: 16px;
 }
 
 .menu {
@@ -368,6 +360,57 @@ iframe {
   color: #676767;
 }
 
+.ajax-icon {
+  height: 24px;
+  width: 24px;
+  margin: 10px auto;
+  display: block;
+}
+
+.profile-box {
+  width: 80%;
+  min-height: 250px;
+  border: 1px solid #cdcdcd;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+.photo {
+  width: 140px;
+  height: 140px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+  margin-top: 10px;
+}
+
+.user-info {
+  width: 240px;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+  border-radius: 16px;
+  border: 1px grey solid;
+  padding: 5px;
+  text-align: center;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.email {
+  font-weight: bold;
+  font-size: 13px;
+  color: grey;
+}
+
+.other-details {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
 @media only screen and (min-width: 700px) {
   .base {
     width: 700px;
@@ -388,7 +431,7 @@ iframe {
     margin-right: 1em;
     margin-bottom: 0;
   }
-  img:not(.photo):not(.project-logo):not(.article-logo):not(.youtube-video-play):not(.left-to-link) {
+  img:not(.photo):not(.project-logo):not(.article-logo):not(.youtube-video-play):not(.left-to-link):not(.ajax-icon) {
     width: 100%;
   }
   .image-box {

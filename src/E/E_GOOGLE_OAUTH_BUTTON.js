@@ -64,7 +64,7 @@ class E_GOOGLE_OAUTH_BUTTON extends E {
           ).as('RESPONSE').after(
             new AppliedActionsOnResponse(
               this.node.tagName,
-              this.node.getAttribute('data-response-name') || 'response',
+              this.node.getAttribute('data-response-name'),
               new JSResponseByHTTPReponseComponents(
                 new ParsedJSON(
                   new StringFromBuffer(

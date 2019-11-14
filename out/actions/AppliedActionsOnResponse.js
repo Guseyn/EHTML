@@ -40,6 +40,10 @@ function (_AsyncObject) {
     key: "syncCall",
     value: function syncCall() {
       return function (tagName, resName, res, actions) {
+        if (!resName) {
+          throw new Error("You need to specify attribute \"data-response-name\" in <".concat(tagName, ">"));
+        }
+
         new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, res, resName).value()).value().call();
       };
     }

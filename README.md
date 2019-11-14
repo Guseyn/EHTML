@@ -706,13 +706,15 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 <details>
   <summary><b>mapObjToElm</b></summary><br>
   
-  You can map response object to element which must be `<template>`.
+  You can map response object to an element which must be `<template>`.
 
   ```html
   data-actions-on-response="mapObjToElm('${someResponse.body}', '#someTemplateId')"
   ```
 
   Element with id `someTemplateId` must have `data-object-name`, so you can use object name in the mapping. You can use any selector for the second argument, but this function will only map the first element that was found by the selector you specified.
+
+  This function works only for attributes of html elements. So if you want to map an object to some text in some element, just use custom attribute `data-text`. For values of input fields use custom attribute `data-value`. Other attributes are mapping with their original names without `data-` prefix.
 
 </details>
 
@@ -877,7 +879,43 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-## 
+## Page with json resource
+
+<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="480px" height="300px"></img>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="/../profile?name=John"
+        data-response-name="profileResponse"
+        data-actions-on-response="mapObjToElm('${profileResponse.body}', '#profile-template')"
+        data-ajax-icon="#ajax-icon"
+      >
+        <div class="profile-box">
+          <img class="ajax-icon" id="ajax-icon" src="/../images/red-ajax-loader.gif"/>
+          <template id="profile-template" data-object-name="profile">
+            <img class="photo" src="${profile.photo}"/>
+            <div class="user-info">
+              <div class="name" data-text="${profile.name}"></div>
+              <div class="email" data-text="${profile.email}"></div>
+              <div class="other-details">
+                <div data-text="Age: ${profile.age}"></div>
+                <div data-text="Country: ${profile.country}"></div>
+                <div data-text="Profession: ${profile.profession}"></div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+  ```
+
+</details>
 
 # Answers for potential testimonials
 

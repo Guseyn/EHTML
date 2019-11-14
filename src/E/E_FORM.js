@@ -167,7 +167,7 @@ class E_FORM extends E {
                 ).after(
                   new AppliedActionsOnResponse(
                     target.tagName,
-                    target.getAttribute('data-response-name') || 'response',
+                    target.getAttribute('data-response-name'),
                     new JSResponseByHTTPReponseComponents(
                       new ParsedJSON(
                         new StringFromBuffer(
