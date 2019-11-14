@@ -56,9 +56,6 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
         <e-html data-src="/../html/first.html"></e-html>
         <e-html data-src="/../html/second.html"></e-html>
         <e-html data-src="/../html/third.html"></e-html>
-        <e-html data-src="/../html/fourth.html"></e-html>
-        <e-html data-src="/../html/fifth.html"></e-html>
-        <e-html data-src="/../html/sixth.html"></e-html>
 
       </div>
     </body>
@@ -66,7 +63,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   </html>
   ```
 
-  and as you can see, we have 6 `e-html` tags there. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
+  and as you can see, we have three `e-html` tags there. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
 
   And for example, `first.html` would look something like this
 
@@ -102,15 +99,6 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
         </div>
         <div class="article">
           <!-- content of the third article -->
-        </div>
-        <div class="article">
-          <!-- content of the fourth article -->
-        </div>
-        <div class="article">
-          <!-- content of the fith article -->
-        </div>
-        <div class="article">
-          <!-- content of the sixth article -->
         </div>
 
       </div>
@@ -870,9 +858,6 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
       <e-html data-src="/../html/why-i-dont-use-promises-and-async-await.html"></e-html>
       <e-html data-src="/../html/simple-rs-jwt.html"></e-html>
       <e-html data-src="/../html/simple-jwt.html"></e-html>
-      <e-html data-src="/../html/travis-control-quality.html"></e-html>
-      <e-html data-src="/../html/page-framework.html"></e-html>
-      <e-html data-src="/../html/declarative-rest-api.html"></e-html>
     </div> 
   </body>
   ```

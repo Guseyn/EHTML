@@ -414,6 +414,7 @@ iframe {
 @media only screen and (min-width: 700px) {
   .base {
     width: 700px;
+    font-size: 1.2em;
   }
   .menu {
     font-size: 1.2em;
