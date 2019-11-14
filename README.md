@@ -859,7 +859,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Simple EHTML page
 
-<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.png?raw=true" width="480px" height="300px"></img>
+![e-html](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.png?raw=true)
 
 <details>
   <summary><b>code</b></summary><br>
@@ -881,7 +881,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Page with json resource
 
-<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-json-page.gif?raw=true" width="480px" height="300px"></img>
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-json-page.gif?raw=true)
 
 <details>
   <summary><b>code</b></summary><br>
