@@ -844,7 +844,7 @@ You can also use actions in event listeners of elements, more details about that
 
 You can find the code in the [examples](https://github.com/Guseyn/EHTML/tree/master/examples/src) folder.
 
-For can run examples locally:
+You can run examples locally:
 
 ```bash
 git clone git@github.com:Guseyn/EHTML.git
@@ -857,7 +857,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Simple EHTML page
 
-<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="350px"></img>
+<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="450px"></img>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -876,6 +876,8 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   ```
 
 </details>
+
+## 
 
 # Answers for potential testimonials
 
