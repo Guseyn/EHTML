@@ -842,6 +842,30 @@ You can also use actions in event listeners of elements, more details about that
 
 # Examples
 
+You can find the code in the [examples](https://github.com/Guseyn/EHTML/tree/master/examples/src) folder.
+
+## Simple EHTML page
+
+<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="350px"></img>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-html data-src="/../html/why-i-dont-use-promises-and-async-await.html"></e-html>
+      <e-html data-src="/../html/simple-rs-jwt.html"></e-html>
+      <e-html data-src="/../html/simple-jwt.html"></e-html>
+      <e-html data-src="/../html/travis-control-quality.html"></e-html>
+      <e-html data-src="/../html/page-framework.html"></e-html>
+      <e-html data-src="/../html/declarative-rest-api.html"></e-html>
+    </div> 
+  </body>
+  ```
+
+</details>
+
 # Answers for potential testimonials
 
 <details>
