@@ -866,7 +866,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Page with json resource
 
-![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-json-page.gif?raw=true)
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ejson-page.gif?raw=true)
 
 <details>
   <summary><b>code</b></summary><br>
