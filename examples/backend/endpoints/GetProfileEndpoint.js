@@ -34,7 +34,7 @@ class GetProfileEndpoint extends Endpoint {
 
   body (request, response) {
     return new Delayed(
-      null, 900
+      null, 500
     ).after(
       new Value(
         profiles,

@@ -370,6 +370,7 @@ iframe {
 .profile-box {
   width: 80%;
   min-height: 250px;
+  border-radius: 16px;
   border: 1px solid #cdcdcd;
   margin: 10px auto;
   padding: 5px;
@@ -390,7 +391,7 @@ iframe {
   display: block;
   margin: 10px auto;
   border-radius: 16px;
-  border: 1px grey solid;
+  border: 1px #cdcdcd solid;
   padding: 5px;
   text-align: center;
 }
