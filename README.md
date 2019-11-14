@@ -881,7 +881,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Page with json resource
 
-<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.gif?raw=true" width="480px" height="300px"></img>
+<img src="https://github.com/Guseyn/EHTML/blob/master/assets/simple-json-page.gif?raw=true" width="480px" height="300px"></img>
 
 <details>
   <summary><b>code</b></summary><br>
