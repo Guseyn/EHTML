@@ -7,6 +7,7 @@ const { Backend, RestApi, ServingFilesEndpoint, NotFoundEndpoint } = require('@c
 const { CopiedFile, WatcherWithEventTypeAndFilenameListener } = require('@cuties/fs')
 const CustomIndexEndpoint = require('./endpoints/CustomIndexEndpoint')
 const GetProfileEndpoint = require('./endpoints/GetProfileEndpoint')
+const GetPlaylistEndpoint = require('./endpoints/GetPlaylistEndpoint')
 const GetUsersByPageAndSizeEndpoint = require('./endpoints/GetUsersByPageAndSizeEndpoint')
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
 const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
@@ -45,6 +46,7 @@ new SpawnedCommand('grunt').after(
               new NotFoundEndpoint(new RegExp(/\/not-found/))
             ),
             new GetProfileEndpoint(new RegExp(/^\/profile\?name=(.+)/), 'GET'),
+            new GetPlaylistEndpoint(new RegExp(/^\/playlist\/?/), 'GET'),
             new GetUserEndpoint(new RegExp(/^\/user\?id=(\d+)/), 'GET'),
             new GetUsersByPageAndSizeEndpoint(new RegExp(/^\/users\?page=(\d+)&size=(\d+)/), 'GET'),
             new GetUsersEndpoint(new RegExp(/^\/users/), 'GET'),

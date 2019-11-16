@@ -1041,6 +1041,144 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
+# Simple E-FOR-EACH
+
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-for-each.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: http://localhost:8000/playlist
+  Request Method: GET
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "title": "My playlist ♥",
+    "photo":"/../images/guitar.svg",
+    "songs":[
+      { "title":"Nantes", "artist": "Beirut", "album": "The Flying Club Cup", "link": "https://genius.com/Beirut-nantes-lyrics" },
+      { "title": "My Kind Of Woman", "artist": "Mac DeMarco", "album": "2", "link": "https://genius.com/Mac-demarco-my-kind-of-woman-lyrics" },
+      { "title": "Black Treacle", "artist": "Arctic Monkeys", "album": "Suck It And See", "link": "https://genius.com/Arctic-monkeys-black-treacle-lyrics" },
+      { "title": "Swing Low", "artist": "The Kooks","album":"Let's Go Sunshine", "link":"https://genius.com/The-kooks-swing-low-lyrics" },
+      { "title": "Seen It All", "artist": "Jake Bugg", "album": "Jake Bugg", "link":"https://genius.com/Jake-bugg-seen-it-all-lyrics" }
+    ]
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="/../playlist"
+        data-response-name="response"
+        data-actions-on-response="mapObjToElm('${response.body}', '#response-template')"
+        data-ajax-icon="#ajax-icon"
+      >
+        <div class="response-box">
+          <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <template id="response-template" data-object-name="playlist">
+            <img class="photo" src="${playlist.photo}"/>
+            <div class="playlist-info">
+              <div class="song-title" data-text="${playlist.title}"></div>
+              <div class="songs-box">
+                <template is="e-for-each" data-list-to-iterate="${playlist.songs}" data-item-name="song">
+                  <div class="song-box">
+                    <div><b>Title: </b><span data-text="${song.title}"></span></div>
+                    <div><b>Artist: </b><span data-text="${song.artist}"></span></div>
+                    <div><b>Album: </b><span data-text="${song.album}"></span></div>
+                    <div><a href="${song.link}">More info</a><b></b></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-e-for-each.html)
+
+</details>
+
+# Simple E-IF
+
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-if.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: http://localhost:8000/playlist
+  Request Method: GET
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "title": "My playlist ♥",
+    "photo":"/../images/guitar.svg",
+    "songs":[
+      { "title":"Nantes", "artist": "Beirut", "album": "The Flying Club Cup", "link": "https://genius.com/Beirut-nantes-lyrics" },
+      { "title": "My Kind Of Woman", "artist": "Mac DeMarco", "album": "2", "link": "https://genius.com/Mac-demarco-my-kind-of-woman-lyrics" },
+      { "title": "Black Treacle", "artist": "Arctic Monkeys", "album": "Suck It And See", "link": "https://genius.com/Arctic-monkeys-black-treacle-lyrics" },
+      { "title": "Swing Low", "artist": "The Kooks","album":"Let's Go Sunshine", "link":"https://genius.com/The-kooks-swing-low-lyrics" },
+      { "title": "Seen It All", "artist": "Jake Bugg", "album": "Jake Bugg", "link":"https://genius.com/Jake-bugg-seen-it-all-lyrics" }
+    ]
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="/../playlist"
+        data-response-name="response"
+        data-actions-on-response="mapObjToElm('${response.body}', '#response-template')"
+        data-ajax-icon="#ajax-icon"
+      >
+        <div class="response-box">
+          <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <template id="response-template" data-object-name="playlist">
+            <img class="photo" src="${playlist.photo}"/>
+            <div class="playlist-info">
+              <div class="playlist-title" data-text="${playlist.title}">
+                <div>only from self-titled albums</div>
+              </div>
+              <div class="songs-box">
+                <template is="e-for-each" data-list-to-iterate="${playlist.songs}" data-item-name="song">
+                  <template is="e-if" data-condition-to-display="${song.artist === song.album}">
+                    <div class="song-box">
+                      <div><b>Title: </b><span data-text="${song.title}"></span></div>
+                      <div><b>Artist: </b><span data-text="${song.artist}"></span></div>
+                      <div><b>Album: </b><span data-text="${song.album}"></span></div>
+                      <div><a href="${song.link}">More info</a><b></b></div>
+                    </div>
+                  </template>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-e-if.html)
+
+</details>
+
 # Answers for potential testimonials
 
 <details>
@@ -1048,9 +1186,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   
   It's true. Right now **EHTML** has few essential features that you can use only for very simple applications like admin pages or something like that. But it's only the first version, and new features and tools in this library is just a question of time and effort that me and probably you can put into it.
 
-  But even now you can build quite interesting things just using simple html: load pages with some information, send forms, make navigations with turbolinks, make authorization via google and get url parameters by specified pattern.
+  But even now you can build quite interesting things just using simple html: loading pages with some information from endpoints, sending forms, making navigations with turbolinks, making authorization via google and getting url parameters by specified pattern.
 
-  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things with it so easily that no other library can do.
+  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things using it so easily that no other library can do.
 
 </details>
 
