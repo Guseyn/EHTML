@@ -415,7 +415,7 @@ iframe {
   margin-top: 10px;
 }
 
-.user-info {
+.user-info, .playlist-info {
   width: 240px;
   height: auto;
   display: block;
@@ -424,6 +424,23 @@ iframe {
   border: 1px #cdcdcd solid;
   padding: 5px;
   text-align: center;
+}
+
+.playlist-info {
+  width: 400px;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.playlist-title {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 6px;
+}
+
+.song-box {
+  padding: 10px;
+  border-top: 1px solid grey;
 }
 
 .name {

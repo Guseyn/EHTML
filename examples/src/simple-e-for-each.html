@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/simple-e-for-each.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-for-each page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="/../playlist"
+        data-response-name="response"
+        data-actions-on-response="mapObjToElm('${response.body}', '#response-template')"
+        data-ajax-icon="#ajax-icon"
+      >
+        <div class="response-box">
+          <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <template id="response-template" data-object-name="playlist">
+            <img class="photo" src="${playlist.photo}"/>
+            <div class="playlist-info">
+              <div class="song-title" data-text="${playlist.title}"></div>
+              <div class="songs-box">
+                <template is="e-for-each" data-list-to-iterate="${playlist.songs}" data-item-name="song">
+                  <div class="song-box">
+                    <div><b>Title: </b><span data-text="${song.title}"></span></div>
+                    <div><b>Artist: </b><span data-text="${song.artist}"></span></div>
+                    <div><b>Album: </b><span data-text="${song.album}"></span></div>
+                    <div><a href="${song.link}">More info</a><b></b></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+
+</html>
