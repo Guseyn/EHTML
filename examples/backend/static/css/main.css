@@ -367,13 +367,42 @@ iframe {
   display: block;
 }
 
-.profile-box {
+.profile-box, .response-box {
   width: 80%;
   min-height: 250px;
   border-radius: 16px;
   border: 1px solid #cdcdcd;
   margin: 10px auto;
   padding: 5px;
+}
+
+.response-box {
+  min-height: auto;
+  background: #f8f8f8;
+}
+
+.response-box progress {
+  display: block;
+  margin: 0 auto;
+}
+
+.error-box {
+  padding: 10px;
+  border-radius: 16px;
+  background: #d21f3c;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.response-info {
+  border-radius: 16px;
+  border: 1px #cdcdcd solid;
+  padding: 5px;
+  text-align: center;
+  background: #ffffff;
 }
 
 .photo {
