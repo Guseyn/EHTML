@@ -880,12 +880,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   ```
   ```json
   {
-    age: 27,
-    country: "Canada",
-    email: "john@email.com",
-    name: "John",
-    photo: "/../images/John.svg",
-    profession: "dentist",
+    "age": 27,
+    "country": "Canada",
+    "email": "john@email.com",
+    "name": "John",
+    "photo": "/../images/John.svg",
+    "profession": "dentist",
   }
   ```
 </details>
@@ -939,16 +939,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   Content-Length: 1853154
   Content-Type: application/json
   ```
-  ```json
-  {
-    age: 27,
-    country: "Canada",
-    email: "john@email.com",
-    name: "John",
-    photo: "/../images/John.svg",
-    profession: "dentist",
-  }
-  ```
+
 </details>
 
 <details>
@@ -1003,7 +994,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   ```
   ```json
   {
-    error: "profile is not found"
+    "error": "profile is not found"
   }
   ```
 </details>
