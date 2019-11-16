@@ -5756,8 +5756,8 @@ function () {
 
       var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj);
 
-      if (toDisplay) {
-        var contentNode = this.clonedContentOfTemplate(node);
+      if (toDisplay === 'true') {
+        var contentNode = document.importNode(node.content, true);
         this.map(contentNode, obj, initialization);
         node.parentNode.insertBefore(contentNode, node);
       }

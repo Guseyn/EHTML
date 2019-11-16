@@ -2,30 +2,14 @@
 
 const { as } = require('@cuties/cutie')
 const { Delayed } = require('@cuties/async')
-const { IsUndefined } = require('@cuties/is')
+const { IsNull } = require('@cuties/is')
 const { If, Else } = require('@cuties/if-else')
 const { Endpoint, RequestParams } = require('@cuties/rest')
 const { EndedResponse, ResponseWithWrittenHead } = require('@cuties/http')
 const { StringifiedJSON, Value } = require('@cuties/json')
-
-const profiles = {
-  'John': {
-    'photo': '/../images/John.svg',
-    'name': 'John',
-    'email': 'john@email.com',
-    'age': 27,
-    'country': 'Canada',
-    'profession': 'dentist'
-  },
-  'Amanda': {
-    'photo': '/../images/Amanda.svg',
-    'name': 'Amanda',
-    'email': 'amanda@email.com',
-    'age': 24,
-    'country': 'Australia',
-    'profession': 'race driver'
-  }
-}
+const { CreatedOptions } = require('@cuties/object')
+const { ByteLengthOfBuffer } = require('@cuties/buffer')
+const FoundProfile = require('./../async/FoundProfile')
 
 class GetProfileEndpoint extends Endpoint {
   constructor (regexp, type) {
@@ -36,8 +20,7 @@ class GetProfileEndpoint extends Endpoint {
     return new Delayed(
       null, 650
     ).after(
-      new Value(
-        profiles,
+      new FoundProfile(
         new Value(
           new RequestParams(
             request
@@ -45,28 +28,35 @@ class GetProfileEndpoint extends Endpoint {
         )
       ).as('PROFILE').after(
         new If(
-          new IsUndefined(
+          new IsNull(
             as('PROFILE')
           ),
           new EndedResponse(
             new ResponseWithWrittenHead(
-              response, 404, 'profile is not found', {
-                'Content-Type': 'application/json'
-              }
+              response, 404, 'profile is not found',
+              new CreatedOptions(
+                'Content-Type', 'application/json'
+              )
             ),
             new StringifiedJSON(
               { error: 'profile is not found' }
             )
           ),
           new Else(
-            new EndedResponse(
-              new ResponseWithWrittenHead(
-                response, 200, 'ok', {
-                  'Content-Type': 'application/json'
-                }
-              ),
-              new StringifiedJSON(
-                as('PROFILE')
+            new StringifiedJSON(
+              as('PROFILE')
+            ).as('RESPONSE').after(
+              new EndedResponse(
+                new ResponseWithWrittenHead(
+                  response, 200, 'ok',
+                  new CreatedOptions(
+                    'Content-Type', 'application/json',
+                    'Content-Length', new ByteLengthOfBuffer(
+                      as('RESPONSE')
+                    )
+                  )
+                ),
+                as('RESPONSE')
               )
             )
           )

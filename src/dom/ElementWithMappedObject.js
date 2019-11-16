@@ -100,8 +100,8 @@ class ElementWithMappedObject {
     const toDisplay = this.appliedExpressionsInString(
       toDisplayExpression, initialization, obj
     )
-    if (toDisplay) {
-      const contentNode = this.clonedContentOfTemplate(node)
+    if (toDisplay === 'true') {
+      const contentNode = document.importNode(node.content, true)
       this.map(contentNode, obj, initialization)
       node.parentNode.insertBefore(contentNode, node)
     }

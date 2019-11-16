@@ -63,7 +63,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   </html>
   ```
 
-  and as you can see, we have three `e-html` tags there. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
+  and as you can see, we have three `e-html` tags here. And each of them refers to some html file which contains some part of the `article.hmtl`. This tag has only one custom attribute `data-src`, which tells us where exactly the file that we want to include is served.
 
   And for example, `first.html` would look something like this
 
@@ -845,7 +845,7 @@ npm run examples
 
 And then just open [http://localhost:8000/](http://localhost:8000/).
 
-## Simple EHTML page
+## Simple E-HTML page
 
 ![e-html](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.png?raw=true)
 
@@ -861,12 +861,34 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
     </div> 
   </body>
   ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-ehtml.html)
 
 </details>
 
-## Page with json resource
+## Simple E-JSON
 
 ![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ejson-page.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: http://localhost:8000/profile?name=John
+  Request Method: GET
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    age: 27,
+    country: "Canada",
+    email: "john@email.com",
+    name: "John",
+    photo: "/../images/John.svg",
+    profession: "dentist",
+  }
+  ```
+</details>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -899,6 +921,132 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
     </div> 
   </body>
   ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-json-page.html)
+
+</details>
+
+# E-JSON with progress bar
+
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-progress.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: https://guseyn.com/bigjson
+  Request Method: GET
+  Status Code: 200 ok
+  Content-Length: 1853154
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    age: 27,
+    country: "Canada",
+    email: "john@email.com",
+    name: "John",
+    photo: "/../images/John.svg",
+    profession: "dentist",
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="https://guseyn.com/bigjson"
+        data-response-name="response"
+        data-progress-bar="#progress-bar"
+        data-actions-on-response="mapObjToElm('${response}', '#response-template')"
+      >
+        <div class="response-box">
+          <progress id="progress-bar"></progress>
+          <template id="response-template" data-object-name="response">
+            <div class="response-info">
+              <div>
+                Big JSON file has been fetched with status: <b data-text="${response.statusCode}"></b>
+              </div>
+              <div>
+                Content-Length is: <b data-text="${response.headers['content-length']} bytes"></b>
+              </div>
+              <div>
+                Name and email of the first user in the response: <br>
+                <b data-text="name: ${response.body.items[0].name}, email: ${response.body.items[0].email}"></b>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-json-with-progress.html)
+
+</details>
+
+# E-JSON with mapped error
+
+![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-error.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: http://localhost:8000/profile?name=Unknown
+  Request Method: GET
+  Status Code: 404 profile is not found
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    error: "profile is not found"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-json
+        data-src="/../profile?name=Unknown"
+        data-response-name="profileResponse"
+        data-actions-on-response="mapObjToElm('${profileResponse}', '#profile-template')"
+        data-ajax-icon="#ajax-icon"
+      >
+        <div class="profile-box">
+          <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <template id="profile-template" data-object-name="profileResponse">
+            <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 200}">
+              <img class="photo" src="${profileResponse.body.photo}"/>
+              <div class="user-info">
+                <div class="name" data-text="${profileResponse.body.name}"></div>
+                <div class="email" data-text="${profileResponse.body.email}"></div>
+                <div class="other-details">
+                  <div data-text="Age: ${profileResponse.body.age}"></div>
+                  <div data-text="Country: ${profileResponse.body.country}"></div>
+                  <div data-text="Profession: ${profileResponse.body.profession}"></div>
+                </div>
+              </div>
+            </template>
+            <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 404}">
+              <div class="error-box">
+                User Not Found
+              </div>
+            </template>
+          </template>
+        </div>
+      </e-json>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-json-with-mapped-error-message.html)
 
 </details>
 

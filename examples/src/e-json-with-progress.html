@@ -1,40 +1,44 @@
-
 <!DOCTYPE html>
-<!-- http://localhost:8000/e-json-with-progress.html -->
+<!-- http://localhost:8000/simple-ejson-page.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
+    <title>e-json with progress</title>
     <link rel="shortcut icon" href="/../images/favicon.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>e-json</title>
-    <style type="text/css">
-      .with-border {
-        display: block;
-        width: auto;
-        height: auto;
-        cursor: pointer;
-        margin-top: 10px;
-        border: 1px solid black;
-        padding: 10px;
-      }
-    </style>
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
-    <e-json
-      data-src="https://guseyn.com/bigjson"
-      data-response-object-name="response"
-      data-progress-bar="#progressBar"
-      data-ajax-icon="#ajaxIcon"
-    >
-      <div class="with-border">
-        <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
-        <br/>
-        <progress id="progressBar"></progress>
-      </div>
-    </e-json>
+    <div class="base">
+      <e-json
+        data-src="https://guseyn.com/bigjson"
+        data-response-name="response"
+        data-progress-bar="#progress-bar"
+        data-actions-on-response="mapObjToElm('${response}', '#response-template')"
+      >
+        <div class="response-box">
+          <progress id="progress-bar"></progress>
+          <template id="response-template" data-object-name="response">
+            <div class="response-info">
+              <div>
+                Big JSON file has been fetched with status: <b data-text="${response.statusCode}"></b>
+              </div>
+              <div>
+                Content-Length is: <b data-text="${response.headers['content-length']} bytes"></b>
+              </div>
+              <div>
+                Name and email of the first user in the response: <br>
+                <b data-text="name: ${response.body.items[0].name}, email: ${response.body.items[0].email}"></b>
+              </div>
+            </div>
+          </template>
+        </div>
+      </e-json>
+    </div> 
   </body>
 
 </html>
