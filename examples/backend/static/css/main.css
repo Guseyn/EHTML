@@ -374,6 +374,7 @@ iframe {
   border: 1px solid #cdcdcd;
   margin: 10px auto;
   padding: 5px;
+  font-family: sans-serif;
 }
 
 .response-box {
