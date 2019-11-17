@@ -202,7 +202,7 @@ class E_FORM extends E {
         form.showErrorForFormElement(
           form,
           form,
-          form.getAttribute('data-validation-bad-format-error-message') || `the form is invalid`,
+          form.getAttribute('data-validation-error-message') || `the form is invalid`,
           form.getAttribute('data-validation-error-class-for-element'),
           form.getAttribute('data-validation-error-class-for-message-box')
         )
@@ -228,7 +228,7 @@ class E_FORM extends E {
   }
 
   validateFormElement (form, element, requestBody) {
-    const validationPatternAttribute = element.getAttribute('pattern')
+    const validationPatternAttribute = element.getAttribute('data-validation-pattern')
     const requiredAttribute = element.hasAttribute('required')
     const nameAttribute = element.getAttribute('name')
     let value = requestBody[nameAttribute]
@@ -277,7 +277,7 @@ class E_FORM extends E {
       }
     }
     if (validationPatternAttribute) {
-      const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute)
+      const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
       if (!validationPattern.test(value)) {
         form.showErrorForFormElement(
           form,
@@ -328,6 +328,7 @@ class E_FORM extends E {
       }
       element.removeEventListener('focus', listener)
       element.focus()
+      element.click()
     }
     element.addEventListener('focus', listener)
   }
