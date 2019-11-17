@@ -5,8 +5,8 @@ const { CreatedOptions } = require('./../async-object/exports')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ParsedElmSelectors } = require('./../async-dom/exports')
 const { Logged } = require('./../async-log/exports')
 const { If } = require('./../async-if-else/exports')
-const { RedirectedLocation, TurboRedirected } = require('./../async-location/exports')
-const { LocalStorageWithSetValue, SessionStorageWithSetValue } = require('./../async-storage/exports')
+const { RedirectedLocation, ReloadedLocation, TurboRedirected } = require('./../async-location/exports')
+const { LocalStorageWithSetValue, SessionStorageWithSetValue, LocalStorageWithRemovedValue, SessionStorageWithRemovedValue } = require('./../async-storage/exports')
 const { First } = require('./../async-array/exports')
 const { EncodedURI } = require('./../async-uri/exports')
 
@@ -32,6 +32,10 @@ const actions = {
     return new RedirectedLocation(new EncodedURI(url))
   },
 
+  reload: () => {
+    return new ReloadedLocation()
+  },
+
   turboRedirect: (href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon } = { }) => {
     return new TurboRedirected(href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon })
   },
@@ -42,6 +46,14 @@ const actions = {
 
   saveToSessionStorage: (key, value) => {
     return new SessionStorageWithSetValue(sessionStorage, key, value)
+  },
+
+  removeFromLocalStorage: (key) => {
+    return new LocalStorageWithRemovedValue(localStorage, key)
+  },
+
+  removeFromSessionStorage: (key, value) => {
+    return new SessionStorageWithRemovedValue(sessionStorage, key)
   },
 
   hideElms: (...elmSelectors) => {

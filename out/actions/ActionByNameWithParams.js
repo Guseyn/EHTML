@@ -48,11 +48,14 @@ var _require5 = require('./../async-if-else/exports'),
 
 var _require6 = require('./../async-location/exports'),
     RedirectedLocation = _require6.RedirectedLocation,
+    ReloadedLocation = _require6.ReloadedLocation,
     TurboRedirected = _require6.TurboRedirected;
 
 var _require7 = require('./../async-storage/exports'),
     LocalStorageWithSetValue = _require7.LocalStorageWithSetValue,
-    SessionStorageWithSetValue = _require7.SessionStorageWithSetValue;
+    SessionStorageWithSetValue = _require7.SessionStorageWithSetValue,
+    LocalStorageWithRemovedValue = _require7.LocalStorageWithRemovedValue,
+    SessionStorageWithRemovedValue = _require7.SessionStorageWithRemovedValue;
 
 var _require8 = require('./../async-array/exports'),
     First = _require8.First;
@@ -77,6 +80,9 @@ var actions = {
   redirect: function redirect(url) {
     return new RedirectedLocation(new EncodedURI(url));
   },
+  reload: function reload() {
+    return new ReloadedLocation();
+  },
   turboRedirect: function turboRedirect(href, headers) {
     var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
         progressBarPlace = _ref.progressBarPlace,
@@ -94,6 +100,12 @@ var actions = {
   },
   saveToSessionStorage: function saveToSessionStorage(key, value) {
     return new SessionStorageWithSetValue(sessionStorage, key, value);
+  },
+  removeFromLocalStorage: function removeFromLocalStorage(key) {
+    return new LocalStorageWithRemovedValue(localStorage, key);
+  },
+  removeFromSessionStorage: function removeFromSessionStorage(key, value) {
+    return new SessionStorageWithRemovedValue(sessionStorage, key);
   },
   hideElms: function hideElms() {
     for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
