@@ -205,7 +205,7 @@ function (_E) {
     value: function isFormValid(form, validations) {
       for (var i = 0; i < validations.length; i++) {
         if (!validations[i]) {
-          form.showErrorForFormElement(form, form, form.getAttribute('data-validation-bad-format-error-message') || "the form is invalid", form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, form, form.getAttribute('data-validation-error-message') || "the form is invalid", form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -232,7 +232,7 @@ function (_E) {
   }, {
     key: "validateFormElement",
     value: function validateFormElement(form, element, requestBody) {
-      var validationPatternAttribute = element.getAttribute('pattern');
+      var validationPatternAttribute = element.getAttribute('data-validation-pattern');
       var requiredAttribute = element.hasAttribute('required');
       var nameAttribute = element.getAttribute('name');
       var value = requestBody[nameAttribute];
@@ -271,7 +271,7 @@ function (_E) {
       }
 
       if (validationPatternAttribute) {
-        var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute);
+        var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig');
 
         if (!validationPattern.test(value)) {
           form.showErrorForFormElement(form, element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
@@ -325,6 +325,7 @@ function (_E) {
 
         element.removeEventListener('focus', listener);
         element.focus();
+        element.click();
       };
 
       element.addEventListener('focus', listener);
