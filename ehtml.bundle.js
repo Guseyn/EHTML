@@ -1,6 +1,125 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var E = require('./E');
+
+var E_FOR_EACH =
+/*#__PURE__*/
+function (_E) {
+  _inherits(E_FOR_EACH, _E);
+
+  function E_FOR_EACH(node) {
+    _classCallCheck(this, E_FOR_EACH);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_FOR_EACH).call(this, node));
+  }
+
+  _createClass(E_FOR_EACH, [{
+    key: "activate",
+    value: function activate() {
+      throw new Error('You can use e-for-each only for mapping object, probably in the future there will be elements that would help you map global elements');
+    }
+  }]);
+
+  return E_FOR_EACH;
+}(E);
+
+module.exports = E_FOR_EACH;
+
+},{"./E":3}],2:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var E = require('./E');
+
+var E_IF =
+/*#__PURE__*/
+function (_E) {
+  _inherits(E_IF, _E);
+
+  function E_IF(node) {
+    _classCallCheck(this, E_IF);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_IF).call(this, node));
+  }
+
+  _createClass(E_IF, [{
+    key: "activate",
+    value: function activate() {
+      var toDisplayExpression = node.getAttribute('data-condition-to-display');
+
+      if (!toDisplayExpression) {
+        throw new Error('e-if must have "data-condition-to-display" attribute');
+      }
+
+      var toDisplay = this.appliedExpressionsInString(toDisplayExpression);
+
+      if (toDisplay === 'true') {
+        var contentNode = document.importNode(node.content, true);
+        node.parentNode.insertBefore(contentNode, node);
+      }
+
+      node.parentNode.removeChild(node);
+    }
+  }, {
+    key: "appliedExpressionsInString",
+    value: function appliedExpressionsInString(string) {
+      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+        // eslint-disable-next-line no-eval
+        var appliedExpression = eval(p1);
+
+        if (_typeof(appliedExpression) === 'object') {
+          return JSON.stringify(appliedExpression);
+        }
+
+        return appliedExpression;
+      });
+    }
+  }]);
+
+  return E_IF;
+}(E);
+
+module.exports = E_IF;
+
+},{"./E":3}],3:[function(require,module,exports){
+'use strict';
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -28,7 +147,7 @@ function () {
 
 module.exports = E;
 
-},{}],2:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -553,7 +672,53 @@ function (_E) {
 
 module.exports = E_FORM;
 
-},{"./../actions/exports":17,"./../async-ajax/exports":24,"./../async-dom/exports":56,"./../async-json/exports":66,"./../async-object/exports":74,"./../async-string/exports":82,"./../cutie/exports":95,"./../events/exports":104,"./../file/exports":106,"./E":1}],3:[function(require,module,exports){
+},{"./../actions/exports":21,"./../async-ajax/exports":28,"./../async-dom/exports":60,"./../async-json/exports":70,"./../async-object/exports":80,"./../async-string/exports":90,"./../cutie/exports":103,"./../events/exports":112,"./../file/exports":114,"./E":3}],5:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var E = require('./E');
+
+var E_FOR_EACH =
+/*#__PURE__*/
+function (_E) {
+  _inherits(E_FOR_EACH, _E);
+
+  function E_FOR_EACH(node) {
+    _classCallCheck(this, E_FOR_EACH);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_FOR_EACH).call(this, node));
+  }
+
+  _createClass(E_FOR_EACH, [{
+    key: "activate",
+    value: function activate() {
+      throw new Error('You can use e-for-each only for mapping objects in the attribute "data-actions-on-response", probably in the future there will be elements that would help you map global elements');
+    }
+  }]);
+
+  return E_FOR_EACH;
+}(E);
+
+module.exports = E_FOR_EACH;
+
+},{"./E":3}],6:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -689,7 +854,7 @@ function (_E) {
 
 module.exports = E_GOOGLE_OAUTH_BUTTON;
 
-},{"./../actions/exports":17,"./../async-ajax/exports":24,"./../async-json/exports":66,"./../async-string/exports":82,"./../cutie/exports":95,"./E":1}],4:[function(require,module,exports){
+},{"./../actions/exports":21,"./../async-ajax/exports":28,"./../async-json/exports":70,"./../async-string/exports":90,"./../cutie/exports":103,"./E":3}],7:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -749,7 +914,80 @@ function (_E) {
 
 module.exports = E_HTML;
 
-},{"./../async-ajax/exports":24,"./../async-dom/exports":56,"./../async-json/exports":66,"./../async-object/exports":74,"./E":1}],5:[function(require,module,exports){
+},{"./../async-ajax/exports":28,"./../async-dom/exports":60,"./../async-json/exports":70,"./../async-object/exports":80,"./E":3}],8:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var E = require('./E');
+
+var E_IF =
+/*#__PURE__*/
+function (_E) {
+  _inherits(E_IF, _E);
+
+  function E_IF(node) {
+    _classCallCheck(this, E_IF);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_IF).call(this, node));
+  }
+
+  _createClass(E_IF, [{
+    key: "activate",
+    value: function activate() {
+      var toDisplayExpression = this.node.getAttribute('data-condition-to-display');
+
+      if (!toDisplayExpression) {
+        throw new Error('e-if must have "data-condition-to-display" attribute');
+      }
+
+      var toDisplay = this.appliedExpressionsInString(toDisplayExpression);
+
+      if (toDisplay === 'true') {
+        var contentNode = document.importNode(this.node.content, true);
+        this.node.parentNode.insertBefore(contentNode, this.node);
+      }
+
+      this.node.parentNode.removeChild(this.node);
+    }
+  }, {
+    key: "appliedExpressionsInString",
+    value: function appliedExpressionsInString(string) {
+      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+        // eslint-disable-next-line no-eval
+        var appliedExpression = eval(p1);
+
+        if (_typeof(appliedExpression) === 'object') {
+          return JSON.stringify(appliedExpression);
+        }
+
+        return appliedExpression;
+      });
+    }
+  }]);
+
+  return E_IF;
+}(E);
+
+module.exports = E_IF;
+
+},{"./E":3}],9:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -826,7 +1064,7 @@ function (_E) {
 
 module.exports = E_JSON;
 
-},{"./../actions/exports":17,"./../async-ajax/exports":24,"./../async-dom/exports":56,"./../async-json/exports":66,"./../async-object/exports":74,"./../async-string/exports":82,"./../cutie/exports":95,"./../events/exports":104,"./E":1}],6:[function(require,module,exports){
+},{"./../actions/exports":21,"./../async-ajax/exports":28,"./../async-dom/exports":60,"./../async-json/exports":70,"./../async-object/exports":80,"./../async-string/exports":90,"./../cutie/exports":103,"./../events/exports":112,"./E":3}],10:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -878,7 +1116,7 @@ function (_E) {
 
 module.exports = E_LOCAL_STORAGE_VALUE;
 
-},{"./E":1}],7:[function(require,module,exports){
+},{"./E":3}],11:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -945,7 +1183,7 @@ function (_E) {
 
 module.exports = E_PAGE_WITH_URL;
 
-},{"./E":1}],8:[function(require,module,exports){
+},{"./E":3}],12:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1019,7 +1257,7 @@ function (_E) {
 
 module.exports = E_SELECT;
 
-},{"./E":1}],9:[function(require,module,exports){
+},{"./E":3}],13:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1071,7 +1309,7 @@ function (_E) {
 
 module.exports = E_SESSION_STORAGE_VALUE;
 
-},{"./E":1}],10:[function(require,module,exports){
+},{"./E":3}],14:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1150,12 +1388,14 @@ function (_E) {
 
 module.exports = E_TURBOLINK;
 
-},{"./../async-json/exports":66,"./../async-location/exports":69,"./E":1}],11:[function(require,module,exports){
+},{"./../async-json/exports":70,"./../async-location/exports":75,"./E":3}],15:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   'e-html': require('./E_HTML'),
   'e-json': require('./E_JSON'),
+  'e-if': require('./E_IF'),
+  'e-for-each': require('./E_FOR_EACH'),
   'e-form': require('./E_FORM'),
   'e-local-storage-value': require('./E_LOCAL_STORAGE_VALUE'),
   'e-session-storage-value': require('./E_SESSION_STORAGE_VALUE'),
@@ -1165,7 +1405,7 @@ module.exports = {
   'e-select': require('./E_SELECT')
 };
 
-},{"./E_FORM":2,"./E_GOOGLE_OAUTH_BUTTON":3,"./E_HTML":4,"./E_JSON":5,"./E_LOCAL_STORAGE_VALUE":6,"./E_PAGE_WITH_URL":7,"./E_SELECT":8,"./E_SESSION_STORAGE_VALUE":9,"./E_TURBOLINK":10}],12:[function(require,module,exports){
+},{"./E_FORM":4,"./E_FOR_EACH":5,"./E_GOOGLE_OAUTH_BUTTON":6,"./E_HTML":7,"./E_IF":8,"./E_JSON":9,"./E_LOCAL_STORAGE_VALUE":10,"./E_PAGE_WITH_URL":11,"./E_SELECT":12,"./E_SESSION_STORAGE_VALUE":13,"./E_TURBOLINK":14}],16:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1296,7 +1536,15 @@ function () {
   }, {
     key: "nodeName",
     value: function nodeName(node) {
-      return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase();
+      if (this.isEPageWithUrl(node)) {
+        return 'e-page-with-url';
+      } else if (this.isEIf(node)) {
+        return 'e-if';
+      } else if (this.isEForEach(node)) {
+        return 'e-for-each';
+      }
+
+      return node.nodeName.toLowerCase();
     }
   }, {
     key: "isEPageWithUrl",
@@ -1318,6 +1566,44 @@ function () {
       return false;
     }
   }, {
+    key: "isEIf",
+    value: function isEIf(node) {
+      if (node.nodeName.toLowerCase() === 'e-if') {
+        throw new Error('e-if must be <template>');
+      }
+
+      if (this.isTemplate(node)) {
+        var templateType = node.getAttribute('is');
+
+        if (templateType) {
+          return templateType === 'e-if';
+        }
+
+        return false;
+      }
+
+      return false;
+    }
+  }, {
+    key: "isEForEach",
+    value: function isEForEach(node) {
+      if (node.nodeName.toLowerCase() === 'e-for-each') {
+        throw new Error('e-for-each must be <template>');
+      }
+
+      if (this.isTemplate(node)) {
+        var templateType = node.getAttribute('is');
+
+        if (templateType) {
+          return templateType === 'e-for-each';
+        }
+
+        return false;
+      }
+
+      return false;
+    }
+  }, {
     key: "isTemplate",
     value: function isTemplate(node) {
       return node.nodeName.toLowerCase() === 'template';
@@ -1329,7 +1615,7 @@ function () {
 
 new MutationObservation().run();
 
-},{"./E/exports":11}],13:[function(require,module,exports){
+},{"./E/exports":15}],17:[function(require,module,exports){
 'use strict';
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -1380,11 +1666,14 @@ var _require5 = require('./../async-if-else/exports'),
 
 var _require6 = require('./../async-location/exports'),
     RedirectedLocation = _require6.RedirectedLocation,
+    ReloadedLocation = _require6.ReloadedLocation,
     TurboRedirected = _require6.TurboRedirected;
 
 var _require7 = require('./../async-storage/exports'),
     LocalStorageWithSetValue = _require7.LocalStorageWithSetValue,
-    SessionStorageWithSetValue = _require7.SessionStorageWithSetValue;
+    SessionStorageWithSetValue = _require7.SessionStorageWithSetValue,
+    LocalStorageWithRemovedValue = _require7.LocalStorageWithRemovedValue,
+    SessionStorageWithRemovedValue = _require7.SessionStorageWithRemovedValue;
 
 var _require8 = require('./../async-array/exports'),
     First = _require8.First;
@@ -1409,6 +1698,9 @@ var actions = {
   redirect: function redirect(url) {
     return new RedirectedLocation(new EncodedURI(url));
   },
+  reload: function reload() {
+    return new ReloadedLocation();
+  },
   turboRedirect: function turboRedirect(href, headers) {
     var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
         progressBarPlace = _ref.progressBarPlace,
@@ -1426,6 +1718,12 @@ var actions = {
   },
   saveToSessionStorage: function saveToSessionStorage(key, value) {
     return new SessionStorageWithSetValue(sessionStorage, key, value);
+  },
+  removeFromLocalStorage: function removeFromLocalStorage(key) {
+    return new LocalStorageWithRemovedValue(localStorage, key);
+  },
+  removeFromSessionStorage: function removeFromSessionStorage(key, value) {
+    return new SessionStorageWithRemovedValue(sessionStorage, key);
   },
   hideElms: function hideElms() {
     for (var _len2 = arguments.length, elmSelectors = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
@@ -1507,7 +1805,7 @@ function () {
 
 module.exports = ActionByNameWithParams;
 
-},{"./../async-ajax/exports":24,"./../async-array/exports":26,"./../async-dom/exports":56,"./../async-if-else/exports":62,"./../async-location/exports":69,"./../async-log/exports":71,"./../async-object/exports":74,"./../async-storage/exports":79,"./../async-uri/exports":84}],14:[function(require,module,exports){
+},{"./../async-ajax/exports":28,"./../async-array/exports":30,"./../async-dom/exports":60,"./../async-if-else/exports":66,"./../async-location/exports":75,"./../async-log/exports":77,"./../async-object/exports":80,"./../async-storage/exports":87,"./../async-uri/exports":92}],18:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1564,7 +1862,7 @@ function (_AsyncObject) {
 
 module.exports = AppliedActionsOnResponse;
 
-},{"./../cutie/exports":95,"./BuiltAsyncTreeByParsedActions":15,"./ParsedActions":16}],15:[function(require,module,exports){
+},{"./../cutie/exports":103,"./BuiltAsyncTreeByParsedActions":19,"./ParsedActions":20}],19:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1622,7 +1920,7 @@ function () {
 
 module.exports = BuiltAsyncTreeByParsedActions;
 
-},{"./../async/exports":86}],16:[function(require,module,exports){
+},{"./../async/exports":94}],20:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1766,7 +2064,7 @@ function () {
 
 module.exports = ParsedActions;
 
-},{"./ActionByNameWithParams":13}],17:[function(require,module,exports){
+},{"./ActionByNameWithParams":17}],21:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -1776,7 +2074,7 @@ module.exports = {
   ParsedActions: require('./ParsedActions')
 };
 
-},{"./ActionByNameWithParams":13,"./AppliedActionsOnResponse":14,"./BuiltAsyncTreeByParsedActions":15,"./ParsedActions":16}],18:[function(require,module,exports){
+},{"./ActionByNameWithParams":17,"./AppliedActionsOnResponse":18,"./BuiltAsyncTreeByParsedActions":19,"./ParsedActions":20}],22:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1829,7 +2127,7 @@ function (_AsyncObject) {
 
 module.exports = JSResponseByHTTPReponseComponents;
 
-},{"./../cutie/exports":95}],19:[function(require,module,exports){
+},{"./../cutie/exports":103}],23:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1878,7 +2176,7 @@ function (_AsyncObject) {
 
 module.exports = ResponseBody;
 
-},{"./../cutie/exports":95}],20:[function(require,module,exports){
+},{"./../cutie/exports":103}],24:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1928,7 +2226,7 @@ function (_AsyncObject) {
 
 module.exports = ResponseFromAjaxRequest;
 
-},{"./../cutie/exports":95,"./custom-calls/responseFromAjaxRequest":23}],21:[function(require,module,exports){
+},{"./../cutie/exports":103,"./custom-calls/responseFromAjaxRequest":27}],25:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1977,7 +2275,7 @@ function (_AsyncObject) {
 
 module.exports = ResponseHeaders;
 
-},{"./../cutie/exports":95}],22:[function(require,module,exports){
+},{"./../cutie/exports":103}],26:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2026,7 +2324,7 @@ function (_AsyncObject) {
 
 module.exports = ResponseStatusCode;
 
-},{"./../cutie/exports":95}],23:[function(require,module,exports){
+},{"./../cutie/exports":103}],27:[function(require,module,exports){
 "use strict";
 
 // custom call
@@ -2077,7 +2375,7 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
 
 module.exports = responseFromAjaxRequest;
 
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -2088,7 +2386,7 @@ module.exports = {
   ResponseStatusCode: require('./ResponseStatusCode')
 };
 
-},{"./JSResponseByHTTPReponseComponents":18,"./ResponseBody":19,"./ResponseFromAjaxRequest":20,"./ResponseHeaders":21,"./ResponseStatusCode":22}],25:[function(require,module,exports){
+},{"./JSResponseByHTTPReponseComponents":22,"./ResponseBody":23,"./ResponseFromAjaxRequest":24,"./ResponseHeaders":25,"./ResponseStatusCode":26}],29:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2137,14 +2435,14 @@ function (_AsyncObject) {
 
 module.exports = First;
 
-},{"./../cutie/exports":95}],26:[function(require,module,exports){
+},{"./../cutie/exports":103}],30:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   First: require('./First')
 };
 
-},{"./First":25}],27:[function(require,module,exports){
+},{"./First":29}],31:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2197,7 +2495,7 @@ function (_AsyncObject) {
 
 module.exports = BodyOfDocument;
 
-},{"./../cutie/exports":95}],28:[function(require,module,exports){
+},{"./../cutie/exports":103}],32:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2260,7 +2558,7 @@ function (_AsyncObject) {
 
 module.exports = ChangedPageFavicon;
 
-},{"./../cutie/exports":95}],29:[function(require,module,exports){
+},{"./../cutie/exports":103}],33:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2310,7 +2608,7 @@ function (_AsyncObject) {
 
 module.exports = ChangedPageTitle;
 
-},{"./../cutie/exports":95}],30:[function(require,module,exports){
+},{"./../cutie/exports":103}],34:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2362,7 +2660,7 @@ function (_AsyncObject) {
 
 module.exports = CreatedDocumentFragmentWithAttributes;
 
-},{"./../cutie/exports":95,"./../dom/exports":100}],31:[function(require,module,exports){
+},{"./../cutie/exports":103,"./../dom/exports":108}],35:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2415,7 +2713,7 @@ function (_AsyncObject) {
 
 module.exports = DisabledElement;
 
-},{"./../cutie/exports":95}],32:[function(require,module,exports){
+},{"./../cutie/exports":103}],36:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2466,7 +2764,7 @@ function (_AsyncObject) {
 
 module.exports = DisabledElements;
 
-},{"./../cutie/exports":95}],33:[function(require,module,exports){
+},{"./../cutie/exports":103}],37:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2516,7 +2814,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithAdditionalHTML;
 
-},{"./../cutie/exports":95}],34:[function(require,module,exports){
+},{"./../cutie/exports":103}],38:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2566,7 +2864,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithChangedValue;
 
-},{"./../cutie/exports":95}],35:[function(require,module,exports){
+},{"./../cutie/exports":103}],39:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2616,7 +2914,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithInnerHTML;
 
-},{"./../cutie/exports":95}],36:[function(require,module,exports){
+},{"./../cutie/exports":103}],40:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2668,7 +2966,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncElementWithMappedObject;
 
-},{"./../cutie/exports":95,"./../dom/exports":100}],37:[function(require,module,exports){
+},{"./../cutie/exports":103,"./../dom/exports":108}],41:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2720,7 +3018,7 @@ function (_AsyncObject) {
 
 module.exports = AsyncElementWithMappedObjectAndAppliedVariables;
 
-},{"./../cutie/exports":95,"./../dom/exports":100}],38:[function(require,module,exports){
+},{"./../cutie/exports":103,"./../dom/exports":108}],42:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2770,7 +3068,7 @@ function (_AsyncObject) {
 
 module.exports = ElementWithTextContent;
 
-},{"./../cutie/exports":95}],39:[function(require,module,exports){
+},{"./../cutie/exports":103}],43:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2822,7 +3120,7 @@ function (_AsyncObject) {
 
 module.exports = ElementsWithToggledClass;
 
-},{"./../cutie/exports":95}],40:[function(require,module,exports){
+},{"./../cutie/exports":103}],44:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2875,7 +3173,7 @@ function (_AsyncObject) {
 
 module.exports = EnabledElement;
 
-},{"./../cutie/exports":95}],41:[function(require,module,exports){
+},{"./../cutie/exports":103}],45:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2927,7 +3225,7 @@ function (_AsyncObject) {
 
 module.exports = EnabledElements;
 
-},{"./../cutie/exports":95}],42:[function(require,module,exports){
+},{"./../cutie/exports":103}],46:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2977,7 +3275,7 @@ function (_AsyncObject) {
 
 module.exports = ExtractedDocument;
 
-},{"./../cutie/exports":95}],43:[function(require,module,exports){
+},{"./../cutie/exports":103}],47:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3031,7 +3329,7 @@ function (_AsyncObject) {
 
 module.exports = FaviconOfDocument;
 
-},{"./../cutie/exports":95}],44:[function(require,module,exports){
+},{"./../cutie/exports":103}],48:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3080,7 +3378,7 @@ function (_AsyncObject) {
 
 module.exports = FirstParsedElmSelector;
 
-},{"./../cutie/exports":95}],45:[function(require,module,exports){
+},{"./../cutie/exports":103}],49:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3133,7 +3431,7 @@ function (_AsyncObject) {
 
 module.exports = HiddenElement;
 
-},{"./../cutie/exports":95}],46:[function(require,module,exports){
+},{"./../cutie/exports":103}],50:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3185,7 +3483,7 @@ function (_AsyncObject) {
 
 module.exports = HiddenElements;
 
-},{"./../cutie/exports":95}],47:[function(require,module,exports){
+},{"./../cutie/exports":103}],51:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3255,7 +3553,7 @@ function (_AsyncObject) {
 
 module.exports = ParsedElmSelectors;
 
-},{"./../cutie/exports":95}],48:[function(require,module,exports){
+},{"./../cutie/exports":103}],52:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3311,7 +3609,7 @@ function (_AsyncObject) {
 
 module.exports = PreparedProgressBar;
 
-},{"./../cutie/exports":95}],49:[function(require,module,exports){
+},{"./../cutie/exports":103}],53:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3369,7 +3667,7 @@ function (_AsyncObject) {
 
 module.exports = PreparedProgressBars;
 
-},{"./../cutie/exports":95}],50:[function(require,module,exports){
+},{"./../cutie/exports":103}],54:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3419,7 +3717,7 @@ function (_AsyncObject) {
 
 module.exports = ReplacedElementWithAnotherOne;
 
-},{"./../cutie/exports":95}],51:[function(require,module,exports){
+},{"./../cutie/exports":103}],55:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3472,7 +3770,7 @@ function (_AsyncObject) {
 
 module.exports = ShownElement;
 
-},{"./../cutie/exports":95}],52:[function(require,module,exports){
+},{"./../cutie/exports":103}],56:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3524,7 +3822,7 @@ function (_AsyncObject) {
 
 module.exports = ShownElements;
 
-},{"./../cutie/exports":95}],53:[function(require,module,exports){
+},{"./../cutie/exports":103}],57:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3573,7 +3871,7 @@ function (_AsyncObject) {
 
 module.exports = TitleOfDocument;
 
-},{"./../cutie/exports":95}],54:[function(require,module,exports){
+},{"./../cutie/exports":103}],58:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3631,7 +3929,7 @@ function (_AsyncObject) {
 
 module.exports = UnwrappedChildrenOfParent;
 
-},{"./../cutie/exports":95}],55:[function(require,module,exports){
+},{"./../cutie/exports":103}],59:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3682,7 +3980,7 @@ function (_AsyncObject) {
 
 module.exports = UnwrappedTemplate;
 
-},{"./../cutie/exports":95}],56:[function(require,module,exports){
+},{"./../cutie/exports":103}],60:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -3716,7 +4014,7 @@ module.exports = {
   UnwrappedTemplate: require('./UnwrappedTemplate')
 };
 
-},{"./BodyOfDocument":27,"./ChangedPageFavicon":28,"./ChangedPageTitle":29,"./CreatedDocumentFragmentWithAttributes":30,"./DisabledElement":31,"./DisabledElements":32,"./ElementWithAdditionalHTML":33,"./ElementWithChangedValue":34,"./ElementWithInnerHTML":35,"./ElementWithMappedObject":36,"./ElementWithTextContent":38,"./ElementsWithToggledClass":39,"./EnabledElement":40,"./EnabledElements":41,"./ExtractedDocument":42,"./FaviconOfDocument":43,"./FirstParsedElmSelector":44,"./HiddenElement":45,"./HiddenElements":46,"./ParsedElmSelectors":47,"./PreparedProgressBar":48,"./PreparedProgressBars":49,"./ReplacedElementWithAnotherOne":50,"./ShownElement":51,"./ShownElements":52,"./TitleOfDocument":53,"./UnwrappedChildrenOfParent":54,"./UnwrappedTemplate":55}],57:[function(require,module,exports){
+},{"./BodyOfDocument":31,"./ChangedPageFavicon":32,"./ChangedPageTitle":33,"./CreatedDocumentFragmentWithAttributes":34,"./DisabledElement":35,"./DisabledElements":36,"./ElementWithAdditionalHTML":37,"./ElementWithChangedValue":38,"./ElementWithInnerHTML":39,"./ElementWithMappedObject":40,"./ElementWithTextContent":42,"./ElementsWithToggledClass":43,"./EnabledElement":44,"./EnabledElements":45,"./ExtractedDocument":46,"./FaviconOfDocument":47,"./FirstParsedElmSelector":48,"./HiddenElement":49,"./HiddenElements":50,"./ParsedElmSelectors":51,"./PreparedProgressBar":52,"./PreparedProgressBars":53,"./ReplacedElementWithAnotherOne":54,"./ShownElement":55,"./ShownElements":56,"./TitleOfDocument":57,"./UnwrappedChildrenOfParent":58,"./UnwrappedTemplate":59}],61:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3770,7 +4068,7 @@ function (_AsyncObject) {
 
 module.exports = PushedStartStateToHistoryIfNeeded;
 
-},{"./../cutie/exports":95}],58:[function(require,module,exports){
+},{"./../cutie/exports":103}],62:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3820,7 +4118,7 @@ function (_AsyncObject) {
 
 module.exports = PushedStateToHistory;
 
-},{"./../cutie/exports":95}],59:[function(require,module,exports){
+},{"./../cutie/exports":103}],63:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -3828,7 +4126,7 @@ module.exports = {
   PushedStateToHistory: require('./PushedStateToHistory')
 };
 
-},{"./PushedStartStateToHistoryIfNeeded":57,"./PushedStateToHistory":58}],60:[function(require,module,exports){
+},{"./PushedStartStateToHistoryIfNeeded":61,"./PushedStateToHistory":62}],64:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3886,7 +4184,7 @@ function (_AsyncObject) {
 
 module.exports = Else;
 
-},{"./../cutie/exports":95}],61:[function(require,module,exports){
+},{"./../cutie/exports":103}],65:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3955,7 +4253,7 @@ function (_AsyncObject) {
 
 module.exports = If;
 
-},{"./../cutie/exports":95}],62:[function(require,module,exports){
+},{"./../cutie/exports":103}],66:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -3963,7 +4261,7 @@ module.exports = {
   If: require('./If')
 };
 
-},{"./Else":60,"./If":61}],63:[function(require,module,exports){
+},{"./Else":64,"./If":65}],67:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4011,7 +4309,7 @@ function (_AsyncObject) {
 
 module.exports = ParsedJSON;
 
-},{"./../cutie/exports":95}],64:[function(require,module,exports){
+},{"./../cutie/exports":103}],68:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4064,7 +4362,7 @@ function (_AsyncObject) {
 
 module.exports = ParsedJSONOrString;
 
-},{"./../cutie/exports":95}],65:[function(require,module,exports){
+},{"./../cutie/exports":103}],69:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4112,7 +4410,7 @@ function (_AsyncObject) {
 
 module.exports = StringifiedJSON;
 
-},{"./../cutie/exports":95}],66:[function(require,module,exports){
+},{"./../cutie/exports":103}],70:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -4121,7 +4419,7 @@ module.exports = {
   StringifiedJSON: require('./StringifiedJSON')
 };
 
-},{"./ParsedJSON":63,"./ParsedJSONOrString":64,"./StringifiedJSON":65}],67:[function(require,module,exports){
+},{"./ParsedJSON":67,"./ParsedJSONOrString":68,"./StringifiedJSON":69}],71:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4170,7 +4468,58 @@ function (_AsyncObject) {
 
 module.exports = RedirectedLocation;
 
-},{"./../cutie/exports":95}],68:[function(require,module,exports){
+},{"./../cutie/exports":103}],72:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
+
+var ReloadedLocation =
+/*#__PURE__*/
+function (_AsyncObject) {
+  _inherits(ReloadedLocation, _AsyncObject);
+
+  function ReloadedLocation() {
+    _classCallCheck(this, ReloadedLocation);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ReloadedLocation).call(this));
+  }
+
+  _createClass(ReloadedLocation, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function () {
+        window.location.reload();
+      };
+    }
+  }]);
+
+  return ReloadedLocation;
+}(AsyncObject);
+
+module.exports = ReloadedLocation;
+
+},{"./../cutie/exports":103}],73:[function(require,module,exports){
+arguments[4][72][0].apply(exports,arguments)
+},{"./../cutie/exports":103,"dup":72}],74:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4232,15 +4581,16 @@ var TurboRedirected = function TurboRedirected(href, headers, _ref) {
 
 module.exports = TurboRedirected;
 
-},{"./../async-ajax/exports":24,"./../async-dom/exports":56,"./../async-history/exports":59,"./../async-object/exports":74,"./../async-string/exports":82,"./../cutie/exports":95,"./../events/exports":104}],69:[function(require,module,exports){
+},{"./../async-ajax/exports":28,"./../async-dom/exports":60,"./../async-history/exports":63,"./../async-object/exports":80,"./../async-string/exports":90,"./../cutie/exports":103,"./../events/exports":112}],75:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   RedirectedLocation: require('./RedirectedLocation'),
+  ReloadedLocation: require('./ReloadedLocation'),
   TurboRedirected: require('./TurboRedirected')
 };
 
-},{"./RedirectedLocation":67,"./TurboRedirected":68}],70:[function(require,module,exports){
+},{"./RedirectedLocation":71,"./ReloadedLocation":73,"./TurboRedirected":74}],76:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4303,14 +4653,14 @@ function (_AsyncObject) {
 
 module.exports = Logged;
 
-},{"./../cutie/exports":95}],71:[function(require,module,exports){
+},{"./../cutie/exports":103}],77:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   Logged: require('./Logged')
 };
 
-},{"./Logged":70}],72:[function(require,module,exports){
+},{"./Logged":76}],78:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4380,7 +4730,7 @@ function (_AsyncObject) {
 
 module.exports = CreatedOptions;
 
-},{"./../cutie/exports":95}],73:[function(require,module,exports){
+},{"./../cutie/exports":103}],79:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4431,7 +4781,7 @@ function (_AsyncObject) {
 
 module.exports = TheSameObjectWithValue;
 
-},{"./../cutie/exports":95}],74:[function(require,module,exports){
+},{"./../cutie/exports":103}],80:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -4439,7 +4789,57 @@ module.exports = {
   TheSameObjectWithValue: require('./TheSameObjectWithValue')
 };
 
-},{"./CreatedOptions":72,"./TheSameObjectWithValue":73}],75:[function(require,module,exports){
+},{"./CreatedOptions":78,"./TheSameObjectWithValue":79}],81:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
+
+var LocalStorageWithRemovedValue =
+/*#__PURE__*/
+function (_AsyncObject) {
+  _inherits(LocalStorageWithRemovedValue, _AsyncObject);
+
+  function LocalStorageWithRemovedValue(localStorage, key) {
+    _classCallCheck(this, LocalStorageWithRemovedValue);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(LocalStorageWithRemovedValue).call(this, localStorage, key));
+  }
+
+  _createClass(LocalStorageWithRemovedValue, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (localStorage, key) {
+        localStorage.removeItem(key);
+        return localStorage;
+      };
+    }
+  }]);
+
+  return LocalStorageWithRemovedValue;
+}(AsyncObject);
+
+module.exports = LocalStorageWithRemovedValue;
+
+},{"./../cutie/exports":103}],82:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4489,7 +4889,57 @@ function (_AsyncObject) {
 
 module.exports = LocalStorageWithSetValue;
 
-},{"./../cutie/exports":95}],76:[function(require,module,exports){
+},{"./../cutie/exports":103}],83:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
+
+var SessionStorageWithRemovedValue =
+/*#__PURE__*/
+function (_AsyncObject) {
+  _inherits(SessionStorageWithRemovedValue, _AsyncObject);
+
+  function SessionStorageWithRemovedValue(sessionStorage, key) {
+    _classCallCheck(this, SessionStorageWithRemovedValue);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(SessionStorageWithRemovedValue).call(this, sessionStorage, key));
+  }
+
+  _createClass(SessionStorageWithRemovedValue, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (sessionStorage, key) {
+        sessionStorage.removeItem(key);
+        return sessionStorage;
+      };
+    }
+  }]);
+
+  return SessionStorageWithRemovedValue;
+}(AsyncObject);
+
+module.exports = SessionStorageWithRemovedValue;
+
+},{"./../cutie/exports":103}],84:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4539,7 +4989,7 @@ function (_AsyncObject) {
 
 module.exports = SessionStorageWithSetValue;
 
-},{"./../cutie/exports":95}],77:[function(require,module,exports){
+},{"./../cutie/exports":103}],85:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4588,7 +5038,7 @@ function (_AsyncObject) {
 
 module.exports = ValueFromLocalStorage;
 
-},{"./../cutie/exports":95}],78:[function(require,module,exports){
+},{"./../cutie/exports":103}],86:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4637,17 +5087,19 @@ function (_AsyncObject) {
 
 module.exports = ValueFromSessionStorage;
 
-},{"./../cutie/exports":95}],79:[function(require,module,exports){
+},{"./../cutie/exports":103}],87:[function(require,module,exports){
 "use strict";
 
 module.exports = {
+  LocalStorageWithRemovedValue: require('./LocalStorageWithRemovedValue'),
   LocalStorageWithSetValue: require('./LocalStorageWithSetValue'),
+  SessionStorageWithRemovedValue: require('./SessionStorageWithRemovedValue'),
   SessionStorageWithSetValue: require('./SessionStorageWithSetValue'),
   ValueFromLocalStorage: require('./ValueFromLocalStorage'),
   ValueFromSessionStorage: require('./ValueFromSessionStorage')
 };
 
-},{"./LocalStorageWithSetValue":75,"./SessionStorageWithSetValue":76,"./ValueFromLocalStorage":77,"./ValueFromSessionStorage":78}],80:[function(require,module,exports){
+},{"./LocalStorageWithRemovedValue":81,"./LocalStorageWithSetValue":82,"./SessionStorageWithRemovedValue":83,"./SessionStorageWithSetValue":84,"./ValueFromLocalStorage":85,"./ValueFromSessionStorage":86}],88:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4697,7 +5149,7 @@ function (_AsyncObject) {
 
 module.exports = StringFromBuffer;
 
-},{"./../cutie/exports":95}],81:[function(require,module,exports){
+},{"./../cutie/exports":103}],89:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4749,14 +5201,14 @@ function (_AsyncObject) {
 
 module.exports = AsyncStringWithMappedObjectAndAppliedVariables;
 
-},{"./../cutie/exports":95,"./../string/exports":109}],82:[function(require,module,exports){
+},{"./../cutie/exports":103,"./../string/exports":117}],90:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   StringFromBuffer: require('./StringFromBuffer')
 };
 
-},{"./StringFromBuffer":80}],83:[function(require,module,exports){
+},{"./StringFromBuffer":88}],91:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4805,14 +5257,14 @@ function (_AsyncObject) {
 
 module.exports = EncodedURI;
 
-},{"./../cutie/exports":95}],84:[function(require,module,exports){
+},{"./../cutie/exports":103}],92:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   EncodedURI: require('./EncodedURI')
 };
 
-},{"./EncodedURI":83}],85:[function(require,module,exports){
+},{"./EncodedURI":91}],93:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4859,14 +5311,14 @@ function (_AsyncObject) {
 
 module.exports = EmptyAsyncObject;
 
-},{"./../cutie/exports":95}],86:[function(require,module,exports){
+},{"./../cutie/exports":103}],94:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   EmptyAsyncObject: require('./EmptyAsyncObject')
 };
 
-},{"./EmptyAsyncObject":85}],87:[function(require,module,exports){
+},{"./EmptyAsyncObject":93}],95:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4924,7 +5376,7 @@ module.exports = function (key) {
   return new As(key);
 };
 
-},{"./AsyncObject":88}],88:[function(require,module,exports){
+},{"./AsyncObject":96}],96:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -5117,7 +5569,7 @@ function () {
 
 module.exports = AsyncObject;
 
-},{"./AsyncTree":89}],89:[function(require,module,exports){
+},{"./AsyncTree":97}],97:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5200,7 +5652,7 @@ function () {
 
 module.exports = AsyncTree;
 
-},{"./AsyncTreeNode":90,"./NotDefinedAsyncTreeNode":92,"./SimpleTreeNode":93}],90:[function(require,module,exports){
+},{"./AsyncTreeNode":98,"./NotDefinedAsyncTreeNode":100,"./SimpleTreeNode":101}],98:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -5418,7 +5870,7 @@ function (_TreeNode) {
 
 module.exports = AsyncTreeNode;
 
-},{"./TreeNode":94}],91:[function(require,module,exports){
+},{"./TreeNode":102}],99:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5451,7 +5903,7 @@ function () {
 
 module.exports = Event;
 
-},{}],92:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5462,7 +5914,7 @@ var NotDefinedAsyncTreeNode = function NotDefinedAsyncTreeNode() {
 
 module.exports = NotDefinedAsyncTreeNode;
 
-},{}],93:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -5523,7 +5975,7 @@ function (_TreeNode) {
 
 module.exports = SimpleTreeNode;
 
-},{"./TreeNode":94}],94:[function(require,module,exports){
+},{"./TreeNode":102}],102:[function(require,module,exports){
 'use strict';
 /* abstract class */
 
@@ -5578,7 +6030,7 @@ function () {
 
 module.exports = TreeNode;
 
-},{}],95:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -5587,7 +6039,7 @@ module.exports = {
   as: require('./As')
 };
 
-},{"./As":87,"./AsyncObject":88,"./Event":91}],96:[function(require,module,exports){
+},{"./As":95,"./AsyncObject":96,"./Event":99}],104:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5632,7 +6084,7 @@ var DocumentFragmentWithAttributes = function DocumentFragmentWithAttributes(fra
 
 module.exports = DocumentFragmentWithAttributes;
 
-},{}],97:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -5824,7 +6276,7 @@ function () {
 
 module.exports = ElementWithMappedObject;
 
-},{}],98:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5950,7 +6402,7 @@ function () {
 
 module.exports = ElementWithMappedObjectAndAppliedVariables;
 
-},{"./../string/exports":109,"./DocumentFragmentWithAttributes":96,"./ElementWithUpdatedAttributesWithVariablesAndMappedObject":99}],99:[function(require,module,exports){
+},{"./../string/exports":117,"./DocumentFragmentWithAttributes":104,"./ElementWithUpdatedAttributesWithVariablesAndMappedObject":107}],107:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6047,14 +6499,14 @@ function () {
 
 module.exports = ElementWithUpdatedAttributesWithVariablesAndMappedObject;
 
-},{"./../string/exports":109}],100:[function(require,module,exports){
+},{"./../string/exports":117}],108:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   ElementWithMappedObject: require('./ElementWithMappedObject')
 };
 
-},{"./ElementWithMappedObject":97}],101:[function(require,module,exports){
+},{"./ElementWithMappedObject":105}],109:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6079,7 +6531,7 @@ var ShowFileReaderEndEvent = function ShowFileReaderEndEvent(progressBar, filesR
 
 module.exports = ShowFileReaderEndEvent;
 
-},{}],102:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6102,7 +6554,7 @@ var ShowFileReaderProgressEvent = function ShowFileReaderProgressEvent(progressB
 
 module.exports = ShowFileReaderProgressEvent;
 
-},{}],103:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -6171,7 +6623,7 @@ function (_AsyncObject) {
 
 module.exports = ShowProgressEvent;
 
-},{"./../cutie/exports":95}],104:[function(require,module,exports){
+},{"./../cutie/exports":103}],112:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -6180,7 +6632,7 @@ module.exports = {
   ShowProgressEvent: require('./ShowProgressEvent')
 };
 
-},{"./ShowFileReaderEndEvent":101,"./ShowFileReaderProgressEvent":102,"./ShowProgressEvent":103}],105:[function(require,module,exports){
+},{"./ShowFileReaderEndEvent":109,"./ShowFileReaderProgressEvent":110,"./ShowProgressEvent":111}],113:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6197,14 +6649,14 @@ var FileInfo = function FileInfo(name, size, type, content, lastModifiedDate) {
 
 module.exports = FileInfo;
 
-},{}],106:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   FileInfo: require('./FileInfo')
 };
 
-},{"./FileInfo":105}],107:[function(require,module,exports){
+},{"./FileInfo":113}],115:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6239,7 +6691,7 @@ function () {
 
 module.exports = StringBuffer;
 
-},{}],108:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 "use strict";
 'use string';
 
@@ -6365,14 +6817,14 @@ function () {
 
 module.exports = StringWithMappedObjectAndAppliedVariables;
 
-},{}],109:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 "use strict";
 
 module.exports = {
   StringBuffer: require('./StringBuffer')
 };
 
-},{"./StringBuffer":107}],110:[function(require,module,exports){
+},{"./StringBuffer":115}],118:[function(require,module,exports){
 'use strict';
 
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -6520,4 +6972,4 @@ window.turboRedirect = function (target, href) {
   }).value().call();
 };
 
-},{"./actions/exports":17,"./async-ajax/exports":24,"./async-dom/exports":56,"./async-object/exports":74,"./async-string/exports":82,"./cutie/exports":95}]},{},[13,14,15,17,16,23,24,18,19,20,21,22,26,25,27,28,29,30,31,32,39,33,34,35,36,37,38,40,41,56,42,43,44,45,46,47,48,49,50,51,52,53,54,55,59,57,58,60,62,61,66,63,64,65,69,67,68,71,70,72,74,73,79,75,76,77,78,82,80,81,83,84,85,86,87,88,89,90,91,95,92,93,94,96,97,98,99,100,2,3,4,5,6,7,8,9,10,1,11,104,101,102,103,106,105,12,109,107,108,110]);
+},{"./actions/exports":21,"./async-ajax/exports":28,"./async-dom/exports":60,"./async-object/exports":80,"./async-string/exports":90,"./cutie/exports":103}]},{},[17,18,19,21,20,27,28,22,23,24,25,26,30,29,31,32,33,34,35,36,43,37,38,39,40,41,42,44,45,60,46,47,48,49,50,51,52,53,54,55,56,57,58,59,63,61,62,64,66,65,70,67,68,69,75,71,73,72,74,77,76,78,80,79,87,81,82,83,84,85,86,90,88,89,91,92,93,94,95,96,97,98,99,103,100,101,102,104,105,106,107,108,5,4,6,7,8,9,10,11,12,13,14,1,2,3,15,112,109,110,111,114,113,16,117,115,116,118]);

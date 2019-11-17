@@ -491,6 +491,7 @@ iframe {
 }
 
 .form input[type="file"] {
+  cursor: pointer;
   font-size: 12px;
   display: block;
   margin: 0 auto;
@@ -512,6 +513,54 @@ iframe {
   height: 24px;
   display: block;
   margin: 4px auto;
+}
+
+.login-form {
+    width: 250px;
+    height: auto;
+    margin: 1em auto;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 5px;
+    background: #f8f8f8;
+    border-radius: 3px;
+    border: 1px solid #dedede;
+    color: #111111;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 3px;
+    font-size: 1em;
+    outline: none;
+    border-radius: 3px;
+    border: 1px solid #dedede;
+}
+
+#go-button {
+    background: #34495e;
+    color: white;
+}
+
+.mode {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.circle {
+  display: block;
+  text-align: center;
+  border-radius: 50%;
+  margin: 30px auto;
+  width: 100px;
+  height: 100px;
+}
+
+.big-select {
+  display: block;
+  padding: 1em;
+  font-size: 2em;
+  margin: 10px auto;
 }
 
 @media only screen and (min-width: 700px) {

@@ -732,9 +732,20 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
+  <summary><b>reload</b></summary><br>
+  
+  You can reload a page on response:
+
+  ```html
+  data-actions-on-response="reload()"
+  ```
+
+</details>
+
+<details>
   <summary><b>saveToLocalStorage / saveToSessionStorage</b></summary><br>
   
-  You can save some value from the response to the `localStorage` or `sessionStorage`:
+  You can save some value from response to the `localStorage` or `sessionStorage`:
 
   ```html
   data-actions-on-response="
@@ -743,8 +754,19 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   "
   ```
 
-  You can specify headers if you need them, otherwise just put empty object: `{ }`. Also, you can specify optionaly `progressBarPlace`, `progressBarClassName` and `ajaxFavicon` like in the `e-turbolink`.
+</details>
 
+<details>
+  <summary><b>removeFromLocalStorage / removeFromSessionStorage</b></summary><br>
+  
+  You can remove values from the `localStorage` or `sessionStorage` on response:
+
+  ```html
+  data-actions-on-response="
+    removeFromLocalStorage('key');
+    removeFromSessionStorage('key');
+  "
+  ```
 
 </details>
 
@@ -1194,6 +1216,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   ```bash
   Request URL: https://guseyn.com/echo
   Request Method: GET
+  Request Body: {"name":"Guseyn Ismayylov","email":"guseynism@gmail.com","github":"https://github.com/Guseyn","langs":["php","js"],"resume":[{"name":"resume.pdf","size":151153,"type":"application/pdf","content":"data:application/pdf;base64,JVBERi0x...}]}
   -------------------------------------------
   Status Code: 200 ok
   Content-Type: application/json
@@ -1381,6 +1404,243 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
     Or you can specify a string, which would be a base for RegExp with flags `ig`.
   </details>
+
+</details>
+
+# Simple E-GOOGLE-OAUTH-BUTTON
+
+![e-google-oauth-button](https://github.com/Guseyn/EHTML/blob/master/assets/e-google-oauth-button.gif?raw=true)
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: /../google
+  Request Method: GET
+  Request Body: {"googleToken": "<some fetched google token>"}
+  -------------------------------------------
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "jwt": "<some jwt token from your endpoint>"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      
+      <template is="e-if" data-condition-to-display="${localStorage.getItem('jwt') != null}">
+        <div class="response-box">
+          <div class="response-info">
+            <b>Welcome!</b>
+          </div>
+        </div>
+      </template>
+
+      <template is="e-if" data-condition-to-display="${localStorage.getItem('jwt') == null}">
+        <div class="login-form">
+          <input id="email" type="text" name="email" placeholder="My email" class="login-input">
+          <input id="password" type="password" name="password" placeholder="My password" class="login-input">
+          <div id="error" class="error"></div>
+          <input id="go-button" type="button" value="Sign in" class="login-input">
+          <div class="mode">
+            <span id="sign-up" class="as-link">Sign up</span>
+            /
+            <span id="sign-in" class="as-link">Sign in</span>
+          </div>
+        </div>
+
+        <div style="text-align: center; font-family: sans-serif;">or</div>
+
+        <e-google-oauth-button
+          class="customSignIn"
+          data-client-id="8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com"
+          data-redirect-url="/../google"
+          data-cookiepolicy="single_host_origin"
+          data-scope="profile"
+          data-request-token-key="googleToken"
+          data-response-name="responseWithToken"
+          data-actions-on-response="
+            saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
+            reload();
+          "
+        >
+          <span id="google-icon" class="icon"></span>
+          <span class="buttonText">Sign in with Google</span>
+        </e-google-oauth-button>
+      </template>
+    </div>
+  </body>
+  ```
+  ```css
+  .customSignIn {
+      margin: 10px auto;
+      background: white;
+      color: #444;
+      width: 200px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+      display: block;
+  }
+
+  .customSignIn:hover {
+    cursor: pointer;
+  }
+
+  #google-icon {
+    background: url('/../images/g-logo.png') transparent 5px 50% no-repeat;
+  }
+
+  span.icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 48px;
+    height: 48px;
+  }
+
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+    font-family: 'Roboto', sans-serif;
+  }
+  ```
+
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-e-form.html)
+
+</details>
+
+## E-PAGE-WITH-URL
+
+![e-page-with-url](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url.gif?raw=true)
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <template is="e-page-with-url" data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}">
+      <input data-value="${urlParams.one}"/>
+      <input data-value="${urlParams.two}"/>
+      <input data-value="${urlParams.three}"/>
+      <input data-value="${urlParams.query}"/>
+    </template>
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-page-with-url.html)
+
+</details>
+
+## E-PAGE-WITH-URL + E-JSON
+
+![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <template is="e-page-with-url" data-url-pattern="/e-page-url-with-e-json.html?name={name}">
+      <div class="base">
+        <e-json
+          data-src="/../profile?name=${urlParams.name}"
+          data-response-name="profileResponse"
+          data-actions-on-response="mapObjToElm('${profileResponse}', '#profile-template')"
+          data-ajax-icon="#ajax-icon"
+        >
+          <div class="profile-box">
+            <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+            <template id="profile-template" data-object-name="profileResponse">
+              <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 200}">
+                <img class="photo" src="${profileResponse.body.photo}"/>
+                <div class="user-info">
+                  <div class="name" data-text="${profileResponse.body.name}"></div>
+                  <div class="email" data-text="${profileResponse.body.email}"></div>
+                  <div class="other-details">
+                    <div data-text="Age: ${profileResponse.body.age}"></div>
+                    <div data-text="Country: ${profileResponse.body.country}"></div>
+                    <div data-text="Profession: ${profileResponse.body.profession}"></div>
+                  </div>
+                </div>
+              </template>
+              <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 404}">
+                <div class="error-box">
+                  User Not Found
+                </div>
+              </template>
+            </template>
+          </div>
+        </e-json>
+      </div> 
+    </template>
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-page-with-url-and-e-json.html)
+
+</details>
+
+## E-TURBOLINK
+
+![e-turbolink](https://github.com/Guseyn/EHTML/blob/master/assets/e-turbolink.gif?raw=true)
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body>
+    <div style="margin-left: 20px; margin-top: 20px;">
+      <e-turbolink data-href="/../html/big.html" data-with-progress-bar="progress-bar">GO TO NICE PIC</e-turbolink>
+    </div>
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-turbolink.html)
+
+</details>
+
+## E-PAGE-WITH-URL + E-SELECT (with turbo-redirect) 
+
+![e-page-with-url-and-e-select-with-turbo-redirect](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-select-with-turbo-redirect.gif?raw=true)
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <template is="e-page-with-url" data-url-pattern="/turbo-actions.html?color={color}">
+      <div class="base">
+        <e-select
+          class="big-select"
+          name="color" 
+          value="${urlParams.color}"
+          onchange="
+            window.turboRedirect(this, (target) => {
+              return '/../e-page-with-url-and-e-select-with-turbo-redirect.html?color=' + target.value
+            })
+          "
+        >
+          <option value="red" name="color">Red</option>
+          <option value="green" name="color">Green</option>
+          <option value="blue" name="color">Blue</option>
+        </e-select>
+        <div id="color" width="100px;">
+          <div class="circle" style="background: ${urlParams.color};"></div>
+        </div>
+      </div>
+    </template>
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-page-with-url-and-e-select-with-turbo-redirect.html)
 
 </details>
 

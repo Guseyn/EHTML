@@ -86,7 +86,14 @@ class MutationObservation {
   }
 
   nodeName (node) {
-    return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase()
+    if (this.isEPageWithUrl(node)) {
+      return 'e-page-with-url'
+    } else if (this.isEIf(node)) {
+      return 'e-if'
+    } else if (this.isEForEach(node)) {
+      return 'e-for-each'
+    }
+    return node.nodeName.toLowerCase()
   }
 
   isEPageWithUrl (node) {
@@ -97,6 +104,34 @@ class MutationObservation {
       const templateType = node.getAttribute('is')
       if (templateType) {
         return templateType === 'e-page-with-url'
+      }
+      return false
+    }
+    return false
+  }
+
+  isEIf (node) {
+    if (node.nodeName.toLowerCase() === 'e-if') {
+      throw new Error('e-if must be <template>')
+    }
+    if (this.isTemplate(node)) {
+      const templateType = node.getAttribute('is')
+      if (templateType) {
+        return templateType === 'e-if'
+      }
+      return false
+    }
+    return false
+  }
+
+  isEForEach (node) {
+    if (node.nodeName.toLowerCase() === 'e-for-each') {
+      throw new Error('e-for-each must be <template>')
+    }
+    if (this.isTemplate(node)) {
+      const templateType = node.getAttribute('is')
+      if (templateType) {
+        return templateType === 'e-for-each'
       }
       return false
     }

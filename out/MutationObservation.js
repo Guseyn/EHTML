@@ -128,7 +128,15 @@ function () {
   }, {
     key: "nodeName",
     value: function nodeName(node) {
-      return this.isEPageWithUrl(node) ? 'e-page-with-url' : node.nodeName.toLowerCase();
+      if (this.isEPageWithUrl(node)) {
+        return 'e-page-with-url';
+      } else if (this.isEIf(node)) {
+        return 'e-if';
+      } else if (this.isEForEach(node)) {
+        return 'e-for-each';
+      }
+
+      return node.nodeName.toLowerCase();
     }
   }, {
     key: "isEPageWithUrl",
@@ -142,6 +150,44 @@ function () {
 
         if (templateType) {
           return templateType === 'e-page-with-url';
+        }
+
+        return false;
+      }
+
+      return false;
+    }
+  }, {
+    key: "isEIf",
+    value: function isEIf(node) {
+      if (node.nodeName.toLowerCase() === 'e-if') {
+        throw new Error('e-if must be <template>');
+      }
+
+      if (this.isTemplate(node)) {
+        var templateType = node.getAttribute('is');
+
+        if (templateType) {
+          return templateType === 'e-if';
+        }
+
+        return false;
+      }
+
+      return false;
+    }
+  }, {
+    key: "isEForEach",
+    value: function isEForEach(node) {
+      if (node.nodeName.toLowerCase() === 'e-for-each') {
+        throw new Error('e-for-each must be <template>');
+      }
+
+      if (this.isTemplate(node)) {
+        var templateType = node.getAttribute('is');
+
+        if (templateType) {
+          return templateType === 'e-for-each';
         }
 
         return false;
