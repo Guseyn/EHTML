@@ -1277,22 +1277,22 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
           <input
             type="checkbox"
             name="langs"
-            value="php">
+            value="js">
           <span class="lang-option">Ruby</span>
           <input
             type="checkbox"
             name="langs"
-            value="php">
+            value="ruby">
           <span class="lang-option">Python</span>
           <input
             type="checkbox"
             name="langs"
-            value="php">
+            value="python">
           <span class="lang-option">C++</span>
           <input
             type="checkbox"
             name="langs"
-            value="php">
+            value="c++">
 
           <div class="form-label">Your Resume:</div>
           <input
