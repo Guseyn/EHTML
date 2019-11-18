@@ -869,7 +869,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Simple E-HTML page
 
-![e-html](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.png?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-html](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ehtml.png?raw=true)
+
+</details>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -889,7 +894,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## Simple E-JSON
 
-![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ejson-page.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ejson-page.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -950,7 +960,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # E-JSON with progress bar
 
-![e-json-with-progress-bar](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-progress.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-json-with-progress-bar](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-progress.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1005,7 +1020,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # E-JSON with mapped error
 
-![e-json-with-mapped-error](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-error.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-json-with-mapped-error](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-error.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1068,7 +1088,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # Simple E-FOR-EACH
 
-![e-for-each](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-for-each.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-for-each](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-for-each.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1136,7 +1161,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # Simple E-IF
 
-![e-if](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-if.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-if](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-if.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1208,7 +1238,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # Simple E-FORM
 
-![e-form](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-form.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-form](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-form.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1409,7 +1444,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 # Simple E-GOOGLE-OAUTH-BUTTON
 
-![e-google-oauth-button](https://github.com/Guseyn/EHTML/blob/master/assets/e-google-oauth-button.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-google-oauth-button](https://github.com/Guseyn/EHTML/blob/master/assets/e-google-oauth-button.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>response</b></summary><br>
@@ -1544,6 +1584,13 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## E-PAGE-WITH-URL + E-JSON
 
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
+  
+</details>
+
 ![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
 
 <details>
@@ -1592,7 +1639,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## E-TURBOLINK
 
-![e-turbolink](https://github.com/Guseyn/EHTML/blob/master/assets/e-turbolink.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-turbolink](https://github.com/Guseyn/EHTML/blob/master/assets/e-turbolink.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -1610,7 +1662,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## E-PAGE-WITH-URL + E-SELECT (with turbo-redirect) 
 
-![e-page-with-url-and-e-select-with-turbo-redirect](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-select-with-turbo-redirect.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-page-with-url-and-e-select-with-turbo-redirect](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-select-with-turbo-redirect.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -1653,7 +1710,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
   But even now you can build quite interesting things just using simple html: loading pages with some information from endpoints, sending forms, making navigations with turbolinks, making authorization via google and getting url parameters by specified pattern.
 
-  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things using it so easily that no other library can do.
+  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things with it so easily that no other library can do.
 
 </details>
 
