@@ -33,7 +33,7 @@ const watcherEvent = (eventType, fileName) => {
 }
 
 new SpawnedCommand('grunt').after(
-  new ExecutedLint(process, './src', './test', './examples/backend/endpoints', './examples/backend/objects', './examples/backend/server.js').after(
+  new ExecutedLint(process, './src', './examples/backend/endpoints', './examples/backend/objects', './examples/backend/server.js').after(
     new WatcherWithEventTypeAndFilenameListener('./src', { persistent: true, recursive: true, encoding: 'utf8' }, watcherEvent).after(
       new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js').after(
         new Backend(
