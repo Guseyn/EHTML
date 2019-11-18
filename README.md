@@ -11,6 +11,18 @@
 - [Supported elements](#supported-elements)
 - [Supported actions on response](#supported-actions-on-response)
 - [Examples](#examples)
+  - [Simple E-HTML page](#simple-e-html-page)
+  - [Simple E-JSON](#simple-e-json)
+  - [E-JSON with progress bar](#e-json-with-progress-bar)
+  - [E-JSON with mapped error](#e-json-with-mapped-error)
+  - [Simple E-FOR-EACH](#simple-e-for-each)
+  - [Simple E-IF](#simple-e-if)
+  - [Simple E-FORM](#simple-e-form)
+  - [Simple E-GOOGLE-OAUTH-BUTTON](#simple-e-google-oauth-button)
+  - [E-PAGE-WITH-URL](#e-page-with-url)
+  - [E-PAGE-WITH-URL + E-JSON](#e-page-with-url--e-json)
+  - [E-TURBOLINK](#e-turbolink)
+  - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
 
 # Motivation
 
@@ -1563,7 +1575,12 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 ## E-PAGE-WITH-URL
 
-![e-page-with-url](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url.gif?raw=true)
+<details>
+  <summary><b>demo</b></summary><br>
+
+  ![e-page-with-url](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url.gif?raw=true)
+  
+</details>
 
 <details>
   <summary><b>code</b></summary><br>
@@ -1590,8 +1607,6 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   ![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
   
 </details>
-
-![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
 
 <details>
   <summary><b>code</b></summary><br>
