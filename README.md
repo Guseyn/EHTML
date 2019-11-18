@@ -23,7 +23,7 @@
   - [E-PAGE-WITH-URL + E-JSON](#e-page-with-url--e-json)
   - [E-TURBOLINK](#e-turbolink)
   - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
-  - [Answers for potential testimonials](#answers-for-potential-testimonials)
+- [Answers for potential testimonials](#answers-for-potential-testimonials)
   
 # Motivation
 
