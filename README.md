@@ -913,7 +913,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-json](https://github.com/Guseyn/EHTML/blob/master/assets/simple-ejson-page.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=5TSKXw9YOrk" target="_blank">
+    <img src="http://img.youtube.com/vi/5TSKXw9YOrk/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -979,7 +981,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-json-with-progress-bar](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-progress.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=VKoiCNrETng" target="_blank">
+    <img src="http://img.youtube.com/vi/VKoiCNrETng/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1039,7 +1043,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-json-with-mapped-error](https://github.com/Guseyn/EHTML/blob/master/assets/e-json-with-error.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=0g9BkW8Imbk" target="_blank">
+    <img src="http://img.youtube.com/vi/0g9BkW8Imbk/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1107,7 +1113,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-for-each](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-for-each.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=eQYHeahYaYE" target="_blank">
+    <img src="http://img.youtube.com/vi/eQYHeahYaYE/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1180,7 +1188,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-if](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-if.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=sM3IMYrKaHM" target="_blank">
+    <img src="http://img.youtube.com/vi/sM3IMYrKaHM/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1257,7 +1267,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-form](https://github.com/Guseyn/EHTML/blob/master/assets/simple-e-form.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=AwWIe8TK_3U" target="_blank">
+    <img src="http://img.youtube.com/vi/AwWIe8TK_3U/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1462,8 +1474,10 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 <details>
   <summary><b>demo</b></summary><br>
-
-  ![e-google-oauth-button](https://github.com/Guseyn/EHTML/blob/master/assets/e-google-oauth-button.gif?raw=true)
+  
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=NLFdfh0c9xc" target="_blank">
+    <img src="http://img.youtube.com/vi/NLFdfh0c9xc/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1582,7 +1596,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-page-with-url](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=LtEeJy4cB54" target="_blank">
+    <img src="http://img.youtube.com/vi/LtEeJy4cB54/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1608,7 +1624,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-page-with-url-and-e-json](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-json.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=DXOgaIR_d_g" target="_blank">
+    <img src="http://img.youtube.com/vi/DXOgaIR_d_g/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1661,7 +1679,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-turbolink](https://github.com/Guseyn/EHTML/blob/master/assets/e-turbolink.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=Az4dDY1pIpc" target="_blank">
+    <img src="http://img.youtube.com/vi/Az4dDY1pIpc/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
@@ -1684,7 +1704,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 <details>
   <summary><b>demo</b></summary><br>
 
-  ![e-page-with-url-and-e-select-with-turbo-redirect](https://github.com/Guseyn/EHTML/blob/master/assets/e-page-with-url-and-e-select-with-turbo-redirect.gif?raw=true)
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=OxyhTnkAM-o" target="_blank">
+    <img src="http://img.youtube.com/vi/OxyhTnkAM-o/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
   
 </details>
 
