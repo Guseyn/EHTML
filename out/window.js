@@ -118,8 +118,8 @@ window.changeValueOf = function (target, elmSelector, newValue) {
   new ActionByNameWithParams('changeValueOf', elmSelector, retrievedValue(target, newValue)).value().call();
 };
 
-window.mapObjToElm = function (target, obj, elmSelector) {
-  new ActionByNameWithParams('mapObjToElm', retrievedValue(target, obj), elmSelector).value().call();
+window.mapToTemplate = function (target, obj, elmSelector) {
+  new ActionByNameWithParams('mapToTemplate', retrievedValue(target, obj), elmSelector).value().call();
 };
 
 window.toggleElms = function (className) {

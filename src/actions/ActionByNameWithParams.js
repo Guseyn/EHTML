@@ -19,7 +19,7 @@ const actions = {
     return new Logged(...objs)
   },
 
-  mapObjToElm: (obj, elmSelector) => {
+  mapToTemplate: (obj, elmSelector) => {
     return new ElementWithMappedObject(
       new First(
         new ParsedElmSelectors(elmSelector)

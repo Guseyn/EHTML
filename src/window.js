@@ -152,9 +152,9 @@ window.changeValueOf = (target, elmSelector, newValue) => {
   ).value().call()
 }
 
-window.mapObjToElm = (target, obj, elmSelector) => {
+window.mapToTemplate = (target, obj, elmSelector) => {
   new ActionByNameWithParams(
-    'mapObjToElm',
+    'mapToTemplate',
     retrievedValue(target, obj),
     elmSelector
   ).value().call()
