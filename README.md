@@ -154,7 +154,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     data-src="/../album/Humbug"
     data-response-name="albumResponse"
     data-actions-on-response="
-      mapObjToElm('${albumResponse.body}', '#album-info');
+      mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
     <template id="album-info" data-object-name="album">
@@ -170,7 +170,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   </e-json>
   ```
 
-  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have attribute `data-object-name`. This attribute specifies the name of the object that we want to map. It's important to mention that you can map object only to an element, which is in `e-json` that provides the object for mapping and also the mapping element must be `<template>`. More details about actions on response you can find in [this section](#supported-actions-on-response).
+  So, `e-json` has attributes `data-src` which tells us where from we can fetch `json` response. Attribute `data-response-name` specifies the name that we want to use for the response. It contains `body`, `statusCode` and `headers` properties, so you can use them in the attribute `data-actions-on-response`. In this case we just decided to map `body` of our response to the element with id `album-info`, which also must have the attribute `data-object-name`. This attribute specifies the name of the object that we want to map. It's important to mention that you can map object only to `<template>`, which is in `e-json` that provides the object for mapping. More details about actions on response you can find in [this section](#supported-actions-on-response).
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ "headerName": "headerValue", ... }`.
 
@@ -210,7 +210,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     data-src="/../album/Humbug/songs"
     data-response-name="albumResponse"
     data-actions-on-response="
-      mapObjToElm('${albumResponse.body}', '#album-info');
+      mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
     <tempalte id="album-info" data-object-name="album">
@@ -240,7 +240,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     data-src="/../album/Humbug/songs"
     data-response-name="albumResponse"
     data-actions-on-response="
-      mapObjToElm('${albumResponse.body}', '#album-info');
+      mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
     <div>Title: Humbug</div>
@@ -335,7 +335,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     data-src="/../album/Humbug/songs"
     data-response-name="albumResponse"
     data-actions-on-response="
-      mapObjToElm('${albumResponse.body}', '#album-info');
+      mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
     <template id="album-info" data-object-name="album">
@@ -371,7 +371,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
     data-src="/../album/Humbug/songs"
     data-response-name="albumResponse"
     data-actions-on-response="
-      mapObjToElm('${albumResponse.body}', '#album-info');
+      mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
     <div>Title: Humbug</div>
@@ -708,12 +708,12 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>mapObjToElm</b></summary><br>
+  <summary><b>mapToTemplate</b></summary><br>
   
   You can map response object to an element which must be `<template>`.
 
   ```html
-  data-actions-on-response="mapObjToElm('${someResponse.body}', '#someTemplateId')"
+  data-actions-on-response="mapToTemplate('${someResponse.body}', '#someTemplateId')"
   ```
 
   Element with id `someTemplateId` must have `data-object-name`, so you can use object name in the mapping. You can use any selector for the second argument, but this function will only map the first element that was found by the selector you specified.
@@ -847,7 +847,7 @@ You can combine several actions on one response:
 
 ```html
 data-actions-on-response="
-  mapObjToElm('${someResponse.body}', '#box');
+  mapToTemplate('${someResponse.body}', '#box');
   showElms('#box');
   logToConsole('statusCode:', '${someResponse.statusCode}');
 "
@@ -859,8 +859,8 @@ Also, you can use simple `if` statement for each action if you want them to be i
 
 ```html
 data-actions-on-response="
-  if ('${someResponse.statusCode === 200}') mapObjToElm('${someResponse.body}', '#response-box');
-  if ('${someResponse.statusCode !== 200}') mapObjToElm('${someResponse.body}', '#error-box');
+  if ('${someResponse.statusCode === 200}') mapToTemplate('${someResponse.body}', '#response-box');
+  if ('${someResponse.statusCode !== 200}') mapToTemplate('${someResponse.body}', '#error-box');
 "
 ```
 
@@ -950,7 +950,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
       <e-json
         data-src="/../profile?name=John"
         data-response-name="profileResponse"
-        data-actions-on-response="mapObjToElm('${profileResponse.body}', '#profile-template')"
+        data-actions-on-response="mapToTemplate('${profileResponse.body}', '#profile-template')"
         data-ajax-icon="#ajax-icon"
       >
         <div class="profile-box">
@@ -1011,7 +1011,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
         data-src="https://guseyn.com/bigjson"
         data-response-name="response"
         data-progress-bar="#progress-bar"
-        data-actions-on-response="mapObjToElm('${response}', '#response-template')"
+        data-actions-on-response="mapToTemplate('${response}', '#response-template')"
       >
         <div class="response-box">
           <progress id="progress-bar"></progress>
@@ -1075,7 +1075,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
       <e-json
         data-src="/../profile?name=Unknown"
         data-response-name="profileResponse"
-        data-actions-on-response="mapObjToElm('${profileResponse}', '#profile-template')"
+        data-actions-on-response="mapToTemplate('${profileResponse}', '#profile-template')"
         data-ajax-icon="#ajax-icon"
       >
         <div class="profile-box">
@@ -1153,7 +1153,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
       <e-json
         data-src="/../playlist"
         data-response-name="response"
-        data-actions-on-response="mapObjToElm('${response.body}', '#response-template')"
+        data-actions-on-response="mapToTemplate('${response.body}', '#response-template')"
         data-ajax-icon="#ajax-icon"
       >
         <div class="response-box">
@@ -1228,7 +1228,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
       <e-json
         data-src="/../playlist"
         data-response-name="response"
-        data-actions-on-response="mapObjToElm('${response.body}', '#response-template')"
+        data-actions-on-response="mapToTemplate('${response.body}', '#response-template')"
         data-ajax-icon="#ajax-icon"
       >
         <div class="response-box">
@@ -1405,7 +1405,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
             data-actions-on-response="
               hideElms('#form-content');
               showElms('.applying-response-box');
-              mapObjToElm('${response}', '#response-template');
+              mapToTemplate('${response}', '#response-template');
             ">
             Apply
           </button>
@@ -1640,7 +1640,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
         <e-json
           data-src="/../profile?name=${urlParams.name}"
           data-response-name="profileResponse"
-          data-actions-on-response="mapObjToElm('${profileResponse}', '#profile-template')"
+          data-actions-on-response="mapToTemplate('${profileResponse}', '#profile-template')"
           data-ajax-icon="#ajax-icon"
         >
           <div class="profile-box">

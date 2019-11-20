@@ -1573,7 +1573,7 @@ var actions = {
 
     return _construct(Logged, objs);
   },
-  mapObjToElm: function mapObjToElm(obj, elmSelector) {
+  mapToTemplate: function mapToTemplate(obj, elmSelector) {
     return new ElementWithMappedObject(new First(new ParsedElmSelectors(elmSelector)), obj);
   },
   redirect: function redirect(url) {
@@ -6326,8 +6326,8 @@ window.changeValueOf = function (target, elmSelector, newValue) {
   new ActionByNameWithParams('changeValueOf', elmSelector, retrievedValue(target, newValue)).value().call();
 };
 
-window.mapObjToElm = function (target, obj, elmSelector) {
-  new ActionByNameWithParams('mapObjToElm', retrievedValue(target, obj), elmSelector).value().call();
+window.mapToTemplate = function (target, obj, elmSelector) {
+  new ActionByNameWithParams('mapToTemplate', retrievedValue(target, obj), elmSelector).value().call();
 };
 
 window.toggleElms = function (className) {
