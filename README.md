@@ -976,7 +976,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# E-JSON with progress bar
+## E-JSON with progress bar
 
 <details>
   <summary><b>demo</b></summary><br>
@@ -1038,7 +1038,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# E-JSON with mapped error
+## E-JSON with mapped error
 
 <details>
   <summary><b>demo</b></summary><br>
@@ -1108,7 +1108,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Simple E-FOR-EACH
+## Simple E-FOR-EACH
 
 <details>
   <summary><b>demo</b></summary><br>
@@ -1183,7 +1183,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Simple E-IF
+## Simple E-IF
 
 <details>
   <summary><b>demo</b></summary><br>
@@ -1262,7 +1262,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Simple E-FORM
+## Simple E-FORM
 
 <details>
   <summary><b>demo</b></summary><br>
@@ -1470,7 +1470,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Simple E-GOOGLE-OAUTH-BUTTON
+## Simple E-GOOGLE-OAUTH-BUTTON
 
 <details>
   <summary><b>demo</b></summary><br>
