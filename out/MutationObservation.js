@@ -128,66 +128,28 @@ function () {
   }, {
     key: "nodeName",
     value: function nodeName(node) {
-      if (this.isEPageWithUrl(node)) {
+      if (this.isTemplateWithType(node, 'e-page-with-url')) {
         return 'e-page-with-url';
-      } else if (this.isEIf(node)) {
+      } else if (this.isTemplateWithType(node, 'e-if')) {
         return 'e-if';
-      } else if (this.isEForEach(node)) {
+      } else if (this.isTemplateWithType(node, 'e-for-each')) {
         return 'e-for-each';
       }
 
       return node.nodeName.toLowerCase();
     }
   }, {
-    key: "isEPageWithUrl",
-    value: function isEPageWithUrl(node) {
-      if (node.nodeName.toLowerCase() === 'e-page-with-url') {
-        throw new Error('e-page-with-url must be <template>');
+    key: "isTemplateWithType",
+    value: function isTemplateWithType(node, type) {
+      if (node.nodeName.toLowerCase() === type) {
+        throw new Error("".concat(type, " must be <template>"));
       }
 
       if (this.isTemplate(node)) {
         var templateType = node.getAttribute('is');
 
         if (templateType) {
-          return templateType === 'e-page-with-url';
-        }
-
-        return false;
-      }
-
-      return false;
-    }
-  }, {
-    key: "isEIf",
-    value: function isEIf(node) {
-      if (node.nodeName.toLowerCase() === 'e-if') {
-        throw new Error('e-if must be <template>');
-      }
-
-      if (this.isTemplate(node)) {
-        var templateType = node.getAttribute('is');
-
-        if (templateType) {
-          return templateType === 'e-if';
-        }
-
-        return false;
-      }
-
-      return false;
-    }
-  }, {
-    key: "isEForEach",
-    value: function isEForEach(node) {
-      if (node.nodeName.toLowerCase() === 'e-for-each') {
-        throw new Error('e-for-each must be <template>');
-      }
-
-      if (this.isTemplate(node)) {
-        var templateType = node.getAttribute('is');
-
-        if (templateType) {
-          return templateType === 'e-for-each';
+          return templateType === type;
         }
 
         return false;
