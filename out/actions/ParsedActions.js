@@ -118,12 +118,19 @@ function () {
           return param;
         }
 
-        return param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+        var value = param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
           // eslint-disable-next-line no-eval
-          return eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
             return p1;
           }), "\n        "));
+          return JSON.stringify(value);
         });
+
+        try {
+          return JSON.parse(value);
+        } catch (err) {
+          return value;
+        }
       }
 
       if (_typeof(param) === 'object') {
