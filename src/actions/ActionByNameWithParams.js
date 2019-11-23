@@ -2,7 +2,7 @@
 
 const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
-const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ParsedElmSelectors } = require('./../async-dom/exports')
+const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ElementWithChangedAttribute, ParsedElmSelectors } = require('./../async-dom/exports')
 const { Logged } = require('./../async-log/exports')
 const { If } = require('./../async-if-else/exports')
 const { RedirectedLocation, ReloadedLocation, TurboRedirected } = require('./../async-location/exports')
@@ -144,6 +144,16 @@ const actions = {
         new ParsedElmSelectors(elmSelector)
       ),
       newValue
+    )
+  },
+
+  updateAttribute: (elmSelector, attrName, attrValue) => {
+    return new ElementWithChangedAttribute(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      attrName,
+      attrValue
     )
   }
 }

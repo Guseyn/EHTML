@@ -841,6 +841,17 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 </details>
 
+<details>
+  <summary><b>updateAttribute</b> (v1.0.2)</summary><br>
+  
+  You can update an attribute of some element on response:
+
+  ```html
+  data-actions-on-response="updateAttribute('#someElmSelector', 'attrName', 'newAttrValue')"
+  ```
+
+</details>
+
 ##
 
 You can combine several actions on one response:

@@ -6,6 +6,7 @@ module.exports = {
   DisabledElement: require('./DisabledElement'),
   DisabledElements: require('./DisabledElements'),
   ElementWithAdditionalHTML: require('./ElementWithAdditionalHTML'),
+  ElementWithChangedAttribute: require('./ElementWithChangedAttribute'),
   ElementWithChangedValue: require('./ElementWithChangedValue'),
   ElementWithInnerHTML: require('./ElementWithInnerHTML'),
   ElementWithMappedObject: require('./ElementWithMappedObject'),

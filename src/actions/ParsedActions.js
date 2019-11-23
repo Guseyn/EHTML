@@ -74,11 +74,13 @@ class ParsedActions {
       if (!/\$\{([^${}]+)\}/g.test(param)) {
         return param
       }
-      // eslint-disable-next-line no-eval
-      return eval(`
-        const ${resName} = resObj
-        ${param.replace(/\$\{([^${}]+)\}/g, (match, p1) => { return p1 })}
-      `)
+      return param.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+        // eslint-disable-next-line no-eval
+        return eval(`
+          const ${resName} = resObj
+          ${match.replace(/^\$\{([^${}]+)\}$/g, (match, p1) => { return p1 })}
+        `)
+      })
     }
     if (typeof param === 'object') {
       for (let key in param) {
