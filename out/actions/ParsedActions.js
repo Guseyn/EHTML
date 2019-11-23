@@ -116,12 +116,14 @@ function () {
       if (typeof param === 'string') {
         if (!/\$\{([^${}]+)\}/g.test(param)) {
           return param;
-        } // eslint-disable-next-line no-eval
+        }
 
-
-        return eval("\n        const ".concat(resName, " = resObj\n        ").concat(param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
-          return p1;
-        }), "\n      "));
+        return param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+          // eslint-disable-next-line no-eval
+          return eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+            return p1;
+          }), "\n        "));
+        });
       }
 
       if (_typeof(param) === 'object') {

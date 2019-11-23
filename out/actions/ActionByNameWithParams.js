@@ -38,6 +38,7 @@ var _require3 = require('./../async-dom/exports'),
     ElementWithMappedObject = _require3.ElementWithMappedObject,
     ElementsWithToggledClass = _require3.ElementsWithToggledClass,
     ElementWithChangedValue = _require3.ElementWithChangedValue,
+    ElementWithChangedAttribute = _require3.ElementWithChangedAttribute,
     ParsedElmSelectors = _require3.ParsedElmSelectors;
 
 var _require4 = require('./../async-log/exports'),
@@ -153,6 +154,9 @@ var actions = {
   },
   changeValueOf: function changeValueOf(elmSelector, newValue) {
     return new ElementWithChangedValue(new First(new ParsedElmSelectors(elmSelector)), newValue);
+  },
+  updateAttribute: function updateAttribute(elmSelector, attrName, attrValue) {
+    return new ElementWithChangedAttribute(new First(new ParsedElmSelectors(elmSelector)), attrName, attrValue);
   }
 };
 
