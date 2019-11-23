@@ -279,7 +279,6 @@ class E_FORM extends E {
     if (validationPatternAttribute) {
       const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
       if (!validationPattern.test(value)) {
-        console.log(value)
         form.showErrorForFormElement(
           form,
           element,
