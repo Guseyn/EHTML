@@ -31,7 +31,7 @@ class ElementWithMappedObject {
         } else {
           this.iterateAttributes(
             node, (attr) => {
-              if (/\$\{([^${}]+)\}/g.test(attr.value)) {
+              if (this.isForProcessing(attr)) {
                 node.setAttribute(
                   attr.name,
                   // eslint-disable-next-line no-eval
@@ -78,6 +78,15 @@ class ElementWithMappedObject {
         func(attr)
       })
     }
+  }
+
+  isForProcessing (attr) {
+    return [
+      'data-actions-on-response',
+      'data-list-to-iterate',
+      'data-item-name'
+    ].indexOf(attr.name) === -1 &&
+      /\$\{([^${}]+)\}/g.test(attr.value)
   }
 
   isTemplate (node) {

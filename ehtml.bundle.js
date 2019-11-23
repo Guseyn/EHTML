@@ -1893,7 +1893,12 @@ function () {
           var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
             return p1;
           }), "\n        "));
-          return JSON.stringify(value);
+
+          if (_typeof(value) === 'object') {
+            return JSON.stringify(value);
+          }
+
+          return value;
         });
 
         try {
@@ -5892,7 +5897,7 @@ function () {
           _this.activateEIf(node, obj, initialization);
         } else {
           _this.iterateAttributes(node, function (attr) {
-            if (/\$\{([^${}]+)\}/g.test(attr.value)) {
+            if (_this.isForProcessing(attr)) {
               node.setAttribute(attr.name, // eslint-disable-next-line no-eval
               _this.appliedExpressionsInString(attr.value, initialization, obj));
             }
@@ -5938,6 +5943,11 @@ function () {
           func(attr);
         });
       }
+    }
+  }, {
+    key: "isForProcessing",
+    value: function isForProcessing(attr) {
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
     }
   }, {
     key: "isTemplate",

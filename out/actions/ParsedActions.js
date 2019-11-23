@@ -123,7 +123,12 @@ function () {
           var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
             return p1;
           }), "\n        "));
-          return JSON.stringify(value);
+
+          if (_typeof(value) === 'object') {
+            return JSON.stringify(value);
+          }
+
+          return value;
         });
 
         try {
