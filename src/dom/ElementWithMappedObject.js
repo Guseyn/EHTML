@@ -7,6 +7,9 @@ class ElementWithMappedObject {
   }
 
   value () {
+    if (this.elm == null) {
+      throw new Error('Mapping element is not found')
+    }
     if (!this.isTemplate(this.elm)) {
       throw new Error('Mapping element must be <template>')
     }
