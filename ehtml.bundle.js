@@ -90,7 +90,7 @@ var _require9 = require('./../events/exports'),
     ShowFileReaderEndEvent = _require9.ShowFileReaderEndEvent;
 
 var VALIDATION_PATTERNS = {
-  date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
+  date: /\d\d\d\d-\d\d-\d\d/,
   dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
   email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   month: /^\d\d\d\d-\d\d$/,
@@ -305,6 +305,7 @@ function (_E) {
         var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig');
 
         if (!validationPattern.test(value)) {
+          console.log(value);
           form.showErrorForFormElement(form, element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }

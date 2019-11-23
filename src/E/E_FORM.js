@@ -12,7 +12,7 @@ const { FileInfo } = require('./../file/exports')
 const { ShowProgressEvent, ShowFileReaderProgressEvent, ShowFileReaderEndEvent } = require('./../events/exports')
 
 const VALIDATION_PATTERNS = {
-  date: /[0-3]\d\/[0-1]\d\/\d\d\d\d/,
+  date: /\d\d\d\d-\d\d-\d\d/,
   dateTime: /[0-3]\d\/[0-1]\d\/\d\d\d\d, \d\d:\d\d/,
   email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   month: /^\d\d\d\d-\d\d$/,
@@ -279,6 +279,7 @@ class E_FORM extends E {
     if (validationPatternAttribute) {
       const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
       if (!validationPattern.test(value)) {
+        console.log(value)
         form.showErrorForFormElement(
           form,
           element,
