@@ -80,7 +80,10 @@ class ParsedActions {
           const ${resName} = resObj
           ${match.replace(/^\$\{([^${}]+)\}$/g, (match, p1) => { return p1 })}
         `)
-        return JSON.stringify(value)
+        if (typeof value === 'object') {
+          return JSON.stringify(value)
+        }
+        return value
       })
       try {
         return JSON.parse(value)
