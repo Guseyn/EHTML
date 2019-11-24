@@ -21,7 +21,7 @@
   - [Simple E-FOR-EACH](#simple-e-for-each)
   - [Simple E-IF](#simple-e-if)
   - [Simple E-FORM](#simple-e-form)
-  - [E-REUSABLE with E-FORM](#e-reusable-with-e-form)
+  - [E-REUSABLE with E-FORM](#e-reusable-template-with-e-form)
   - [Simple E-GOOGLE-OAUTH-BUTTON](#simple-e-google-oauth-button)
   - [E-PAGE-WITH-URL](#e-page-with-url)
   - [E-PAGE-WITH-URL + E-JSON](#e-page-with-url--e-json)
@@ -485,7 +485,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
    So, the main difference between "reusable" template and other types of templates is that "reusable" template is not getting removed from the DOM, so you can use it several times.
 
-   More details you cand in the [examples](#e-reusable-with-e-form).
+   More details you cand in the [examples](#e-reusable-template-with-e-form).
 
 </details>
 
