@@ -39,7 +39,8 @@ var _require3 = require('./../async-dom/exports'),
     ElementsWithToggledClass = _require3.ElementsWithToggledClass,
     ElementWithChangedValue = _require3.ElementWithChangedValue,
     ElementWithChangedAttribute = _require3.ElementWithChangedAttribute,
-    ParsedElmSelectors = _require3.ParsedElmSelectors;
+    ParsedElmSelectors = _require3.ParsedElmSelectors,
+    RemovedElements = _require3.RemovedElements;
 
 var _require4 = require('./../async-log/exports'),
     Logged = _require4.Logged;
@@ -136,9 +137,16 @@ var actions = {
 
     return new EnabledElements(_construct(ParsedElmSelectors, elmSelectors));
   },
+  removeElms: function removeElms() {
+    for (var _len6 = arguments.length, elmSelectors = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+      elmSelectors[_key6] = arguments[_key6];
+    }
+
+    return new RemovedElements(_construct(ParsedElmSelectors, elmSelectors));
+  },
   toggleElms: function toggleElms(className) {
-    for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-      elmSelectors[_key6 - 1] = arguments[_key6];
+    for (var _len7 = arguments.length, elmSelectors = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+      elmSelectors[_key7 - 1] = arguments[_key7];
     }
 
     return new ElementsWithToggledClass(className, _construct(ParsedElmSelectors, elmSelectors));
@@ -168,8 +176,8 @@ function () {
 
     this.name = name;
 
-    for (var _len7 = arguments.length, params = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-      params[_key7 - 1] = arguments[_key7];
+    for (var _len8 = arguments.length, params = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
+      params[_key8 - 1] = arguments[_key8];
     }
 
     this.params = params;

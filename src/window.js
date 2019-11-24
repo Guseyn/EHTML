@@ -117,6 +117,13 @@ window.enableElms = (...elmSelectors) => {
   ).value().call()
 }
 
+window.removeElms = (...elmSelectors) => {
+  new ActionByNameWithParams(
+    'removeElms',
+    ...elmSelectors
+  ).value().call()
+}
+
 window.innerHTML = (target, elm, url, headers) => {
   new ActionByNameWithParams(
     'innerHTML',
@@ -148,6 +155,15 @@ window.changeValueOf = (target, elmSelector, newValue) => {
   new ActionByNameWithParams(
     'changeValueOf',
     elmSelector,
+    retrievedValue(target, newValue)
+  ).value().call()
+}
+
+window.updateAttribute = (target, elmSelector, attrName, newValue) => {
+  new ActionByNameWithParams(
+    'updateAttribute',
+    elmSelector,
+    attrName,
     retrievedValue(target, newValue)
   ).value().call()
 }
