@@ -102,6 +102,14 @@ window.enableElms = function () {
   _construct(ActionByNameWithParams, ['enableElms'].concat(elmSelectors)).value().call();
 };
 
+window.removeElms = function () {
+  for (var _len5 = arguments.length, elmSelectors = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+    elmSelectors[_key5] = arguments[_key5];
+  }
+
+  _construct(ActionByNameWithParams, ['removeElms'].concat(elmSelectors)).value().call();
+};
+
 window.innerHTML = function (target, elm, url, headers) {
   new ActionByNameWithParams('innerHTML', retrievedValue(target, elm), retrievedValue(target, url), retrievedValue(target, headers)).value().call();
 };
@@ -118,13 +126,17 @@ window.changeValueOf = function (target, elmSelector, newValue) {
   new ActionByNameWithParams('changeValueOf', elmSelector, retrievedValue(target, newValue)).value().call();
 };
 
+window.updateAttribute = function (target, elmSelector, attrName, newValue) {
+  new ActionByNameWithParams('updateAttribute', elmSelector, attrName, retrievedValue(target, newValue)).value().call();
+};
+
 window.mapToTemplate = function (target, obj, elmSelector) {
   new ActionByNameWithParams('mapToTemplate', retrievedValue(target, obj), elmSelector).value().call();
 };
 
 window.toggleElms = function (className) {
-  for (var _len5 = arguments.length, elmSelectors = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-    elmSelectors[_key5 - 1] = arguments[_key5];
+  for (var _len6 = arguments.length, elmSelectors = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+    elmSelectors[_key6 - 1] = arguments[_key6];
   }
 
   _construct(ActionByNameWithParams, ['toggleElms', className].concat(elmSelectors)).value().call();

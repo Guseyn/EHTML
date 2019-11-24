@@ -508,13 +508,6 @@ iframe {
   font-size: 14px;
 }
 
-#ajaxIcon {
-  width: 24px;
-  height: 24px;
-  display: block;
-  margin: 4px auto;
-}
-
 .login-form {
     width: 250px;
     height: auto;

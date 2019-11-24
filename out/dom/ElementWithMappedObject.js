@@ -38,8 +38,35 @@ function () {
 
       var initialization = "const ".concat(objName, " = obj");
       this.map(elmContentNode, this.obj, initialization);
-      this.elm.parentNode.replaceChild(elmContentNode, this.elm);
+      this.releaseTemplate(elmContentNode);
       return this.elm;
+    }
+  }, {
+    key: "releaseTemplate",
+    value: function releaseTemplate(elmContentNode) {
+      if (this.isTemplate(this.elm, 'e-reusable')) {
+        if (this.elm.hasAttribute('data-prepend-to')) {
+          var parentNode = document.querySelector(this.elm.getAttribute('data-prepend-to'));
+
+          if (!parentNode) {
+            throw new Error('element is not found by the selector in the attribute "data-prepend-to"');
+          }
+
+          parentNode.prepend(elmContentNode);
+        } else if (this.elm.hasAttribute('data-append-to')) {
+          var _parentNode = document.querySelector(this.elm.getAttribute('data-append-to'));
+
+          if (!_parentNode) {
+            throw new Error('element is not found by the selector in the attribute "data-append-to"');
+          }
+
+          _parentNode.append(elmContentNode);
+        } else {
+          this.elm.parentNode.insertBefore(elmContentNode, this.elm);
+        }
+      } else {
+        this.elm.parentNode.replaceChild(elmContentNode, this.elm);
+      }
     }
   }, {
     key: "map",
@@ -47,9 +74,9 @@ function () {
       var _this = this;
 
       this.iterateChildNodes(elm, function (node) {
-        if (_this.isEForEach(node)) {
+        if (_this.isTemplate(node, 'e-for-each')) {
           _this.activateEForEach(node, obj, initialization);
-        } else if (_this.isEIf(node)) {
+        } else if (_this.isTemplate(node, 'e-if')) {
           _this.activateEIf(node, obj, initialization);
         } else {
           _this.iterateAttributes(node, function (attr) {
@@ -107,18 +134,14 @@ function () {
     }
   }, {
     key: "isTemplate",
-    value: function isTemplate(node) {
-      return node.nodeName.toLowerCase() === 'template';
-    }
-  }, {
-    key: "isEForEach",
-    value: function isEForEach(node) {
-      return this.isTemplate(node) && node.getAttribute('is') === 'e-for-each';
-    }
-  }, {
-    key: "isEIf",
-    value: function isEIf(node) {
-      return this.isTemplate(node) && node.getAttribute('is') === 'e-if';
+    value: function isTemplate(node, type) {
+      var nodeName = node.nodeName.toLowerCase();
+
+      if (!type) {
+        return nodeName === 'template';
+      }
+
+      return nodeName === 'template' && node.getAttribute('is') === type;
     }
   }, {
     key: "activateEIf",

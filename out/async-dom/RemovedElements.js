@@ -18,70 +18,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var E = require('./E');
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
 
-var E_PAGE_WITH_URL =
+var RemovedElements =
 /*#__PURE__*/
-function (_E) {
-  _inherits(E_PAGE_WITH_URL, _E);
+function (_AsyncObject) {
+  _inherits(RemovedElements, _AsyncObject);
 
-  function E_PAGE_WITH_URL(node) {
-    _classCallCheck(this, E_PAGE_WITH_URL);
+  function RemovedElements(elms) {
+    _classCallCheck(this, RemovedElements);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(E_PAGE_WITH_URL).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(RemovedElements).call(this, elms));
   }
 
-  _createClass(E_PAGE_WITH_URL, [{
-    key: "activate",
-    value: function activate() {
-      var urlParams = {};
-      var urlPattern = this.node.getAttribute('data-url-pattern');
-      var parsedUrlPattern = this.parsedUrlPattern(urlPattern);
-      var locationPath = window.location.pathname;
-      var locationSearch = window.location.search;
-      var localtionPathParts = locationPath.split(/\//g).filter(function (part) {
-        return part !== '';
-      });
-      var locationRequestParams = this.requestParamsOfLocationSearch(locationSearch);
-      parsedUrlPattern.pathVariables.forEach(function (variable, index) {
-        if (/^\{([^{}\s.]+)}$/g.test(variable)) {
-          urlParams[/^\{([^{}\s.]+)}$/g.exec(variable)[1]] = localtionPathParts[index];
-        }
-      });
-      parsedUrlPattern.requestParams.forEach(function (param) {
-        if (/^\{([^{}\s.]+)}$/g.test(param)) {
-          var key = /^\{([^{}\s.]+)}$/g.exec(param)[1];
-          urlParams[key] = locationRequestParams[key];
-        }
-      });
-      window.urlParams = urlParams;
-      this.node.parentNode.replaceChild(document.importNode(this.node.content, true), this.node);
-    }
-  }, {
-    key: "parsedUrlPattern",
-    value: function parsedUrlPattern(url) {
-      return {
-        pathVariables: url.split(/\?/g)[0].split(/\//g).filter(function (part) {
-          return part !== '';
-        }),
-        requestParams: url.split(/\?/g)[1].split(/&/g).filter(function (part) {
-          return part !== '';
-        })
+  _createClass(RemovedElements, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (elms) {
+        elms.forEach(function (elm) {
+          elm.parentNode.removeChild(elm);
+        });
+        return elms;
       };
-    }
-  }, {
-    key: "requestParamsOfLocationSearch",
-    value: function requestParamsOfLocationSearch(locationSearch) {
-      var requestParams = {};
-      locationSearch.split('?')[1].split('&').forEach(function (exp) {
-        var parts = exp.split('=');
-        requestParams[parts[0]] = parts[1];
-      });
-      return requestParams;
     }
   }]);
 
-  return E_PAGE_WITH_URL;
-}(E);
+  return RemovedElements;
+}(AsyncObject);
 
-module.exports = E_PAGE_WITH_URL;
+module.exports = RemovedElements;

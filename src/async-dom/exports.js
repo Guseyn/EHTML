@@ -22,6 +22,7 @@ module.exports = {
   ParsedElmSelectors: require('./ParsedElmSelectors'),
   PreparedProgressBar: require('./PreparedProgressBar'),
   PreparedProgressBars: require('./PreparedProgressBars'),
+  RemovedElements: require('./RemovedElements'),
   ReplacedElementWithAnotherOne: require('./ReplacedElementWithAnotherOne'),
   ShownElement: require('./ShownElement'),
   ShownElements: require('./ShownElements'),

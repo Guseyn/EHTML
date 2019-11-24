@@ -20,16 +20,38 @@ class ElementWithMappedObject {
     }
     const initialization = `const ${objName} = obj`
     this.map(elmContentNode, this.obj, initialization)
-    this.elm.parentNode.replaceChild(elmContentNode, this.elm)
+    this.releaseTemplate(elmContentNode)
     return this.elm
+  }
+
+  releaseTemplate (elmContentNode) {
+    if (this.isTemplate(this.elm, 'e-reusable')) {
+      if (this.elm.hasAttribute('data-prepend-to')) {
+        const parentNode = document.querySelector(this.elm.getAttribute('data-prepend-to'))
+        if (!parentNode) {
+          throw new Error('element is not found by the selector in the attribute "data-prepend-to"')
+        }
+        parentNode.prepend(elmContentNode)
+      } else if (this.elm.hasAttribute('data-append-to')) {
+        const parentNode = document.querySelector(this.elm.getAttribute('data-append-to'))
+        if (!parentNode) {
+          throw new Error('element is not found by the selector in the attribute "data-append-to"')
+        }
+        parentNode.append(elmContentNode)
+      } else {
+        this.elm.parentNode.insertBefore(elmContentNode, this.elm)
+      }
+    } else {
+      this.elm.parentNode.replaceChild(elmContentNode, this.elm)
+    }
   }
 
   map (elm, obj, initialization) {
     this.iterateChildNodes(
       elm, (node) => {
-        if (this.isEForEach(node)) {
+        if (this.isTemplate(node, 'e-for-each')) {
           this.activateEForEach(node, obj, initialization)
-        } else if (this.isEIf(node)) {
+        } else if (this.isTemplate(node, 'e-if')) {
           this.activateEIf(node, obj, initialization)
         } else {
           this.iterateAttributes(
@@ -92,16 +114,12 @@ class ElementWithMappedObject {
       /\$\{([^${}]+)\}/g.test(attr.value)
   }
 
-  isTemplate (node) {
-    return node.nodeName.toLowerCase() === 'template'
-  }
-
-  isEForEach (node) {
-    return this.isTemplate(node) && node.getAttribute('is') === 'e-for-each'
-  }
-
-  isEIf (node) {
-    return this.isTemplate(node) && node.getAttribute('is') === 'e-if'
+  isTemplate (node, type) {
+    const nodeName = node.nodeName.toLowerCase()
+    if (!type) {
+      return nodeName === 'template'
+    }
+    return nodeName === 'template' && node.getAttribute('is') === type
   }
 
   activateEIf (node, obj, initialization) {

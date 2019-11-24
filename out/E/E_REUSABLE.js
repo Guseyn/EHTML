@@ -20,68 +20,25 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var E = require('./E');
 
-var E_PAGE_WITH_URL =
+var E_REUSABLE =
 /*#__PURE__*/
 function (_E) {
-  _inherits(E_PAGE_WITH_URL, _E);
+  _inherits(E_REUSABLE, _E);
 
-  function E_PAGE_WITH_URL(node) {
-    _classCallCheck(this, E_PAGE_WITH_URL);
+  function E_REUSABLE(node) {
+    _classCallCheck(this, E_REUSABLE);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(E_PAGE_WITH_URL).call(this, node));
+    return _possibleConstructorReturn(this, _getPrototypeOf(E_REUSABLE).call(this, node));
   }
 
-  _createClass(E_PAGE_WITH_URL, [{
+  _createClass(E_REUSABLE, [{
     key: "activate",
     value: function activate() {
-      var urlParams = {};
-      var urlPattern = this.node.getAttribute('data-url-pattern');
-      var parsedUrlPattern = this.parsedUrlPattern(urlPattern);
-      var locationPath = window.location.pathname;
-      var locationSearch = window.location.search;
-      var localtionPathParts = locationPath.split(/\//g).filter(function (part) {
-        return part !== '';
-      });
-      var locationRequestParams = this.requestParamsOfLocationSearch(locationSearch);
-      parsedUrlPattern.pathVariables.forEach(function (variable, index) {
-        if (/^\{([^{}\s.]+)}$/g.test(variable)) {
-          urlParams[/^\{([^{}\s.]+)}$/g.exec(variable)[1]] = localtionPathParts[index];
-        }
-      });
-      parsedUrlPattern.requestParams.forEach(function (param) {
-        if (/^\{([^{}\s.]+)}$/g.test(param)) {
-          var key = /^\{([^{}\s.]+)}$/g.exec(param)[1];
-          urlParams[key] = locationRequestParams[key];
-        }
-      });
-      window.urlParams = urlParams;
-      this.node.parentNode.replaceChild(document.importNode(this.node.content, true), this.node);
-    }
-  }, {
-    key: "parsedUrlPattern",
-    value: function parsedUrlPattern(url) {
-      return {
-        pathVariables: url.split(/\?/g)[0].split(/\//g).filter(function (part) {
-          return part !== '';
-        }),
-        requestParams: url.split(/\?/g)[1].split(/&/g).filter(function (part) {
-          return part !== '';
-        })
-      };
-    }
-  }, {
-    key: "requestParamsOfLocationSearch",
-    value: function requestParamsOfLocationSearch(locationSearch) {
-      var requestParams = {};
-      locationSearch.split('?')[1].split('&').forEach(function (exp) {
-        var parts = exp.split('=');
-        requestParams[parts[0]] = parts[1];
-      });
-      return requestParams;
+      throw new Error('You can use e-reusable only for mapping objects in the attribute "data-actions-on-response", probably in the future there will be elements that would help you map global elements');
     }
   }]);
 
-  return E_PAGE_WITH_URL;
+  return E_REUSABLE;
 }(E);
 
-module.exports = E_PAGE_WITH_URL;
+module.exports = E_REUSABLE;

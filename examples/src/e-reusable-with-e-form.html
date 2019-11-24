@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-reusable.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-json page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <style type="text/css">
+      .elm-error {
+        border: 1px solid red;
+      }
+
+      .message-error {
+        color: red;
+      }
+
+      .form-message-error {
+        text-align: center;
+        color: red;
+        font-family: sans-serif;
+      }
+
+      .name {
+        margin-top: 15px;
+      }
+
+      .response-info {
+        margin-top: 5px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <e-form
+        class="form"
+        id="form"
+        data-validation-error-message="Enter correct data into the form, please"
+        data-validation-error-class-for-message-box="form-message-error">
+
+        <div id="form-content">
+          <div class="form-label">Item name:</div>
+          <input
+            type="text"
+            name="name"
+            class="form-input"
+            required
+            data-validation-pattern="^[a-z ,.'-]+$"
+            data-validation-bad-format-error-message="Item name can contain only alphabetic characters"
+            data-validation-absence-error-message="Item name is required"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+
+          <button
+            data-request-url="https://guseyn.com/echo"
+            data-request-method="POST"
+            data-ajax-icon="#ajax-icon"
+            data-response-name="response"
+            onclick="this.form.submit(this)"
+            data-actions-on-response="
+              mapToTemplate('${response}', '#response-template');
+            ">
+            Add Item
+          </button>
+
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </div>
+
+        <div class="applying-response-box">
+          <div class="name">
+            Items:
+          </div>
+          <div class="response-info">
+            <span>item with name: <b>default</b></span>
+          </div>
+          <template id="response-template" is="e-reusable" data-object-name="response">
+            <div class="response-info">
+              <span>item with name <b data-text="${response.body.name}"></b></span>
+            </div>
+          </template>
+        </div>
+
+      </e-form>
+    </div> 
+  </body>
+
+</html>

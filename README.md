@@ -21,6 +21,7 @@
   - [Simple E-FOR-EACH](#simple-e-for-each)
   - [Simple E-IF](#simple-e-if)
   - [Simple E-FORM](#simple-e-form)
+  - [E-REUSABLE with E-FORM](#e-reusable-with-e-form)
   - [Simple E-GOOGLE-OAUTH-BUTTON](#simple-e-google-oauth-button)
   - [E-PAGE-WITH-URL](#e-page-with-url)
   - [E-PAGE-WITH-URL + E-JSON](#e-page-with-url--e-json)
@@ -174,7 +175,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ "headerName": "headerValue", ... }`.
 
-  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#examples).
+  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#simple-e-html-page).
 
 </details>
 
@@ -452,7 +453,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       data-request-url="/artist/Arctic_Monkeys/albums/add"
       data-request-method="POST"
       data-request-headers="{}"
-      data-ajax-icon="#ajaxIcon"
+      data-ajax-icon="#ajax-icon"
       data-response-name="savedAlbum"
       onclick="this.form.submit(this)"
       data-actions-on-response="
@@ -460,7 +461,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       "
     />
 
-    <img id="ajaxIcon" src="/../images/ajax-loader.gif"/>
+    <img id="ajax-icon" src="/../images/ajax-loader.gif"/>
     
   </e-form>
   ```
@@ -473,7 +474,18 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   Like for `e-json`, you can do [some actions on response](#suppoted-actions-on-response) with the name that you specify in `data-response-name` attribute. In this case, we just log the response from the request. 
 
-  You can also do validation of your e-forms by attributes: `required`, `pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#examples).
+  You can also do validation of your e-forms by attributes: `required`, `pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#simple-e-form).
+
+</details>
+
+<details>
+  <summary><b>E-REUSABLE template</b> (v1.0.8)</summary><br>
+  
+   You use action `mapToTemplate` on a template with attribute `is="e-reusable"`, so you can map response object multiple times. Also you can specify attribute `data-append-to="#someSelector"` or `data-prepend-to="#someSelector"` to decide where and how mapped content of the template should be placed. If you don't specify one of these attributes, then mapped content of the template will be placed right before the template.
+
+   So, the main difference between "reusable" template and other types of templates is that "reusable" template is not getting removed from the DOM, so you can use it several times.
+
+   More details you cand in the [examples](#e-reusable-with-e-form).
 
 </details>
 
@@ -578,7 +590,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   Attribute `data-request-token-key` specifies a key in the request body that you will send to your api after it's been obtained from google endpoint. So, in this case your endpoint with path `/../google`(which you specified in the `data-redirect-url`) would expect request body: `{ "googleToken": "<some token from google>" }`. And let's say your endpoint returns response with **jwt** token that's based on user data, which has been recived by "googleToken". You can use this response in attribute `data-actions-on-response`. For example, in this case we save it to local storage. The name of the response you specify in `data-response-name` like in `e-json` or `e-form`.
 
-  Demo of `e-google-oauth-button` you can find in the [examples](#examples).
+  Demo of `e-google-oauth-button` you can find in the [examples](#simple-e-google-oauth-button).
 
 </details>
 
@@ -599,7 +611,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   ```html
   <body>
-    <template is="e-page-with-url" data-url-pattern="/artists?search={query}">
+    <template is="e-page-with-url" data-url-pattern="/artists?{search}">
       <!-- content -->
     </e-page-with-url>
   </body>
@@ -629,7 +641,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   Element `e-page-with-url` is a template because we have to initialize `urlParams` before we render all elements that use those parameters. 
 
-  More details you can find in the [examples](#examples).
+  More details you can find in the [examples](#e-page-with-url).
 
 </details>
 
@@ -667,7 +679,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   You can also specify a place for the progress bar via attribute `data-progress-bar-place`, by default it's `body`.
 
-  Demo of `e-turbolink` you can find in the [examples](#examples).
+  Demo of `e-turbolink` you can find in the [examples](#e-turbolink).
 
 </details>
 
@@ -688,7 +700,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   It will be rendered as a simple select with attribute `data-e-select="true"` with automatically selected value that you specify in attribute `value`.
 
-  Demo of `e-select` you can find in the [examples](#examples).
+  Demo of `e-select` you can find in the [examples](#e-page-with-url--e-select-with-turbo-redirect).
 
 </details>
 
@@ -803,6 +815,19 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
+  <summary><b>removeElms</b> (v1.0.8)</summary><br>
+  
+  You can remove elements on response:
+
+  ```html
+  data-actions-on-response="
+    removeElms('#someId', '.someClassName', ...);
+  "
+  ```
+
+</details>
+
+<details>
   <summary><b>toggleElms</b></summary><br>
   
   You can toggle class name for elments on response:
@@ -877,7 +902,7 @@ data-actions-on-response="
 
 You can specify only one action for each `if` statement, and each `if` statement must be without curly braces.
 
-You can also use actions in event listeners of elements, more details about that you can find in the [examples](#examples).
+You can also use actions in event listeners of elements, more details about that you can find in the [examples](#e-page-with-url--e-select-with-turbo-redirect).
 
 # Examples
 
@@ -1330,7 +1355,6 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
             Simple Job Application Form
           </div>
           <div class="form-label">Your Name:</div>
-
           <input
             type="text"
             name="name"
@@ -1396,21 +1420,21 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
             type="file"
             name="resume"
             class="form-input"
-            data-read-progress-bar="#readProgressBar1"
+            data-read-progress-bar="#read-progress-bar"
             multiple required
             data-validation-absence-error-message="Resume is required"
             data-validation-min-files-number="1"
             data-validation-error-class-for-element="elm-error"
             data-validation-error-class-for-message-box="message-error">
-          <progress id="readProgressBar1"></progress>
+          <progress id="read-progress-bar"></progress>
 
           <button
             data-request-url="https://guseyn.com/echo"
             data-request-method="POST"
             data-request-headers="{}"
-            data-upload-progress-bar="#uploadProgressBar"
-            data-progress-bar="#progressBar"
-            data-ajax-icon="#ajaxIcon"
+            data-upload-progress-bar="#upload-progress-bar"
+            data-progress-bar="#progress-bar"
+            data-ajax-icon="#ajax-icon"
             data-response-name="response"
             onclick="this.form.submit(this)"
             data-actions-on-response="
@@ -1421,9 +1445,9 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
             Apply
           </button>
 
-          <img id="ajaxIcon" src="/../images/ajax-icon.svg"/>
-          <progress id="uploadProgressBar"></progress>
-          <progress id="progressBar"></progress>
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <progress id="upload-progress-bar"></progress>
+          <progress id="progress-bar"></progress>
         </div>
 
         <div class="applying-response-box" style="display: none;">
@@ -1456,7 +1480,6 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
   [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-e-form.html)
 
-
   <details>
     <summary><b>validation patterns</b></summary><br>
 
@@ -1478,6 +1501,97 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
     Or you can specify a string, which would be a base for RegExp with flags `ig`.
   </details>
+
+</details>
+
+## E-REUSABLE template with E-FORM
+
+<details>
+  <summary><b>demo</b></summary><br>
+  
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=YvHDR3Dr1SU" target="_blank">
+    <img src="http://img.youtube.com/vi/YvHDR3Dr1SU/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
+
+</details>
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: https://guseyn.com/echo
+  Request Method: GET
+  Request Body: {"name": "some name"}
+  -------------------------------------------
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "name": "some name"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-form
+        class="form"
+        id="form"
+        data-validation-error-message="Enter correct data into the form, please"
+        data-validation-error-class-for-message-box="form-message-error">
+
+        <div id="form-content">
+          <div class="form-label">Item name:</div>
+          <input
+            type="text"
+            name="name"
+            class="form-input"
+            required
+            data-validation-pattern="^[a-z ,.'-]+$"
+            data-validation-bad-format-error-message="Item name can contain only alphabetic characters"
+            data-validation-absence-error-message="Item name is required"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+
+          <button
+            data-request-url="https://guseyn.com/echo"
+            data-request-method="POST"
+            data-ajax-icon="#ajax-icon"
+            data-response-name="response"
+            onclick="this.form.submit(this)"
+            data-actions-on-response="
+              mapToTemplate('${response}', '#response-template');
+            ">
+            Add Item
+          </button>
+
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </div>
+
+        <div class="applying-response-box">
+          <div class="name">
+            Items:
+          </div>
+          <div class="response-info">
+            <span>item with name: <b>default</b></span>
+          </div>
+          <template id="response-template" is="e-reusable" data-object-name="response">
+            <div class="response-info">
+              <span>item with name <b data-text="${response.body.name}"></b></span>
+            </div>
+          </template>
+        </div>
+
+      </e-form>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-reusable-with-e-form.html)
 
 </details>
 
@@ -1618,7 +1732,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   
   ```html
   <body class="main">
-    <template is="e-page-with-url" data-url-pattern="/e-page-url.html/{one}/{two}/{three}?q={query}">
+    <template is="e-page-with-url" data-url-pattern="/e-page-url.html/{one}/{two}/{three}?{query}">
       <input data-value="${urlParams.one}"/>
       <input data-value="${urlParams.two}"/>
       <input data-value="${urlParams.three}"/>
@@ -1646,7 +1760,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   
   ```html
   <body class="main">
-    <template is="e-page-with-url" data-url-pattern="/e-page-url-with-e-json.html?name={name}">
+    <template is="e-page-with-url" data-url-pattern="/e-page-url-with-e-json.html?{name}">
       <div class="base">
         <e-json
           data-src="/../profile?name=${urlParams.name}"
@@ -1726,7 +1840,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   
   ```html
   <body class="main">
-    <template is="e-page-with-url" data-url-pattern="/turbo-actions.html?color={color}">
+    <template is="e-page-with-url" data-url-pattern="/turbo-actions.html?{color}">
       <div class="base">
         <e-select
           class="big-select"
