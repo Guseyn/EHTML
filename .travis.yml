@@ -3,11 +3,8 @@ node_js:
 - lts/*
 install: |-
   npm ci
-  npm install -g codecov
 script: |-
   npm run build || travis_terminate 1
-  ./node_modules/.bin/nyc report --reporter=lcov
-  codecov
   log=$(git log $TRAVIS_COMMIT_RANGE --oneline)
   echo $'**Change log:**<br/>'${log//$'\n'/<br/>}
 branches:
