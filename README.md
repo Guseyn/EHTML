@@ -214,7 +214,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
       mapToTemplate('${albumResponse.body}', '#album-info');
     ">
 
-    <tempalte id="album-info" data-object-name="album">
+    <template id="album-info" data-object-name="album">
 
       <div data-text="Title: ${album.title}"></div>
       <div data-text="Artist: ${album.artist}"></div>
