@@ -114,13 +114,13 @@ function () {
     key: "evaluatedParam",
     value: function evaluatedParam(param, resObj, resName) {
       if (typeof param === 'string') {
-        if (!/\$\{([^${}]+)\}/g.test(param)) {
+        if (!/\$\{([^${}]+)\}/gm.test(param)) {
           return param;
         }
 
-        var value = param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+        var value = param.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
           // eslint-disable-next-line no-eval
-          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
             return p1;
           }), "\n        "));
 

@@ -71,14 +71,14 @@ class ParsedActions {
 
   evaluatedParam (param, resObj, resName) {
     if (typeof param === 'string') {
-      if (!/\$\{([^${}]+)\}/g.test(param)) {
+      if (!/\$\{([^${}]+)\}/gm.test(param)) {
         return param
       }
-      const value = param.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+      const value = param.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
         // eslint-disable-next-line no-eval
         const value = eval(`
           const ${resName} = resObj
-          ${match.replace(/^\$\{([^${}]+)\}$/g, (match, p1) => { return p1 })}
+          ${match.replace(/\$\{([^${}]+)\}/gm, (match, p1) => { return p1 })}
         `)
         if (typeof value === 'object') {
           return JSON.stringify(value)

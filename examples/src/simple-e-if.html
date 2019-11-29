@@ -17,7 +17,9 @@
       <e-json
         data-src="/../playlist"
         data-response-name="response"
-        data-actions-on-response="mapToTemplate('${response.body}', '#response-template')"
+        data-actions-on-response="
+          mapToTemplate('${response.body}', '#response-template')
+        "
         data-ajax-icon="#ajax-icon"
       >
         <div class="response-box">
@@ -30,7 +32,9 @@
               </div>
               <div class="songs-box">
                 <template is="e-for-each" data-list-to-iterate="${playlist.songs}" data-item-name="song">
-                  <template is="e-if" data-condition-to-display="${song.artist === song.album}">
+                  <template is="e-if" data-condition-to-display="
+                    ${song.artist === song.album}
+                  ">
                     <div class="song-box">
                       <div><b>Title: </b><span data-text="${song.title}"></span></div>
                       <div><b>Artist: </b><span data-text="${song.artist}"></span></div>

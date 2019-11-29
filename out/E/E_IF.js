@@ -52,7 +52,7 @@ function (_E) {
   }, {
     key: "appliedExpressionsInString",
     value: function appliedExpressionsInString(string) {
-      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+      return string.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         // eslint-disable-next-line no-eval
         var appliedExpression = eval(p1);
 

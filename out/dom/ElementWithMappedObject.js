@@ -130,7 +130,7 @@ function () {
   }, {
     key: "isForProcessing",
     value: function isForProcessing(attr) {
-      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
     }
   }, {
     key: "isTemplate",
@@ -152,7 +152,7 @@ function () {
         throw new Error('e-if must have "data-condition-to-display" attribute');
       }
 
-      var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj);
+      var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj).trim();
 
       if (toDisplay === 'true') {
         var contentNode = document.importNode(node.content, true);
@@ -196,7 +196,7 @@ function () {
   }, {
     key: "appliedExpressionsInString",
     value: function appliedExpressionsInString(string, initialization, obj) {
-      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+      return string.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         // eslint-disable-next-line no-eval
         var appliedExpression = eval("\n          ".concat(initialization, "\n          ").concat(p1, "\n        "));
 
@@ -210,7 +210,7 @@ function () {
   }, {
     key: "getBodyOfExpression",
     value: function getBodyOfExpression(expression) {
-      return expression.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+      return expression.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         return p1;
       });
     }

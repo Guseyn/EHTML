@@ -48,7 +48,7 @@ class MutationObservation {
         if (this.isForProcessing(attr)) {
           node.setAttribute(
             attr.name,
-            attr.value.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+            attr.value.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
               // eslint-disable-next-line no-eval
               const appliedExpression = eval(p1)
               if (typeof appliedExpression === 'object') {
@@ -82,7 +82,7 @@ class MutationObservation {
       'data-list-to-iterate',
       'data-item-name'
     ].indexOf(attr.name) === -1 &&
-      /\$\{([^${}]+)\}/g.test(attr.value)
+      /\$\{([^${}]+)\}/gm.test(attr.value)
   }
 
   nodeName (node) {

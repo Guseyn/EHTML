@@ -27,7 +27,12 @@
             <div class="playlist-info">
               <div class="song-title" data-text="${playlist.title}"></div>
               <div class="songs-box">
-                <template is="e-for-each" data-list-to-iterate="${playlist.songs}" data-item-name="song">
+                <template is="e-for-each"
+                  data-list-to-iterate="
+                    ${playlist.songs}
+                  "
+                  data-item-name="song"
+                >
                   <div class="song-box">
                     <div><b>Title: </b><span data-text="${song.title}"></span></div>
                     <div><b>Artist: </b><span data-text="${song.artist}"></span></div>

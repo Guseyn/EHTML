@@ -16,13 +16,13 @@ class E_PAGE_WITH_URL extends E {
     const localtionPathParts = locationPath.split(/\//g).filter(part => part !== '')
     const locationRequestParams = this.requestParamsOfLocationSearch(locationSearch)
     parsedUrlPattern.pathVariables.forEach((variable, index) => {
-      if (/^\{([^{}\s.]+)}$/g.test(variable)) {
-        urlParams[/^\{([^{}\s.]+)}$/g.exec(variable)[1]] = localtionPathParts[index]
+      if (/\{([^{}\s.]+)}/gm.test(variable)) {
+        urlParams[/\{([^{}\s.]+)}/gm.exec(variable)[1]] = localtionPathParts[index]
       }
     })
     parsedUrlPattern.requestParams.forEach(param => {
-      if (/^\{([^{}\s.]+)}$/g.test(param)) {
-        const key = /^\{([^{}\s.]+)}$/g.exec(param)[1]
+      if (/\{([^{}\s.]+)}/gm.test(param)) {
+        const key = /\{([^{}\s.]+)}/gm.exec(param)[1]
         urlParams[key] = locationRequestParams[key]
       }
     })

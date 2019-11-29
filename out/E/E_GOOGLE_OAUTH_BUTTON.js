@@ -107,7 +107,7 @@ function (_E) {
             method: 'POST'
           }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.node.tagName, _this2.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), _this2.node.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
-          console.log(JSON.stringify(error, undefined, 2));
+          throw error;
         });
       });
     }

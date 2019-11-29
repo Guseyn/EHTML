@@ -21,7 +21,7 @@ class E_IF extends E {
   }
 
   appliedExpressionsInString (string) {
-    return string.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+    return string.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
       // eslint-disable-next-line no-eval
       const appliedExpression = eval(p1)
       if (typeof appliedExpression === 'object') {
