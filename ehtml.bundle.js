@@ -709,7 +709,7 @@ function (_E) {
             method: 'POST'
           }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.node.tagName, _this2.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), _this2.node.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
-          console.log(JSON.stringify(error, undefined, 2));
+          throw error;
         });
       });
     }
@@ -850,7 +850,7 @@ function (_E) {
   }, {
     key: "appliedExpressionsInString",
     value: function appliedExpressionsInString(string) {
-      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+      return string.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         // eslint-disable-next-line no-eval
         var appliedExpression = eval(p1);
 
@@ -1044,13 +1044,13 @@ function (_E) {
       });
       var locationRequestParams = this.requestParamsOfLocationSearch(locationSearch);
       parsedUrlPattern.pathVariables.forEach(function (variable, index) {
-        if (/^\{([^{}\s.]+)}$/g.test(variable)) {
-          urlParams[/^\{([^{}\s.]+)}$/g.exec(variable)[1]] = localtionPathParts[index];
+        if (/\{([^{}\s.]+)}/gm.test(variable)) {
+          urlParams[/\{([^{}\s.]+)}/gm.exec(variable)[1]] = localtionPathParts[index];
         }
       });
       parsedUrlPattern.requestParams.forEach(function (param) {
-        if (/^\{([^{}\s.]+)}$/g.test(param)) {
-          var key = /^\{([^{}\s.]+)}$/g.exec(param)[1];
+        if (/\{([^{}\s.]+)}/gm.test(param)) {
+          var key = /\{([^{}\s.]+)}/gm.exec(param)[1];
           urlParams[key] = locationRequestParams[key];
         }
       });
@@ -1449,7 +1449,7 @@ function () {
           var attr = node.attributes[i];
 
           if (this.isForProcessing(attr)) {
-            node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+            node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
               // eslint-disable-next-line no-eval
               var appliedExpression = eval(p1);
 
@@ -1481,7 +1481,7 @@ function () {
   }, {
     key: "isForProcessing",
     value: function isForProcessing(attr) {
-      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
     }
   }, {
     key: "nodeName",
@@ -1961,13 +1961,13 @@ function () {
     key: "evaluatedParam",
     value: function evaluatedParam(param, resObj, resName) {
       if (typeof param === 'string') {
-        if (!/\$\{([^${}]+)\}/g.test(param)) {
+        if (!/\$\{([^${}]+)\}/gm.test(param)) {
           return param;
         }
 
-        var value = param.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+        var value = param.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
           // eslint-disable-next-line no-eval
-          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
             return p1;
           }), "\n        "));
 
@@ -6108,7 +6108,7 @@ function () {
   }, {
     key: "isForProcessing",
     value: function isForProcessing(attr) {
-      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
     }
   }, {
     key: "isTemplate",
@@ -6130,7 +6130,7 @@ function () {
         throw new Error('e-if must have "data-condition-to-display" attribute');
       }
 
-      var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj);
+      var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj).trim();
 
       if (toDisplay === 'true') {
         var contentNode = document.importNode(node.content, true);
@@ -6174,7 +6174,7 @@ function () {
   }, {
     key: "appliedExpressionsInString",
     value: function appliedExpressionsInString(string, initialization, obj) {
-      return string.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+      return string.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         // eslint-disable-next-line no-eval
         var appliedExpression = eval("\n          ".concat(initialization, "\n          ").concat(p1, "\n        "));
 
@@ -6188,7 +6188,7 @@ function () {
   }, {
     key: "getBodyOfExpression",
     value: function getBodyOfExpression(expression) {
-      return expression.replace(/^\$\{([^${}]+)\}$/g, function (match, p1) {
+      return expression.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         return p1;
       });
     }

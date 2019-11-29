@@ -91,7 +91,7 @@ function () {
           var attr = node.attributes[i];
 
           if (this.isForProcessing(attr)) {
-            node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/g, function (match, p1) {
+            node.setAttribute(attr.name, attr.value.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
               // eslint-disable-next-line no-eval
               var appliedExpression = eval(p1);
 
@@ -123,7 +123,7 @@ function () {
   }, {
     key: "isForProcessing",
     value: function isForProcessing(attr) {
-      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/g.test(attr.value);
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
     }
   }, {
     key: "nodeName",

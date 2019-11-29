@@ -85,7 +85,7 @@ class E_GOOGLE_OAUTH_BUTTON extends E {
           ).call()
         },
         (error) => {
-          console.log(JSON.stringify(error, undefined, 2))
+          throw error
         }
       )
     })

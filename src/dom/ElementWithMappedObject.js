@@ -111,7 +111,7 @@ class ElementWithMappedObject {
       'data-list-to-iterate',
       'data-item-name'
     ].indexOf(attr.name) === -1 &&
-      /\$\{([^${}]+)\}/g.test(attr.value)
+      /\$\{([^${}]+)\}/gm.test(attr.value)
   }
 
   isTemplate (node, type) {
@@ -129,7 +129,7 @@ class ElementWithMappedObject {
     }
     const toDisplay = this.appliedExpressionsInString(
       toDisplayExpression, initialization, obj
-    )
+    ).trim()
     if (toDisplay === 'true') {
       const contentNode = document.importNode(node.content, true)
       this.map(contentNode, obj, initialization)
@@ -170,7 +170,7 @@ class ElementWithMappedObject {
   }
 
   appliedExpressionsInString (string, initialization, obj) {
-    return string.replace(/\$\{([^${}]+)\}/g, (match, p1) => {
+    return string.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
       // eslint-disable-next-line no-eval
       const appliedExpression = eval(
         `
@@ -186,7 +186,7 @@ class ElementWithMappedObject {
   }
 
   getBodyOfExpression (expression) {
-    return expression.replace(/^\$\{([^${}]+)\}$/g, (match, p1) => {
+    return expression.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
       return p1
     })
   }
