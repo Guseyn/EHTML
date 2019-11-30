@@ -10,8 +10,8 @@
 # Contents
 
 - [Motivation](#motivation)
-- [Introduction video](#introduction-video)
 - [Usage](#usage)
+- [Introduction video](#introduction-video)
 - [Supported elements](#supported-elements)
 - [Supported actions on response](#supported-actions-on-response)
 - [Examples](#examples)
