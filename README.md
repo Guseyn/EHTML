@@ -10,6 +10,7 @@
 # Contents
 
 - [Motivation](#motivation)
+- [Introduction video](#introduction-video)
 - [Usage](#usage)
 - [Supported elements](#supported-elements)
 - [Supported actions on response](#supported-actions-on-response)
@@ -44,6 +45,12 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
 </head>
 ```
+
+# Introduction video
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Lxepx_jaSuk" target="_blank">
+  <img src="http://img.youtube.com/vi/Lxepx_jaSuk/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" /
+</a>
 
 # Supported elements
 
