@@ -48,11 +48,11 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 # Introduction Video
 
+[Simple EHTML Blog App](https://github.com/Guseyn/ehtml-simple-blog-app)
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=lOf0NkNtWzI" target="_blank">
   <img src="http://img.youtube.com/vi/lOf0NkNtWzI/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10">
 </a>
-
-[Simple EHTML Blog App](https://github.com/Guseyn/ehtml-simple-blog-app)
 
 # Supported elements
 
