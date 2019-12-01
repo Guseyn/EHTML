@@ -48,8 +48,8 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 # Introduction Video
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=Lxepx_jaSuk" target="_blank">
-  <img src="http://img.youtube.com/vi/Lxepx_jaSuk/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=lOf0NkNtWzI" target="_blank">
+  <img src="http://img.youtube.com/vi/lOf0NkNtWzI/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10">
 </a>
 
 # Supported elements
