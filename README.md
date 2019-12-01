@@ -52,6 +52,8 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   <img src="http://img.youtube.com/vi/lOf0NkNtWzI/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10">
 </a>
 
+[Simple EHTML Blog App](https://github.com/Guseyn/ehtml-simple-blog-app)
+
 # Supported elements
 
 <details>
