@@ -19,6 +19,7 @@
   - [Simple E-JSON](#simple-e-json)
   - [E-JSON with progress bar](#e-json-with-progress-bar)
   - [E-JSON with mapped error](#e-json-with-mapped-error)
+  - [E-JSON as template](#e-json-as-template)
   - [Simple E-FOR-EACH](#simple-e-for-each)
   - [Simple E-IF](#simple-e-if)
   - [Simple E-FORM](#simple-e-form)
@@ -184,8 +185,47 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   If you need some request headers, you can specify them in the attribute `data-request-headers` with format `{ "headerName": "headerValue", ... }`.
 
-  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#simple-e-html-page).
+  You can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#simple-e-json).
 
+</details>
+
+<details>
+  <summary><b>E-JSON template</b></summary><br>
+  
+  You can use `e-json` as a `<template>` element, if you just need to map response. 
+
+  ```json
+  title = 'Humbug'
+  {
+    "title": "Humbug",
+    "artist": "Arctic Monkeys",
+    "type": "studio album",
+    "releaseDate": "19 August 2009",
+    "genre": "psychedelic rock, hard rock, stoner rock, desert rock",
+    "length": "39:20",
+    "label": "Domino",
+    "producer": "James Ford, Joshua Homme"
+  }
+  ```
+
+  Then you can fetch it via `e-json` like in following html code:
+
+  ```html
+  <template is="e-json" data-src="/../album/Humbug" data-object-name="albumResponse">
+    <div data-text="Title: ${albumResponse.body.title}"></div>
+    <div data-text="Artist: ${albumResponse.body.artist}"></div>
+    <div data-text="Type: ${albumResponse.body.type}"></div>
+    <div data-text="Release date: ${albumResponse.body.releaseDate}"></div>
+    <div data-text="Genre: ${albumResponse.body.genre}"></div>
+    <div data-text="Length: ${albumResponse.body.length}"></div>
+    <div data-text="Label: ${albumResponse.body.label}"></div>
+    <div data-text="Producer: ${albumResponse.body.producer}"></div>
+  </template>
+  ```
+
+  Here you don't use `data-response-name` attribute as you don't need apply actions on response via `data-actions-on-response` attribute. But you still have to specify `data-object-name` to define a variable for the response, so you can use it as a mapping object inside of `e-json` template.
+
+  And as for simple `e-json` you can also add attributes `data-ajax-icon` and `data-progress-bar` as element selectors for presenting progress of fetching data from the server. You can see how to use them in the [examples](#e-json-as-template).
 </details>
 
 <details>

@@ -128,23 +128,30 @@ function () {
   }, {
     key: "nodeName",
     value: function nodeName(node) {
-      if (this.isTemplateWithType(node, 'e-page-with-url')) {
+      if (this.isTemplateWithType(node, 'e-json')) {
+        return 'e-json-template';
+      } else if (this.isTemplateWithTypeExclusively(node, 'e-page-with-url')) {
         return 'e-page-with-url';
-      } else if (this.isTemplateWithType(node, 'e-if')) {
+      } else if (this.isTemplateWithTypeExclusively(node, 'e-if')) {
         return 'e-if';
-      } else if (this.isTemplateWithType(node, 'e-for-each')) {
+      } else if (this.isTemplateWithTypeExclusively(node, 'e-for-each')) {
         return 'e-for-each';
       }
 
       return node.nodeName.toLowerCase();
     }
   }, {
-    key: "isTemplateWithType",
-    value: function isTemplateWithType(node, type) {
+    key: "isTemplateWithTypeExclusively",
+    value: function isTemplateWithTypeExclusively(node, type) {
       if (node.nodeName.toLowerCase() === type) {
         throw new Error("".concat(type, " must be <template>"));
       }
 
+      return this.isTemplateWithType(node, type);
+    }
+  }, {
+    key: "isTemplateWithType",
+    value: function isTemplateWithType(node, type) {
       if (this.isTemplate(node)) {
         var templateType = node.getAttribute('is');
 
