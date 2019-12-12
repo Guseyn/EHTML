@@ -19,7 +19,7 @@
   - [Simple E-JSON](#simple-e-json)
   - [E-JSON with progress bar](#e-json-with-progress-bar)
   - [E-JSON with mapped error](#e-json-with-mapped-error)
-  - [E-JSON as template](#e-json-as-template)
+  - [E-JSON as a template](#e-json-as-a-template)
   - [Simple E-FOR-EACH](#simple-e-for-each)
   - [Simple E-IF](#simple-e-if)
   - [Simple E-FORM](#simple-e-form)
@@ -190,7 +190,7 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 </details>
 
 <details>
-  <summary><b>E-JSON template</b></summary><br>
+  <summary><b>E-JSON template</b> (v1.0.12)</summary><br>
   
   You can use `e-json` as a `<template>` element, if you just need to map response. 
 
@@ -1190,6 +1190,72 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   </body>
   ```
   [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-json-with-mapped-error-message.html)
+
+</details>
+
+## E-JSON as a template
+
+<details>
+  <summary><b>demo</b></summary><br>
+
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=yFi5nDo_QVU" target="_blank">
+    <img src="http://img.youtube.com/vi/yFi5nDo_QVU/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
+  
+</details>
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: http://localhost:8000/profile?name=Amanda
+  Request Method: GET
+  -----------------------------------------------------
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "photo": "/../images/Amanda.svg",
+    "name": "Amanda",
+    "email": "amanda@email.com",
+    "age": 24,
+    "country": "Australia",
+    "profession": "race driver"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <div class="profile-box">
+        <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
+        <template
+          is="e-json"
+          data-src="/../profile?name=Amanda"
+          data-ajax-icon="#ajax-icon"
+          data-object-name="profileResponse"
+        >
+          <img class="photo" src="${profileResponse.body.photo}"/>
+          <div class="user-info">
+            <div class="name" data-text="${profileResponse.body.name}"></div>
+            <div class="email" data-text="${profileResponse.body.email}"></div>
+            <div class="other-details">
+              <div data-text="Age: ${profileResponse.body.age}"></div>
+              <div data-text="Country: ${profileResponse.body.country}"></div>
+              <div data-text="Profession: ${profileResponse.body.profession}"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-json-template.html)
 
 </details>
 
