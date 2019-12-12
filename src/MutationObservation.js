@@ -86,20 +86,26 @@ class MutationObservation {
   }
 
   nodeName (node) {
-    if (this.isTemplateWithType(node, 'e-page-with-url')) {
+    if (this.isTemplateWithType(node, 'e-json')) {
+      return 'e-json-template'
+    } else if (this.isTemplateWithTypeExclusively(node, 'e-page-with-url')) {
       return 'e-page-with-url'
-    } else if (this.isTemplateWithType(node, 'e-if')) {
+    } else if (this.isTemplateWithTypeExclusively(node, 'e-if')) {
       return 'e-if'
-    } else if (this.isTemplateWithType(node, 'e-for-each')) {
+    } else if (this.isTemplateWithTypeExclusively(node, 'e-for-each')) {
       return 'e-for-each'
     }
     return node.nodeName.toLowerCase()
   }
 
-  isTemplateWithType (node, type) {
+  isTemplateWithTypeExclusively (node, type) {
     if (node.nodeName.toLowerCase() === type) {
       throw new Error(`${type} must be <template>`)
     }
+    return this.isTemplateWithType(node, type)
+  }
+
+  isTemplateWithType (node, type) {
     if (this.isTemplate(node)) {
       const templateType = node.getAttribute('is')
       if (templateType) {

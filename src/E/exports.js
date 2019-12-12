@@ -1,6 +1,7 @@
 module.exports = {
   'e-html': require('./E_HTML'),
   'e-json': require('./E_JSON'),
+  'e-json-template': require('./E_JSON_TEMPLATE'),
   'e-if': require('./E_IF'),
   'e-for-each': require('./E_FOR_EACH'),
   'e-form': require('./E_FORM'),
