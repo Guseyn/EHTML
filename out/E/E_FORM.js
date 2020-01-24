@@ -86,6 +86,10 @@ function (_E) {
     key: "activate",
     value: function activate() {
       this.setup();
+
+      if (this.node.hasAttribute('data-request-url')) {
+        this.submit(this.node, true);
+      }
     }
   }, {
     key: "setup",
@@ -185,16 +189,29 @@ function (_E) {
   }, {
     key: "submit",
     value: function submit(target) {
+      var isThisTarget = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       if (!target) {
         throw new Error('you must pass target in submit method like: \'this.form.submit(this)\'');
       }
 
-      var requestBody = this.requestBody(this);
-      this.hideAllErrorsForForm(this);
+      var requestBody;
       var validations = [];
-      this.validateDifferentFormElements(this, requestBody, validations);
+      var isFormValid;
 
-      if (this.isFormValid(this, validations)) {
+      if (isThisTarget) {
+        requestBody = this.requestBody(target);
+        this.hideAllErrorsForForm(target);
+        this.validateDifferentFormElements(target, requestBody, validations);
+        isFormValid = this.isFormValid(target, validations);
+      } else {
+        requestBody = this.requestBody(this);
+        this.hideAllErrorsForForm(this);
+        this.validateDifferentFormElements(this, requestBody, validations);
+        isFormValid = this.isFormValid(this, validations);
+      }
+
+      if (isFormValid) {
         new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))).call();
       } else {
         this.scrollToFirstErrorBox(this);

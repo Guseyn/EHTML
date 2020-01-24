@@ -31,6 +31,9 @@ class E_FORM extends E {
 
   activate () {
     this.setup()
+    if (this.node.hasAttribute('data-request-url')) {
+      this.submit(this.node, true)
+    }
   }
 
   setup () {
@@ -121,15 +124,25 @@ class E_FORM extends E {
     }
   }
 
-  submit (target) {
+  submit (target, isThisTarget = false) {
     if (!target) {
       throw new Error('you must pass target in submit method like: \'this.form.submit(this)\'')
     }
-    const requestBody = this.requestBody(this)
-    this.hideAllErrorsForForm(this)
-    const validations = []
-    this.validateDifferentFormElements(this, requestBody, validations)
-    if (this.isFormValid(this, validations)) {
+    let requestBody
+    let validations = []
+    let isFormValid
+    if (isThisTarget) {
+      requestBody = this.requestBody(target)
+      this.hideAllErrorsForForm(target)
+      this.validateDifferentFormElements(target, requestBody, validations)
+      isFormValid = this.isFormValid(target, validations)
+    } else {
+      requestBody = this.requestBody(this)
+      this.hideAllErrorsForForm(this)
+      this.validateDifferentFormElements(this, requestBody, validations)
+      isFormValid = this.isFormValid(this, validations)
+    }
+    if (isFormValid) {
       new DisabledElement(
         target
       ).after(
