@@ -753,6 +753,55 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
 </details>
 
+<details>
+  <summary><b>E-GITHUB-OAUTH-BUTTON</b></summary><br>
+  
+  You can integrate GitHub Sign-In into your web app just by adding one button:
+
+  ```html
+  <e-github-oauth-button
+    class="customSignIn"
+    data-client-id="9740bb12713949b1c23d"
+    data-redirect-uri="http://localhost:8000/html/github.html/"
+    data-scope="user,repo">
+    <span id="github-icon" class="icon"></span>
+    <span class="buttonText">Sign in with Github</span>
+  </e-github-oauth-button>
+  ```
+
+  It will be rendered as a simple button with attribute `data-e-github-oauth-button="true"`. You can configure github oauth with custom attributes: `data-client-id`, `data-redirect-uri` and `data-scope`.
+
+  And your page which is in `redirect-uri` can look like:
+
+  ```html
+  <!-- html/github.html -->
+  <body class="main">
+    <template is="e-page-with-url" data-url-pattern="/html/github.html?{code}">
+      <div class="base">
+        <e-form
+          data-request-url="/../github"
+          data-request-method="POST"
+          data-request-headers="{}"
+          data-ajax-icon="#ajax-icon"
+          data-response-name="responseWithToken"
+          data-actions-on-response="
+            saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
+            turboRedirect('/../e-github-oauth-button.html');
+        ">
+          <input type="hidden" name="code" value="${urlParams.code}">
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </e-form>
+      </div> 
+    </template>
+  </body>
+  ```
+
+  In the redirect uri we expect `code` param, which we want to retrieve via `e-page-with-url` template. And then using simple `e-form` with `<input type="hidden">` we send the code in the request to our endpoint `/../github`, which is supposed to return response with some jwt token. After we get the jwt token, we save it into local storage and make turbo redirect to the original page where we have been redirected from. And you can notice that we use all `data-request-*` attributes right in the `e-form`. That allows us to send the form on rendering page, so we don't have to click on some button, for example.
+
+  Demo of `e-github-oauth-button` you can find in the [examples](#simple-e-github-oauth-button).
+
+</details>
+
 # Supported actions on response
 
 **EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response` with response, which name you have to specify in the attribute `data-response-name`.
@@ -1827,7 +1876,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   }
   ```
 
-  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/simple-e-form.html)
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-google-oauth-button.html)
 
 </details>
 
@@ -1979,6 +2028,143 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   </body>
   ```
   [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-page-with-url-and-e-select-with-turbo-redirect.html)
+
+</details>
+
+## Simple E-GITHUB-OAUTH-BUTTON
+
+<details>
+  <summary><b>demo</b></summary><br>
+  
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=PzEPLgav6vQ" target="_blank">
+    <img src="http://img.youtube.com/vi/PzEPLgav6vQ/0.jpg" alt="IMAGE ALT TEXT HERE" width="350" height="263" border="10" />
+  </a>
+  
+</details>
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: /../github
+  Request Method: GET
+  Request Body: {"code": "<some retrieved code from redirect uri page>"}
+  -------------------------------------------
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "jwt": "<some jwt token from your endpoint>"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      
+      <template is="e-if" data-condition-to-display="${localStorage.getItem('jwt') != null}">
+        <div class="response-box">
+          <div class="response-info">
+            <b>Welcome!</b>
+          </div>
+        </div>
+      </template>
+
+      <template is="e-if" data-condition-to-display="${localStorage.getItem('jwt') == null}">
+        <div class="login-form">
+          <input id="email" type="text" name="email" placeholder="My email" class="login-input">
+          <input id="password" type="password" name="password" placeholder="My password" class="login-input">
+          <div id="error" class="error"></div>
+          <input id="go-button" type="button" value="Sign in" class="login-input">
+          <div class="mode">
+            <span id="sign-up" class="as-link">Sign up</span>
+            /
+            <span id="sign-in" class="as-link">Sign in</span>
+          </div>
+        </div>
+
+        <div style="text-align: center; font-family: sans-serif;">or</div>
+
+        <e-github-oauth-button
+          class="customSignIn"
+          data-client-id="9740bb12713949b1c23d"
+          data-redirect-uri="http://localhost:8000/html/github.html/"
+          data-scope="user,repo">
+          <span id="github-icon" class="icon"></span>
+          <span class="buttonText">Sign in with Github</span>
+        </e-github-oauth-button>
+      </template>
+    </div>
+  </body>
+  ```
+  ```css
+  .customSignIn {
+      margin: 10px auto;
+      background: white;
+      color: #444;
+      width: 200px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+      display: block;
+  }
+
+  .customSignIn:hover {
+    cursor: pointer;
+  }
+
+  #github-icon {
+    background: url('/../images/github-logo.png') transparent 5px 50% no-repeat;
+  }
+
+  span.icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 48px;
+    height: 48px;
+  }
+
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+    font-family: 'Roboto', sans-serif;
+  }
+  ```
+
+  Page on redirect uri:
+
+  ```html
+  <body class="main">
+    <template is="e-page-with-url" data-url-pattern="/html/github.html?{code}">
+      <div class="base">
+        <e-form
+          data-request-url="/../github"
+          data-request-method="POST"
+          data-request-headers="{}"
+          data-ajax-icon="#ajax-icon"
+          data-response-name="responseWithToken"
+          data-actions-on-response="
+            saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
+            turboRedirect('/../e-github-oauth-button.html');
+        ">
+          <input type="hidden" name="code" value="${urlParams.code}">
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </e-form>
+      </div> 
+    </template>
+  </body>
+  ```
+
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-github-oauth-button.html)
 
 </details>
 
