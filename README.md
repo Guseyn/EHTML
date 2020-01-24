@@ -29,6 +29,7 @@
   - [E-PAGE-WITH-URL + E-JSON](#e-page-with-url--e-json)
   - [E-TURBOLINK](#e-turbolink)
   - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
+  - [Simple E-GITHUB-OAUTH-BUTTON](#simple-e-github-oauth-button)
 - [Answers for potential testimonials](#answers-for-potential-testimonials)
   
 # Motivation
@@ -2046,6 +2047,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   <summary><b>response</b></summary><br>
 
   ```bash
+  # request is made on redirect uri page
   Request URL: /../github
   Request Method: GET
   Request Body: {"code": "<some retrieved code from redirect uri page>"}
@@ -2140,7 +2142,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
   }
   ```
 
-  Page on redirect uri:
+  **Page on redirect uri:**
 
   ```html
   <body class="main">
