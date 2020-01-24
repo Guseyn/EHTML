@@ -12,9 +12,10 @@ const GetUsersByPageAndSizeEndpoint = require('./endpoints/GetUsersByPageAndSize
 const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
 const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
+const GitHubAuthEndpoint = require('./endpoints/GithubAuthEndpoint')
 
 const mapperForStatic = (url) => {
-  const parts = url.split('/').filter(part => part !== '')
+  const parts = url.split('?')[0].split('/').filter(part => part !== '')
   return path.join('examples', 'backend', 'static', ...parts)
 }
 
@@ -51,6 +52,7 @@ new SpawnedCommand('grunt').after(
             new GetUsersByPageAndSizeEndpoint(new RegExp(/^\/users\?page=(\d+)&size=(\d+)/), 'GET'),
             new GetUsersEndpoint(new RegExp(/^\/users/), 'GET'),
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
+            new GitHubAuthEndpoint(new RegExp(/^\/github/), 'POST'),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|images|css)/),
               mapperForStatic,
