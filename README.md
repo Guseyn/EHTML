@@ -3,7 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/ehtml.svg)](https://npmjs.org/package/ehtml)
 [![Build Status](https://travis-ci.com/Guseyn/EHTML.svg?branch=master)](https://travis-ci.com/Guseyn/EHTML)
 
-**EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convinient way to get rid of JavaScript code on the client side as much as it's possible.
+**EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convinient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
 **Disclaimer:** "I cannot build complex things with EHTML yet, but I can build simple things with it so easily that no other library can do."
 
@@ -30,7 +30,7 @@
   - [E-TURBOLINK](#e-turbolink)
   - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
   - [Simple E-GITHUB-OAUTH-BUTTON](#simple-e-github-oauth-button)
-- [Answers for potential testimonials](#answers-for-potential-testimonials)
+- [Answers for potential concerns](#answers-for-potential-concerns)
   
 # Motivation
 
@@ -801,6 +801,72 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
 
   Demo of `e-github-oauth-button` you can find in the [examples](#simple-e-github-oauth-button).
 
+</details>
+
+<details>
+  <summary><b>E-SVG</b> (v1.0.15)</summary><br>
+  
+  With element `e-svg` you can load svg code right into your html page:
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+      <link rel="shortcut icon" href="/../images/favicon.ico"/>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>e-html</title>
+      <link rel="stylesheet" href="/../css/main.css">
+      <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    </head>
+
+    <body class="main">
+
+        <e-svg data-src="/../images/svg-from-server.svg"></e-svg>
+
+    </body>
+
+  </html>
+  ```
+
+  And let's say your svg image on `/../images/svg-from-server.svg` is something like
+
+  ```html
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+    <circle id="background_45_" style="fill:#ECF0F0;" cx="256" cy="256" r="256"></circle>
+    <path style="fill:#E27C3E;" d="...."></path>
+    <polygon style="fill:#4C738A;" points="..."></polygon>
+  </svg>
+  ```
+
+  Then once you load your page it would look like:
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+      <link rel="shortcut icon" href="/../images/favicon.ico"/>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>e-html</title>
+      <link rel="stylesheet" href="/../css/main.css">
+      <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    </head>
+
+    <body class="main">
+
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+        <circle id="background_45_" style="fill:#ECF0F0;" cx="256" cy="256" r="256"></circle>
+        <path style="fill:#E27C3E;" d="...."></path>
+        <polygon style="fill:#4C738A;" points="..."></polygon>
+      </svg>
+
+    </body>
+
+  </html>
+  ```
 </details>
 
 # Supported actions on response
@@ -2170,7 +2236,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Answers for potential testimonials
+# Answers for potential concerns
 
 <details>
   <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary><br>

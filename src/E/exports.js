@@ -12,5 +12,6 @@ module.exports = {
   'e-page-with-url': require('./E_PAGE_WITH_URL'),
   'e-reusable': require('./E_REUSABLE'),
   'e-turbolink': require('./E_TURBOLINK'),
-  'e-select': require('./E_SELECT')
+  'e-select': require('./E_SELECT'),
+  'e-svg': require('./E_SVG')
 }
