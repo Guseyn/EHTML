@@ -94,6 +94,8 @@ class MutationObservation {
       return 'e-if'
     } else if (this.isTemplateWithTypeExclusively(node, 'e-for-each')) {
       return 'e-for-each'
+    } else if (this.isTemplateWithTypeExclusively(node, 'e-wrapper')) {
+      return 'e-wrapper'
     }
     return node.nodeName.toLowerCase()
   }
