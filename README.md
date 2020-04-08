@@ -869,6 +869,67 @@ Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see
   ```
 </details>
 
+<details>
+  <summary><b>E-WRAPPER template</b> (v1.0.16)</summary><br>
+  
+  Template with `is="e-wrapper"` attribute is very powerful element which you can use for wrapping your dynamic content with some base static template.
+
+  So, let's say you have basic static template in your app:
+
+  ```html
+  <div class="base">
+    <p>
+      Header content
+    </p>
+    <p id="dynamic-content">
+      <span>Default content</span>
+    </p>
+    <p>
+      Footer content
+    </p>
+  </div> 
+  ```
+
+  Then you can use this static template as a warapper in other pages
+
+  ```html
+  <body class="main">
+    <template 
+      is="e-wrapper" 
+      data-src="/../html/wrapper.html" 
+      data-place-into="#dynamic-content" 
+      data-how-to-place="instead">
+      <p>
+        Variation of content
+      </p>
+    </template>
+  </body>
+  ```
+
+  Attribute `data-src` specified a path where base static template is served. By attribute `data-place-into` you specify which element from the template you want to wrap or replace with the content inside of `e-wrapper` template.
+
+  You can aso specify the way how it can be wrapped via `data-how-to-place` attribute with possible values: 'instead', 'before' and 'after'. If you use option 'instead', element by selector in attribute `data-place-into` will be just replaced with content of your template `e-wrapper`. By using 'before' option, content of `e-wrapper` will be prepended into the first element with selector in the attribute `data-place-into`. And by using 'after' option, the content will appended into the element.
+
+  So, your page with `e-wrapper` in this case will be rendered like
+
+  ```html
+  <div class="base">
+    <p>
+      Header content
+    </p>
+    <p>
+      Variation of content
+    </p>
+    <p>
+      Footer content
+    </p>
+  </div> 
+  ```
+
+  You can also use `data-headers` attribute, if needed.
+
+</details>
+
 # Supported actions on response
 
 **EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response` with response, which name you have to specify in the attribute `data-response-name`.

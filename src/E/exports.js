@@ -13,5 +13,6 @@ module.exports = {
   'e-reusable': require('./E_REUSABLE'),
   'e-turbolink': require('./E_TURBOLINK'),
   'e-select': require('./E_SELECT'),
-  'e-svg': require('./E_SVG')
+  'e-svg': require('./E_SVG'),
+  'e-wrapper': require('./E_WRAPPER')
 }
