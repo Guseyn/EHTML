@@ -1606,7 +1606,7 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
   ```bash
   Request URL: https://guseyn.com/echo
-  Request Method: GET
+  Request Method: POST
   Request Body: {"name":"Guseyn Ismayylov","email":"guseynism@gmail.com","github":"https://github.com/Guseyn","langs":["php","js"],"resume":[{"name":"resume.pdf","size":151153,"type":"application/pdf","content":"data:application/pdf;base64,JVBERi0x...}]}
   -------------------------------------------
   Status Code: 200 ok
