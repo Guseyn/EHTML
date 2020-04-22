@@ -9,7 +9,6 @@
 
 # Contents
 
-- [Motivation](#motivation)
 - [Usage](#usage)
 - [Introduction video](#introduction-video)
 - [Supported elements](#supported-elements)
@@ -31,12 +30,6 @@
   - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
   - [Simple E-GITHUB-OAUTH-BUTTON](#simple-e-github-oauth-button)
 - [Answers for potential concerns](#answers-for-potential-concerns)
-  
-# Motivation
-
-Every moment a new JavaScript framework borns here and there, and all of them claim that they are better than other ones for different irrelevant and stupid reasons. The main problem with all those frameworks is JavaScript. And I like this language very much, but it's painful to maintain. Mostly because it's difficult(or even impossible) to make it completely declarative on the client side. On the other hand, HTML is a completely declarative language, it's easy to read and modify. So, why don't we try to replace JavaScript with HTML where it's possible (or just everywhere).
-
-Thanks to HTML5 it's possible for relevant browsers. Read further and you'll see how you can do it.
 
 # Usage
 
