@@ -33,7 +33,7 @@
 
 # Usage
 
-**EHTML** is very easy to include in your project. Just like jQuery, but all you need to do then is just to write HTML code, not JavaScript. Save [this file](https://github.com/Guseyn/EHTML/blob/master/ehtml.bundle.min.js) locally and use it:
+**EHTML** is very easy to include in your project. Save [this file](https://github.com/Guseyn/EHTML/blob/master/ehtml.bundle.min.js) locally and use it:
 
 ```html
 <head>
