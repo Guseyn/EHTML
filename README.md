@@ -29,7 +29,7 @@
   - [E-TURBOLINK](#e-turbolink)
   - [E-PAGE-WITH-URL + E-SELECT (with turbo-redirect)](#e-page-with-url--e-select-with-turbo-redirect)
   - [Simple E-GITHUB-OAUTH-BUTTON](#simple-e-github-oauth-button)
-- [Answers for potential concerns](#answers-for-potential-concerns)
+- [Contribution and QA](#contribution-and-qa)
 
 # Usage
 
@@ -2290,24 +2290,6 @@ And then just open [http://localhost:8000/](http://localhost:8000/).
 
 </details>
 
-# Answers for potential concerns
+# Contribution and QA
 
-<details>
-  <summary><b>You are saying that with EHTML I can develop a web app without using any JavaScript code, but it seems to me that it has not so many features, so I can just start working with that. How are you going to explain that?</b></summary><br>
-  
-  It's true. Right now **EHTML** has few essential features that you can use only for very simple applications like admin pages or something like that. But it's only the first version, and new features and tools in this library is just a question of time and effort that me and probably you can put into it.
-
-  But even now you can build quite interesting things just using simple html: loading pages with some information from endpoints, sending forms, making navigations with turbolinks, making authorization via google and getting url parameters by specified pattern.
-
-  **EHTML** does not have a lot of stuff, I know. But the approach that this library provides is phenomenal, at least to me. Yes, I cannot build complex things with **EHTML** yet, but I can build simple things with it so easily that no other library can do.
-
-</details>
-
-<details>
-  <summary><b>But you still use inline JavaScript in HTML!</b></summary><br>
-  
-  It's true. But it's not so critical and at least it looks declarative if you just invoke functions there and no more. In the future we can introduce new different components which could encapsulate all predefined events and behaviour, so we would not have to write even inline JavaScript. But for the moment, it's good enough as a temporary solution.
-
-</details>
-
-If you have any questions or concers about **EHTML**, please feel free to share them in the [issues](https://github.com/Guseyn/EHTML/issues).
+If you have any questions or concers about **EHTML**, please feel free to share them in the [issues](https://github.com/Guseyn/EHTML/issues). If you want to send a patch, feel free to create a fork and send it via pull request.
