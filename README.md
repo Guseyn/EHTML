@@ -3,7 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/ehtml.svg)](https://npmjs.org/package/ehtml)
 [![Build Status](https://travis-ci.com/Guseyn/EHTML.svg?branch=master)](https://travis-ci.com/Guseyn/EHTML)
 
-**EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convinient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
+**EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
 **Disclaimer:** "I cannot build complex things with EHTML yet, but I can build simple things with it so easily that no other library can do."
 
