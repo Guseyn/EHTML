@@ -890,7 +890,7 @@
     <template 
       is="e-wrapper" 
       data-src="/../html/wrapper.html" 
-      data-place-into="#dynamic-content" 
+      data-where-to-place="#dynamic-content" 
       data-how-to-place="instead">
       <p>
         Variation of content
@@ -899,9 +899,9 @@
   </body>
   ```
 
-  Attribute `data-src` specifies a path where base static template is served. By attribute `data-place-into` you specify which element from the template you want to wrap or replace with the content inside of `e-wrapper` template.
+  Attribute `data-src` specifies a path where base static template is served. By attribute `data-where-to-place` you specify which element from the template you want to wrap or replace with the content inside of `e-wrapper` template.
 
-  You can aso specify the way how it can be wrapped via `data-how-to-place` attribute with one of the possible values: 'instead', 'before' and 'after'. If you use option 'instead', element by selector in attribute `data-place-into` will be just replaced with content in your template `e-wrapper`. By using 'before' option, content in `e-wrapper` will be prepended into the first element with selector in the attribute `data-place-into`. And by using 'after' option, the content will appended into the element.
+  You can aso specify the way how it can be wrapped via `data-how-to-place` attribute with one of the possible values: 'instead', 'before' and 'after'. If you use option 'instead', element by selector in attribute `data-where-to-place` will be just replaced with content in your template `e-wrapper`. By using 'before' option, content in `e-wrapper` will be placed before the first element with selector in the attribute `data-where-to-place`. And by using 'after' option, the content will be placed after the element.
 
   So, your page with `e-wrapper` in this case will be rendered like
 

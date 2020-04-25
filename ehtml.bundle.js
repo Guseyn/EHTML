@@ -3943,7 +3943,7 @@ function (_AsyncObject) {
     key: "syncCall",
     value: function syncCall() {
       return function (html, wrapperTemplate) {
-        var placeholderSelector = wrapperTemplate.getAttribute('data-place-into');
+        var placeholderSelector = wrapperTemplate.getAttribute('data-where-to-place');
         var wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after'; // also possible 'before' and 'instead'
 
         var wrapperTemplateReplacement = document.createElement('template');
@@ -3953,15 +3953,19 @@ function (_AsyncObject) {
         var placeholderElement = wrapperTemplate.parentNode.querySelector(placeholderSelector);
 
         if (!placeholderElement) {
-          throw new Error('element is not found by the selector in the attribute "data-place-into"');
+          throw new Error('element is not found by the selector in the attribute "data-where-to-place"');
         }
 
         var wrapperTemplateContentNode = document.importNode(wrapperTemplate.content, true);
 
         if (wayToPlace === 'before') {
-          placeholderElement.prepend(wrapperTemplateContentNode);
+          placeholderElement.parentNode.insertBefore(wrapperTemplateContentNode, placeholderElement);
         } else if (wayToPlace === 'after') {
-          placeholderElement.append(wrapperTemplateContentNode);
+          if (placeholderElement.nextSibling) {
+            placeholderElement.parentNode.insertBefore(wrapperTemplateContentNode, placeholderElement.nextSibling);
+          } else {
+            placeholderElement.parentNode.append(wrapperTemplateContentNode);
+          }
         } else {
           placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement);
         }

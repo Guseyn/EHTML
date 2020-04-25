@@ -9,7 +9,7 @@ class ReleasedWrapperTemplateWithInnerContent extends AsyncObject {
 
   syncCall () {
     return (html, wrapperTemplate) => {
-      const placeholderSelector = wrapperTemplate.getAttribute('data-place-into')
+      const placeholderSelector = wrapperTemplate.getAttribute('data-where-to-place')
       const wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after' // also possible 'before' and 'instead'
       const wrapperTemplateReplacement = document.createElement('template')
       wrapperTemplateReplacement.innerHTML = html
@@ -17,13 +17,19 @@ class ReleasedWrapperTemplateWithInnerContent extends AsyncObject {
       wrapperTemplate.parentNode.insertBefore(wrapperTemplateReplacementContentNode, wrapperTemplate)
       const placeholderElement = wrapperTemplate.parentNode.querySelector(placeholderSelector)
       if (!placeholderElement) {
-        throw new Error('element is not found by the selector in the attribute "data-place-into"')
+        throw new Error('element is not found by the selector in the attribute "data-where-to-place"')
       }
       const wrapperTemplateContentNode = document.importNode(wrapperTemplate.content, true)
       if (wayToPlace === 'before') {
-        placeholderElement.prepend(wrapperTemplateContentNode)
+        placeholderElement.parentNode.insertBefore(wrapperTemplateContentNode, placeholderElement)
       } else if (wayToPlace === 'after') {
-        placeholderElement.append(wrapperTemplateContentNode)
+        if (placeholderElement.nextSibling) {
+          placeholderElement.parentNode.insertBefore(
+            wrapperTemplateContentNode, placeholderElement.nextSibling
+          )
+        } else {
+          placeholderElement.parentNode.append(wrapperTemplateContentNode)
+        }
       } else {
         placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
       }
