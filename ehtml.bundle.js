@@ -1242,10 +1242,19 @@ function (_E) {
     key: "requestParamsOfLocationSearch",
     value: function requestParamsOfLocationSearch(locationSearch) {
       var requestParams = {};
-      locationSearch.split('?')[1].split('&').forEach(function (exp) {
-        var parts = exp.split('=');
-        requestParams[parts[0]] = parts[1];
-      });
+      var searchPart = locationSearch.split('?')[1];
+
+      if (searchPart) {
+        searchPart.split('&').forEach(function (exp) {
+          var parts = exp.split('=');
+
+          if (parts[1] !== undefined) {
+            console.log(parts[1]);
+            requestParams[parts[0]] = parts[1];
+          }
+        });
+      }
+
       return requestParams;
     }
   }]);
