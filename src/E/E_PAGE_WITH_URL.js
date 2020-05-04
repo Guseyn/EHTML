@@ -41,10 +41,16 @@ class E_PAGE_WITH_URL extends E {
 
   requestParamsOfLocationSearch (locationSearch) {
     const requestParams = { }
-    locationSearch.split('?')[1].split('&').forEach(exp => {
-      const parts = exp.split('=')
-      requestParams[parts[0]] = parts[1]
-    })
+    const searchPart = locationSearch.split('?')[1]
+    if (searchPart) {
+      searchPart.split('&').forEach(exp => {
+        const parts = exp.split('=')
+        if (parts[1] !== undefined) {
+          console.log(parts[1])
+          requestParams[parts[0]] = parts[1]
+        }
+      })
+    }
     return requestParams
   }
 }
