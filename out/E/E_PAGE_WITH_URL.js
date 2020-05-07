@@ -80,7 +80,6 @@ function (_E) {
           var parts = exp.split('=');
 
           if (parts[1] !== undefined) {
-            console.log(parts[1]);
             requestParams[parts[0]] = parts[1];
           }
         });

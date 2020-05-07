@@ -46,7 +46,6 @@ class E_PAGE_WITH_URL extends E {
       searchPart.split('&').forEach(exp => {
         const parts = exp.split('=')
         if (parts[1] !== undefined) {
-          console.log(parts[1])
           requestParams[parts[0]] = parts[1]
         }
       })
