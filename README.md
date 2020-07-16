@@ -202,8 +202,6 @@
   }
   ```
 
-  Then you can fetch it via `e-json` like in following html code:
-
   ```html
   <template is="e-json" data-src="/../album/Humbug" data-object-name="albumResponse">
     <div data-text="Title: ${albumResponse.body.title}"></div>
