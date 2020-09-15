@@ -3,7 +3,7 @@
 
 const { AsyncObject } = require('./../cutie/exports')
 
-// remove parent without removing childen
+// remove parent without removing children
 class UnwrappedChildrenOfParent extends AsyncObject {
   constructor (parent) {
     super(parent)
