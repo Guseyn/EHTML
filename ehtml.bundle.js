@@ -4266,7 +4266,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var _require = require('./../cutie/exports'),
-    AsyncObject = _require.AsyncObject; // remove parent without removing childen
+    AsyncObject = _require.AsyncObject; // remove parent without removing children
 
 
 var UnwrappedChildrenOfParent =
