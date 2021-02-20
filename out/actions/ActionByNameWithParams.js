@@ -40,7 +40,8 @@ var _require3 = require('./../async-dom/exports'),
     ElementWithChangedValue = _require3.ElementWithChangedValue,
     ElementWithChangedAttribute = _require3.ElementWithChangedAttribute,
     ParsedElmSelectors = _require3.ParsedElmSelectors,
-    RemovedElements = _require3.RemovedElements;
+    RemovedElements = _require3.RemovedElements,
+    ScrolledIntoView = _require3.ScrolledIntoView;
 
 var _require4 = require('./../async-log/exports'),
     Logged = _require4.Logged;
@@ -165,6 +166,9 @@ var actions = {
   },
   updateAttribute: function updateAttribute(elmSelector, attrName, attrValue) {
     return new ElementWithChangedAttribute(new First(new ParsedElmSelectors(elmSelector)), attrName, attrValue);
+  },
+  scrollIntoView: function scrollIntoView(elmSelector) {
+    return new ScrolledIntoView(new First(new ParsedElmSelectors(elmSelector)));
   }
 };
 

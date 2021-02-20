@@ -60,13 +60,16 @@ function (_E) {
   }, {
     key: "parsedUrlPattern",
     value: function parsedUrlPattern(url) {
+      var splittedByQuery = url.split(/\?/g);
+      var beforeQuery = splittedByQuery[0];
+      var afterQuery = splittedByQuery[1];
       return {
-        pathVariables: url.split(/\?/g)[0].split(/\//g).filter(function (part) {
+        pathVariables: beforeQuery ? beforeQuery.split(/\//g).filter(function (part) {
           return part !== '';
-        }),
-        requestParams: url.split(/\?/g)[1].split(/&/g).filter(function (part) {
+        }) : [],
+        requestParams: afterQuery ? afterQuery.split(/&/g).filter(function (part) {
           return part !== '';
-        })
+        }) : []
       };
     }
   }, {
