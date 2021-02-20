@@ -27,6 +27,7 @@ module.exports = {
   ReleasedWrapperTemplateWithInnerContent: require('./ReleasedWrapperTemplateWithInnerContent'),
   RemovedElements: require('./RemovedElements'),
   ReplacedElementWithAnotherOne: require('./ReplacedElementWithAnotherOne'),
+  ScrolledIntoView: require('./ScrolledIntoView'),
   ShownElement: require('./ShownElement'),
   ShownElements: require('./ShownElements'),
   TitleOfDocument: require('./TitleOfDocument'),

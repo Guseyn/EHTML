@@ -1094,6 +1094,17 @@
 
 </details>
 
+<details>
+  <summary><b>scrollIntoView</b> (v1.0.20)</summary><br>
+  
+  You can scroll to element on response:
+
+  ```html
+  data-actions-on-response="scrollIntoView('#someElmSelector')"
+  ```
+
+</details>
+
 ##
 
 You can combine several actions on one response:

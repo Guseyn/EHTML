@@ -2,7 +2,7 @@
 
 const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
-const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ElementWithChangedAttribute, ParsedElmSelectors, RemovedElements } = require('./../async-dom/exports')
+const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ElementWithChangedAttribute, ParsedElmSelectors, RemovedElements, ScrolledIntoView } = require('./../async-dom/exports')
 const { Logged } = require('./../async-log/exports')
 const { If } = require('./../async-if-else/exports')
 const { RedirectedLocation, ReloadedLocation, TurboRedirected } = require('./../async-location/exports')
@@ -160,6 +160,14 @@ const actions = {
       ),
       attrName,
       attrValue
+    )
+  },
+
+  scrollIntoView: (elmSelector) => {
+    return new ScrolledIntoView(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      )
     )
   }
 }

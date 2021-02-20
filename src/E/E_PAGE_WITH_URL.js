@@ -33,9 +33,12 @@ class E_PAGE_WITH_URL extends E {
   }
 
   parsedUrlPattern (url) {
+    const splittedByQuery = url.split(/\?/g)
+    const beforeQuery = splittedByQuery[0]
+    const afterQuery = splittedByQuery[1]
     return {
-      pathVariables: url.split(/\?/g)[0].split(/\//g).filter(part => part !== ''),
-      requestParams: url.split(/\?/g)[1].split(/&/g).filter(part => part !== '')
+      pathVariables: beforeQuery ? beforeQuery.split(/\//g).filter(part => part !== '') : [],
+      requestParams: afterQuery ? afterQuery.split(/&/g).filter(part => part !== '') : []
     }
   }
 
