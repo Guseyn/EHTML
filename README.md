@@ -1073,6 +1073,23 @@
 </details>
 
 <details>
+  <summary><b>innerHTMLFromResponse / addHTMLToFromResponse / textContentFromResponse</b> (v1.0.21)</summary><br>
+  
+  You can load html or text content into some element from the response you've got:
+
+  ```html
+  data-actions-on-response="
+    innerHTMLFromResponse('#someElmSelector', '${response.body.html}');
+    addHTMLToFromResponse('#someElmSelector', '${response.body.html}');
+    textContentFromResponse('#someElmSelector', '${response.body.text}');
+  "
+  ```
+
+  These three actions have arguments: `elmSelector`, `html(text)`. So, you can get html(text) property from your JSON response and put it into some element with specified selector.
+
+</details>
+
+<details>
   <summary><b>changeValueOf</b></summary><br>
   
   You can change the value of some input element on response:

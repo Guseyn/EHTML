@@ -110,6 +110,15 @@ const actions = {
     )
   },
 
+  innerHTMLFromResponse: (elmSelector, htmlStringFromObject) => {
+    return new ElementWithInnerHTML(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      htmlStringFromObject
+    )
+  },
+
   addHTMLTo: (elmSelector, url, headers) => {
     return new ElementWithAdditionalHTML(
       new First(
@@ -127,6 +136,15 @@ const actions = {
     )
   },
 
+  addHTMLFromResponse: (elmSelector, htmlStringFromObject) => {
+    return new ElementWithAdditionalHTML(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      htmlStringFromObject
+    )
+  },
+
   textContent: (elmSelector, url, headers) => {
     return new ElementWithTextContent(
       new First(
@@ -141,6 +159,15 @@ const actions = {
           )
         )
       )
+    )
+  },
+
+  textContentFromResponse: (elmSelector, stringFromObject) => {
+    return new ElementWithTextContent(
+      new First(
+        new ParsedElmSelectors(elmSelector)
+      ),
+      stringFromObject
     )
   },
 

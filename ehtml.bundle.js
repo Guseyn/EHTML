@@ -1997,11 +1997,20 @@ var actions = {
   innerHTML: function innerHTML(elmSelector, url, headers) {
     return new ElementWithInnerHTML(new First(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
+  innerHTMLFromResponse: function innerHTMLFromResponse(elmSelector, htmlStringFromObject) {
+    return new ElementWithInnerHTML(new First(new ParsedElmSelectors(elmSelector)), htmlStringFromObject);
+  },
   addHTMLTo: function addHTMLTo(elmSelector, url, headers) {
     return new ElementWithAdditionalHTML(new First(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
   },
+  addHTMLFromResponse: function addHTMLFromResponse(elmSelector, htmlStringFromObject) {
+    return new ElementWithAdditionalHTML(new First(new ParsedElmSelectors(elmSelector)), htmlStringFromObject);
+  },
   textContent: function textContent(elmSelector, url, headers) {
     return new ElementWithTextContent(new First(new ParsedElmSelectors(elmSelector)), new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', new EncodedURI(url), 'method', 'GET', 'headers', headers))));
+  },
+  textContentFromResponse: function textContentFromResponse(elmSelector, stringFromObject) {
+    return new ElementWithTextContent(new First(new ParsedElmSelectors(elmSelector)), stringFromObject);
   },
   changeValueOf: function changeValueOf(elmSelector, newValue) {
     return new ElementWithChangedValue(new First(new ParsedElmSelectors(elmSelector)), newValue);
