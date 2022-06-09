@@ -186,6 +186,7 @@ function (_E) {
   }, {
     key: "prepareDifferentFormElements",
     value: function prepareDifferentFormElements() {
+      this.node.allElements = [];
       this.prepareFormElements(this.node.inputs);
       this.prepareFormElements(this.node.selects);
       this.prepareFormElements(this.node.textareas);
@@ -198,6 +199,7 @@ function (_E) {
     value: function prepareFormElements(elms) {
       for (var index = 0; index < elms.length; index++) {
         var elm = elms[index];
+        this.node.allElements.push(elm);
         var ajaxIcon = document.querySelector(elm.getAttribute('data-ajax-icon'));
 
         if (ajaxIcon) {
@@ -253,7 +255,7 @@ function (_E) {
     value: function isFormValid(form, validations) {
       for (var i = 0; i < validations.length; i++) {
         if (!validations[i]) {
-          form.showErrorForFormElement(form, form, form.getAttribute('data-validation-error-message') || "the form is invalid", form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, form, form.getAttribute('data-validation-error-message'), form.getAttribute('data-validation-error-class-for-element'), form.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -291,7 +293,7 @@ function (_E) {
 
       if (requiredAttribute) {
         if (!value) {
-          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message'), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
 
@@ -299,7 +301,7 @@ function (_E) {
           var minFilesNumber = element.getAttribute('data-validation-min-files-number') * 1 || 1;
 
           if (value.length < minFilesNumber) {
-            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " must have at least ").concat(minFilesNumber, " files"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message'), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
         }
@@ -312,7 +314,7 @@ function (_E) {
           }
 
           if (value.indexOf(checkboxValue) === -1) {
-            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message') || "".concat(nameAttribute, " is required to be true for this value"), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+            form.showErrorForFormElement(form, element, element.getAttribute('data-validation-absence-error-message'), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
             return false;
           }
         }
@@ -322,7 +324,7 @@ function (_E) {
         var validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig');
 
         if (!validationPattern.test(value)) {
-          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-bad-format-error-message') || "".concat(nameAttribute, " must have format ").concat(validationPattern), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
+          form.showErrorForFormElement(form, element, element.getAttribute('data-validation-bad-format-error-message'), element.getAttribute('data-validation-error-class-for-element'), element.getAttribute('data-validation-error-class-for-message-box'));
           return false;
         }
       }
@@ -342,33 +344,35 @@ function (_E) {
   }, {
     key: "showErrorForFormElement",
     value: function showErrorForFormElement(form, element, errorMessage, elementErrorClass, messageBoxErrorClass) {
-      var elementWithErrorMessageBox = document.createElement('div');
-      var messageBox = document.createElement('div');
-      messageBox.innerText = errorMessage;
-      element.parentNode.replaceChild(elementWithErrorMessageBox, element);
-      elementWithErrorMessageBox.appendChild(element);
-      elementWithErrorMessageBox.appendChild(messageBox);
+      var elementWithErrorMessageBox;
+
+      if (errorMessage) {
+        elementWithErrorMessageBox = document.createElement('div');
+        var messageBox = document.createElement('div');
+        messageBox.innerText = errorMessage;
+        element.parentNode.replaceChild(elementWithErrorMessageBox, element);
+        elementWithErrorMessageBox.appendChild(element);
+        elementWithErrorMessageBox.appendChild(messageBox);
+        form.validationErrorBoxes.push(elementWithErrorMessageBox);
+
+        if (messageBoxErrorClass) {
+          messageBox.classList.add(messageBoxErrorClass);
+        }
+      }
 
       if (elementErrorClass) {
         element.classList.add(elementErrorClass);
       }
 
-      if (messageBoxErrorClass) {
-        messageBox.classList.add(messageBoxErrorClass);
-      }
-
-      form.validationErrorBoxes.push({
-        elementWithErrorMessageBox: elementWithErrorMessageBox,
-        element: element
-      });
-
       var listener = function listener() {
-        if (elementWithErrorMessageBox.parentNode) {
-          elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox);
-
-          if (elementErrorClass) {
-            element.classList.remove(elementErrorClass);
+        if (elementWithErrorMessageBox) {
+          if (elementWithErrorMessageBox.parentNode) {
+            elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox);
           }
+        }
+
+        if (elementErrorClass) {
+          element.classList.remove(elementErrorClass);
         }
 
         element.removeEventListener('focus', listener);
@@ -381,15 +385,16 @@ function (_E) {
   }, {
     key: "hideAllErrorsForForm",
     value: function hideAllErrorsForForm(form) {
-      form.validationErrorBoxes.forEach(function (errorBox) {
-        if (errorBox.elementWithErrorMessageBox.parentNode) {
-          errorBox.elementWithErrorMessageBox.parentNode.replaceChild(errorBox.element, errorBox.elementWithErrorMessageBox);
+      form.validationErrorBoxes.forEach(function (elementWithErrorMessageBox) {
+        if (elementWithErrorMessageBox.parentNode) {
+          elementWithErrorMessageBox.parentNode.replaceChild(elementWithErrorMessageBox.firstChild, elementWithErrorMessageBox);
         }
-
-        var elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element');
+      });
+      form.allElements.forEach(function (element) {
+        var elementErrorClass = element.getAttribute('data-validation-error-class-for-element');
 
         if (elementErrorClass) {
-          errorBox.element.classList.remove(elementErrorClass);
+          element.classList.remove(elementErrorClass);
         }
       });
       form.validationErrorBoxes = [];
@@ -397,7 +402,7 @@ function (_E) {
   }, {
     key: "scrollToFirstErrorBox",
     value: function scrollToFirstErrorBox(form) {
-      form.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView({
+      form.validationErrorBoxes[0].scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });

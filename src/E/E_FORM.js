@@ -93,6 +93,7 @@ class E_FORM extends E {
   }
 
   prepareDifferentFormElements () {
+    this.node.allElements = []
     this.prepareFormElements(this.node.inputs)
     this.prepareFormElements(this.node.selects)
     this.prepareFormElements(this.node.textareas)
@@ -104,6 +105,7 @@ class E_FORM extends E {
   prepareFormElements (elms) {
     for (let index = 0; index < elms.length; index++) {
       const elm = elms[index]
+      this.node.allElements.push(elm)
       const ajaxIcon = document.querySelector(
         elm.getAttribute('data-ajax-icon')
       )
@@ -215,7 +217,7 @@ class E_FORM extends E {
         form.showErrorForFormElement(
           form,
           form,
-          form.getAttribute('data-validation-error-message') || `the form is invalid`,
+          form.getAttribute('data-validation-error-message'),
           form.getAttribute('data-validation-error-class-for-element'),
           form.getAttribute('data-validation-error-class-for-message-box')
         )
@@ -253,7 +255,7 @@ class E_FORM extends E {
         form.showErrorForFormElement(
           form,
           element,
-          element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required`,
+          element.getAttribute('data-validation-absence-error-message'),
           element.getAttribute('data-validation-error-class-for-element'),
           element.getAttribute('data-validation-error-class-for-message-box')
         )
@@ -265,7 +267,7 @@ class E_FORM extends E {
           form.showErrorForFormElement(
             form,
             element,
-            element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} must have at least ${minFilesNumber} files`,
+            element.getAttribute('data-validation-absence-error-message'),
             element.getAttribute('data-validation-error-class-for-element'),
             element.getAttribute('data-validation-error-class-for-message-box')
           )
@@ -281,7 +283,7 @@ class E_FORM extends E {
           form.showErrorForFormElement(
             form,
             element,
-            element.getAttribute('data-validation-absence-error-message') || `${nameAttribute} is required to be true for this value`,
+            element.getAttribute('data-validation-absence-error-message'),
             element.getAttribute('data-validation-error-class-for-element'),
             element.getAttribute('data-validation-error-class-for-message-box')
           )
@@ -295,7 +297,7 @@ class E_FORM extends E {
         form.showErrorForFormElement(
           form,
           element,
-          element.getAttribute('data-validation-bad-format-error-message') || `${nameAttribute} must have format ${validationPattern}`,
+          element.getAttribute('data-validation-bad-format-error-message'),
           element.getAttribute('data-validation-error-class-for-element'),
           element.getAttribute('data-validation-error-class-for-message-box')
         )
@@ -316,28 +318,30 @@ class E_FORM extends E {
   }
 
   showErrorForFormElement (form, element, errorMessage, elementErrorClass, messageBoxErrorClass) {
-    const elementWithErrorMessageBox = document.createElement('div')
-    const messageBox = document.createElement('div')
-    messageBox.innerText = errorMessage
-    element.parentNode.replaceChild(elementWithErrorMessageBox, element)
-    elementWithErrorMessageBox.appendChild(element)
-    elementWithErrorMessageBox.appendChild(messageBox)
+    let elementWithErrorMessageBox
+    if (errorMessage) {
+      elementWithErrorMessageBox = document.createElement('div')
+      const messageBox = document.createElement('div')
+      messageBox.innerText = errorMessage
+      element.parentNode.replaceChild(elementWithErrorMessageBox, element)
+      elementWithErrorMessageBox.appendChild(element)
+      elementWithErrorMessageBox.appendChild(messageBox)
+      form.validationErrorBoxes.push(elementWithErrorMessageBox)
+      if (messageBoxErrorClass) {
+        messageBox.classList.add(messageBoxErrorClass)
+      }
+    }
     if (elementErrorClass) {
       element.classList.add(elementErrorClass)
     }
-    if (messageBoxErrorClass) {
-      messageBox.classList.add(messageBoxErrorClass)
-    }
-    form.validationErrorBoxes.push({
-      elementWithErrorMessageBox: elementWithErrorMessageBox,
-      element: element
-    })
     const listener = () => {
-      if (elementWithErrorMessageBox.parentNode) {
-        elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
-        if (elementErrorClass) {
-          element.classList.remove(elementErrorClass)
+      if (elementWithErrorMessageBox) {
+        if (elementWithErrorMessageBox.parentNode) {
+          elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
         }
+      }
+      if (elementErrorClass) {
+        element.classList.remove(elementErrorClass)
       }
       element.removeEventListener('focus', listener)
       element.focus()
@@ -347,22 +351,24 @@ class E_FORM extends E {
   }
 
   hideAllErrorsForForm (form) {
-    form.validationErrorBoxes.forEach(errorBox => {
-      if (errorBox.elementWithErrorMessageBox.parentNode) {
-        errorBox.elementWithErrorMessageBox.parentNode.replaceChild(
-          errorBox.element, errorBox.elementWithErrorMessageBox
+    form.validationErrorBoxes.forEach(elementWithErrorMessageBox => {
+      if (elementWithErrorMessageBox.parentNode) {
+        elementWithErrorMessageBox.parentNode.replaceChild(
+          elementWithErrorMessageBox.firstChild, elementWithErrorMessageBox
         )
       }
-      const elementErrorClass = errorBox.element.getAttribute('data-validation-error-class-for-element')
+    })
+    form.allElements.forEach(element => {
+      const elementErrorClass = element.getAttribute('data-validation-error-class-for-element')
       if (elementErrorClass) {
-        errorBox.element.classList.remove(elementErrorClass)
+        element.classList.remove(elementErrorClass)
       }
     })
     form.validationErrorBoxes = []
   }
 
   scrollToFirstErrorBox (form) {
-    form.validationErrorBoxes[0].elementWithErrorMessageBox.scrollIntoView({
+    form.validationErrorBoxes[0].scrollIntoView({
       behavior: 'smooth',
       block: 'center'
     })

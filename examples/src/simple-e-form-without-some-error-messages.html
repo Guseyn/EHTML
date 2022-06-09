@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/simple-e-form.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>    
+    <title>e-form</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <style type="text/css">
+      .elm-error {
+        border: 1px solid red;
+      }
+
+      .message-error {
+        color: red;
+      }
+
+      .form-message-error {
+        text-align: center;
+        color: red;
+        font-family: sans-serif;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <e-form
+        class="form"
+        id="form"
+        data-validation-error-class-for-message-box="form-message-error">
+
+        <div id="form-content">
+          <div class="name">
+            Simple Job Application Form
+          </div>
+          <div class="form-label">Your Name:</div>
+          <input
+            type="text"
+            name="name"
+            class="form-input"
+            required
+            data-validation-pattern="^[a-z ,.'-]+$"
+            data-validation-bad-format-error-message="Name can contain only alphabetic characters"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+          
+          <div class="form-label">Your Email:</div>
+          <input
+            type="email"
+            name="email"
+            class="form-input"
+            required
+            data-validation-pattern="email"
+            data-validation-bad-format-error-message="This is not proper email address"
+            data-validation-absence-error-message="Email is required"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">  
+          <div class="form-label">Your GitHub:</div>
+          <input
+            type="url"
+            name="github"
+            class="form-input"
+            required
+            pattern="url"
+            data-validation-absence-error-message="GitHub is required"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+
+          <div class="form-label">Choose languages you know:</div>
+          <span class="lang-option">PHP</span>
+          <input
+            type="checkbox"
+            name="langs"
+            value="php">
+          <span class="lang-option">JS</span>
+          <input
+            type="checkbox"
+            name="langs"
+            value="js">
+          <span class="lang-option">Ruby</span>
+          <input
+            type="checkbox"
+            name="langs"
+            value="ruby">
+          <span class="lang-option">Python</span>
+          <input
+            type="checkbox"
+            name="langs"
+            value="python">
+          <span class="lang-option">C++</span>
+          <input
+            type="checkbox"
+            name="langs"
+            value="c++">
+
+          <div class="form-label">Your Resume:</div>
+          <input
+            type="file"
+            name="resume"
+            class="form-input"
+            data-read-progress-bar="#read-progress-bar"
+            multiple required
+            data-validation-absence-error-message="Resume is required"
+            data-validation-min-files-number="1"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+          <progress id="read-progress-bar"></progress>
+
+          <button
+            data-request-url="https://guseyn.com/echo"
+            data-request-method="POST"
+            data-request-headers="{}"
+            data-upload-progress-bar="#upload-progress-bar"
+            data-progress-bar="#progress-bar"
+            data-ajax-icon="#ajax-icon"
+            data-response-name="response"
+            onclick="this.form.submit(this)"
+            data-actions-on-response="
+              hideElms('#form-content');
+              showElms('.applying-response-box');
+              mapToTemplate('${response}', '#response-template');
+            ">
+            Apply
+          </button>
+
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+          <progress id="upload-progress-bar"></progress>
+          <progress id="progress-bar"></progress>
+        </div>
+
+        <div class="applying-response-box" style="display: none;">
+          <template id="response-template" data-object-name="response">
+            <div class="response-info">
+              <div data-text="Thank you for your application, ${response.body.name}!"></div>
+            </div>
+          </template>
+        </div>
+
+      </e-form>
+    </div>
+  </body>
+
+</html>
