@@ -123,6 +123,7 @@ function (_E) {
 
       form.submit = this.submit;
       form.validationErrorBoxes = [];
+      form.elementsWithValidationError = [];
       this.setupMethodsForForm(form);
 
       while (this.node.firstChild) {
@@ -331,6 +332,7 @@ function (_E) {
 
       if (elementErrorClass) {
         element.classList.add(elementErrorClass);
+        form.elementsWithValidationError.push(element);
       }
 
       var listener = function listener() {
@@ -367,14 +369,33 @@ function (_E) {
         }
       });
       form.validationErrorBoxes = [];
+      form.elementsWithValidationError = [];
     }
   }, {
     key: "scrollToFirstErrorBox",
     value: function scrollToFirstErrorBox(form) {
-      form.validationErrorBoxes[0].scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
+      if (form.validationErrorBoxes.length > 0) {
+        form.validationErrorBoxes[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+
+      if (form.elementsWithValidationError.length > 0) {
+        if (form.validationErrorBoxes.length > 0) {
+          if (form.elementsWithValidationError[0].getBoundingClientRect().top < form.validationErrorBoxes[0].getBoundingClientRect().top) {
+            form.elementsWithValidationError[0].scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        } else {
+          form.elementsWithValidationError[0].scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
     }
   }, {
     key: "requestBody",
