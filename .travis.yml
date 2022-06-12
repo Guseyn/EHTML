@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - lts/*
+before_deploy: |-
+  gem install multipart-post -v 2.2.0
 install: |-
   npm ci
 script: |-
