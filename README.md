@@ -515,7 +515,7 @@
 
   Like for `e-json`, you can do [some actions on response](#suppoted-actions-on-response) with the name that you specify in `data-response-name` attribute. In this case, we just log the response from the request. 
 
-  You can also do validation of your e-forms by attributes: `required`, `pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#simple-e-form).
+  You can also do validation of your e-forms by attributes: `required`, `data-validation-pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#simple-e-form).
 
 </details>
 
