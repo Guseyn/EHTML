@@ -62,12 +62,24 @@ window.redirect = function (target, url) {
   new ActionByNameWithParams('redirect', retrievedValue(target, url)).value().call();
 };
 
+window.reload = function () {
+  new ActionByNameWithParams('reload').value().call();
+};
+
 window.saveToLocalStorage = function (target, key, value) {
   new ActionByNameWithParams('saveToLocalStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
 };
 
 window.saveToSessionStorage = function (target, key, value) {
   new ActionByNameWithParams('saveToSessionStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
+};
+
+window.removeFromLocalStorage = function (target, key, value) {
+  new ActionByNameWithParams('removeFromLocalStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
+};
+
+window.removeFromSessionStorage = function (target, key, value) {
+  new ActionByNameWithParams('removeFromSessionStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
 };
 
 window.hideElms = function () {
@@ -155,4 +167,8 @@ window.turboRedirect = function (target, href) {
     progressBarClassName: progressBarClassName,
     ajaxFavicon: ajaxFavicon
   }).value().call();
+};
+
+window.scrollIntoView = function (target, elmSelector) {
+  new ActionByNameWithParams('scrollIntoView', elmSelector).value().call();
 };
