@@ -73,6 +73,12 @@ window.redirect = (target, url) => {
   ).value().call()
 }
 
+window.reload = () => {
+  new ActionByNameWithParams(
+    'reload'
+  ).value().call()
+}
+
 window.saveToLocalStorage = (target, key, value) => {
   new ActionByNameWithParams(
     'saveToLocalStorage',
@@ -84,6 +90,22 @@ window.saveToLocalStorage = (target, key, value) => {
 window.saveToSessionStorage = (target, key, value) => {
   new ActionByNameWithParams(
     'saveToSessionStorage',
+    retrievedValue(target, key),
+    retrievedValue(target, value)
+  ).value().call()
+}
+
+window.removeFromLocalStorage = (target, key, value) => {
+  new ActionByNameWithParams(
+    'removeFromLocalStorage',
+    retrievedValue(target, key),
+    retrievedValue(target, value)
+  ).value().call()
+}
+
+window.removeFromSessionStorage = (target, key, value) => {
+  new ActionByNameWithParams(
+    'removeFromSessionStorage',
     retrievedValue(target, key),
     retrievedValue(target, value)
   ).value().call()
@@ -190,5 +212,12 @@ window.turboRedirect = (target, href, headers = { }, { progressBarPlace, progres
     retrievedValue(target, href),
     retrievedValue(target, headers),
     { progressBarPlace, progressBarClassName, ajaxFavicon }
+  ).value().call()
+}
+
+window.scrollIntoView = (target, elmSelector) => {
+  new ActionByNameWithParams(
+    'scrollIntoView',
+    elmSelector
   ).value().call()
 }

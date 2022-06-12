@@ -6942,12 +6942,24 @@ window.redirect = function (target, url) {
   new ActionByNameWithParams('redirect', retrievedValue(target, url)).value().call();
 };
 
+window.reload = function () {
+  new ActionByNameWithParams('reload').value().call();
+};
+
 window.saveToLocalStorage = function (target, key, value) {
   new ActionByNameWithParams('saveToLocalStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
 };
 
 window.saveToSessionStorage = function (target, key, value) {
   new ActionByNameWithParams('saveToSessionStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
+};
+
+window.removeFromLocalStorage = function (target, key, value) {
+  new ActionByNameWithParams('removeFromLocalStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
+};
+
+window.removeFromSessionStorage = function (target, key, value) {
+  new ActionByNameWithParams('removeFromSessionStorage', retrievedValue(target, key), retrievedValue(target, value)).value().call();
 };
 
 window.hideElms = function () {
@@ -7035,6 +7047,10 @@ window.turboRedirect = function (target, href) {
     progressBarClassName: progressBarClassName,
     ajaxFavicon: ajaxFavicon
   }).value().call();
+};
+
+window.scrollIntoView = function (target, elmSelector) {
+  new ActionByNameWithParams('scrollIntoView', elmSelector).value().call();
 };
 
 },{"./actions/exports":24,"./async-ajax/exports":31,"./async-dom/exports":66,"./async-object/exports":85,"./async-string/exports":94,"./cutie/exports":107}]},{},[20,21,22,24,23,30,31,25,26,27,28,29,33,32,34,35,36,37,38,39,46,40,41,42,43,44,45,47,48,66,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,69,67,68,70,72,71,76,73,74,75,80,77,78,79,82,81,83,85,84,92,86,87,88,89,90,91,94,93,95,96,97,98,99,100,101,102,103,107,104,105,106,108,109,3,2,4,5,6,7,9,8,10,11,12,13,14,15,16,17,1,18,113,110,111,112,115,114,19,117,116,118]);
