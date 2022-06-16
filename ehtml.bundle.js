@@ -6494,8 +6494,9 @@ function () {
         throw new Error('Mapping element must have attribute "data-object-name"');
       }
 
-      var initialization = "const ".concat(objName, " = obj");
-      this.map(elmContentNode, this.obj, initialization);
+      var initialization = "\n      const ".concat(objName, " = obj\n      const mappingElmAttrs = mappingElement.getAttributeNames().reduce((acc, name) => {\n        return {...acc, [name]: mappingElement.getAttribute(name)};\n      }, {})\n    ");
+      var mappingElement = this.elm;
+      this.map(mappingElement, elmContentNode, this.obj, initialization);
       this.releaseTemplate(elmContentNode);
       return this.elm;
     }
@@ -6528,19 +6529,19 @@ function () {
     }
   }, {
     key: "map",
-    value: function map(elm, obj, initialization) {
+    value: function map(mappingElement, elm, obj, initialization) {
       var _this = this;
 
       this.iterateChildNodes(elm, function (node) {
         if (_this.isTemplate(node, 'e-for-each')) {
-          _this.activateEForEach(node, obj, initialization);
+          _this.activateEForEach(mappingElement, node, obj, initialization);
         } else if (_this.isTemplate(node, 'e-if')) {
-          _this.activateEIf(node, obj, initialization);
+          _this.activateEIf(mappingElement, node, obj, initialization);
         } else {
           _this.iterateAttributes(node, function (attr) {
             if (_this.isForProcessing(attr)) {
               node.setAttribute(attr.name, // eslint-disable-next-line no-eval
-              _this.appliedExpressionsInString(attr.value, initialization, obj));
+              _this.appliedExpressionsInString(mappingElement, attr.value, initialization, obj));
             }
 
             if (attr.name === 'data-text') {
@@ -6603,18 +6604,18 @@ function () {
     }
   }, {
     key: "activateEIf",
-    value: function activateEIf(node, obj, initialization) {
+    value: function activateEIf(mappingElement, node, obj, initialization) {
       var toDisplayExpression = node.getAttribute('data-condition-to-display');
 
       if (!toDisplayExpression) {
         throw new Error('e-if must have "data-condition-to-display" attribute');
       }
 
-      var toDisplay = this.appliedExpressionsInString(toDisplayExpression, initialization, obj).trim();
+      var toDisplay = this.appliedExpressionsInString(mappingElement, toDisplayExpression, initialization, obj).trim();
 
       if (toDisplay === 'true') {
         var contentNode = document.importNode(node.content, true);
-        this.map(contentNode, obj, initialization);
+        this.map(mappingElement, contentNode, obj, initialization);
         node.parentNode.insertBefore(contentNode, node);
       }
 
@@ -6622,7 +6623,7 @@ function () {
     }
   }, {
     key: "activateEForEach",
-    value: function activateEForEach(node, obj, initialization) {
+    value: function activateEForEach(mappingElement, node, obj, initialization) {
       var _this3 = this;
 
       var listDefinitionExpression = node.getAttribute('data-list-to-iterate');
@@ -6645,7 +6646,7 @@ function () {
         var itemInitialization = "\n        ".concat(initialization, "\n        const ").concat(itemName, " = ").concat(listDefinitionExpressionBody, "[").concat(index, "]\n      ");
         var itemContentNode = document.importNode(node.content, true);
 
-        _this3.map(itemContentNode, obj, itemInitialization);
+        _this3.map(mappingElement, itemContentNode, obj, itemInitialization);
 
         listFragment.appendChild(itemContentNode);
       });
@@ -6653,7 +6654,7 @@ function () {
     }
   }, {
     key: "appliedExpressionsInString",
-    value: function appliedExpressionsInString(string, initialization, obj) {
+    value: function appliedExpressionsInString(mappingElement, string, initialization, obj) {
       return string.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
         // eslint-disable-next-line no-eval
         var appliedExpression = eval("\n          ".concat(initialization, "\n          ").concat(p1, "\n        "));
