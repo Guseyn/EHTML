@@ -5,17 +5,18 @@ const ParsedActions = require('./ParsedActions')
 const BuiltAsyncTreeByParsedActions = require('./BuiltAsyncTreeByParsedActions')
 
 class AppliedActionsOnResponse extends AsyncObject {
-  constructor (tagName, resName, res, actions) {
-    super(tagName, resName, res, actions)
+  constructor (element, tagName, resName, res, actions) {
+    super(element, tagName, resName, res, actions)
   }
 
   syncCall () {
-    return (tagName, resName, res, actions) => {
+    return (element, tagName, resName, res, actions) => {
       if (!resName) {
         throw new Error(`You need to specify attribute "data-response-name" in <${tagName}>`)
       }
       new BuiltAsyncTreeByParsedActions(
         new ParsedActions(
+          element,
           actions,
           tagName,
           res,

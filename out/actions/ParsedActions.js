@@ -27,10 +27,11 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, resObj, resName) {
+  function ParsedActions(element, actions, tagName, resObj, resName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
+    this.element = element;
     this.actions = actions;
     this.tagName = tagName;
     this.resObj = resObj;
@@ -107,12 +108,12 @@ function () {
       }
 
       return params.map(function (param) {
-        return _this2.evaluatedParam(param, _this2.resObj, _this2.resName);
+        return _this2.evaluatedParam(param, _this2.element, _this2.resObj, _this2.resName);
       });
     }
   }, {
     key: "evaluatedParam",
-    value: function evaluatedParam(param, resObj, resName) {
+    value: function evaluatedParam(param, element, resObj, resName) {
       if (typeof param === 'string') {
         if (!/\$\{([^${}]+)\}/gm.test(param)) {
           return param;
@@ -120,7 +121,7 @@ function () {
 
         var value = param.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
           // eslint-disable-next-line no-eval
-          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
+          var value = eval("\n          const ".concat(resName, " = resObj\n          const thisAttrs = element.getAttributeNames().reduce((acc, name) => {\n            return {...acc, [name]: element.getAttribute(name)};\n          }, {})\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
             return p1;
           }), "\n        "));
 
@@ -140,7 +141,7 @@ function () {
 
       if (_typeof(param) === 'object') {
         for (var key in param) {
-          param[key] = this.evaluatedParam(param[key], resObj, resName);
+          param[key] = this.evaluatedParam(param[key], element, resObj, resName);
         }
 
         return param;

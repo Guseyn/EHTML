@@ -925,6 +925,12 @@
 
 **EHTML** supports some actions on response that you get in some elements like `e-json`, `e-form` or `e-google-oauth-button`. You can specify these actions in the attribute `data-actions-on-response` with response, which name you have to specify in the attribute `data-response-name`.
 
+Moreover, since v1.0.25 (check in package.json) you can have access to the attributes of the element where you declare `data-actions-on-response`:
+
+```js
+data-actions-on-response="logToConsole('${thisAttrs[\'data-src\']}');"
+```
+
 <details>
   <summary><b>logToConsole</b></summary><br>
   
