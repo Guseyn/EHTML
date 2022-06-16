@@ -246,7 +246,7 @@ function (_E) {
       }
 
       if (isFormValid) {
-        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))).call();
+        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))).call();
       } else {
         this.scrollToFirstErrorBox(this);
       }
@@ -825,7 +825,7 @@ function (_E) {
           new ResponseFromAjaxRequest({
             url: _this2.node.getAttribute('data-redirect-url') || '/',
             method: 'POST'
-          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.node.tagName, _this2.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), _this2.node.getAttribute('data-actions-on-response'))).call();
+          }, JSON.stringify(body)).as('RESPONSE').after(new AppliedActionsOnResponse(_this2.node, _this2.node.tagName, _this2.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), _this2.node.getAttribute('data-actions-on-response'))).call();
         }, function (error) {
           throw error;
         });
@@ -1054,7 +1054,7 @@ function (_E) {
   _createClass(E_JSON, [{
     key: "activate",
     value: function activate() {
-      new ShownElement(new FirstParsedElmSelector(this.node.getAttribute('data-ajax-icon')).as('AJAX_ICON')).after(new PreparedProgressBar(new FirstParsedElmSelector(this.node.getAttribute('data-progress-bar'))).as('PROGRESS_BAR').after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-request-headers') || '{}'), 'progressEvent', new ShowProgressEvent(as('PROGRESS_BAR')))).as('RESPONSE').after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(this.node.tagName, this.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), this.node.getAttribute('data-actions-on-response')))))).call();
+      new ShownElement(new FirstParsedElmSelector(this.node.getAttribute('data-ajax-icon')).as('AJAX_ICON')).after(new PreparedProgressBar(new FirstParsedElmSelector(this.node.getAttribute('data-progress-bar'))).as('PROGRESS_BAR').after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET', 'headers', new ParsedJSON(this.node.getAttribute('data-request-headers') || '{}'), 'progressEvent', new ShowProgressEvent(as('PROGRESS_BAR')))).as('RESPONSE').after(new HiddenElement(as('AJAX_ICON')).after(new AppliedActionsOnResponse(this.node, this.node.tagName, this.node.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), this.node.getAttribute('data-actions-on-response')))))).call();
     }
   }]);
 
@@ -2113,21 +2113,21 @@ var AppliedActionsOnResponse =
 function (_AsyncObject) {
   _inherits(AppliedActionsOnResponse, _AsyncObject);
 
-  function AppliedActionsOnResponse(tagName, resName, res, actions) {
+  function AppliedActionsOnResponse(element, tagName, resName, res, actions) {
     _classCallCheck(this, AppliedActionsOnResponse);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AppliedActionsOnResponse).call(this, tagName, resName, res, actions));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AppliedActionsOnResponse).call(this, element, tagName, resName, res, actions));
   }
 
   _createClass(AppliedActionsOnResponse, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (tagName, resName, res, actions) {
+      return function (element, tagName, resName, res, actions) {
         if (!resName) {
           throw new Error("You need to specify attribute \"data-response-name\" in <".concat(tagName, ">"));
         }
 
-        new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, res, resName).value()).value().call();
+        new BuiltAsyncTreeByParsedActions(new ParsedActions(element, actions, tagName, res, resName).value()).value().call();
       };
     }
   }]);
@@ -2225,10 +2225,11 @@ var ActionByNameWithParams = require('./ActionByNameWithParams');
 var ParsedActions =
 /*#__PURE__*/
 function () {
-  function ParsedActions(actions, tagName, resObj, resName) {
+  function ParsedActions(element, actions, tagName, resObj, resName) {
     _classCallCheck(this, ParsedActions);
 
     // act1(p1, p2); act(q1, q2); ...
+    this.element = element;
     this.actions = actions;
     this.tagName = tagName;
     this.resObj = resObj;
@@ -2305,12 +2306,12 @@ function () {
       }
 
       return params.map(function (param) {
-        return _this2.evaluatedParam(param, _this2.resObj, _this2.resName);
+        return _this2.evaluatedParam(param, _this2.element, _this2.resObj, _this2.resName);
       });
     }
   }, {
     key: "evaluatedParam",
-    value: function evaluatedParam(param, resObj, resName) {
+    value: function evaluatedParam(param, element, resObj, resName) {
       if (typeof param === 'string') {
         if (!/\$\{([^${}]+)\}/gm.test(param)) {
           return param;
@@ -2318,7 +2319,7 @@ function () {
 
         var value = param.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
           // eslint-disable-next-line no-eval
-          var value = eval("\n          const ".concat(resName, " = resObj\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
+          var value = eval("\n          const ".concat(resName, " = resObj\n          const thisAttrs = element.getAttributeNames().reduce((acc, name) => {\n            return {...acc, [name]: element.getAttribute(name)};\n          }, {})\n          ").concat(match.replace(/\$\{([^${}]+)\}/gm, function (match, p1) {
             return p1;
           }), "\n        "));
 
@@ -2338,7 +2339,7 @@ function () {
 
       if (_typeof(param) === 'object') {
         for (var key in param) {
-          param[key] = this.evaluatedParam(param[key], resObj, resName);
+          param[key] = this.evaluatedParam(param[key], element, resObj, resName);
         }
 
         return param;

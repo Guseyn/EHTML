@@ -3,8 +3,9 @@
 const ActionByNameWithParams = require('./ActionByNameWithParams')
 
 class ParsedActions {
-  constructor (actions, tagName, resObj, resName) {
+  constructor (element, actions, tagName, resObj, resName) {
     // act1(p1, p2); act(q1, q2); ...
+    this.element = element
     this.actions = actions
     this.tagName = tagName
     this.resObj = resObj
@@ -65,11 +66,11 @@ class ParsedActions {
 
   funcWithParams (...params) {
     return params.map(param => {
-      return this.evaluatedParam(param, this.resObj, this.resName)
+      return this.evaluatedParam(param, this.element, this.resObj, this.resName)
     })
   }
 
-  evaluatedParam (param, resObj, resName) {
+  evaluatedParam (param, element, resObj, resName) {
     if (typeof param === 'string') {
       if (!/\$\{([^${}]+)\}/gm.test(param)) {
         return param
@@ -78,6 +79,9 @@ class ParsedActions {
         // eslint-disable-next-line no-eval
         const value = eval(`
           const ${resName} = resObj
+          const thisAttrs = element.getAttributeNames().reduce((acc, name) => {
+            return {...acc, [name]: element.getAttribute(name)};
+          }, {})
           ${match.replace(/\$\{([^${}]+)\}/gm, (match, p1) => { return p1 })}
         `)
         if (typeof value === 'object') {
@@ -93,7 +97,7 @@ class ParsedActions {
     }
     if (typeof param === 'object') {
       for (let key in param) {
-        param[key] = this.evaluatedParam(param[key], resObj, resName)
+        param[key] = this.evaluatedParam(param[key], element, resObj, resName)
       }
       return param
     }

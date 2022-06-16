@@ -42,6 +42,7 @@ class E_JSON extends E {
             as('AJAX_ICON')
           ).after(
             new AppliedActionsOnResponse(
+              this.node,
               this.node.tagName,
               this.node.getAttribute('data-response-name'),
               new JSResponseByHTTPReponseComponents(

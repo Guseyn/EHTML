@@ -30,21 +30,21 @@ var AppliedActionsOnResponse =
 function (_AsyncObject) {
   _inherits(AppliedActionsOnResponse, _AsyncObject);
 
-  function AppliedActionsOnResponse(tagName, resName, res, actions) {
+  function AppliedActionsOnResponse(element, tagName, resName, res, actions) {
     _classCallCheck(this, AppliedActionsOnResponse);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AppliedActionsOnResponse).call(this, tagName, resName, res, actions));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AppliedActionsOnResponse).call(this, element, tagName, resName, res, actions));
   }
 
   _createClass(AppliedActionsOnResponse, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (tagName, resName, res, actions) {
+      return function (element, tagName, resName, res, actions) {
         if (!resName) {
           throw new Error("You need to specify attribute \"data-response-name\" in <".concat(tagName, ">"));
         }
 
-        new BuiltAsyncTreeByParsedActions(new ParsedActions(actions, tagName, res, resName).value()).value().call();
+        new BuiltAsyncTreeByParsedActions(new ParsedActions(element, actions, tagName, res, resName).value()).value().call();
       };
     }
   }]);
