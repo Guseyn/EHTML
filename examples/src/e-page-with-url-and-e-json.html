@@ -26,7 +26,7 @@
         >
           <div class="profile-box">
             <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg"/>
-            <template id="profile-template" data-object-name="profileResponse">
+            <template data-name="${urlParams.name}" id="profile-template" data-object-name="profileResponse">
               <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 200}">
                 <img class="photo" src="${profileResponse.body.photo}"/>
                 <div class="user-info">
@@ -38,6 +38,9 @@
                     <div data-text="Profession: ${profileResponse.body.profession}"></div>
                   </div>
                 </div>
+                <template is="e-if" data-condition-to-display="${mappingElmAttrs['data-name'] === 'John'}">
+                  It's john
+                </template>
               </template>
               <template is="e-if" data-condition-to-display="${profileResponse.statusCode === 404}">
                 <div class="error-box">

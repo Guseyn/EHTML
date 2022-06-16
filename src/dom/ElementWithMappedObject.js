@@ -18,8 +18,14 @@ class ElementWithMappedObject {
     if (!objName) {
       throw new Error('Mapping element must have attribute "data-object-name"')
     }
-    const initialization = `const ${objName} = obj`
-    this.map(elmContentNode, this.obj, initialization)
+    const initialization = `
+      const ${objName} = obj
+      const mappingElmAttrs = mappingElement.getAttributeNames().reduce((acc, name) => {
+        return {...acc, [name]: mappingElement.getAttribute(name)};
+      }, {})
+    `
+    const mappingElement = this.elm
+    this.map(mappingElement, elmContentNode, this.obj, initialization)
     this.releaseTemplate(elmContentNode)
     return this.elm
   }
@@ -46,13 +52,13 @@ class ElementWithMappedObject {
     }
   }
 
-  map (elm, obj, initialization) {
+  map (mappingElement, elm, obj, initialization) {
     this.iterateChildNodes(
       elm, (node) => {
         if (this.isTemplate(node, 'e-for-each')) {
-          this.activateEForEach(node, obj, initialization)
+          this.activateEForEach(mappingElement, node, obj, initialization)
         } else if (this.isTemplate(node, 'e-if')) {
-          this.activateEIf(node, obj, initialization)
+          this.activateEIf(mappingElement, node, obj, initialization)
         } else {
           this.iterateAttributes(
             node, (attr) => {
@@ -61,7 +67,7 @@ class ElementWithMappedObject {
                   attr.name,
                   // eslint-disable-next-line no-eval
                   this.appliedExpressionsInString(
-                    attr.value, initialization, obj
+                    mappingElement, attr.value, initialization, obj
                   )
                 )
               }
@@ -122,23 +128,23 @@ class ElementWithMappedObject {
     return nodeName === 'template' && node.getAttribute('is') === type
   }
 
-  activateEIf (node, obj, initialization) {
+  activateEIf (mappingElement, node, obj, initialization) {
     const toDisplayExpression = node.getAttribute('data-condition-to-display')
     if (!toDisplayExpression) {
       throw new Error('e-if must have "data-condition-to-display" attribute')
     }
     const toDisplay = this.appliedExpressionsInString(
-      toDisplayExpression, initialization, obj
+      mappingElement, toDisplayExpression, initialization, obj
     ).trim()
     if (toDisplay === 'true') {
       const contentNode = document.importNode(node.content, true)
-      this.map(contentNode, obj, initialization)
+      this.map(mappingElement, contentNode, obj, initialization)
       node.parentNode.insertBefore(contentNode, node)
     }
     node.parentNode.removeChild(node)
   }
 
-  activateEForEach (node, obj, initialization) {
+  activateEForEach (mappingElement, node, obj, initialization) {
     const listDefinitionExpression = node.getAttribute('data-list-to-iterate')
     const itemName = node.getAttribute('data-item-name')
     if (!listDefinitionExpression) {
@@ -163,13 +169,13 @@ class ElementWithMappedObject {
         const ${itemName} = ${listDefinitionExpressionBody}[${index}]
       `
       const itemContentNode = document.importNode(node.content, true)
-      this.map(itemContentNode, obj, itemInitialization)
+      this.map(mappingElement, itemContentNode, obj, itemInitialization)
       listFragment.appendChild(itemContentNode)
     })
     node.parentNode.replaceChild(listFragment, node)
   }
 
-  appliedExpressionsInString (string, initialization, obj) {
+  appliedExpressionsInString (mappingElement, string, initialization, obj) {
     return string.replace(/\$\{([^${}]+)\}/gm, (match, p1) => {
       // eslint-disable-next-line no-eval
       const appliedExpression = eval(

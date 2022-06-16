@@ -955,6 +955,20 @@ data-actions-on-response="logToConsole('${thisAttrs[\'data-src\']}');"
 
   This function works only for attributes of html elements. So if you want to map an object to some text in some element, just use custom attribute `data-text`. For values of input fields use custom attribute `data-value`. Other attributes are mapping with their original names without `data-` prefix.
 
+
+  Since v1.0.26(check in package.json) you can also get access to attributes of mapping element (of the main(or root) template element that you map with object):
+
+  ```js
+  data-actions-on-response="mapToTemplate('${someResponse.body}', '#someTemplateId')"
+  ```
+
+  ```html
+  <template id="someTemplateId" data-attr="attrValue">
+    <div data-text="${mappingElmAttrs['data-attr']}"></div>
+  </template>
+  ```
+  
+
 </details>
 
 <details>
