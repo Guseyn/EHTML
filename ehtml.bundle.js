@@ -1876,11 +1876,21 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
@@ -1888,51 +1898,54 @@ function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _co
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = require('./../async-ajax/exports'),
-    ResponseFromAjaxRequest = _require.ResponseFromAjaxRequest,
-    ResponseBody = _require.ResponseBody;
+var _require = require('./../cutie/exports'),
+    AsyncObject = _require.AsyncObject;
 
-var _require2 = require('./../async-object/exports'),
-    CreatedOptions = _require2.CreatedOptions;
+var _require2 = require('./../async-ajax/exports'),
+    ResponseFromAjaxRequest = _require2.ResponseFromAjaxRequest,
+    ResponseBody = _require2.ResponseBody;
 
-var _require3 = require('./../async-dom/exports'),
-    ElementWithInnerHTML = _require3.ElementWithInnerHTML,
-    ElementWithAdditionalHTML = _require3.ElementWithAdditionalHTML,
-    ElementWithTextContent = _require3.ElementWithTextContent,
-    HiddenElements = _require3.HiddenElements,
-    ShownElements = _require3.ShownElements,
-    DisabledElements = _require3.DisabledElements,
-    EnabledElements = _require3.EnabledElements,
-    ElementWithMappedObject = _require3.ElementWithMappedObject,
-    ElementsWithToggledClass = _require3.ElementsWithToggledClass,
-    ElementWithChangedValue = _require3.ElementWithChangedValue,
-    ElementWithChangedAttribute = _require3.ElementWithChangedAttribute,
-    ParsedElmSelectors = _require3.ParsedElmSelectors,
-    RemovedElements = _require3.RemovedElements,
-    ScrolledIntoView = _require3.ScrolledIntoView;
+var _require3 = require('./../async-object/exports'),
+    CreatedOptions = _require3.CreatedOptions;
 
-var _require4 = require('./../async-log/exports'),
-    Logged = _require4.Logged;
+var _require4 = require('./../async-dom/exports'),
+    ElementWithInnerHTML = _require4.ElementWithInnerHTML,
+    ElementWithAdditionalHTML = _require4.ElementWithAdditionalHTML,
+    ElementWithTextContent = _require4.ElementWithTextContent,
+    HiddenElements = _require4.HiddenElements,
+    ShownElements = _require4.ShownElements,
+    DisabledElements = _require4.DisabledElements,
+    EnabledElements = _require4.EnabledElements,
+    ElementWithMappedObject = _require4.ElementWithMappedObject,
+    ElementsWithToggledClass = _require4.ElementsWithToggledClass,
+    ElementWithChangedValue = _require4.ElementWithChangedValue,
+    ElementWithChangedAttribute = _require4.ElementWithChangedAttribute,
+    ParsedElmSelectors = _require4.ParsedElmSelectors,
+    RemovedElements = _require4.RemovedElements,
+    ScrolledIntoView = _require4.ScrolledIntoView;
 
-var _require5 = require('./../async-if-else/exports'),
-    If = _require5.If;
+var _require5 = require('./../async-log/exports'),
+    Logged = _require5.Logged;
 
-var _require6 = require('./../async-location/exports'),
-    RedirectedLocation = _require6.RedirectedLocation,
-    ReloadedLocation = _require6.ReloadedLocation,
-    TurboRedirected = _require6.TurboRedirected;
+var _require6 = require('./../async-if-else/exports'),
+    If = _require6.If;
 
-var _require7 = require('./../async-storage/exports'),
-    LocalStorageWithSetValue = _require7.LocalStorageWithSetValue,
-    SessionStorageWithSetValue = _require7.SessionStorageWithSetValue,
-    LocalStorageWithRemovedValue = _require7.LocalStorageWithRemovedValue,
-    SessionStorageWithRemovedValue = _require7.SessionStorageWithRemovedValue;
+var _require7 = require('./../async-location/exports'),
+    RedirectedLocation = _require7.RedirectedLocation,
+    ReloadedLocation = _require7.ReloadedLocation,
+    TurboRedirected = _require7.TurboRedirected;
 
-var _require8 = require('./../async-array/exports'),
-    First = _require8.First;
+var _require8 = require('./../async-storage/exports'),
+    LocalStorageWithSetValue = _require8.LocalStorageWithSetValue,
+    SessionStorageWithSetValue = _require8.SessionStorageWithSetValue,
+    LocalStorageWithRemovedValue = _require8.LocalStorageWithRemovedValue,
+    SessionStorageWithRemovedValue = _require8.SessionStorageWithRemovedValue;
 
-var _require9 = require('./../async-uri/exports'),
-    EncodedURI = _require9.EncodedURI;
+var _require9 = require('./../async-array/exports'),
+    First = _require9.First;
+
+var _require10 = require('./../async-uri/exports'),
+    EncodedURI = _require10.EncodedURI;
 
 var actions = {
   "if": function _if(statement, action) {
@@ -2049,6 +2062,39 @@ var actions = {
   }
 };
 
+var CustomAction =
+/*#__PURE__*/
+function (_AsyncObject) {
+  _inherits(CustomAction, _AsyncObject);
+
+  function CustomAction(func) {
+    var _getPrototypeOf2;
+
+    _classCallCheck(this, CustomAction);
+
+    for (var _len8 = arguments.length, params = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
+      params[_key8 - 1] = arguments[_key8];
+    }
+
+    return _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CustomAction)).call.apply(_getPrototypeOf2, [this, func].concat(params)));
+  }
+
+  _createClass(CustomAction, [{
+    key: "syncCall",
+    value: function syncCall() {
+      return function (func) {
+        for (var _len9 = arguments.length, params = new Array(_len9 > 1 ? _len9 - 1 : 0), _key9 = 1; _key9 < _len9; _key9++) {
+          params[_key9 - 1] = arguments[_key9];
+        }
+
+        func.apply(void 0, params);
+      };
+    }
+  }]);
+
+  return CustomAction;
+}(AsyncObject);
+
 var ActionByNameWithParams =
 /*#__PURE__*/
 function () {
@@ -2057,8 +2103,8 @@ function () {
 
     this.name = name;
 
-    for (var _len8 = arguments.length, params = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-      params[_key8 - 1] = arguments[_key8];
+    for (var _len10 = arguments.length, params = new Array(_len10 > 1 ? _len10 - 1 : 0), _key10 = 1; _key10 < _len10; _key10++) {
+      params[_key10 - 1] = arguments[_key10];
     }
 
     this.params = params;
@@ -2068,7 +2114,11 @@ function () {
     key: "value",
     value: function value() {
       if (!actions[this.name]) {
-        throw new Error("no such action with name \"".concat(this.name, "\""));
+        if (typeof window[this.name] === 'function') {
+          return _construct(CustomAction, [window[this.name]].concat(_toConsumableArray(this.params)));
+        }
+
+        throw new Error("no such action with name \"".concat(this.name, "\", nor such function in global scope (in window)"));
       }
 
       return actions[this.name].apply(actions, _toConsumableArray(this.params));
@@ -2080,7 +2130,7 @@ function () {
 
 module.exports = ActionByNameWithParams;
 
-},{"./../async-ajax/exports":31,"./../async-array/exports":33,"./../async-dom/exports":66,"./../async-if-else/exports":72,"./../async-location/exports":80,"./../async-log/exports":82,"./../async-object/exports":85,"./../async-storage/exports":92,"./../async-uri/exports":96}],21:[function(require,module,exports){
+},{"./../async-ajax/exports":31,"./../async-array/exports":33,"./../async-dom/exports":66,"./../async-if-else/exports":72,"./../async-location/exports":80,"./../async-log/exports":82,"./../async-object/exports":85,"./../async-storage/exports":92,"./../async-uri/exports":96,"./../cutie/exports":107}],21:[function(require,module,exports){
 'use strict';
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
