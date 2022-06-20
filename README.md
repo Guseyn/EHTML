@@ -927,8 +927,20 @@
 
 Moreover, since v1.0.25 (check in package.json) you can have access to the attributes of the element where you declare `data-actions-on-response`:
 
-```js
+```html
 data-actions-on-response="logToConsole('${thisAttrs[\'data-src\']}');"
+```
+
+Since v1.0.27 (check in package.json) you can use custom global function on response:
+
+ ```html
+<script>
+  window.customActionOnResponse = (response) => {
+    // do smth with response synchronously!
+  }
+</script>
+...
+data-actions-on-response="customActionOnResponse('${response}');"
 ```
 
 <details>
@@ -1182,7 +1194,7 @@ npm i
 npm run examples
 ```
 
-And then just open [http://localhost:8000/](http://localhost:8000/).
+And then just open [http://localhost:8001/](http://localhost:8001/).
 
 ## Simple E-HTML page
 

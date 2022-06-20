@@ -1,5 +1,6 @@
 'use strict'
 
+const { AsyncObject } = require('./../cutie/exports')
 const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
 const { ElementWithInnerHTML, ElementWithAdditionalHTML, ElementWithTextContent, HiddenElements, ShownElements, DisabledElements, EnabledElements, ElementWithMappedObject, ElementsWithToggledClass, ElementWithChangedValue, ElementWithChangedAttribute, ParsedElmSelectors, RemovedElements, ScrolledIntoView } = require('./../async-dom/exports')
@@ -199,6 +200,18 @@ const actions = {
   }
 }
 
+class CustomAction extends AsyncObject {
+  constructor (func, ...params) {
+    super(func, ...params)
+  }
+
+  syncCall () {
+    return (func, ...params) => {
+      func(...params)
+    }
+  }
+}
+
 class ActionByNameWithParams {
   constructor (name, ...params) {
     this.name = name
@@ -207,7 +220,10 @@ class ActionByNameWithParams {
 
   value () {
     if (!actions[this.name]) {
-      throw new Error(`no such action with name "${this.name}"`)
+      if (typeof window[this.name] === 'function') {
+        return new CustomAction(window[this.name], ...this.params)
+      }
+      throw new Error(`no such action with name "${this.name}", nor such function in global scope (in window)`)
     }
     return actions[this.name](...this.params)
   }
