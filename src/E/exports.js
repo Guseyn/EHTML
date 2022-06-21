@@ -5,6 +5,7 @@ module.exports = {
   'e-if': require('./E_IF'),
   'e-for-each': require('./E_FOR_EACH'),
   'e-form': require('./E_FORM'),
+  'e-form-dynamic-value': require('./E_FORM_DYNAMIC_VALUE'),
   'e-local-storage-value': require('./E_LOCAL_STORAGE_VALUE'),
   'e-session-storage-value': require('./E_SESSION_STORAGE_VALUE'),
   'e-google-oauth-button': require('./E_GOOGLE_OAUTH_BUTTON'),

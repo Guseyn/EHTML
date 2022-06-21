@@ -131,7 +131,7 @@ function () {
   }, {
     key: "isForProcessing",
     value: function isForProcessing(attr) {
-      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
+      return ['data-actions-on-response', 'data-list-to-iterate', 'data-item-name', 'data-bound-to'].indexOf(attr.name) === -1 && /\$\{([^${}]+)\}/gm.test(attr.value);
     }
   }, {
     key: "isTemplate",

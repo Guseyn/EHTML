@@ -22,6 +22,7 @@
   - [Simple E-FOR-EACH](#simple-e-for-each)
   - [Simple E-IF](#simple-e-if)
   - [Simple E-FORM](#simple-e-form)
+  - [E-FORM_DYNAMIC-VALUE](#e-form-dynamic-value)
   - [E-REUSABLE with E-FORM](#e-reusable-template-with-e-form)
   - [Simple E-GOOGLE-OAUTH-BUTTON](#simple-e-google-oauth-button)
   - [E-PAGE-WITH-URL](#e-page-with-url)
@@ -520,13 +521,30 @@
 </details>
 
 <details>
+  <summary><b>E-FORM-DYNAMIC-VALUE</b> (v1.0.28)</summary><br>
+
+  Generally **EHTML** has static binding for elements (unless it's input fields that can change value by the user interaction). In order to bind value in memory (and also local/session storages and other global variables) and send this value in the `e-form`, you can use `e-form-dynamic-value`. By using `e-form-dynamic-value` attribute, you can be sure that its value is calculated only when you submit a form.
+
+  ```html
+  <e-form>
+    ...
+    <e-form-dynamic-value name="current-date" e-form-dynamic-value="${new Date()}"></e-form-dynamic-value>
+    ...
+  </e-form>
+  ```
+
+  More details you can find in the [examples](#e-form-dynamic-value).
+
+</details>
+
+<details>
   <summary><b>E-REUSABLE template</b> (v1.0.8)</summary><br>
   
    You use action `mapToTemplate` on a template with attribute `is="e-reusable"`, so you can map response object multiple times. Also you can specify attribute `data-append-to="#someSelector"` or `data-prepend-to="#someSelector"` to decide where and how mapped content of the template should be placed. If you don't specify one of these attributes, then mapped content of the template will be placed right before the template.
 
    So, the main difference between "reusable" template and other types of templates is that "reusable" template is not getting removed from the DOM, so you can use it several times.
 
-   More details you cand in the [examples](#e-reusable-template-with-e-form).
+   More details you can find in the [examples](#e-reusable-template-with-e-form).
 
 </details>
 
@@ -1844,6 +1862,80 @@ And then just open [http://localhost:8001/](http://localhost:8001/).
 
     Or you can specify a string, which would be a base for RegExp with flags `ig`.
   </details>
+
+</details>
+
+## E-FORM-DYNAMIC-VALUE
+
+<details>
+  <summary><b>response</b></summary><br>
+
+  ```bash
+  Request URL: https://guseyn.com/echo
+  Request Method: GET
+  Request Body: {"date": "new Date()" }
+  -------------------------------------------
+  Status Code: 200 ok
+  Content-Type: application/json
+  ```
+  ```json
+  {
+    "date": "new Date()"
+  }
+  ```
+</details>
+
+<details>
+  <summary><b>code</b></summary><br>
+  
+  ```html
+  <body class="main">
+    <div class="base">
+      <e-form
+        class="form"
+        id="form">
+
+        <div id="form-content">
+          <div class="form-label">Item name:</div>
+          <input
+            type="text"
+            name="name"
+            class="form-input"
+            required
+            data-validation-pattern="^[a-z ,.'-]+$"
+            data-validation-bad-format-error-message="Item name can contain only alphabetic characters"
+            data-validation-absence-error-message="Item name is required"
+            data-validation-error-class-for-element="elm-error"
+            data-validation-error-class-for-message-box="message-error">
+
+          <button
+            data-request-url="https://guseyn.com/echo"
+            data-request-method="POST"
+            data-ajax-icon="#ajax-icon"
+            data-response-name="response"
+            onclick="this.form.submit(this)"
+            data-actions-on-response="
+              mapToTemplate('${response}', '#response-template');
+            ">
+            Submit
+          </button>
+
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </div>
+
+        <div class="applying-response-box">
+          <template id="response-template" is="e-reusable" data-object-name="response">
+            <div class="response-info">
+              <span>Response with submitted date: <b data-text="${response.body.date}"></b></span>
+            </div>
+          </template>
+        </div>
+
+      </e-form>
+    </div> 
+  </body>
+  ```
+  [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-form-dynamic-value.html)
 
 </details>
 
