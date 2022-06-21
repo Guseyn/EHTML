@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/e-reusable-with-e-form.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>e-form-dynamic-value</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <style type="text/css">
+      .response-info {
+        margin-top: 5px;
+      }
+    </style>
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <e-form
+        class="form"
+        id="form">
+
+        <div id="form-content">
+          <e-form-dynamic-value name="date" data-bound-to="${new Date()}">
+          </e-form-dynamic-value>
+          <button
+            data-request-url="https://guseyn.com/echo"
+            data-request-method="POST"
+            data-ajax-icon="#ajax-icon"
+            data-response-name="response"
+            onclick="this.form.submit(this)"
+            data-actions-on-response="
+              mapToTemplate('${response}', '#response-template');
+            ">
+            Submit Current Date
+          </button>
+
+          <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
+        </div>
+
+        <div class="applying-response-box">
+          <template id="response-template" is="e-reusable" data-object-name="response">
+            <div class="response-info">
+              <span>Response with submitted date: <b data-text="${response.body.date}"></b></span>
+            </div>
+          </template>
+        </div>
+
+      </e-form>
+    </div> 
+  </body>
+
+</html>

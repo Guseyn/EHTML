@@ -44,6 +44,7 @@ class E_FORM extends E {
     this.node.textareas = this.node.getElementsByTagName('textarea')
     this.node.localStorageValues = this.node.getElementsByTagName('e-local-storage-value')
     this.node.sessionStorageValues = this.node.getElementsByTagName('e-session-storage-value')
+    this.node.dynamicValues = this.node.getElementsByTagName('e-form-dynamic-value')
     this.node.buttons = this.node.getElementsByTagName('button')
     this.tuneFileInputs(this.filteredFileInputs(this.node.inputs))
     this.prepareDifferentFormElements()
@@ -82,6 +83,7 @@ class E_FORM extends E {
     form.retrievedValuesFromTextareasForRequestBody = this.retrievedValuesFromTextareasForRequestBody
     form.retrievedValuesFromLocalStorageForRequestBody = this.retrievedValuesFromLocalStorageForRequestBody
     form.retrievedValuesFromSessionStorageForRequestBody = this.retrievedValuesFromSessionStorageForRequestBody
+    form.retrievedDynamicValuesForRequestBody = this.retrievedDynamicValuesForRequestBody
     form.hideAllErrorsForForm = this.hideAllErrorsForForm
     form.validateDifferentFormElements = this.validateDifferentFormElements
     form.validateFormElements = this.validateFormElements
@@ -100,6 +102,7 @@ class E_FORM extends E {
     this.prepareFormElements(this.node.textareas)
     this.prepareFormElements(this.node.localStorageValues)
     this.prepareFormElements(this.node.sessionStorageValues)
+    this.prepareFormElements(this.node.dynamicValues)
     this.prepareFormElements(this.node.buttons)
   }
 
@@ -402,6 +405,7 @@ class E_FORM extends E {
     form.retrievedValuesFromTextareasForRequestBody(form.textareas, requestBody)
     form.retrievedValuesFromLocalStorageForRequestBody(form.localStorageValues, requestBody)
     form.retrievedValuesFromSessionStorageForRequestBody(form.sessionStorageValues, requestBody)
+    form.retrievedDynamicValuesForRequestBody(form.dynamicValues, requestBody)
     return requestBody
   }
 
@@ -471,6 +475,16 @@ class E_FORM extends E {
         throw new Error(`sessionStorageValue ${sessionStorageValue} has no name`)
       }
       requestBody[sessionStorageValue.name] = sessionStorageValue.value()
+    }
+  }
+
+  retrievedDynamicValuesForRequestBody (dynamicValues, requestBody) {
+    for (let index = 0; index < dynamicValues.length; index++) {
+      const dynamicValue = dynamicValues[index]
+      if (!dynamicValue.name) {
+        throw new Error(`dynamicValue ${dynamicValue} has no name`)
+      }
+      requestBody[dynamicValue.name] = dynamicValue.value()
     }
   }
 

@@ -115,7 +115,8 @@ class ElementWithMappedObject {
     return [
       'data-actions-on-response',
       'data-list-to-iterate',
-      'data-item-name'
+      'data-item-name',
+      'data-bound-to'
     ].indexOf(attr.name) === -1 &&
       /\$\{([^${}]+)\}/gm.test(attr.value)
   }

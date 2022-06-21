@@ -101,6 +101,7 @@ function (_E) {
       this.node.textareas = this.node.getElementsByTagName('textarea');
       this.node.localStorageValues = this.node.getElementsByTagName('e-local-storage-value');
       this.node.sessionStorageValues = this.node.getElementsByTagName('e-session-storage-value');
+      this.node.dynamicValues = this.node.getElementsByTagName('e-form-dynamic-value');
       this.node.buttons = this.node.getElementsByTagName('button');
       this.tuneFileInputs(this.filteredFileInputs(this.node.inputs));
       this.prepareDifferentFormElements();
@@ -143,6 +144,7 @@ function (_E) {
       form.retrievedValuesFromTextareasForRequestBody = this.retrievedValuesFromTextareasForRequestBody;
       form.retrievedValuesFromLocalStorageForRequestBody = this.retrievedValuesFromLocalStorageForRequestBody;
       form.retrievedValuesFromSessionStorageForRequestBody = this.retrievedValuesFromSessionStorageForRequestBody;
+      form.retrievedDynamicValuesForRequestBody = this.retrievedDynamicValuesForRequestBody;
       form.hideAllErrorsForForm = this.hideAllErrorsForForm;
       form.validateDifferentFormElements = this.validateDifferentFormElements;
       form.validateFormElements = this.validateFormElements;
@@ -162,6 +164,7 @@ function (_E) {
       this.prepareFormElements(this.node.textareas);
       this.prepareFormElements(this.node.localStorageValues);
       this.prepareFormElements(this.node.sessionStorageValues);
+      this.prepareFormElements(this.node.dynamicValues);
       this.prepareFormElements(this.node.buttons);
     }
   }, {
@@ -406,6 +409,7 @@ function (_E) {
       form.retrievedValuesFromTextareasForRequestBody(form.textareas, requestBody);
       form.retrievedValuesFromLocalStorageForRequestBody(form.localStorageValues, requestBody);
       form.retrievedValuesFromSessionStorageForRequestBody(form.sessionStorageValues, requestBody);
+      form.retrievedDynamicValuesForRequestBody(form.dynamicValues, requestBody);
       return requestBody;
     }
   }, {
@@ -493,6 +497,19 @@ function (_E) {
         }
 
         requestBody[sessionStorageValue.name] = sessionStorageValue.value();
+      }
+    }
+  }, {
+    key: "retrievedDynamicValuesForRequestBody",
+    value: function retrievedDynamicValuesForRequestBody(dynamicValues, requestBody) {
+      for (var index = 0; index < dynamicValues.length; index++) {
+        var dynamicValue = dynamicValues[index];
+
+        if (!dynamicValue.name) {
+          throw new Error("dynamicValue ".concat(dynamicValue, " has no name"));
+        }
+
+        requestBody[dynamicValue.name] = dynamicValue.value();
       }
     }
   }, {
