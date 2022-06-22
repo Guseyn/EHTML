@@ -1,7 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-[![NPM Version](https://img.shields.io/npm/v/ehtml.svg)](https://npmjs.org/package/ehtml)
-[![Build Status](https://travis-ci.com/Guseyn/EHTML.svg?branch=master)](https://travis-ci.com/Guseyn/EHTML)
+**v1.0.29**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -513,6 +512,8 @@
   This element will be rendered as a standard `form` element with attribute `data-e-form="true"`, but it will send its data as json object. You can do it by attaching events on buttons or other active elements with function: `this.form.submit(this)`, which constructs a request body by the form's items and submits it. Such approach is much better than standard `action` attribute in the `form` tag because you can attach different requests on several active elements using the same form. 
 
   Also you have to add other information about the request you want to make in the attributes: `data-request-url`, `data-request-method`, `data-request-headers`. You can even add attributes like `data-ajax-icon`, `data-progress-bar` and `data-upload-progress-bar` which can display progress of the request.
+
+  Since v1.0.29 You change button text and add class to it while you're waiting for ajax request to be completed. You can do it via `data-button-ajax-text` and `data-button-ajax-class`. You can see how it works in this [example](#e-form-dynamic-value).
 
   Like for `e-json`, you can do [some actions on response](#suppoted-actions-on-response) with the name that you specify in `data-response-name` attribute. In this case, we just log the response from the request. 
 

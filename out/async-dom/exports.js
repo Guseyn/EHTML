@@ -2,6 +2,8 @@
 
 module.exports = {
   BodyOfDocument: require('./BodyOfDocument'),
+  ButtonWithChangedTextAndAddedClass: require('./ButtonWithChangedTextAndAddedClass'),
+  ButtonWithChangedToOriginalTextAndRemovedClass: require('./ButtonWithChangedToOriginalTextAndRemovedClass'),
   ChangedPageFavicon: require('./ChangedPageFavicon'),
   ChangedPageTitle: require('./ChangedPageTitle'),
   CreatedDocumentFragmentWithAttributes: require('./CreatedDocumentFragmentWithAttributes'),

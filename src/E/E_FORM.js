@@ -4,7 +4,7 @@ const E = require('./E')
 const { as } = require('./../cutie/exports')
 const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode, JSResponseByHTTPReponseComponents } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
-const { ShownElement, HiddenElement, EnabledElement, DisabledElement, FirstParsedElmSelector } = require('./../async-dom/exports')
+const { ShownElement, HiddenElement, EnabledElement, DisabledElement, FirstParsedElmSelector, ButtonWithChangedTextAndAddedClass, ButtonWithChangedToOriginalTextAndRemovedClass } = require('./../async-dom/exports')
 const { ParsedJSON, StringifiedJSON } = require('./../async-json/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
 const { AppliedActionsOnResponse } = require('./../actions/exports')
@@ -158,52 +158,63 @@ class E_FORM extends E {
           new ShownElement(
             as('AJAX_ICON')
           ).after(
-            new ResponseFromAjaxRequest(
-              new CreatedOptions(
-                'url', target.getAttribute('data-request-url'),
-                'headers', new ParsedJSON(
-                  target.getAttribute('data-request-headers') || '{}'
-                ),
-                'method', target.getAttribute('data-request-method') || 'POST',
-                'uploadProgressEvent', new ShowProgressEvent(
-                  new FirstParsedElmSelector(
-                    target.getAttribute('data-upload-progress-bar')
+            new ButtonWithChangedTextAndAddedClass(
+              target,
+              target.getAttribute('data-button-ajax-text'),
+              target.getAttribute('data-button-ajax-class')
+            ).after(
+              new ResponseFromAjaxRequest(
+                new CreatedOptions(
+                  'url', target.getAttribute('data-request-url'),
+                  'headers', new ParsedJSON(
+                    target.getAttribute('data-request-headers') || '{}'
+                  ),
+                  'method', target.getAttribute('data-request-method') || 'POST',
+                  'uploadProgressEvent', new ShowProgressEvent(
+                    new FirstParsedElmSelector(
+                      target.getAttribute('data-upload-progress-bar')
+                    )
+                  ),
+                  'progressEvent', new ShowProgressEvent(
+                    new FirstParsedElmSelector(
+                      target.getAttribute('data-progress-bar')
+                    )
                   )
                 ),
-                'progressEvent', new ShowProgressEvent(
-                  new FirstParsedElmSelector(
-                    target.getAttribute('data-progress-bar')
-                  )
+                new StringifiedJSON(
+                  requestBody
                 )
-              ),
-              new StringifiedJSON(
-                requestBody
-              )
-            ).as('RESPONSE').after(
-              new EnabledElement(target).after(
-                new HiddenElement(
-                  as('AJAX_ICON')
-                ).after(
-                  new AppliedActionsOnResponse(
-                    target,
-                    target.tagName,
-                    target.getAttribute('data-response-name'),
-                    new JSResponseByHTTPReponseComponents(
-                      new ParsedJSON(
-                        new StringFromBuffer(
-                          new ResponseBody(
+              ).as('RESPONSE').after(
+                new EnabledElement(target).after(
+                  new HiddenElement(
+                    as('AJAX_ICON')
+                  ).after(
+                    new ButtonWithChangedToOriginalTextAndRemovedClass(
+                      target,
+                      target.getAttribute('data-button-ajax-class')
+                    ).after(
+                      new AppliedActionsOnResponse(
+                        target,
+                        target.tagName,
+                        target.getAttribute('data-response-name'),
+                        new JSResponseByHTTPReponseComponents(
+                          new ParsedJSON(
+                            new StringFromBuffer(
+                              new ResponseBody(
+                                as('RESPONSE')
+                              )
+                            )
+                          ),
+                          new ResponseHeaders(
+                            as('RESPONSE')
+                          ),
+                          new ResponseStatusCode(
                             as('RESPONSE')
                           )
-                        )
-                      ),
-                      new ResponseHeaders(
-                        as('RESPONSE')
-                      ),
-                      new ResponseStatusCode(
-                        as('RESPONSE')
+                        ),
+                        target.getAttribute('data-actions-on-response')
                       )
-                    ),
-                    target.getAttribute('data-actions-on-response')
+                    )
                   )
                 )
               )
