@@ -1898,16 +1898,8 @@ And then just open [http://localhost:8001/](http://localhost:8001/).
 
         <div id="form-content">
           <div class="form-label">Item name:</div>
-          <input
-            type="text"
-            name="name"
-            class="form-input"
-            required
-            data-validation-pattern="^[a-z ,.'-]+$"
-            data-validation-bad-format-error-message="Item name can contain only alphabetic characters"
-            data-validation-absence-error-message="Item name is required"
-            data-validation-error-class-for-element="elm-error"
-            data-validation-error-class-for-message-box="message-error">
+          <e-form-dynamic-value name="date" data-bound-to="${new Date()}">
+          </e-form-dynamic-value>
 
           <button
             data-request-url="https://guseyn.com/echo"
