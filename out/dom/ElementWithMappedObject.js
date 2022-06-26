@@ -62,6 +62,16 @@ function () {
           }
 
           _parentNode.append(elmContentNode);
+        } else if (this.elm.hasAttribute('data-insert-into')) {
+          var _parentNode2 = document.querySelector(this.elm.getAttribute('data-insert-into'));
+
+          if (!_parentNode2) {
+            throw new Error('element is not found by the selector in the attribute "data-insert-into"');
+          }
+
+          _parentNode2.innerHTML = '';
+
+          _parentNode2.append(elmContentNode);
         } else {
           this.elm.parentNode.insertBefore(elmContentNode, this.elm);
         }

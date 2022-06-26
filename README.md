@@ -547,6 +547,8 @@
 
    More details you can find in the [examples](#e-reusable-template-with-e-form).
 
+   Since v1.0.30 you can use `data-insert-into=#someSelector` attribute in reusable template. This allows you to replace content of released template from previuos mapping with new mapped content of template. See [link to the source code](https://github.com/Guseyn/EHTML/blob/master/examples/src/e-reusable-with-e-form-and-insert-into.html) and check it how it works.
+
 </details>
 
 <details>

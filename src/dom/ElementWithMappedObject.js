@@ -44,6 +44,13 @@ class ElementWithMappedObject {
           throw new Error('element is not found by the selector in the attribute "data-append-to"')
         }
         parentNode.append(elmContentNode)
+      } else if (this.elm.hasAttribute('data-insert-into')) {
+        const parentNode = document.querySelector(this.elm.getAttribute('data-insert-into'))
+        if (!parentNode) {
+          throw new Error('element is not found by the selector in the attribute "data-insert-into"')
+        }
+        parentNode.innerHTML = ''
+        parentNode.append(elmContentNode)
       } else {
         this.elm.parentNode.insertBefore(elmContentNode, this.elm)
       }
