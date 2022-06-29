@@ -91,6 +91,9 @@ class ElementWithMappedObject {
               } else if (attr.name === 'data-value') {
                 node.value = attr.value
                 node.removeAttribute('data-value')
+              } else if (attr.name === 'data-inner-html') {
+                node.innerHTML = attr.value
+                node.removeAttribute('data-inner-html')
               }
             }
           )

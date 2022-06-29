@@ -1001,6 +1001,7 @@ data-actions-on-response="customActionOnResponse('${response}');"
   </template>
   ```
   
+  Since v1.0.31(check in package.json) you can use `data-inner-html`, so you can insert html instead of simple text. 
 
 </details>
 
