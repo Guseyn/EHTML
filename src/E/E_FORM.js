@@ -148,6 +148,7 @@ class E_FORM extends E {
       this.validateDifferentFormElements(this, requestBody, validations)
       isFormValid = this.isFormValid(this, validations)
     }
+    const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
     if (isFormValid) {
       new DisabledElement(
         target
@@ -179,7 +180,8 @@ class E_FORM extends E {
                     new FirstParsedElmSelector(
                       target.getAttribute('data-progress-bar')
                     )
-                  )
+                  ),
+                  'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName
                 ),
                 new StringifiedJSON(
                   requestBody
@@ -198,13 +200,17 @@ class E_FORM extends E {
                         target.tagName,
                         target.getAttribute('data-response-name'),
                         new JSResponseByHTTPReponseComponents(
-                          new ParsedJSON(
-                            new StringFromBuffer(
-                              new ResponseBody(
-                                as('RESPONSE')
-                              )
+                          downloadResponseBodyAsFileWithName
+                            ? new ResponseBody(
+                              as('RESPONSE')
                             )
-                          ),
+                            : new ParsedJSON(
+                              new StringFromBuffer(
+                                new ResponseBody(
+                                  as('RESPONSE')
+                                )
+                              )
+                            ),
                           new ResponseHeaders(
                             as('RESPONSE')
                           ),

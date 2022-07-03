@@ -7,6 +7,9 @@ const responseFromAjaxRequest = (options, requestBody, callback) => {
   req.open(options.method, options.url, true, options.user || null, options.password || null)
   req.withCredentials = options.withCredentials || false
   req.timeout = options.timeout || 0
+  if (options.downloadResponseBodyAsFileWithName) {
+    req.responseType = 'blob'
+  }
   if (options.overrideMimeType !== undefined) {
     req.overrideMimeType(options.overrideMimeType)
   }
@@ -28,6 +31,15 @@ const responseFromAjaxRequest = (options, requestBody, callback) => {
       resObj.statusCode = req.status
       resObj.headers = headerMap
       resObj.body = req.response
+      if (options.downloadResponseBodyAsFileWithName) {
+        const fileURL = window.URL.createObjectURL(resObj.body)
+        const anchor = document.createElement('a')
+        anchor.href = fileURL
+        anchor.download = options.downloadResponseBodyAsFileWithName
+        document.body.appendChild(anchor)
+        anchor.click()
+        anchor.remove()
+      }
       callback(null, resObj)
     }
   }
