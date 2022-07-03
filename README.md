@@ -519,6 +519,14 @@
 
   You can also do validation of your e-forms by attributes: `required`, `data-validation-pattern`, `data-validation-error-class-for-element`, `data-validation-error-class-for-message-box`, `data-validation-bad-format-error-message` and `data-validation-min-files-number`. More details you can find in the [examples](#simple-e-form).
 
+  Since v1.0.32 You can treat response body as something that you want to download as a file. All you need is to specify the name of your file in submit button:
+
+  ```html
+    data-download-response-body-as-file-with-name="file.zip"
+  ```
+
+  You can still apply actions on response body, status code and headers.
+
 </details>
 
 <details>

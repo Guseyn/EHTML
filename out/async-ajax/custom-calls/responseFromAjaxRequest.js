@@ -10,6 +10,10 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
   req.withCredentials = options.withCredentials || false;
   req.timeout = options.timeout || 0;
 
+  if (options.downloadResponseBodyAsFileWithName) {
+    req.responseType = 'blob';
+  }
+
   if (options.overrideMimeType !== undefined) {
     req.overrideMimeType(options.overrideMimeType);
   }
@@ -37,6 +41,17 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
       resObj.statusCode = req.status;
       resObj.headers = headerMap;
       resObj.body = req.response;
+
+      if (options.downloadResponseBodyAsFileWithName) {
+        var fileURL = window.URL.createObjectURL(resObj.body);
+        var anchor = document.createElement('a');
+        anchor.href = fileURL;
+        anchor.download = options.downloadResponseBodyAsFileWithName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+
       callback(null, resObj);
     }
   };

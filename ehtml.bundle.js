@@ -250,8 +250,10 @@ function (_E) {
         isFormValid = this.isFormValid(this, validations);
       }
 
+      var downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name');
+
       if (isFormValid) {
-        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ButtonWithChangedTextAndAddedClass(target, target.getAttribute('data-button-ajax-text'), target.getAttribute('data-button-ajax-class')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar')))), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))))).call();
+        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ButtonWithChangedTextAndAddedClass(target, target.getAttribute('data-button-ajax-text'), target.getAttribute('data-button-ajax-class')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar'))), 'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(downloadResponseBodyAsFileWithName ? new ResponseBody(as('RESPONSE')) : new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))))).call();
       } else {
         this.scrollToFirstErrorBox(this);
       }
@@ -2767,6 +2769,10 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
   req.withCredentials = options.withCredentials || false;
   req.timeout = options.timeout || 0;
 
+  if (options.downloadResponseBodyAsFileWithName) {
+    req.responseType = 'blob';
+  }
+
   if (options.overrideMimeType !== undefined) {
     req.overrideMimeType(options.overrideMimeType);
   }
@@ -2794,6 +2800,17 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
       resObj.statusCode = req.status;
       resObj.headers = headerMap;
       resObj.body = req.response;
+
+      if (options.downloadResponseBodyAsFileWithName) {
+        var fileURL = window.URL.createObjectURL(resObj.body);
+        var anchor = document.createElement('a');
+        anchor.href = fileURL;
+        anchor.download = options.downloadResponseBodyAsFileWithName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+
       callback(null, resObj);
     }
   };
