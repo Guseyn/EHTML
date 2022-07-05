@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.32**
+**v1.0.34**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -882,6 +882,64 @@
         <path style="fill:#E27C3E;" d="...."></path>
         <polygon style="fill:#4C738A;" points="..."></polygon>
       </svg>
+
+    </body>
+
+  </html>
+  ```
+</details>
+
+<details>
+  <summary><b>E-SVG</b> (v1.0.34)</summary><br>
+  
+  With element `e-markdown` you can load markdown right into your html page:
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+      <link rel="shortcut icon" href="/../images/favicon.ico"/>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>e-html</title>
+      <link rel="stylesheet" href="/../css/main.css">
+      <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    </head>
+
+    <body class="main">
+
+        <e-markdown data-src="/../md/md-from-server.md"></e-markdown>
+
+    </body>
+
+  </html>
+  ```
+
+  And let's say your svg image on `/../md/md-from-server.md` is something like
+
+  ```md
+  # Title
+  ```
+
+  Then once you load your page it would look like:
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+      <link rel="shortcut icon" href="/../images/favicon.ico"/>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>e-html</title>
+      <link rel="stylesheet" href="/../css/main.css">
+      <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    </head>
+
+    <body class="main">
+
+      <h1>Title</h1>
 
     </body>
 
