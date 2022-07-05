@@ -890,7 +890,7 @@
 </details>
 
 <details>
-  <summary><b>E-SVG</b> (v1.0.34)</summary><br>
+  <summary><b>E-MARKDOWN</b> (v1.0.34)</summary><br>
   
   With element `e-markdown` you can load markdown right into your html page:
 
