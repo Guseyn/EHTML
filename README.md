@@ -916,7 +916,7 @@
   </html>
   ```
 
-  And let's say your svg image on `/../md/md-from-server.md` is something like
+  And let's say your markdown on `/../md/md-from-server.md` is something like
 
   ```md
   # Title
