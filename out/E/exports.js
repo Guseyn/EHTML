@@ -17,5 +17,6 @@ module.exports = {
   'e-turbolink': require('./E_TURBOLINK'),
   'e-select': require('./E_SELECT'),
   'e-svg': require('./E_SVG'),
+  'e-markdown': require('./E_MARKDOWN'),
   'e-wrapper': require('./E_WRAPPER')
 };
