@@ -16,6 +16,14 @@ class MutationObservation {
               const node = mutation.addedNodes[i]
               this.processNodeWithItsChildNodes(node)
             }
+            if (window.urlParams && window.urlParams.hash) {
+              const anchorElement = document.getElementById(window.urlParams.hash)
+              if (anchorElement) {
+                anchorElement.scrollIntoView({
+                  block: 'start', inline: 'nearest'
+                })
+              }
+            }
           }
         }
       }

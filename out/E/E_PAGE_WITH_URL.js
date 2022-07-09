@@ -54,6 +54,7 @@ function (_E) {
           urlParams[key] = locationRequestParams[key];
         }
       });
+      urlParams.hash = window.location.hash.substr(1);
       window.urlParams = urlParams;
       this.node.parentNode.replaceChild(document.importNode(this.node.content, true), this.node);
     }

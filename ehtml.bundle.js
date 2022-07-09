@@ -6566,6 +6566,7 @@ function (_E) {
           urlParams[key] = locationRequestParams[key];
         }
       });
+      urlParams.hash = window.location.hash.substr(1);
       window.urlParams = urlParams;
       this.node.parentNode.replaceChild(document.importNode(this.node.content, true), this.node);
     }
@@ -7044,6 +7045,17 @@ function () {
                 var node = mutation.addedNodes[i];
 
                 _this.processNodeWithItsChildNodes(node);
+              }
+
+              if (window.urlParams && window.urlParams.hash) {
+                var anchorElement = document.getElementById(window.urlParams.hash);
+
+                if (anchorElement) {
+                  anchorElement.scrollIntoView({
+                    block: 'start',
+                    inline: 'nearest'
+                  });
+                }
               }
             }
           }

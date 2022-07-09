@@ -39,6 +39,17 @@ function () {
 
                 _this.processNodeWithItsChildNodes(node);
               }
+
+              if (window.urlParams && window.urlParams.hash) {
+                var anchorElement = document.getElementById(window.urlParams.hash);
+
+                if (anchorElement) {
+                  anchorElement.scrollIntoView({
+                    block: 'start',
+                    inline: 'nearest'
+                  });
+                }
+              }
             }
           }
         } catch (err) {
