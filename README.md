@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.34**
+**v1.0.35**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -748,6 +748,14 @@
   ```
 
   You can also specify a place for the progress bar via attribute `data-progress-bar-place`, by default it's `body`.
+
+  Since v1.0.35 scrollY position is recoreded for each history state, so you can access to it via `popstate` event:
+
+  ```js
+  window.addEventListener('popstate', function () {
+    window.scrollTo(0, history.state.scrollY)
+  })
+  ```
 
   Demo of `e-turbolink` you can find in the [examples](#e-turbolink).
 

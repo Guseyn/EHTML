@@ -5,7 +5,7 @@ const { StringFromBuffer } = require('./../async-string/exports')
 const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
 const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./../async-dom/exports')
-const { PushedStartStateToHistoryIfNeeded, PushedStateToHistory } = require('./../async-history/exports')
+const { PushedStartStateToHistoryIfNeeded, PushedStateToHistory, UpdatedStateInHistory } = require('./../async-history/exports')
 const { ShowProgressEvent } = require('./../events/exports')
 
 class TurboRedirected {
@@ -57,24 +57,33 @@ class TurboRedirected {
               new FaviconOfDocument(
                 as('DOC')
               ).as('FAVICON').after(
-                new PushedStateToHistory(
+                new UpdatedStateInHistory(
                   new CreatedOptions(
-                    'url', href,
-                    'headers', headers
+                    'url', location.href,
+                    'headers', headers,
+                    'scrollY', window.pageYOffset || document.documentElement.scrollTop
                   ),
-                  href
+                  location.href
                 ).after(
-                  new ReplacedElementWithAnotherOne(
-                    document.body,
-                    as('BODY')
+                  new PushedStateToHistory(
+                    new CreatedOptions(
+                      'url', href,
+                      'headers', headers
+                    ),
+                    href
                   ).after(
-                    new ChangedPageTitle(
-                      document,
-                      as('TITLE')
+                    new ReplacedElementWithAnotherOne(
+                      document.body,
+                      as('BODY')
                     ).after(
-                      new ChangedPageFavicon(
+                      new ChangedPageTitle(
                         document,
-                        as('FAVICON')
+                        as('TITLE')
+                      ).after(
+                        new ChangedPageFavicon(
+                          document,
+                          as('FAVICON')
+                        )
                       )
                     )
                   )
