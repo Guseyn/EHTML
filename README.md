@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.35**
+**v1.0.36**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -749,13 +749,61 @@
 
   You can also specify a place for the progress bar via attribute `data-progress-bar-place`, by default it's `body`.
 
-  Since v1.0.35 scrollY position is recoreded for each history state, so you can access to it via `popstate` event:
+  Since v1.0.35 `scrollY` position is recoreded for each history state, so you can access to it via `popstate` event:
 
   ```js
   window.addEventListener('popstate', function () {
     window.scrollTo(0, history.state.scrollY)
   })
   ```
+
+  Since v1.0.36 we record positions in history API:
+
+  ```txt
+  window.history.state.documentElementClientHeight = document.documentElement.clientHeight
+  window.history.state.documentBodyClientHeight = document.documentElement.clientHeight
+  ```
+
+  If you have a lot of dynamic content, and you want to set scroll before all the content loads on a page, you can do something like this:
+
+  ```js
+  window.addEventListener('load', () => {
+    if (window.history.state) {
+      const currentHistoryState = window.history.state
+      // If we load url with hash #, then we want element with #id to be scrolled into view.
+      currentHistoryState.scrollY = undefined
+      currentHistoryState.documentElementClientHeight = undefined
+      currentHistoryState.documentBodyClientHeight = undefined
+      window.history.replaceState(currentHistoryState, null, window.location.href)
+    }
+  })
+
+  const updateScrollYInHistory = () => {
+    const scrollingStoped = setTimeout(() => {
+      const currentHistoryState = window.history.state
+      currentHistoryState.scrollY = window.pageYOffset || document.documentElement.scrollTop
+      currentHistoryState.documentElementClientHeight = document.documentElement.clientHeight
+      currentHistoryState.documentBodyClientHeight = document.body.clientHeight
+      window.history.replaceState(currentHistoryState, null, window.location.href)
+      clearInterval(scrollingStoped)
+    }, 120)
+  }
+
+  document.addEventListener('scroll', updateScrollYInHistory)
+
+  window.addEventListener('popstate', function(event) {
+    document.removeEventListener('scroll', updateScrollYInHistory)
+    setTimeout(() => {
+      if (window.history.state.documentBodyClientHeight !== undefined) {
+        document.body.style.height = `${window.history.state.documentBodyClientHeight}px`
+        window.scrollTo(0, history.state.scrollY)
+      }
+      document.addEventListener('scroll', updateScrollYInHistory)
+    }, 20)
+  })
+  ```
+
+  We wait for 20ms to body onload into the page. We update scroll y position on `scroll` event, because user can scroll after he go back or forward in browser.
 
   Demo of `e-turbolink` you can find in the [examples](#e-turbolink).
 

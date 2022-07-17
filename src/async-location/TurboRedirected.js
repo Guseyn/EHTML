@@ -26,7 +26,10 @@ class TurboRedirected {
     return new PushedStartStateToHistoryIfNeeded(
       new CreatedOptions(
         'url', location.href,
-        'headers', headers
+        'headers', headers,
+        'scrollY', window.pageYOffset || document.documentElement.scrollTop,
+        'documentElementClientHeight', document.documentElement.clientHeight,
+        'documentBodyClientHeight', document.body.clientHeight
       ), location.href
     ).after(
       new ChangedPageFavicon(
@@ -61,7 +64,9 @@ class TurboRedirected {
                   new CreatedOptions(
                     'url', location.href,
                     'headers', headers,
-                    'scrollY', window.pageYOffset || document.documentElement.scrollTop
+                    'scrollY', window.pageYOffset || document.documentElement.scrollTop,
+                    'documentElementClientHeight', document.documentElement.clientHeight,
+                    'documentBodyClientHeight', document.body.clientHeight
                   ),
                   location.href
                 ).after(
