@@ -54,7 +54,7 @@ new SpawnedCommand('grunt').after(
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
             new GitHubAuthEndpoint(new RegExp(/^\/github/), 'POST'),
             new ServingFilesEndpoint(
-              new RegExp(/^\/(html|js|images|css|md)/),
+              new RegExp(/^\/(html|js|json|images|css|md)/),
               mapperForStatic,
               {},
               new NotFoundEndpoint(new RegExp(/\/not-found/))

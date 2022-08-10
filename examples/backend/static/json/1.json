@@ -1,6 +1,6 @@
 {
   "name": "ehtml",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,6 @@
     "@cuties/rest": "^1.2.16",
     "@cuties/spawn": "^1.0.2",
     "@cuties/wall": "^1.1.2",
-    "json-pretty-html": "^1.1.6",
     "pretty-print-json": "^1.2.5",
     "showdown": "^2.1.0",
     "test-executor": "^1.2.4"
