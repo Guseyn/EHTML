@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.36**
+**v1.0.37**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -1062,6 +1062,12 @@
 
   You can also use `data-headers` attribute, if needed.
 
+</details>
+
+<details>
+  <summary><b>E-JSON-VIEW</b> (v1.0.36)</summary><br>
+  
+  If you just want to display json in pretty html format, then use `e-json-view` tag. You can find example here [examples](https://github.com/Guseyn/EHTML/tree/master/examples/src).
 </details>
 
 # Supported actions on response
