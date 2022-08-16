@@ -41,6 +41,8 @@
 </head>
 ```
 
+Since v.1.0.38 you can disable some elements for **E-HTML** by adding attribute `data-no-ehtml="true"`. It would improve performance, by reducing the number of elements that **E-HTML** needs to observe.
+
 # Introduction Video
 
 [Simple EHTML Blog App](https://github.com/Guseyn/ehtml-simple-blog-app)

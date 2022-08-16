@@ -7161,7 +7161,11 @@ function () {
   }, {
     key: "processNodeWithItsChildNodes",
     value: function processNodeWithItsChildNodes(node) {
-      if (!node.observedByEHTML) {
+      if (!node.isNotForEHTML && this.nodeIsNotForEHTML(node)) {
+        node.isNotForEHTML = true;
+      }
+
+      if (!node.observedByEHTML && !node.isNotForEHTML) {
         node.observedByEHTML = true;
         var nodeName = this.nodeName(node);
         this.processAttributesOfNode(node);
@@ -7176,9 +7180,28 @@ function () {
         var childNodes = node.childNodes;
 
         for (var i = 0; i < childNodes.length; i++) {
-          this.processNodeWithItsChildNodes(childNodes[i]);
+          this.processNodeWithItsChildNodes(childNodes[i], node.isNotForEHTML);
         }
       }
+    }
+  }, {
+    key: "nodeIsNotForEHTML",
+    value: function nodeIsNotForEHTML(node) {
+      if (node.parentElement && node.parentElement.closest('[data-no-ehtml="true"]')) {
+        return true;
+      }
+
+      if (node.attributes) {
+        for (var i = 0; i < node.attributes.length; i++) {
+          var attr = node.attributes[i];
+
+          if (attr.name === 'data-no-ehtml' && attr.value === 'true') {
+            return true;
+          }
+        }
+      }
+
+      return false;
     }
   }, {
     key: "processAttributesOfNode",

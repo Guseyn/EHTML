@@ -32,7 +32,10 @@ class MutationObservation {
   }
 
   processNodeWithItsChildNodes (node) {
-    if (!node.observedByEHTML) {
+    if (!node.isNotForEHTML && this.nodeIsNotForEHTML(node)) {
+      node.isNotForEHTML = true
+    }
+    if (!node.observedByEHTML && !node.isNotForEHTML) {
       node.observedByEHTML = true
       const nodeName = this.nodeName(node)
       this.processAttributesOfNode(node)
@@ -44,9 +47,24 @@ class MutationObservation {
       }
       const childNodes = node.childNodes
       for (let i = 0; i < childNodes.length; i++) {
-        this.processNodeWithItsChildNodes(childNodes[i])
+        this.processNodeWithItsChildNodes(childNodes[i], node.isNotForEHTML)
       }
     }
+  }
+
+  nodeIsNotForEHTML (node) {
+    if (node.parentElement && node.parentElement.closest('[data-no-ehtml="true"]')) {
+      return true
+    }
+    if (node.attributes) {
+      for (let i = 0; i < node.attributes.length; i++) {
+        const attr = node.attributes[i]
+        if ((attr.name === 'data-no-ehtml') && (attr.value === 'true')) {
+          return true
+        }
+      }
+    }
+    return false
   }
 
   processAttributesOfNode (node) {
