@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.38**
+**v1.0.39**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -42,6 +42,15 @@
 ```
 
 Since v.1.0.38 you can disable some elements for **E-HTML** by adding attribute `data-no-ehtml="true"`. It would improve performance, by reducing the number of elements that **E-HTML** needs to observe.
+
+Since v.1.0.39 you can turn off/on EHTML `MutationObserver` by using following methods:
+
+```js
+window.ehtmlMutationObserver.turnOff()
+window.ehtmlMutationObserver.turnOn()
+```
+
+It would improve performance, by turning off `MutationObserver`. In this case, **E-HTML** would not react on new elements that's being created on a page.
 
 # Introduction Video
 

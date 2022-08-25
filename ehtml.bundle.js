@@ -7153,10 +7153,21 @@ function () {
           }
         }
       });
-      observer.observe(this.targetNode, {
+      this.observer = observer;
+      this.turnOn();
+    }
+  }, {
+    key: "turnOn",
+    value: function turnOn() {
+      this.observer.observe(this.targetNode, {
         childList: true,
         subtree: true
       });
+    }
+  }, {
+    key: "turnOff",
+    value: function turnOff() {
+      this.observer.disconnect();
     }
   }, {
     key: "processNodeWithItsChildNodes",
@@ -7299,7 +7310,8 @@ function () {
   return MutationObservation;
 }();
 
-new MutationObservation().run();
+window.ehtmlMutationObserver = new MutationObservation();
+window.ehtmlMutationObserver.run();
 
 },{"./E/exports":23}],25:[function(require,module,exports){
 'use strict';
