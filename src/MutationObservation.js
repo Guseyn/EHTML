@@ -28,7 +28,16 @@ class MutationObservation {
         }
       }
     )
-    observer.observe(this.targetNode, { childList: true, subtree: true })
+    this.observer = observer
+    this.turnOn()
+  }
+
+  turnOn () {
+    this.observer.observe(this.targetNode, { childList: true, subtree: true })
+  }
+
+  turnOff () {
+    this.observer.disconnect()
   }
 
   processNodeWithItsChildNodes (node) {
@@ -153,4 +162,5 @@ class MutationObservation {
   }
 }
 
-new MutationObservation().run()
+window.ehtmlMutationObserver = new MutationObservation()
+window.ehtmlMutationObserver.run()
