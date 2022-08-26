@@ -8158,16 +8158,28 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
       resObj.body = req.response;
 
       if (options.downloadResponseBodyAsFileWithName) {
-        var fileURL = window.URL.createObjectURL(resObj.body);
-        var anchor = document.createElement('a');
-        anchor.href = fileURL;
-        anchor.download = options.downloadResponseBodyAsFileWithName;
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-      }
+        if (resObj.statusCode === 200) {
+          var fileURL = window.URL.createObjectURL(resObj.body);
+          var anchor = document.createElement('a');
+          anchor.href = fileURL;
+          anchor.download = options.downloadResponseBodyAsFileWithName;
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+        } else {
+          req.response.text().then(function (value) {
+            try {
+              resObj.body = JSON.parse(value);
+            } catch (error) {
+              resObj.body = value;
+            }
 
-      callback(null, resObj);
+            callback(null, resObj);
+          });
+        }
+      } else {
+        callback(null, resObj);
+      }
     }
   };
 

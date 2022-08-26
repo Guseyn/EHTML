@@ -32,15 +32,27 @@ const responseFromAjaxRequest = (options, requestBody, callback) => {
       resObj.headers = headerMap
       resObj.body = req.response
       if (options.downloadResponseBodyAsFileWithName) {
-        const fileURL = window.URL.createObjectURL(resObj.body)
-        const anchor = document.createElement('a')
-        anchor.href = fileURL
-        anchor.download = options.downloadResponseBodyAsFileWithName
-        document.body.appendChild(anchor)
-        anchor.click()
-        anchor.remove()
+        if (resObj.statusCode === 200) {
+          const fileURL = window.URL.createObjectURL(resObj.body)
+          const anchor = document.createElement('a')
+          anchor.href = fileURL
+          anchor.download = options.downloadResponseBodyAsFileWithName
+          document.body.appendChild(anchor)
+          anchor.click()
+          anchor.remove()
+        } else {
+          req.response.text().then(value => {
+            try {
+              resObj.body = JSON.parse(value)
+            } catch (error) {
+              resObj.body = value
+            }
+            callback(null, resObj)
+          })
+        }
+      } else {
+        callback(null, resObj)
       }
-      callback(null, resObj)
     }
   }
   req.addEventListener('progress', options.progressEvent)
