@@ -7103,6 +7103,7 @@ function () {
     _classCallCheck(this, MutationObservation);
 
     this.targetNode = document;
+    this.isOn = false;
   }
 
   _createClass(MutationObservation, [{
@@ -7159,15 +7160,21 @@ function () {
   }, {
     key: "turnOn",
     value: function turnOn() {
-      this.observer.observe(this.targetNode, {
-        childList: true,
-        subtree: true
-      });
+      if (!this.isOn) {
+        this.observer.observe(this.targetNode, {
+          childList: true,
+          subtree: true
+        });
+        this.isOn = true;
+      }
     }
   }, {
     key: "turnOff",
     value: function turnOff() {
-      this.observer.disconnect();
+      if (this.isOn) {
+        this.observer.disconnect();
+        this.isOn = false;
+      }
     }
   }, {
     key: "processNodeWithItsChildNodes",

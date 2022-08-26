@@ -5,6 +5,7 @@ const ELEMENTS = require('./E/exports')
 class MutationObservation {
   constructor () {
     this.targetNode = document
+    this.isOn = false
   }
 
   run () {
@@ -33,11 +34,17 @@ class MutationObservation {
   }
 
   turnOn () {
-    this.observer.observe(this.targetNode, { childList: true, subtree: true })
+    if (!this.isOn) {
+      this.observer.observe(this.targetNode, { childList: true, subtree: true })
+      this.isOn = true
+    }
   }
 
   turnOff () {
-    this.observer.disconnect()
+    if (this.isOn) {
+      this.observer.disconnect()
+      this.isOn = false
+    }
   }
 
   processNodeWithItsChildNodes (node) {
