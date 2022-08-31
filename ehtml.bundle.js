@@ -8173,6 +8173,7 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
           document.body.appendChild(anchor);
           anchor.click();
           anchor.remove();
+          callback(null, resObj);
         } else {
           req.response.text().then(function (value) {
             try {

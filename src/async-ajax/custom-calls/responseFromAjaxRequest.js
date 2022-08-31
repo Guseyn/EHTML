@@ -40,6 +40,7 @@ const responseFromAjaxRequest = (options, requestBody, callback) => {
           document.body.appendChild(anchor)
           anchor.click()
           anchor.remove()
+          callback(null, resObj)
         } else {
           req.response.text().then(value => {
             try {
