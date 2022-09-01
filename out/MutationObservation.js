@@ -41,7 +41,7 @@ function () {
                 _this.processNodeWithItsChildNodes(node);
               }
 
-              if (window.urlParams && window.urlParams.hash && window.history.state.scrollY === undefined) {
+              if (window.urlParams && window.urlParams.hash && (!window.history.state || window.history.state.scrollY === undefined)) {
                 var anchorElement = document.getElementById(window.urlParams.hash);
 
                 if (anchorElement) {
