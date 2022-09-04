@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.39**
+**v1.0.40**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
@@ -1079,6 +1079,16 @@ It would improve performance, by turning off `MutationObserver`. In this case, *
   <summary><b>E-JSON-VIEW</b> (v1.0.36)</summary><br>
   
   If you just want to display json in pretty html format, then use `e-json-view` tag. You can find example here [examples](https://github.com/Guseyn/EHTML/tree/master/examples/src).
+</details>
+
+<details>
+  <summary><b>E-CACHE-VERSION</b> (v1.0.40)</summary><br>
+  
+  If you want to cache static files by header like `'Cache-Control'`, then you can use template `e-cache-version`. You need to have an endpoint that respondes with current version (as JSON `{ version: <number> }`) of files and specify path of the endpoint in attribute `data-src`.
+
+  This template checks another attribute that you must specify `data-update-every-n-hours`, which tells how often we need to check version of cache(meaning that we invoke endpoint with current version). If version is upgraded on backend, then it means that we need to update our cache. **E-HTML** saves version in localStorage by key `version`, that you can use in urls of static files, like: `<img src="/../image.png?version=${localStorage.version}">`. All your static resources must be declared inside of `E-CACHE-VERSION` template, otherwise the version from localStorage can be undefined or out of date.
+
+  You can find example here [examples](https://github.com/Guseyn/EHTML/tree/master/examples/src).
 </details>
 
 # Supported actions on response
