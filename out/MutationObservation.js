@@ -193,6 +193,8 @@ function () {
         return 'e-for-each';
       } else if (this.isTemplateWithTypeExclusively(node, 'e-wrapper')) {
         return 'e-wrapper';
+      } else if (this.isTemplateWithTypeExclusively(node, 'e-cache-version')) {
+        return 'e-cache-version';
       }
 
       return node.nodeName.toLowerCase();

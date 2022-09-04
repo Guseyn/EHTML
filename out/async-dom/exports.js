@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
+  ActivatedTemplate: require('./ActivatedTemplate'),
   BodyOfDocument: require('./BodyOfDocument'),
   ButtonWithChangedTextAndAddedClass: require('./ButtonWithChangedTextAndAddedClass'),
   ButtonWithChangedToOriginalTextAndRemovedClass: require('./ButtonWithChangedToOriginalTextAndRemovedClass'),

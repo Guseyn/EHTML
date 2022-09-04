@@ -13,6 +13,7 @@ const GetUserEndpoint = require('./endpoints/GetUserEndpoint')
 const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
 const GitHubAuthEndpoint = require('./endpoints/GithubAuthEndpoint')
+const VersionEndpoint = require('./endpoints/VersionEndpoint')
 
 const mapperForStatic = (url) => {
   const parts = url.split('?')[0].split('/').filter(part => part !== '')
@@ -53,6 +54,7 @@ new SpawnedCommand('grunt').after(
             new GetUsersEndpoint(new RegExp(/^\/users/), 'GET'),
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
             new GitHubAuthEndpoint(new RegExp(/^\/github/), 'POST'),
+            new VersionEndpoint(new RegExp(/^\/version/)),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|json|images|css|md)/),
               mapperForStatic,

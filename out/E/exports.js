@@ -19,5 +19,6 @@ module.exports = {
   'e-select': require('./E_SELECT'),
   'e-svg': require('./E_SVG'),
   'e-markdown': require('./E_MARKDOWN'),
-  'e-wrapper': require('./E_WRAPPER')
+  'e-wrapper': require('./E_WRAPPER'),
+  'e-cache-version': require('./E_CACHE_VERSION')
 };

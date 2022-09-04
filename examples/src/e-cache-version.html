@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- http://localhost:8000/simple-ejson-page.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-json page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <div class="profile-box">
+        <template
+          is="e-cache-version"
+          data-src="/../version"
+          data-update-every-n-hours="0.02"
+        >
+          <div data-text="${localStorage.version}"></div>
+        </template>
+      </div>
+    </div> 
+  </body>
+
+</html>
