@@ -21,7 +21,7 @@ class E_CACHE_VERSION extends E {
     if (!versionSrc) {
       throw new Error(`e-cache-version must have "data-src" attribute`)
     }
-    if (versionUpdateEveryNHours) {
+    if (!versionUpdateEveryNHours) {
       throw new Error(`e-cache-version must have "data-update-every-n-hours" attribute`)
     }
     if (

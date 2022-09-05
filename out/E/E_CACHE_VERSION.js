@@ -65,6 +65,10 @@ function (_E) {
         throw new Error("e-cache-version must have \"data-src\" attribute");
       }
 
+      if (!versionUpdateEveryNHours) {
+        throw new Error("e-cache-version must have \"data-update-every-n-hours\" attribute");
+      }
+
       if (lastVersionUpdateDate === undefined || (new Date().getTime() - lastVersionUpdateDate * 1) / (1000 * 60 * 60) >= versionUpdateEveryNHours * 1) {
         new ResponseFromAjaxRequest(new CreatedOptions('url', this.node.getAttribute('data-src'), 'method', 'GET')).as('RESPONSE').after(new Value(new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), 'version').as('VERSION').after(new LocalStorageWithSetValue(window.localStorage, 'version', as('VERSION')).after(new LocalStorageWithSetValue(window.localStorage, 'last-version-update-date', new Date().getTime()).after(new ActivatedTemplate(this.node))))).call();
       } else {
