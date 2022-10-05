@@ -29,9 +29,6 @@ var _require6 = require('./../async-history/exports'),
     PushedStateToHistory = _require6.PushedStateToHistory,
     UpdatedStateInHistory = _require6.UpdatedStateInHistory;
 
-var _require7 = require('./../events/exports'),
-    ShowProgressEvent = _require7.ShowProgressEvent;
-
 var TurboRedirected = function TurboRedirected(href, headers, _ref) {
   var progressBarPlace = _ref.progressBarPlace,
       progressBarClassName = _ref.progressBarClassName,
@@ -40,22 +37,30 @@ var TurboRedirected = function TurboRedirected(href, headers, _ref) {
   _classCallCheck(this, TurboRedirected);
 
   var progressBar;
-
-  if (progressBarClassName) {
-    progressBar = document.createElement('progress');
-    progressBar.setAttribute('class', progressBarClassName);
-    progressBar.style.display = 'none';
-    progressBar.max = 100;
-    progressBar.value = 0;
-
-    if (progressBarPlace) {
-      document.querySelector(progressBarPlace).prepend(progressBar);
-    } else {
-      document.body.prepend(progressBar);
+  return new PushedStartStateToHistoryIfNeeded(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers, 'progressEvent', function () {
+    if (event.lengthComputable) {
+      var percentComplete = parseInt(event.loaded / event.total * 100);
+      progressBar.value = percentComplete;
     }
-  }
+  }, 'loadStartEvent', function () {
+    if (progressBarClassName) {
+      progressBar = document.createElement('progress');
+      progressBar.setAttribute('class', progressBarClassName);
+      progressBar.style.display = 'none';
+      progressBar.max = 100;
+      progressBar.value = 25;
 
-  return new PushedStartStateToHistoryIfNeeded(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers, 'progressEvent', new ShowProgressEvent(progressBar, true)))))).as('DOC').after(new BodyOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new UpdatedStateInHistory(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new PushedStateToHistory(new CreatedOptions('url', href, 'headers', headers), href).after(new ReplacedElementWithAnotherOne(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON'))))))))))));
+      if (progressBarPlace) {
+        document.querySelector(progressBarPlace).prepend(progressBar);
+      } else {
+        document.body.prepend(progressBar);
+      }
+    }
+
+    progressBar.style.display = '';
+  }, 'loadEndEvent', function () {
+    progressBar.parentNode.removeChild(progressBar);
+  }))))).as('DOC').after(new BodyOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new UpdatedStateInHistory(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new PushedStateToHistory(new CreatedOptions('url', href, 'headers', headers), href).after(new ReplacedElementWithAnotherOne(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON'))))))))))));
 };
 
 module.exports = TurboRedirected;

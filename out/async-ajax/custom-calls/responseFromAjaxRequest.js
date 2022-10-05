@@ -2,7 +2,7 @@
 
 // custom call
 // err, {statusCode, headers, body} in callback
-// options: {url, method, headers, mimeType, withCredentials, user, password, timeout, progressEvent, uploadProgressEvent}
+// options: {url, method, headers, mimeType, withCredentials, user, password, timeout, progressEvent, loadStartEvent, loadEndEvent, uploadProgressEvent, uploadStartEvent, uploadEndEvent}
 var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestBody, callback) {
   var resObj = {};
   var req = new XMLHttpRequest();
@@ -69,8 +69,30 @@ var responseFromAjaxRequest = function responseFromAjaxRequest(options, requestB
     }
   };
 
-  req.addEventListener('progress', options.progressEvent);
-  req.upload.addEventListener('progress', options.uploadProgressEvent);
+  if (options.progressEvent) {
+    req.addEventListener('progress', options.progressEvent);
+  }
+
+  if (options.loadStartEvent) {
+    req.addEventListener('loadstart', options.loadStartEvent);
+  }
+
+  if (options.loadEndEvent) {
+    req.addEventListener('loadend', options.loadEndEvent);
+  }
+
+  if (options.uploadProgressEvent) {
+    req.upload.addEventListener('progress', options.uploadProgressEvent);
+  }
+
+  if (options.uploadStartEvent) {
+    req.upload.addEventListener('loadstart', options.loadStartEvent);
+  }
+
+  if (options.uploadEndEvent) {
+    req.upload.addEventListener('loadend', options.loadEndEvent);
+  }
+
   req.send(requestBody);
 };
 

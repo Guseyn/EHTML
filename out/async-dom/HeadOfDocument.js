@@ -21,45 +21,31 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var _require = require('./../cutie/exports'),
     AsyncObject = _require.AsyncObject;
 
-var ShowProgressEvent =
+var HeadOfDocument =
 /*#__PURE__*/
 function (_AsyncObject) {
-  _inherits(ShowProgressEvent, _AsyncObject);
+  _inherits(HeadOfDocument, _AsyncObject);
 
-  function ShowProgressEvent(progressBar) {
-    _classCallCheck(this, ShowProgressEvent);
+  function HeadOfDocument(doc) {
+    _classCallCheck(this, HeadOfDocument);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ShowProgressEvent).call(this, progressBar));
+    return _possibleConstructorReturn(this, _getPrototypeOf(HeadOfDocument).call(this, doc));
   }
 
-  _createClass(ShowProgressEvent, [{
+  _createClass(HeadOfDocument, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (progressBar) {
-        if (progressBar) {
-          return function (event) {
-            if (event.lengthComputable) {
-              progressBar.style.display = '';
-              var percentComplete = parseInt(event.loaded / event.total * 100);
-              progressBar.value = percentComplete;
-
-              if (progressBar.value === 100) {
-                if (removeProgressBarAfter) {
-                  progressBar.parentNode.removeChild(progressBar);
-                } else {
-                  progressBar.style.display = 'none';
-                }
-              }
-            }
-          };
+      return function (doc) {
+        if (doc.head) {
+          return doc.head;
         }
 
-        return function () {};
+        return null;
       };
     }
   }]);
 
-  return ShowProgressEvent;
+  return HeadOfDocument;
 }(AsyncObject);
 
-module.exports = ShowProgressEvent;
+module.exports = HeadOfDocument;
