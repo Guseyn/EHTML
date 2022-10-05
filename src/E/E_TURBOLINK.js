@@ -20,7 +20,8 @@ class E_TURBOLINK extends E {
         {
           ajaxFavicon: this.node.getAttribute('data-ajax-favicon'),
           progressBarClassName: this.node.getAttribute('data-with-progress-bar'),
-          progressBarPlace: this.node.getAttribute('data-progress-bar-place')
+          progressBarPlace: this.node.getAttribute('data-progress-bar-place'),
+          ajaxIcon: this.node.getAttribute('data-ajax-icon')
         }
       ).call()
     })

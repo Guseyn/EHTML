@@ -22,7 +22,10 @@ var _require5 = require('./../async-dom/exports'),
     TitleOfDocument = _require5.TitleOfDocument,
     FaviconOfDocument = _require5.FaviconOfDocument,
     ChangedPageTitle = _require5.ChangedPageTitle,
-    ChangedPageFavicon = _require5.ChangedPageFavicon;
+    ChangedPageFavicon = _require5.ChangedPageFavicon,
+    ShownElementAsBlock = _require5.ShownElementAsBlock,
+    HiddenElement = _require5.HiddenElement,
+    FirstParsedElmSelector = _require5.FirstParsedElmSelector;
 
 var _require6 = require('./../async-history/exports'),
     PushedStartStateToHistoryIfNeeded = _require6.PushedStartStateToHistoryIfNeeded,
@@ -32,22 +35,27 @@ var _require6 = require('./../async-history/exports'),
 var TurboRedirected = function TurboRedirected(href, headers, _ref) {
   var progressBarPlace = _ref.progressBarPlace,
       progressBarClassName = _ref.progressBarClassName,
+      ajaxIcon = _ref.ajaxIcon,
       ajaxFavicon = _ref.ajaxFavicon;
 
   _classCallCheck(this, TurboRedirected);
 
   var progressBar;
   return new PushedStartStateToHistoryIfNeeded(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new ChangedPageFavicon(document, ajaxFavicon, true).after(new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', href, 'method', 'GET', 'headers', headers, 'progressEvent', function () {
-    if (event.lengthComputable) {
-      var percentComplete = parseInt(event.loaded / event.total * 100);
-      progressBar.value = percentComplete;
+    if (progressBar) {
+      if (event.lengthComputable) {
+        var percentComplete = parseInt(event.loaded / event.total * 100);
+        progressBar.value = percentComplete;
+      }
     }
   }, 'loadStartEvent', function () {
+    new ShownElementAsBlock(new FirstParsedElmSelector(ajaxIcon)).call();
+
     if (progressBarClassName) {
       progressBar = document.createElement('progress');
       progressBar.setAttribute('class', progressBarClassName);
       progressBar.max = 100;
-      progressBar.value = 25;
+      progressBar.value = 0;
 
       if (progressBarPlace) {
         document.querySelector(progressBarPlace).prepend(progressBar);
@@ -56,7 +64,11 @@ var TurboRedirected = function TurboRedirected(href, headers, _ref) {
       }
     }
   }, 'loadEndEvent', function () {
-    progressBar.parentNode.removeChild(progressBar);
+    if (progressBar) {
+      progressBar.parentNode.removeChild(progressBar);
+    }
+
+    new HiddenElement(new FirstParsedElmSelector(ajaxIcon)).call();
   }))))).as('DOC').after(new BodyOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new UpdatedStateInHistory(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new PushedStateToHistory(new CreatedOptions('url', href, 'headers', headers), href).after(new ReplacedElementWithAnotherOne(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON'))))))))))));
 };
 

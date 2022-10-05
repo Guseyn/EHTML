@@ -33,6 +33,7 @@ module.exports = {
   ScrolledIntoView: require('./ScrolledIntoView'),
   ScrolledToHistoryStatePosition: require('./ScrolledToHistoryStatePosition'),
   ShownElement: require('./ShownElement'),
+  ShownElementAsBlock: require('./ShownElementAsBlock'),
   ShownElements: require('./ShownElements'),
   TitleOfDocument: require('./TitleOfDocument'),
   UnwrappedChildrenOfParent: require('./UnwrappedChildrenOfParent'),

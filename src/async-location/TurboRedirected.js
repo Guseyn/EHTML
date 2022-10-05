@@ -4,11 +4,11 @@ const { as } = require('./../cutie/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
 const { ResponseFromAjaxRequest, ResponseBody } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
-const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./../async-dom/exports')
+const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon, ShownElementAsBlock, HiddenElement, FirstParsedElmSelector } = require('./../async-dom/exports')
 const { PushedStartStateToHistoryIfNeeded, PushedStateToHistory, UpdatedStateInHistory } = require('./../async-history/exports')
 
 class TurboRedirected {
-  constructor (href, headers, { progressBarPlace, progressBarClassName, ajaxFavicon }) {
+  constructor (href, headers, { progressBarPlace, progressBarClassName, ajaxIcon, ajaxFavicon }) {
     let progressBar
     return new PushedStartStateToHistoryIfNeeded(
       new CreatedOptions(
@@ -31,17 +31,24 @@ class TurboRedirected {
                   'method', 'GET',
                   'headers', headers,
                   'progressEvent', () => {
-                    if (event.lengthComputable) {
-                      const percentComplete = parseInt((event.loaded / event.total) * 100)
-                      progressBar.value = percentComplete
+                    if (progressBar) {
+                      if (event.lengthComputable) {
+                        const percentComplete = parseInt((event.loaded / event.total) * 100)
+                        progressBar.value = percentComplete
+                      }
                     }
                   },
                   'loadStartEvent', () => {
+                    new ShownElementAsBlock(
+                      new FirstParsedElmSelector(
+                        ajaxIcon
+                      )
+                    ).call()
                     if (progressBarClassName) {
                       progressBar = document.createElement('progress')
                       progressBar.setAttribute('class', progressBarClassName)
                       progressBar.max = 100
-                      progressBar.value = 25
+                      progressBar.value = 0
                       if (progressBarPlace) {
                         document.querySelector(progressBarPlace).prepend(progressBar)
                       } else {
@@ -50,7 +57,14 @@ class TurboRedirected {
                     }
                   },
                   'loadEndEvent', () => {
-                    progressBar.parentNode.removeChild(progressBar)
+                    if (progressBar) {
+                      progressBar.parentNode.removeChild(progressBar)
+                    }
+                    new HiddenElement(
+                      new FirstParsedElmSelector(
+                        ajaxIcon
+                      )
+                    ).call()
                   }
                 )
               )
