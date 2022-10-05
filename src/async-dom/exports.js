@@ -29,6 +29,7 @@ module.exports = {
   RemovedElements: require('./RemovedElements'),
   ReplacedElementWithAnotherOne: require('./ReplacedElementWithAnotherOne'),
   ScrolledIntoView: require('./ScrolledIntoView'),
+  ScrolledToHistoryStatePosition: require('./ScrolledToHistoryStatePosition'),
   ShownElement: require('./ShownElement'),
   ShownElements: require('./ShownElements'),
   TitleOfDocument: require('./TitleOfDocument'),

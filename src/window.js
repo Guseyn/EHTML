@@ -5,7 +5,7 @@ const { ActionByNameWithParams } = require('./actions/exports')
 const { StringFromBuffer } = require('./async-string/exports')
 const { ResponseFromAjaxRequest, ResponseBody } = require('./async-ajax/exports')
 const { CreatedOptions } = require('./async-object/exports')
-const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon } = require('./async-dom/exports')
+const { ReplacedElementWithAnotherOne, ExtractedDocument, BodyOfDocument, TitleOfDocument, FaviconOfDocument, ChangedPageTitle, ChangedPageFavicon, ScrolledToHistoryStatePosition } = require('./async-dom/exports')
 
 if (!window.customElements) {
   window.stop()
@@ -55,6 +55,8 @@ window.onpopstate = (event) => {
             new FaviconOfDocument(
               as('DOC')
             )
+          ).after(
+            new ScrolledToHistoryStatePosition()
           )
         )
       )

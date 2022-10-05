@@ -29,7 +29,8 @@ var _require6 = require('./async-dom/exports'),
     TitleOfDocument = _require6.TitleOfDocument,
     FaviconOfDocument = _require6.FaviconOfDocument,
     ChangedPageTitle = _require6.ChangedPageTitle,
-    ChangedPageFavicon = _require6.ChangedPageFavicon;
+    ChangedPageFavicon = _require6.ChangedPageFavicon,
+    ScrolledToHistoryStatePosition = _require6.ScrolledToHistoryStatePosition;
 
 if (!window.customElements) {
   window.stop();
@@ -50,7 +51,7 @@ var retrievedValue = function retrievedValue(target, value) {
 
 window.onpopstate = function (event) {
   if (event.state) {
-    new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', event.state.url, 'method', 'GET', 'headers', event.state.headers))))).as('DOC').after(new ReplacedElementWithAnotherOne(document.body, new BodyOfDocument(as('DOC'))).after(new ChangedPageTitle(document, new TitleOfDocument(as('DOC'))).after(new ChangedPageFavicon(document, new FaviconOfDocument(as('DOC')))))).call();
+    new ExtractedDocument(new StringFromBuffer(new ResponseBody(new ResponseFromAjaxRequest(new CreatedOptions('url', event.state.url, 'method', 'GET', 'headers', event.state.headers))))).as('DOC').after(new ReplacedElementWithAnotherOne(document.body, new BodyOfDocument(as('DOC'))).after(new ChangedPageTitle(document, new TitleOfDocument(as('DOC'))).after(new ChangedPageFavicon(document, new FaviconOfDocument(as('DOC'))).after(new ScrolledToHistoryStatePosition())))).call();
   }
 };
 
