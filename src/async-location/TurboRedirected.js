@@ -40,7 +40,6 @@ class TurboRedirected {
                     if (progressBarClassName) {
                       progressBar = document.createElement('progress')
                       progressBar.setAttribute('class', progressBarClassName)
-                      progressBar.style.display = 'none'
                       progressBar.max = 100
                       progressBar.value = 25
                       if (progressBarPlace) {
@@ -49,7 +48,6 @@ class TurboRedirected {
                         document.body.prepend(progressBar)
                       }
                     }
-                    progressBar.style.display = ''
                   },
                   'loadEndEvent', () => {
                     progressBar.parentNode.removeChild(progressBar)

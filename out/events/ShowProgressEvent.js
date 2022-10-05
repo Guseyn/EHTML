@@ -27,15 +27,17 @@ function (_AsyncObject) {
   _inherits(ShowProgressEvent, _AsyncObject);
 
   function ShowProgressEvent(progressBar) {
+    var removeProgressBarAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     _classCallCheck(this, ShowProgressEvent);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ShowProgressEvent).call(this, progressBar));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ShowProgressEvent).call(this, progressBar, removeProgressBarAfter));
   }
 
   _createClass(ShowProgressEvent, [{
     key: "syncCall",
     value: function syncCall() {
-      return function (progressBar) {
+      return function (progressBar, removeProgressBarAfter) {
         if (progressBar) {
           return function (event) {
             if (event.lengthComputable) {

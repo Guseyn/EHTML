@@ -46,7 +46,6 @@ var TurboRedirected = function TurboRedirected(href, headers, _ref) {
     if (progressBarClassName) {
       progressBar = document.createElement('progress');
       progressBar.setAttribute('class', progressBarClassName);
-      progressBar.style.display = 'none';
       progressBar.max = 100;
       progressBar.value = 25;
 
@@ -56,8 +55,6 @@ var TurboRedirected = function TurboRedirected(href, headers, _ref) {
         document.body.prepend(progressBar);
       }
     }
-
-    progressBar.style.display = '';
   }, 'loadEndEvent', function () {
     progressBar.parentNode.removeChild(progressBar);
   }))))).as('DOC').after(new BodyOfDocument(as('DOC')).as('BODY').after(new TitleOfDocument(as('DOC')).as('TITLE').after(new FaviconOfDocument(as('DOC')).as('FAVICON').after(new UpdatedStateInHistory(new CreatedOptions('url', location.href, 'headers', headers, 'scrollY', window.pageYOffset || document.documentElement.scrollTop, 'documentElementClientHeight', document.documentElement.clientHeight, 'documentBodyClientHeight', document.body.clientHeight), location.href).after(new PushedStateToHistory(new CreatedOptions('url', href, 'headers', headers), href).after(new ReplacedElementWithAnotherOne(document.body, as('BODY')).after(new ChangedPageTitle(document, as('TITLE')).after(new ChangedPageFavicon(document, as('FAVICON'))))))))))));
