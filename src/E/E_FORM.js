@@ -77,13 +77,14 @@ class E_FORM extends E {
   }
 
   setupMethodsForForm (form) {
-    form.requestBody = this.requestBody
-    form.retrievedValuesFromInputsForRequestBody = this.retrievedValuesFromInputsForRequestBody
-    form.retrievedValuesFromSelectsForRequestBody = this.retrievedValuesFromSelectsForRequestBody
-    form.retrievedValuesFromTextareasForRequestBody = this.retrievedValuesFromTextareasForRequestBody
-    form.retrievedValuesFromLocalStorageForRequestBody = this.retrievedValuesFromLocalStorageForRequestBody
-    form.retrievedValuesFromSessionStorageForRequestBody = this.retrievedValuesFromSessionStorageForRequestBody
-    form.retrievedDynamicValuesForRequestBody = this.retrievedDynamicValuesForRequestBody
+    form.requestBodyAndQueryObject = this.requestBodyAndQueryObject
+    form.urlWithQueryParams = this.urlWithQueryParams
+    form.retrievedValuesFromInputsForRequestBodyAndQueryObject = this.retrievedValuesFromInputsForRequestBodyAndQueryObject
+    form.retrievedValuesFromSelectsForRequestBodyAndQueryObject = this.retrievedValuesFromSelectsForRequestBodyAndQueryObject
+    form.retrievedValuesFromTextareasForRequestBodyAndQueryObject = this.retrievedValuesFromTextareasForRequestBodyAndQueryObject
+    form.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject = this.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject
+    form.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject = this.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject
+    form.retrievedDynamicValuesForRequestBodyAndQueryObject = this.retrievedDynamicValuesForRequestBodyAndQueryObject
     form.hideAllErrorsForForm = this.hideAllErrorsForForm
     form.validateDifferentFormElements = this.validateDifferentFormElements
     form.validateFormElements = this.validateFormElements
@@ -130,22 +131,40 @@ class E_FORM extends E {
     }
   }
 
+  urlWithQueryParams (url, queryObject) {
+    const queryStringBuffer = []
+    for (const [ queryName, queryValue ] of Object.entries(queryObject)) {
+      const key = encodeURIComponent(queryName)
+      const value = encodeURIComponent(queryValue)
+      queryStringBuffer.push(`${key}=${value}`)
+    }
+    if (queryStringBuffer.length > 0) {
+      return `${url}?${queryStringBuffer.join('&')}`
+    }
+    return url
+  }
+
   submit (target, isThisTarget = false) {
     if (!target) {
       throw new Error('you must pass target in submit method like: \'this.form.submit(this)\'')
     }
     let requestBody
+    let queryObject
     let validations = []
     let isFormValid
     if (isThisTarget) {
-      requestBody = this.requestBody(target)
+      const requestBodyAndQueryObject = this.requestBodyAndQueryObject(target)
+      requestBody = requestBodyAndQueryObject.requestBody
+      queryObject = requestBodyAndQueryObject.queryObject
       this.hideAllErrorsForForm(target)
-      this.validateDifferentFormElements(target, requestBody, validations)
+      this.validateDifferentFormElements(target, requestBody, queryObject, validations)
       isFormValid = this.isFormValid(target, validations)
     } else {
-      requestBody = this.requestBody(this)
+      const requestBodyAndQueryObject = this.requestBodyAndQueryObject(this)
+      requestBody = requestBodyAndQueryObject.requestBody
+      queryObject = requestBodyAndQueryObject.queryObject
       this.hideAllErrorsForForm(this)
-      this.validateDifferentFormElements(this, requestBody, validations)
+      this.validateDifferentFormElements(this, requestBody, queryObject, validations)
       isFormValid = this.isFormValid(this, validations)
     }
     const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
@@ -166,7 +185,10 @@ class E_FORM extends E {
             ).after(
               new ResponseFromAjaxRequest(
                 new CreatedOptions(
-                  'url', target.getAttribute('data-request-url'),
+                  'url', this.urlWithQueryParams(
+                    target.getAttribute('data-request-url'),
+                    queryObject
+                  ),
                   'headers', new ParsedJSON(
                     target.getAttribute('data-request-headers') || '{}'
                   ),
@@ -249,26 +271,26 @@ class E_FORM extends E {
     return true
   }
 
-  validateDifferentFormElements (form, requestBody, validations) {
-    form.validateFormElements(form, form.inputs, requestBody, validations)
-    form.validateFormElements(form, form.selects, requestBody, validations)
-    form.validateFormElements(form, form.textareas, requestBody, validations)
-    form.validateFormElements(form, form.localStorageValues, requestBody, validations)
-    form.validateFormElements(form, form.sessionStorageValues, requestBody, validations)
+  validateDifferentFormElements (form, requestBody, queryObject, validations) {
+    form.validateFormElements(form, form.inputs, requestBody, queryObject, validations)
+    form.validateFormElements(form, form.selects, requestBody, queryObject, validations)
+    form.validateFormElements(form, form.textareas, requestBody, queryObject, validations)
+    form.validateFormElements(form, form.localStorageValues, requestBody, queryObject, validations)
+    form.validateFormElements(form, form.sessionStorageValues, requestBody, queryObject, validations)
   }
 
-  validateFormElements (form, elements, requestBody, results) {
+  validateFormElements (form, elements, requestBody, queryObject, results) {
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i]
-      results.push(form.validateFormElement(form, element, requestBody))
+      results.push(form.validateFormElement(form, element, requestBody, queryObject))
     }
   }
 
-  validateFormElement (form, element, requestBody) {
+  validateFormElement (form, element, requestBody, queryObject) {
     const validationPatternAttribute = element.getAttribute('data-validation-pattern')
     const requiredAttribute = element.hasAttribute('required')
     const nameAttribute = element.getAttribute('name')
-    let value = requestBody[nameAttribute]
+    let value = (requestBody[nameAttribute] === undefined) ? queryObject[nameAttribute] : requestBody[nameAttribute]
     if (typeof value === 'string') {
       value = value.trim()
     }
@@ -415,93 +437,106 @@ class E_FORM extends E {
     }
   }
 
-  requestBody (form) {
+  requestBodyAndQueryObject (form) {
     const requestBody = {}
-    form.retrievedValuesFromInputsForRequestBody(form.inputs, requestBody)
-    form.retrievedValuesFromSelectsForRequestBody(form.selects, requestBody)
-    form.retrievedValuesFromTextareasForRequestBody(form.textareas, requestBody)
-    form.retrievedValuesFromLocalStorageForRequestBody(form.localStorageValues, requestBody)
-    form.retrievedValuesFromSessionStorageForRequestBody(form.sessionStorageValues, requestBody)
-    form.retrievedDynamicValuesForRequestBody(form.dynamicValues, requestBody)
-    return requestBody
+    const queryObject = {}
+    form.retrievedValuesFromInputsForRequestBodyAndQueryObject(form.inputs, requestBody, queryObject)
+    form.retrievedValuesFromSelectsForRequestBodyAndQueryObject(form.selects, requestBody, queryObject)
+    form.retrievedValuesFromTextareasForRequestBodyAndQueryObject(form.textareas, requestBody, queryObject)
+    form.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject(form.localStorageValues, requestBody, queryObject)
+    form.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject(form.sessionStorageValues, requestBody, queryObject)
+    form.retrievedDynamicValuesForRequestBodyAndQueryObject(form.dynamicValues, requestBody, queryObject)
+    return { requestBody, queryObject }
   }
 
-  retrievedValuesFromInputsForRequestBody (inputs, requestBody) {
+  retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestBody, queryObject) {
     for (let index = 0; index < inputs.length; index++) {
       const input = inputs[index]
+      const valueIsForQueryObject = input.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!input.name) {
         throw new Error(`input ${input} has no name`)
       }
       if (input.type.toLowerCase() === 'radio') {
         if (input.checked) {
-          requestBody[input.name] = input.value
+          obj[input.name] = input.value
         }
       } else if (input.type.toLowerCase() === 'checkbox') {
-        if (!requestBody[input.name]) {
-          requestBody[input.name] = []
+        if (!obj[input.name]) {
+          obj[input.name] = []
         }
         const inputValue = input.value
         if (!inputValue) {
           throw new Error('checkbox must have \'value\' attribute')
         }
         if (input.checked) {
-          requestBody[input.name].push(inputValue)
+          obj[input.name].push(inputValue)
         }
       } else if (input.type.toLowerCase() === 'file') {
-        requestBody[input.name] = input.filesInfo
+        obj[input.name] = input.filesInfo
       } else {
-        requestBody[input.name] = input.value
+        obj[input.name] = input.value
       }
     }
   }
 
-  retrievedValuesFromSelectsForRequestBody (selects, requestBody) {
+  retrievedValuesFromSelectsForRequestBodyAndQueryObject (selects, requestBody, queryObject) {
     for (let index = 0; index < selects.length; index++) {
       const select = selects[index]
+      const valueIsForQueryObject = select.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!select.name) {
         throw new Error(`select ${select} has no name`)
       }
-      requestBody[select.name] = select.value
+      obj[select.name] = select.value
     }
   }
 
-  retrievedValuesFromTextareasForRequestBody (textareas, requestBody) {
+  retrievedValuesFromTextareasForRequestBodyAndQueryObject (textareas, requestBody, queryObject) {
     for (let index = 0; index < textareas.length; index++) {
       const textarea = textareas[index]
+      const valueIsForQueryObject = textarea.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!textarea.name) {
         throw new Error(`textarea ${textarea} has no name`)
       }
-      requestBody[textarea.name] = textarea.value
+      obj[textarea.name] = textarea.value
     }
   }
 
-  retrievedValuesFromLocalStorageForRequestBody (localStorageValues, requestBody) {
+  retrievedValuesFromLocalStorageForRequestBodyAndQueryObject (localStorageValues, requestBody, queryObject) {
     for (let index = 0; index < localStorageValues.length; index++) {
       const localStorageValue = localStorageValues[index]
+      const valueIsForQueryObject = localStorageValue.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!localStorageValue.name) {
         throw new Error(`localStorageValue ${localStorageValue} has no name`)
       }
-      requestBody[localStorageValue.name] = localStorageValue.value()
+      obj[localStorageValue.name] = localStorageValue.value()
     }
   }
 
-  retrievedValuesFromSessionStorageForRequestBody (sessionStorageValues, requestBody) {
+  retrievedValuesFromSessionStorageForRequestBodyAndQueryObject (sessionStorageValues, requestBody, queryObject) {
     for (let index = 0; index < sessionStorageValues.length; index++) {
       const sessionStorageValue = sessionStorageValues[index]
+      const valueIsForQueryObject = sessionStorageValue.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!sessionStorageValue.name) {
         throw new Error(`sessionStorageValue ${sessionStorageValue} has no name`)
       }
-      requestBody[sessionStorageValue.name] = sessionStorageValue.value()
+      obj[sessionStorageValue.name] = sessionStorageValue.value()
     }
   }
 
-  retrievedDynamicValuesForRequestBody (dynamicValues, requestBody) {
+  retrievedDynamicValuesForRequestBodyAndQueryObject (dynamicValues, requestBody, queryObject) {
     for (let index = 0; index < dynamicValues.length; index++) {
       const dynamicValue = dynamicValues[index]
+      const valueIsForQueryObject = dynamicValue.hasAttribute('data-is-query-param')
+      const obj = valueIsForQueryObject ? queryObject : requestBody
       if (!dynamicValue.name) {
         throw new Error(`dynamicValue ${dynamicValue} has no name`)
       }
-      requestBody[dynamicValue.name] = dynamicValue.value()
+      obj[dynamicValue.name] = dynamicValue.value()
     }
   }
 

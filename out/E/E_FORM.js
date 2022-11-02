@@ -2,6 +2,14 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -140,13 +148,14 @@ function (_E) {
   }, {
     key: "setupMethodsForForm",
     value: function setupMethodsForForm(form) {
-      form.requestBody = this.requestBody;
-      form.retrievedValuesFromInputsForRequestBody = this.retrievedValuesFromInputsForRequestBody;
-      form.retrievedValuesFromSelectsForRequestBody = this.retrievedValuesFromSelectsForRequestBody;
-      form.retrievedValuesFromTextareasForRequestBody = this.retrievedValuesFromTextareasForRequestBody;
-      form.retrievedValuesFromLocalStorageForRequestBody = this.retrievedValuesFromLocalStorageForRequestBody;
-      form.retrievedValuesFromSessionStorageForRequestBody = this.retrievedValuesFromSessionStorageForRequestBody;
-      form.retrievedDynamicValuesForRequestBody = this.retrievedDynamicValuesForRequestBody;
+      form.requestBodyAndQueryObject = this.requestBodyAndQueryObject;
+      form.urlWithQueryParams = this.urlWithQueryParams;
+      form.retrievedValuesFromInputsForRequestBodyAndQueryObject = this.retrievedValuesFromInputsForRequestBodyAndQueryObject;
+      form.retrievedValuesFromSelectsForRequestBodyAndQueryObject = this.retrievedValuesFromSelectsForRequestBodyAndQueryObject;
+      form.retrievedValuesFromTextareasForRequestBodyAndQueryObject = this.retrievedValuesFromTextareasForRequestBodyAndQueryObject;
+      form.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject = this.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject;
+      form.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject = this.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject;
+      form.retrievedDynamicValuesForRequestBodyAndQueryObject = this.retrievedDynamicValuesForRequestBodyAndQueryObject;
       form.hideAllErrorsForForm = this.hideAllErrorsForForm;
       form.validateDifferentFormElements = this.validateDifferentFormElements;
       form.validateFormElements = this.validateFormElements;
@@ -195,6 +204,27 @@ function (_E) {
       }
     }
   }, {
+    key: "urlWithQueryParams",
+    value: function urlWithQueryParams(url, queryObject) {
+      var queryStringBuffer = [];
+
+      for (var _i = 0, _Object$entries = Object.entries(queryObject); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+            queryName = _Object$entries$_i[0],
+            queryValue = _Object$entries$_i[1];
+
+        var key = encodeURIComponent(queryName);
+        var value = encodeURIComponent(queryValue);
+        queryStringBuffer.push("".concat(key, "=").concat(value));
+      }
+
+      if (queryStringBuffer.length > 0) {
+        return "".concat(url, "?").concat(queryStringBuffer.join('&'));
+      }
+
+      return url;
+    }
+  }, {
     key: "submit",
     value: function submit(target) {
       var isThisTarget = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -204,25 +234,31 @@ function (_E) {
       }
 
       var requestBody;
+      var queryObject;
       var validations = [];
       var isFormValid;
 
       if (isThisTarget) {
-        requestBody = this.requestBody(target);
+        var requestBodyAndQueryObject = this.requestBodyAndQueryObject(target);
+        requestBody = requestBodyAndQueryObject.requestBody;
+        queryObject = requestBodyAndQueryObject.queryObject;
         this.hideAllErrorsForForm(target);
-        this.validateDifferentFormElements(target, requestBody, validations);
+        this.validateDifferentFormElements(target, requestBody, queryObject, validations);
         isFormValid = this.isFormValid(target, validations);
       } else {
-        requestBody = this.requestBody(this);
+        var _requestBodyAndQueryObject = this.requestBodyAndQueryObject(this);
+
+        requestBody = _requestBodyAndQueryObject.requestBody;
+        queryObject = _requestBodyAndQueryObject.queryObject;
         this.hideAllErrorsForForm(this);
-        this.validateDifferentFormElements(this, requestBody, validations);
+        this.validateDifferentFormElements(this, requestBody, queryObject, validations);
         isFormValid = this.isFormValid(this, validations);
       }
 
       var downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name');
 
       if (isFormValid) {
-        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ButtonWithChangedTextAndAddedClass(target, target.getAttribute('data-button-ajax-text'), target.getAttribute('data-button-ajax-class')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', target.getAttribute('data-request-url'), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar'))), 'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(downloadResponseBodyAsFileWithName ? new ResponseBody(as('RESPONSE')) : new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))))).call();
+        new DisabledElement(target).after(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon')).as('AJAX_ICON').after(new ShownElement(as('AJAX_ICON')).after(new ButtonWithChangedTextAndAddedClass(target, target.getAttribute('data-button-ajax-text'), target.getAttribute('data-button-ajax-class')).after(new ResponseFromAjaxRequest(new CreatedOptions('url', this.urlWithQueryParams(target.getAttribute('data-request-url'), queryObject), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar'))), 'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(as('AJAX_ICON')).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(downloadResponseBodyAsFileWithName ? new ResponseBody(as('RESPONSE')) : new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))))))).call();
       } else {
         this.scrollToFirstErrorBox(this);
       }
@@ -241,28 +277,28 @@ function (_E) {
     }
   }, {
     key: "validateDifferentFormElements",
-    value: function validateDifferentFormElements(form, requestBody, validations) {
-      form.validateFormElements(form, form.inputs, requestBody, validations);
-      form.validateFormElements(form, form.selects, requestBody, validations);
-      form.validateFormElements(form, form.textareas, requestBody, validations);
-      form.validateFormElements(form, form.localStorageValues, requestBody, validations);
-      form.validateFormElements(form, form.sessionStorageValues, requestBody, validations);
+    value: function validateDifferentFormElements(form, requestBody, queryObject, validations) {
+      form.validateFormElements(form, form.inputs, requestBody, queryObject, validations);
+      form.validateFormElements(form, form.selects, requestBody, queryObject, validations);
+      form.validateFormElements(form, form.textareas, requestBody, queryObject, validations);
+      form.validateFormElements(form, form.localStorageValues, requestBody, queryObject, validations);
+      form.validateFormElements(form, form.sessionStorageValues, requestBody, queryObject, validations);
     }
   }, {
     key: "validateFormElements",
-    value: function validateFormElements(form, elements, requestBody, results) {
+    value: function validateFormElements(form, elements, requestBody, queryObject, results) {
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
-        results.push(form.validateFormElement(form, element, requestBody));
+        results.push(form.validateFormElement(form, element, requestBody, queryObject));
       }
     }
   }, {
     key: "validateFormElement",
-    value: function validateFormElement(form, element, requestBody) {
+    value: function validateFormElement(form, element, requestBody, queryObject) {
       var validationPatternAttribute = element.getAttribute('data-validation-pattern');
       var requiredAttribute = element.hasAttribute('required');
       var nameAttribute = element.getAttribute('name');
-      var value = requestBody[nameAttribute];
+      var value = requestBody[nameAttribute] === undefined ? queryObject[nameAttribute] : requestBody[nameAttribute];
 
       if (typeof value === 'string') {
         value = value.trim();
@@ -405,22 +441,28 @@ function (_E) {
       }
     }
   }, {
-    key: "requestBody",
-    value: function requestBody(form) {
+    key: "requestBodyAndQueryObject",
+    value: function requestBodyAndQueryObject(form) {
       var requestBody = {};
-      form.retrievedValuesFromInputsForRequestBody(form.inputs, requestBody);
-      form.retrievedValuesFromSelectsForRequestBody(form.selects, requestBody);
-      form.retrievedValuesFromTextareasForRequestBody(form.textareas, requestBody);
-      form.retrievedValuesFromLocalStorageForRequestBody(form.localStorageValues, requestBody);
-      form.retrievedValuesFromSessionStorageForRequestBody(form.sessionStorageValues, requestBody);
-      form.retrievedDynamicValuesForRequestBody(form.dynamicValues, requestBody);
-      return requestBody;
+      var queryObject = {};
+      form.retrievedValuesFromInputsForRequestBodyAndQueryObject(form.inputs, requestBody, queryObject);
+      form.retrievedValuesFromSelectsForRequestBodyAndQueryObject(form.selects, requestBody, queryObject);
+      form.retrievedValuesFromTextareasForRequestBodyAndQueryObject(form.textareas, requestBody, queryObject);
+      form.retrievedValuesFromLocalStorageForRequestBodyAndQueryObject(form.localStorageValues, requestBody, queryObject);
+      form.retrievedValuesFromSessionStorageForRequestBodyAndQueryObject(form.sessionStorageValues, requestBody, queryObject);
+      form.retrievedDynamicValuesForRequestBodyAndQueryObject(form.dynamicValues, requestBody, queryObject);
+      return {
+        requestBody: requestBody,
+        queryObject: queryObject
+      };
     }
   }, {
-    key: "retrievedValuesFromInputsForRequestBody",
-    value: function retrievedValuesFromInputsForRequestBody(inputs, requestBody) {
+    key: "retrievedValuesFromInputsForRequestBodyAndQueryObject",
+    value: function retrievedValuesFromInputsForRequestBodyAndQueryObject(inputs, requestBody, queryObject) {
       for (var index = 0; index < inputs.length; index++) {
         var input = inputs[index];
+        var valueIsForQueryObject = input.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!input.name) {
           throw new Error("input ".concat(input, " has no name"));
@@ -428,11 +470,11 @@ function (_E) {
 
         if (input.type.toLowerCase() === 'radio') {
           if (input.checked) {
-            requestBody[input.name] = input.value;
+            obj[input.name] = input.value;
           }
         } else if (input.type.toLowerCase() === 'checkbox') {
-          if (!requestBody[input.name]) {
-            requestBody[input.name] = [];
+          if (!obj[input.name]) {
+            obj[input.name] = [];
           }
 
           var inputValue = input.value;
@@ -442,78 +484,88 @@ function (_E) {
           }
 
           if (input.checked) {
-            requestBody[input.name].push(inputValue);
+            obj[input.name].push(inputValue);
           }
         } else if (input.type.toLowerCase() === 'file') {
-          requestBody[input.name] = input.filesInfo;
+          obj[input.name] = input.filesInfo;
         } else {
-          requestBody[input.name] = input.value;
+          obj[input.name] = input.value;
         }
       }
     }
   }, {
-    key: "retrievedValuesFromSelectsForRequestBody",
-    value: function retrievedValuesFromSelectsForRequestBody(selects, requestBody) {
+    key: "retrievedValuesFromSelectsForRequestBodyAndQueryObject",
+    value: function retrievedValuesFromSelectsForRequestBodyAndQueryObject(selects, requestBody, queryObject) {
       for (var index = 0; index < selects.length; index++) {
         var select = selects[index];
+        var valueIsForQueryObject = select.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!select.name) {
           throw new Error("select ".concat(select, " has no name"));
         }
 
-        requestBody[select.name] = select.value;
+        obj[select.name] = select.value;
       }
     }
   }, {
-    key: "retrievedValuesFromTextareasForRequestBody",
-    value: function retrievedValuesFromTextareasForRequestBody(textareas, requestBody) {
+    key: "retrievedValuesFromTextareasForRequestBodyAndQueryObject",
+    value: function retrievedValuesFromTextareasForRequestBodyAndQueryObject(textareas, requestBody, queryObject) {
       for (var index = 0; index < textareas.length; index++) {
         var textarea = textareas[index];
+        var valueIsForQueryObject = textarea.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!textarea.name) {
           throw new Error("textarea ".concat(textarea, " has no name"));
         }
 
-        requestBody[textarea.name] = textarea.value;
+        obj[textarea.name] = textarea.value;
       }
     }
   }, {
-    key: "retrievedValuesFromLocalStorageForRequestBody",
-    value: function retrievedValuesFromLocalStorageForRequestBody(localStorageValues, requestBody) {
+    key: "retrievedValuesFromLocalStorageForRequestBodyAndQueryObject",
+    value: function retrievedValuesFromLocalStorageForRequestBodyAndQueryObject(localStorageValues, requestBody, queryObject) {
       for (var index = 0; index < localStorageValues.length; index++) {
         var localStorageValue = localStorageValues[index];
+        var valueIsForQueryObject = localStorageValue.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!localStorageValue.name) {
           throw new Error("localStorageValue ".concat(localStorageValue, " has no name"));
         }
 
-        requestBody[localStorageValue.name] = localStorageValue.value();
+        obj[localStorageValue.name] = localStorageValue.value();
       }
     }
   }, {
-    key: "retrievedValuesFromSessionStorageForRequestBody",
-    value: function retrievedValuesFromSessionStorageForRequestBody(sessionStorageValues, requestBody) {
+    key: "retrievedValuesFromSessionStorageForRequestBodyAndQueryObject",
+    value: function retrievedValuesFromSessionStorageForRequestBodyAndQueryObject(sessionStorageValues, requestBody, queryObject) {
       for (var index = 0; index < sessionStorageValues.length; index++) {
         var sessionStorageValue = sessionStorageValues[index];
+        var valueIsForQueryObject = sessionStorageValue.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!sessionStorageValue.name) {
           throw new Error("sessionStorageValue ".concat(sessionStorageValue, " has no name"));
         }
 
-        requestBody[sessionStorageValue.name] = sessionStorageValue.value();
+        obj[sessionStorageValue.name] = sessionStorageValue.value();
       }
     }
   }, {
-    key: "retrievedDynamicValuesForRequestBody",
-    value: function retrievedDynamicValuesForRequestBody(dynamicValues, requestBody) {
+    key: "retrievedDynamicValuesForRequestBodyAndQueryObject",
+    value: function retrievedDynamicValuesForRequestBodyAndQueryObject(dynamicValues, requestBody, queryObject) {
       for (var index = 0; index < dynamicValues.length; index++) {
         var dynamicValue = dynamicValues[index];
+        var valueIsForQueryObject = dynamicValue.hasAttribute('data-is-query-param');
+        var obj = valueIsForQueryObject ? queryObject : requestBody;
 
         if (!dynamicValue.name) {
           throw new Error("dynamicValue ".concat(dynamicValue, " has no name"));
         }
 
-        requestBody[dynamicValue.name] = dynamicValue.value();
+        obj[dynamicValue.name] = dynamicValue.value();
       }
     }
   }, {
