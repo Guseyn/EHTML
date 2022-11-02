@@ -538,6 +538,8 @@ It would improve performance, by turning off `MutationObserver`. In this case, *
 
   You can still apply actions on response body, status code and headers.
 
+  Since v1.0.41 you can use `data-is-query-param` attribute in an input element in `e-form`, and it will be attached no to request body, but rather will be presented in url as a query param
+
 </details>
 
 <details>
