@@ -5777,6 +5777,8 @@ function (_E) {
 
           if (input.checked) {
             obj[input.name].push(inputValue);
+          } else if (input.hasAttribute('unchecked-value')) {
+            obj[input.name].push(input.getAttribute('unchecked-value'));
           }
         } else if (input.type.toLowerCase() === 'file') {
           obj[input.name] = input.filesInfo;
