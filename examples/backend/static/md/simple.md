@@ -19,4 +19,14 @@ Let's insert todo list below:
  - [x] This task is done
  - [ ] This is still pending
 
+Let's check code in JS:
+
+```js
+class A {
+  constructor () {
+    this.a = 'a'
+  }
+}
+```
+
 Seems like it works!
