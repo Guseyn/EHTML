@@ -40,7 +40,7 @@ new SpawnedCommand('grunt').after(
       new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js').after(
         new Backend(
           'http',
-          8001,
+          4200,
           '127.0.0.1',
           new RestApi(
             new CustomIndexEndpoint(

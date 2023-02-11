@@ -46,6 +46,7 @@
     "json-pretty-html": "^1.1.6",
     "pretty-print-json": "^1.2.5",
     "showdown": "^2.1.0",
+    "showdown-highlight": "^3.1.0",
     "test-executor": "^1.2.4"
   },
   "devDependencies": {

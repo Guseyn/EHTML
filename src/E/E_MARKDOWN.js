@@ -7,12 +7,25 @@ const { CreatedOptions } = require('./../async-object/exports')
 const { ParsedJSON } = require('./../async-json/exports')
 const { MarkdownConvertedToHTML } = require('./../async-md/exports')
 
+const showdownHighlight = require('showdown-highlight')
+
 class E_MARKDOWN extends E {
   constructor (node) {
     super(node)
   }
 
   activate () {
+    const extensions = []
+    if (this.node.getAttribute('data-apply-code-highlighting')) {
+      extensions.push(
+        showdownHighlight({
+          // Whether to add the classes to the <pre> tag, default is false
+          pre: true,
+          // Whether to use hljs' auto language detection, default is true
+          auto_detection: true
+        })
+      )
+    }
     new UnwrappedChildrenOfParent(
       new ElementWithInnerHTML(
         this.node,
@@ -34,7 +47,8 @@ class E_MARKDOWN extends E {
             simpleLineBreaks: true,
             emoji: true,
             moreStyling: true,
-            github: true
+            github: true,
+            extensions: extensions
           }
         )
       )
