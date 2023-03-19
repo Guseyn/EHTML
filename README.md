@@ -733,6 +733,8 @@ It would improve performance, by turning off `MutationObserver`. In this case, *
 <details>
   <summary><b>E-TURBOLINK</b></summary><br>
   
+  **UPDATE:** probably we will drop this implementation in favor of different package: [https://github.com/hotwired/turbo](https://github.com/hotwired/turbo). We either reimplement this element more properly or just suggest to use the link above. 
+  
   **EHTML** supports [turbolinks](https://github.com/turbolinks/turbolinks) via `e-turbolink`. The main difference from classic turbolinks is that `e-tubolink` does not merge `<head>` from the page it fetches. The idea behind this decision was that it would make rendered html code much cleaner(but this decision is still discussable).
 
   ```html
