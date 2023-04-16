@@ -4,7 +4,7 @@ const E = require('./E')
 const { as } = require('./../cutie/exports')
 const { ResponseFromAjaxRequest, ResponseBody, ResponseHeaders, ResponseStatusCode, JSResponseByHTTPReponseComponents } = require('./../async-ajax/exports')
 const { CreatedOptions } = require('./../async-object/exports')
-const { ShownElement, HiddenElement, EnabledElement, DisabledElement, FirstParsedElmSelector, ButtonWithChangedTextAndAddedClass, ButtonWithChangedToOriginalTextAndRemovedClass } = require('./../async-dom/exports')
+const { HiddenElement, EnabledElement, FirstParsedElmSelector, ButtonWithChangedToOriginalTextAndRemovedClass } = require('./../async-dom/exports')
 const { ParsedJSON, StringifiedJSON } = require('./../async-json/exports')
 const { StringFromBuffer } = require('./../async-string/exports')
 const { AppliedActionsOnResponse } = require('./../actions/exports')
@@ -152,6 +152,17 @@ class E_FORM extends E {
     let queryObject
     let validations = []
     let isFormValid
+    target.setAttribute('disabled', 'true')
+    if (target.hasAttribute('data-ajax-icon')) {
+      document.querySelector(target.getAttribute('data-ajax-icon')).style.display = 'block'
+    }
+    if (target.hasAttribute('data-button-ajax-class')) {
+      target.classList.add(target.getAttribute('data-button-ajax-class'))
+    }
+    if (target.hasAttribute('data-button-ajax-text')) {
+      target.originalInnerText = target.innerText
+      target.innerText = target.getAttribute('data-button-ajax-text')
+    }
     if (isThisTarget) {
       const requestBodyAndQueryObject = this.requestBodyAndQueryObject(target)
       requestBody = requestBodyAndQueryObject.requestBody
@@ -169,88 +180,82 @@ class E_FORM extends E {
     }
     const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
     if (isFormValid) {
-      new DisabledElement(
-        target
-      ).after(
-        new FirstParsedElmSelector(
-          target.getAttribute('data-ajax-icon')
-        ).as('AJAX_ICON').after(
-          new ShownElement(
-            as('AJAX_ICON')
+      new ResponseFromAjaxRequest(
+        new CreatedOptions(
+          'url', this.urlWithQueryParams(
+            target.getAttribute('data-request-url'),
+            queryObject
+          ),
+          'headers', new ParsedJSON(
+            target.getAttribute('data-request-headers') || '{}'
+          ),
+          'method', target.getAttribute('data-request-method') || 'POST',
+          'uploadProgressEvent', new ShowProgressEvent(
+            new FirstParsedElmSelector(
+              target.getAttribute('data-upload-progress-bar')
+            )
+          ),
+          'progressEvent', new ShowProgressEvent(
+            new FirstParsedElmSelector(
+              target.getAttribute('data-progress-bar')
+            )
+          ),
+          'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName
+        ),
+        new StringifiedJSON(
+          requestBody
+        )
+      ).as('RESPONSE').after(
+        new EnabledElement(target).after(
+          new HiddenElement(
+            new FirstParsedElmSelector(
+              target.getAttribute('data-ajax-icon')
+            )
           ).after(
-            new ButtonWithChangedTextAndAddedClass(
+            new ButtonWithChangedToOriginalTextAndRemovedClass(
               target,
-              target.getAttribute('data-button-ajax-text'),
               target.getAttribute('data-button-ajax-class')
             ).after(
-              new ResponseFromAjaxRequest(
-                new CreatedOptions(
-                  'url', this.urlWithQueryParams(
-                    target.getAttribute('data-request-url'),
-                    queryObject
-                  ),
-                  'headers', new ParsedJSON(
-                    target.getAttribute('data-request-headers') || '{}'
-                  ),
-                  'method', target.getAttribute('data-request-method') || 'POST',
-                  'uploadProgressEvent', new ShowProgressEvent(
-                    new FirstParsedElmSelector(
-                      target.getAttribute('data-upload-progress-bar')
+              new AppliedActionsOnResponse(
+                target,
+                target.tagName,
+                target.getAttribute('data-response-name'),
+                new JSResponseByHTTPReponseComponents(
+                  downloadResponseBodyAsFileWithName
+                    ? new ResponseBody(
+                      as('RESPONSE')
                     )
-                  ),
-                  'progressEvent', new ShowProgressEvent(
-                    new FirstParsedElmSelector(
-                      target.getAttribute('data-progress-bar')
-                    )
-                  ),
-                  'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName
-                ),
-                new StringifiedJSON(
-                  requestBody
-                )
-              ).as('RESPONSE').after(
-                new EnabledElement(target).after(
-                  new HiddenElement(
-                    as('AJAX_ICON')
-                  ).after(
-                    new ButtonWithChangedToOriginalTextAndRemovedClass(
-                      target,
-                      target.getAttribute('data-button-ajax-class')
-                    ).after(
-                      new AppliedActionsOnResponse(
-                        target,
-                        target.tagName,
-                        target.getAttribute('data-response-name'),
-                        new JSResponseByHTTPReponseComponents(
-                          downloadResponseBodyAsFileWithName
-                            ? new ResponseBody(
-                              as('RESPONSE')
-                            )
-                            : new ParsedJSON(
-                              new StringFromBuffer(
-                                new ResponseBody(
-                                  as('RESPONSE')
-                                )
-                              )
-                            ),
-                          new ResponseHeaders(
-                            as('RESPONSE')
-                          ),
-                          new ResponseStatusCode(
-                            as('RESPONSE')
-                          )
-                        ),
-                        target.getAttribute('data-actions-on-response')
+                    : new ParsedJSON(
+                      new StringFromBuffer(
+                        new ResponseBody(
+                          as('RESPONSE')
+                        )
                       )
-                    )
+                    ),
+                  new ResponseHeaders(
+                    as('RESPONSE')
+                  ),
+                  new ResponseStatusCode(
+                    as('RESPONSE')
                   )
-                )
+                ),
+                target.getAttribute('data-actions-on-response')
               )
             )
           )
         )
       ).call()
     } else {
+      target.removeAttribute('disabled')
+      if (target.hasAttribute('data-ajax-icon')) {
+        document.querySelector(target.getAttribute('data-ajax-icon')).style.display = 'none'
+      }
+      if (target.hasAttribute('data-button-ajax-class')) {
+        target.classList.remove(target.getAttribute('data-button-ajax-class'))
+      }
+      if (target.hasAttribute('data-button-ajax-text')) {
+        target.innerText = target.originalInnerText
+      }
       this.scrollToFirstErrorBox(this)
     }
   }
