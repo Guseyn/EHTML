@@ -115,6 +115,8 @@ class MutationObservation {
           } else if (attr.name === 'data-inner-html') {
             node.innerHTML = attr.value
             node.removeAttribute('data-inner-html')
+          } else if (attr.name === 'disabled' && attr.value === 'false') {
+            node.removeAttribute('disabled')
           }
         }
       }
