@@ -224,6 +224,8 @@ function (_E) {
   }, {
     key: "submit",
     value: function submit(target) {
+      var _this = this;
+
       var isThisTarget = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       if (!target) {
@@ -249,44 +251,53 @@ function (_E) {
         target.innerText = target.getAttribute('data-button-ajax-text');
       }
 
-      if (isThisTarget) {
-        var requestBodyAndQueryObject = this.requestBodyAndQueryObject(target);
-        requestBody = requestBodyAndQueryObject.requestBody;
-        queryObject = requestBodyAndQueryObject.queryObject;
-        this.hideAllErrorsForForm(target);
-        this.validateDifferentFormElements(target, requestBody, queryObject, validations);
-        isFormValid = this.isFormValid(target, validations);
-      } else {
-        var _requestBodyAndQueryObject = this.requestBodyAndQueryObject(this);
+      setTimeout(function () {
+        if (isThisTarget) {
+          var requestBodyAndQueryObject = _this.requestBodyAndQueryObject(target);
 
-        requestBody = _requestBodyAndQueryObject.requestBody;
-        queryObject = _requestBodyAndQueryObject.queryObject;
-        this.hideAllErrorsForForm(this);
-        this.validateDifferentFormElements(this, requestBody, queryObject, validations);
-        isFormValid = this.isFormValid(this, validations);
-      }
+          requestBody = requestBodyAndQueryObject.requestBody;
+          queryObject = requestBodyAndQueryObject.queryObject;
 
-      var downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name');
+          _this.hideAllErrorsForForm(target);
 
-      if (isFormValid) {
-        new ResponseFromAjaxRequest(new CreatedOptions('url', this.urlWithQueryParams(target.getAttribute('data-request-url'), queryObject), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar'))), 'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon'))).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(downloadResponseBodyAsFileWithName ? new ResponseBody(as('RESPONSE')) : new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))).call();
-      } else {
-        target.removeAttribute('disabled');
+          _this.validateDifferentFormElements(target, requestBody, queryObject, validations);
 
-        if (target.hasAttribute('data-ajax-icon')) {
-          document.querySelector(target.getAttribute('data-ajax-icon')).style.display = 'none';
+          isFormValid = _this.isFormValid(target, validations);
+        } else {
+          var _requestBodyAndQueryObject = _this.requestBodyAndQueryObject(_this);
+
+          requestBody = _requestBodyAndQueryObject.requestBody;
+          queryObject = _requestBodyAndQueryObject.queryObject;
+
+          _this.hideAllErrorsForForm(_this);
+
+          _this.validateDifferentFormElements(_this, requestBody, queryObject, validations);
+
+          isFormValid = _this.isFormValid(_this, validations);
         }
 
-        if (target.hasAttribute('data-button-ajax-class')) {
-          target.classList.remove(target.getAttribute('data-button-ajax-class'));
-        }
+        var downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name');
 
-        if (target.hasAttribute('data-button-ajax-text')) {
-          target.innerText = target.originalInnerText;
-        }
+        if (isFormValid) {
+          new ResponseFromAjaxRequest(new CreatedOptions('url', _this.urlWithQueryParams(target.getAttribute('data-request-url'), queryObject), 'headers', new ParsedJSON(target.getAttribute('data-request-headers') || '{}'), 'method', target.getAttribute('data-request-method') || 'POST', 'uploadProgressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-upload-progress-bar'))), 'progressEvent', new ShowProgressEvent(new FirstParsedElmSelector(target.getAttribute('data-progress-bar'))), 'downloadResponseBodyAsFileWithName', downloadResponseBodyAsFileWithName), new StringifiedJSON(requestBody)).as('RESPONSE').after(new EnabledElement(target).after(new HiddenElement(new FirstParsedElmSelector(target.getAttribute('data-ajax-icon'))).after(new ButtonWithChangedToOriginalTextAndRemovedClass(target, target.getAttribute('data-button-ajax-class')).after(new AppliedActionsOnResponse(target, target.tagName, target.getAttribute('data-response-name'), new JSResponseByHTTPReponseComponents(downloadResponseBodyAsFileWithName ? new ResponseBody(as('RESPONSE')) : new ParsedJSON(new StringFromBuffer(new ResponseBody(as('RESPONSE')))), new ResponseHeaders(as('RESPONSE')), new ResponseStatusCode(as('RESPONSE'))), target.getAttribute('data-actions-on-response')))))).call();
+        } else {
+          target.removeAttribute('disabled');
 
-        this.scrollToFirstErrorBox(this);
-      }
+          if (target.hasAttribute('data-ajax-icon')) {
+            document.querySelector(target.getAttribute('data-ajax-icon')).style.display = 'none';
+          }
+
+          if (target.hasAttribute('data-button-ajax-class')) {
+            target.classList.remove(target.getAttribute('data-button-ajax-class'));
+          }
+
+          if (target.hasAttribute('data-button-ajax-text')) {
+            target.innerText = target.originalInnerText;
+          }
+
+          _this.scrollToFirstErrorBox(_this);
+        }
+      }, 0);
     }
   }, {
     key: "isFormValid",
@@ -605,11 +616,11 @@ function (_E) {
   }, {
     key: "tuneFileInput",
     value: function tuneFileInput(fileInput) {
-      var _this = this;
+      var _this2 = this;
 
       var readProgressBar = document.querySelector(fileInput.getAttribute('data-read-progress-bar'));
       fileInput.addEventListener('change', function () {
-        _this.readFilesContentForRequestBody(fileInput, readProgressBar);
+        _this2.readFilesContentForRequestBody(fileInput, readProgressBar);
       });
     }
   }, {
