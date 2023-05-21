@@ -65381,6 +65381,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var ELEMENTS = require('./E/exports');
 
+var TAGS_WITH_SRC_ATTRIBUTE = ['audio', 'embed', 'iframe', 'img', 'input', 'script', 'source', 'track', 'video', 'midi-player'];
+
 var MutationObservation =
 /*#__PURE__*/
 function () {
@@ -65538,6 +65540,9 @@ function () {
             } else if (attr.name === 'data-value') {
               node.value = attr.value;
               node.removeAttribute('data-value');
+            } else if (attr.name === 'data-src' && TAGS_WITH_SRC_ATTRIBUTE.indexOf(node.tagName.toLowerCase()) !== -1) {
+              node.setAttribute('src', node.getAttribute('data-src'));
+              node.removeAttribute('data-src');
             } else if (attr.name === 'data-inner-html') {
               node.innerHTML = attr.value;
               node.removeAttribute('data-inner-html');
