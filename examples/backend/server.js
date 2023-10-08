@@ -28,13 +28,13 @@ const mapperForSrc = (url) => {
 
 const watcherEvent = (eventType, fileName) => {
   if (eventType === 'change') {
-    new SpawnedCommand('grunt').after(
+    new SpawnedCommand('node', [ 'build.js' ]).after(
       new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js')
     ).call()
   }
 }
 
-new SpawnedCommand('grunt').after(
+new SpawnedCommand('node', [ 'build.js' ]).after(
   new ExecutedLint(process, './src', './examples/backend/endpoints', './examples/backend/objects', './examples/backend/server.js').after(
     new WatcherWithEventTypeAndFilenameListener('./src', { persistent: true, recursive: true, encoding: 'utf8' }, watcherEvent).after(
       new CopiedFile('ehtml.bundle.min.js', './examples/backend/static/js/ehtml.bundle.min.js').after(

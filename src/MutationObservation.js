@@ -1,5 +1,6 @@
 'use strict'
 
+require('./window')
 const ELEMENTS = require('./E/exports')
 
 const TAGS_WITH_SRC_ATTRIBUTE = [
