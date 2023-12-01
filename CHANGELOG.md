@@ -1,8 +1,4 @@
-# Changelog 1.0.76
+# Release 1.0.77
 
-## Version 1.0.76
-
-185e40a fix
-f36dbda 1.0.76
-
+6f910b0 update scripts
 
