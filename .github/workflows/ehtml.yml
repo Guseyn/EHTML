@@ -36,15 +36,13 @@ jobs:
             echo "Release will be triggered for commit: $last_commit_message"
           else
             echo "No release will be triggered for commit: $last_commit_message"
-            exit 0  # This will skip the job without failing
+            exit 1  # This will skip the job without failing
           fi
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
           body: |
             Changes in this Release
             - First Change
