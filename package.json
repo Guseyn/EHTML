@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "node lint",
     "build": "node build",
-    "changelog": "node changelog"
+    "changelog": "node changelog",
     "examples": "node examples/backend/server"
   },
   "repository": {
