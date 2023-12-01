@@ -2,7 +2,7 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 // Get the latest Git tag
-const latestTag = execSync('git describe --tags --abbrev=0').toString().trim();
+const previousTag = execSync('git describe --tags $(git rev-list --tags --skip=1 --max-count=1)').toString().trim();
 
 // Get the commit messages and hashes since the last tag
 const commitData = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s"`).toString().trim().split('\n');
