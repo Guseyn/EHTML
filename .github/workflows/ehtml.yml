@@ -32,7 +32,7 @@ jobs:
         run: |
           last_commit_message=$(git log -1 --pretty=%B)
           echo $last_commit_message
-          if [[ $last_commit_message =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ $last_commit_message =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Release will be triggered for commit: $last_commit_message"
           else
             echo "No release will be triggered for commit: $last_commit_message"
