@@ -24,18 +24,11 @@ jobs:
     - run: npm run build
 
   release:
+    if: github.event.head_commit.message =~ ^[0-9]+\.[0-9]+\.[0-9]+$
     runs-on: ubuntu-latest
     needs: build  # Ensure that the 'build' job completes before running the release job
     steps:
       - uses: actions/checkout@v3
-      - name: Check Commit Message
-        run: |
-          if [[ ${{ github.event.head_commit.message }} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Release will be triggered for commit: $last_commit_message"
-          else
-            echo "No release will be triggered for commit: $last_commit_message"
-            exit 1  # This will skip the job without failing
-          fi
       - name: Changelog
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
