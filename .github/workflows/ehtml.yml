@@ -36,14 +36,9 @@ jobs:
             echo "No release will be triggered for commit: $last_commit_message"
             exit 1  # This will skip the job without failing
           fi
-      - name: Get previous release tag
-        id: get_previous_release
-        run: |
-          PREVIOUS_RELEASE_TAG=$(git describe --abbrev=0 --tags)
-          echo "PREVIOUS_RELEASE_TAG=${PREVIOUS_RELEASE_TAG}" >> $GITHUB_ENV
       - name: Get commit hashes since previous release
         run: |
-          COMMIT_HASHES=$(git log --format="%H" ${PREVIOUS_RELEASE_TAG}..HEAD)
+          COMMIT_HASHES=$(git log --format="%H" ${GITHUB_EVENT_BEFORE}..${GITHUB_SHA})
           echo "COMMIT_HASHES=${COMMIT_HASHES}" >> $GITHUB_ENV
       - name: Create GitHub Release
         uses: actions/create-release@v1
