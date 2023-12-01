@@ -31,11 +31,12 @@ jobs:
       - name: Check Commit Message
         run: |
           last_commit_message=$(git log -1 --pretty=%B)
+          echo $last_commit_message
           if [[ $last_commit_message =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Release will be triggered for commit: $last_commit_message"
           else
             echo "No release will be triggered for commit: $last_commit_message"
-            exit 78  # This will skip the job without failing
+            exit 0  # This will skip the job without failing
           fi
       - name: Create GitHub Release
         uses: actions/create-release@v1
