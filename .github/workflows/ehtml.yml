@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build  # Ensure that the 'build' job completes before running the release job
     steps:
+      - uses: actions/checkout@v3
       - name: Check Commit Message
         run: |
           last_commit_message=$(git log -1 --pretty=%B)
@@ -36,7 +37,6 @@ jobs:
             echo "No release will be triggered for commit: $last_commit_message"
             exit 78  # This will skip the job without failing
           fi
-      - uses: actions/checkout@v3
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
