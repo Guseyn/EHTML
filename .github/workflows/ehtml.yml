@@ -32,7 +32,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Generate Changelog
-        run: sh changelog.sh
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
