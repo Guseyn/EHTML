@@ -2,15 +2,15 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 // Get the latest Git tag
-const previousTag = execSync('git describe --tags $(git rev-list --tags --skip=1 --max-count=1)').toString().trim();
+const previousCommit = execSync('git rev-list -n 1 --grep="^[0-9]\+\.[0-9]\+\.[0-9]\+" HEAD^').toString().trim();
 
 // Get the commit messages and hashes since the last tag
-const commitData = execSync(`git log ${previousTag}..HEAD --pretty=format:"%h %s"`).toString().trim().split('\n');
+const commitData = execSync(`git log ${previousCommit}..HEAD --pretty=format:"%h %s"`).toString().trim().split('\n');
 
 // Format the changelog
 const changelog = `# Changelog
 
-## Version ${previousTag}
+## Version ${previousCommit}
 
 ${formatCommits(commitData)}
 
