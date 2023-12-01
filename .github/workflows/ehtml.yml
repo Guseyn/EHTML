@@ -36,12 +36,11 @@ jobs:
             echo "No release will be triggered for commit: $last_commit_message"
             exit 1  # This will skip the job without failing
           fi
-      - name: Get commit hashes since previous release
-        run: |
-          echo ${{ github.event.before }}
-          echo ${{ github.event.after }}
-          COMMIT_HASHES=$(git log --format="%H" ${{ github.event.before }}..${{ github.event.after }})
-          echo "COMMIT_HASHES=${COMMIT_HASHES}" >> $GITHUB_ENV
+      - name: Changelog
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
+        env:
+          REPO: ${{ github.repository }}
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
@@ -50,8 +49,6 @@ jobs:
           tag_name: ${{ github.event.head_commit.message }}
           release_name: Release ${{ github.event.head_commit.message }}
           body: |
-            ## Changes
-            - Commits since previous release:
-              ${{ env.COMMIT_HASHES }}
+            ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
