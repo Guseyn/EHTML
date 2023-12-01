@@ -28,7 +28,7 @@ jobs:
   release:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: build  # Ensure that the 'build' job completes before running the release job
+    needs: build
     steps:
       - uses: actions/checkout@v3
       - name: Create GitHub Release

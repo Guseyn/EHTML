@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v1.0.65**
+**v1.0.67**
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can put on HTML page for different purposes and use cases. The main idea and goal of this library is to provide a convenient way to get rid of JavaScript code on the client side as much as it's possible for basic and routine stuff.
 
