@@ -14,6 +14,7 @@ const GetUsersEndpoint = require('./endpoints/GetUsersEndpoint')
 const GoogleAuthEndpoint = require('./endpoints/GoogleAuthEndpoint')
 const GitHubAuthEndpoint = require('./endpoints/GithubAuthEndpoint')
 const VersionEndpoint = require('./endpoints/VersionEndpoint')
+const EchoEndpoint = require('./endpoints/EchoEndpoint')
 
 const mapperForStatic = (url) => {
   const parts = url.split('?')[0].split('/').filter(part => part !== '')
@@ -55,6 +56,8 @@ new SpawnedCommand('node', [ 'build.js' ]).after(
             new GoogleAuthEndpoint(new RegExp(/^\/google/), 'POST'),
             new GitHubAuthEndpoint(new RegExp(/^\/github/), 'POST'),
             new VersionEndpoint(new RegExp(/^\/version/)),
+            new EchoEndpoint(new RegExp(/^\/echo/), 'GET'),
+            new EchoEndpoint(new RegExp(/^\/echo/), 'POST'),
             new ServingFilesEndpoint(
               new RegExp(/^\/(html|js|json|images|css|md)/),
               mapperForStatic,

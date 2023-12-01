@@ -30,13 +30,13 @@
           <e-form-dynamic-value name="date" data-bound-to="${new Date()}">
           </e-form-dynamic-value>
           <button
-            data-request-url="https://guseyn.com/echo"
+            data-request-url="/echo"
             data-request-method="POST"
             data-ajax-icon="#ajax-icon"
             data-response-name="response"
             onclick="this.form.submit(this)"
             data-actions-on-response="
-              mapToTemplate('${response}', '#response-template');
+              mapToTemplate('#response-template', response);
             "
             data-button-ajax-text="Submitting..."
             data-button-ajax-class="half-opacity">

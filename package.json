@@ -4,7 +4,7 @@
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "scripts": {
-    "test": "node test",
+    "lint": "node lint",
     "build": "node build",
     "examples": "node examples/backend/server"
   },
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "dependencies": {
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
     "json-pretty-html": "^1.1.6",
     "pretty-print-json": "^1.2.5",
     "showdown": "^2.1.0",
@@ -39,14 +40,6 @@
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-modules-commonjs": "^7.21.2",
     "@babel/preset-env": "^7.16.0",
-    "browserify": "^17.0.0",
-    "uglify-js": "^3.14.2",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "test-executor": "^1.2.4",
     "@cuties/assert": "^1.2.2",
     "@cuties/async": "^1.0.1",
     "@cuties/buffer": "^1.2.3",
@@ -60,6 +53,14 @@
     "@cuties/object": "^1.1.6",
     "@cuties/rest": "^1.2.16",
     "@cuties/spawn": "^1.0.2",
-    "@cuties/wall": "^1.1.2"
+    "@cuties/wall": "^1.1.2",
+    "browserify": "^17.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "test-executor": "^1.2.4",
+    "uglify-js": "^3.14.2"
   }
 }

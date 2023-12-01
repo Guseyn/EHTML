@@ -19,8 +19,7 @@
           data-src="/../profile?name=${urlParams.name}"
           data-response-name="profileResponse"
           data-actions-on-response="
-            logToConsole('${thisAttrs[\'data-src\']}');
-            mapToTemplate('${profileResponse}', '#profile-template');
+            mapToTemplate('#profile-template', profileResponse)
           "
           data-ajax-icon="#ajax-icon"
         >
@@ -38,7 +37,7 @@
                     <div data-text="Profession: ${profileResponse.body.profession}"></div>
                   </div>
                 </div>
-                <template is="e-if" data-condition-to-display="${mappingElmAttrs['data-name'] === 'John'}">
+                <template is="e-if" data-condition-to-display="${profileResponse.body.name === 'John'}">
                   It's john
                 </template>
               </template>

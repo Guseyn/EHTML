@@ -21,9 +21,9 @@
           data-ajax-icon="#ajax-icon"
           data-response-name="responseWithToken"
           data-actions-on-response="
-            saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
-            turboRedirect('/../e-github-oauth-button.html');
-        ">
+            localStorage.setItem('jwt', responseWithToken.body.jwt)
+            redirect('/../e-github-oauth-button.html');
+          ">
           <input type="hidden" name="code" value="${urlParams.code}">
           <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
         </e-form>

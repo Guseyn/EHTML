@@ -1,6 +1,22 @@
 module.exports = {
-  ActionByNameWithParams: require('./ActionByNameWithParams'),
-  AppliedActionsOnResponse: require('./AppliedActionsOnResponse'),
-  BuiltAsyncTreeByParsedActions: require('./BuiltAsyncTreeByParsedActions'),
-  ParsedActions: require('./ParsedActions')
+  addHTMLInto: require('./addHTMLInto'),
+  disableElms: require('./disableElms'),
+  hideElms: require('./hideElms'),
+  loadAndAddHTMLInto: require('./loadAndAddHTMLInto'),
+  loadTextInto: require('./loadTextInto'),
+  reload: require('./reload'),
+  showElms: require('./showElms'),
+  addTextInto: require('./addTextInto'),
+  enabledElms: require('./enabledElms'),
+  insertHTMLInto: require('./insertHTMLInto'),
+  loadAndAddTextInto: require('./loadAndAddTextInto'),
+  mapToTemplate: require('./mapToTemplate'),
+  removeElms: require('./removeElms'),
+  toggleElms: require('./toggleElms'),
+  changeValueOf: require('./changeValueOf'),
+  insertTextInto: require('./insertTextInto'),
+  loadHTMLInto: require('./loadHTMLInto'),
+  redirect: require('./redirect'),
+  scrollIntoViewOf: require('./scrollIntoViewOf'),
+  updateAttributeOf: require('./updateAttributeOf')
 }

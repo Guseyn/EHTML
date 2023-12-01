@@ -84,8 +84,8 @@
           data-request-token-key="googleToken"
           data-response-name="responseWithToken"
           data-actions-on-response="
-            saveToLocalStorage('jwt', '${responseWithToken.body.jwt}');
-            reload();
+            localStorage.setItem('jwt', responseWithToken.body.jwt)
+            reload()
           "
         >
           <span id="google-icon" class="icon"></span>

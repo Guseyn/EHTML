@@ -23,8 +23,8 @@
         data-src="/../profile?name=Amanda"
         data-response-name="profileResponse"
         data-actions-on-response="
-          mapToTemplate('${profileResponse}', '#profile-template');
-          customActionOnResponse('${profileResponse}');
+          mapToTemplate('#profile-template', profileResponse);
+          customActionOnResponse('profileResponse');
         "
         data-ajax-icon="#ajax-icon"
       >

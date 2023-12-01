@@ -51,5 +51,5 @@ class BuiltJSFiles {
 }
 
 new BuiltJSFiles(
- [ 'src' ], 'MutationObservation.js', 'ehtml.bundle.min.js'
+ [ 'src' ], 'main.js', 'ehtml.bundle.min.js'
 ).call()

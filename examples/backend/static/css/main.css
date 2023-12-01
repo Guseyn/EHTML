@@ -556,6 +556,13 @@ iframe {
   margin: 10px auto;
 }
 
+.big-button {
+  display: block;
+  padding: 1em;
+  font-size: 2em;
+  margin: 10px auto;
+}
+
 .logo {
   margin: 10px auto;
   display: block;

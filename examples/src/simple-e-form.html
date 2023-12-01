@@ -114,7 +114,7 @@
           <progress id="read-progress-bar"></progress>
 
           <button
-            data-request-url="https://guseyn.com/echo"
+            data-request-url="/echo"
             data-request-method="POST"
             data-request-headers="{}"
             data-upload-progress-bar="#upload-progress-bar"
@@ -125,7 +125,7 @@
             data-actions-on-response="
               hideElms('#form-content');
               showElms('.applying-response-box');
-              mapToTemplate('${response}', '#response-template');
+              mapToTemplate('#response-template', response);
             ">
             Apply
           </button>
