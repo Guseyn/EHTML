@@ -43,8 +43,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ last_commit_message }}
+          release_name: Release ${{ last_commit_message }}
           body: |
             Changes in this Release
             - First Change
