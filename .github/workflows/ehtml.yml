@@ -38,7 +38,9 @@ jobs:
           fi
       - name: Get commit hashes since previous release
         run: |
-          COMMIT_HASHES=$(git log --format="%H" ${GITHUB_EVENT_BEFORE}..${GITHUB_SHA})
+          echo ${github.event.before}
+          echo ${github.event.after}
+          COMMIT_HASHES=$(git log --format="%H" ${github.event.before}..${github.event.after})
           echo "COMMIT_HASHES=${COMMIT_HASHES}" >> $GITHUB_ENV
       - name: Create GitHub Release
         uses: actions/create-release@v1
