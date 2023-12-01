@@ -3,6 +3,8 @@ name: EHTML CI
 on:
   push:
     branches: [ "master" ]
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
   pull_request:
     branches: [ "master" ]
 
@@ -24,9 +26,7 @@ jobs:
     - run: npm run build
 
   release:
-    if: |
-      github.event_name == 'push' &&
-      github.event.head_commit.message =~ /^[0-9]+\.[0-9]+\.[0-9]+$/
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: build  # Ensure that the 'build' job completes before running the release job
     steps:
