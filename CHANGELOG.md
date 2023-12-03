@@ -1,4 +1,2 @@
-6083e0d update readme
-37a3856 update readme
-03bdee8 update
-b2b9b61 add thisElement to actionsOnResponse attribute
+0004388 change-log
+50db905 fix minor bugs
