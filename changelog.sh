@@ -12,7 +12,9 @@ latestTag=$(git describe --tags --abbrev=0)
 latestCommitMessage=$(git log -n 1 --pretty=format:"%s" $latestTag)
 
 # Format the changelog
-changelog="$commitData"
+changelog="# Release $latestTag
+
+$commitData"
 
 # Write the changelog to a file
 echo "$changelog" > CHANGELOG.md
