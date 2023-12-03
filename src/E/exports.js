@@ -9,7 +9,6 @@ module.exports = {
   'e-form-dynamic-value': require('./e-form-dynamic-value'),
   'e-local-storage-value': require('./e-local-storage-value'),
   'e-session-storage-value': require('./e-session-storage-value'),
-  'e-google-oauth-button': require('./e-google-oauth-button'),
   'e-github-oauth-button': require('./e-github-oauth-button'),
   'e-page-with-url': require('./e-page-with-url'),
   'e-reusable': require('./e-reusable'),

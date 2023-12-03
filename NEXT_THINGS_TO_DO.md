@@ -1,4 +1,4 @@
-- [ ] Update Readme
-- [ ] Update Docs
-- [ ] Create Web Site
+- [x] Update Readme
+- [x] Update Docs
+- [x] Create Web Site
 - [ ] Create Promo Materials

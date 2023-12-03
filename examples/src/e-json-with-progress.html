@@ -15,13 +15,13 @@
   <body class="main">
     <div class="base">
       <e-json
-        data-src="https://guseyn.com/bigjson"
+        data-src="/json/bigjson.json"
         data-response-name="response"
         data-progress-bar="#progress-bar"
-        data-actions-on-response="mapToTemplate('${response}', '#response-template')"
+        data-actions-on-response="mapToTemplate('#response-template', response)"
       >
         <div class="response-box">
-          <progress id="progress-bar"></progress>
+          <progress style="width: 100%;" id="progress-bar"></progress>
           <template id="response-template" data-object-name="response">
             <div class="response-info">
               <div>
@@ -29,10 +29,6 @@
               </div>
               <div>
                 Content-Length is: <b data-text="${response.headers['content-length']} bytes"></b>
-              </div>
-              <div>
-                Name and email of the first user in the response: <br>
-                <b data-text="name: ${response.body.items[0].name}, email: ${response.body.items[0].email}"></b>
               </div>
             </div>
           </template>

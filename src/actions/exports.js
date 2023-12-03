@@ -7,7 +7,7 @@ module.exports = {
   reload: require('./reload'),
   showElms: require('./showElms'),
   addTextInto: require('./addTextInto'),
-  enabledElms: require('./enabledElms'),
+  enableElms: require('./enableElms'),
   insertHTMLInto: require('./insertHTMLInto'),
   loadAndAddTextInto: require('./loadAndAddTextInto'),
   mapToTemplate: require('./mapToTemplate'),
