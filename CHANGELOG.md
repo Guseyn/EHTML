@@ -1,5 +1,5 @@
-# Release v1.0.84
+# Release v1.0.85
 
-0004388 change-log
-50db905 fix minor bugs
-30844c4 1.0.84
+983d44f update change-log
+e071894 update change-log script
+15cfddd update readme
