@@ -53,7 +53,8 @@ module.exports = (node) => {
         body: responseBodyAsObject,
         statusCode: resObj.statusCode,
         headers: resObj.headers
-      }
+      },
+      node
     )
   })
 }
