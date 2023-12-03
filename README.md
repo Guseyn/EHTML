@@ -6,10 +6,10 @@
 
 **EHTML (or Extended HTML)** can be described as a set of custom elements that you can place on an HTML page for different purposes and use cases. The goal of this library is to provide a convenient way to eliminate JavaScript code on the client side as much as possible for basic and routine tasks. The beggest focus of this library is to offer the easiest way to perform AJAX operations just by using HTML.
 
-- [Web Page](https://guseyn.github.io/ehtmlpage/)
-- [Documentation](https://guseyn.github.io/ehtmlpage/html/documentation.html)
-- [Blog](https://guseyn.github.io/ehtmlpage/html/blog.html)
-- [Examples](https://guseyn.github.io/ehtmlpage/html/examples.html)
+- [Web Page](https://e-html.org)
+- [Documentation](https://e-html.org/html/documentation.html)
+- [Blog](https://e-html.org/html/blog.html)
+- [Examples](https://e-html.org/html/examples.html)
 
 [Created by Guseyn](https://guseyn.com/html/about.html)
 
