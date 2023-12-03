@@ -285,7 +285,7 @@ function submit (target, targetIsForm) {
         target.getAttribute('data-response-name'),
         {
           body: responseBodyAsObject,
-          statusСode: resObj.statusСode,
+          statusCode: resObj.statusCode,
           headers: resObj.headers
         },
         target

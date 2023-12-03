@@ -6,7 +6,7 @@ module.exports = (string, state) => {
   }
   return string.replace(pattern, (match, expression) => {
     // eslint-disable-next-line no-eval
-    const evaluationResult = eval('(function() { with (state) { return ' + expression + ' }})()')
+    const evaluationResult = eval('(function() { with (state) { return (' + expression + ') }})()')
     if (typeof evaluationResult === 'object') {
       return JSON.stringify(evaluationResult)
     }
