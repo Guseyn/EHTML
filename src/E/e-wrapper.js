@@ -40,5 +40,11 @@ module.exports = (node) => {
     } else {
       placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
     }
+    if (window.location.hash.length > 1) {
+      const hashElm = document.getElementById(window.location.hash.split('#')[1])
+      if (hashElm) {
+        hashElm.scrollIntoView()
+      }
+    }
   })
 }

@@ -1,4 +1,7 @@
-- [x] Update Readme
-- [x] Update Docs
-- [x] Create Web Site
 - [ ] Create Promo Materials
+	- [ ] Application in React
+	- [ ] Application in Vue
+	- [ ] Application in Angular
+	- [ ] Application in Ember
+	- [ ] Tutorial in Video Format
+	- [ ] Page for Sponsors
