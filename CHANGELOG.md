@@ -6,3 +6,4 @@ a868168 improve git flow
 584e864 one more time
 d501be2 release 1.0.87
 05e8576 1.0.88
+57201cc release v1.0.88
