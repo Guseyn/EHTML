@@ -23,6 +23,6 @@ $commitData"
 echo "$changelog" > CHANGELOG.md
 
 
-sed -i "s/\*\*v[0-9]\+\.[0-9]\+\.[0-9]\+\*\*/\*\*$version\*\*/g" README.md
+sed -i "s@\\*\\*v[0-9]\+\.[0-9]\+\.[0-9]\+\*\\*@**$version**@g" README.md
 git add --all
 git commit -m "release $latestTag"
