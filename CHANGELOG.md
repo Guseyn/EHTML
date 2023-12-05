@@ -1,8 +1,5 @@
-# Release 1.0.98
+# Release 1.0.99
 
-034a56b release v1.0.90
-b3d6fd4 update script
-0587c33 1.0.91
 6367729 release v1.0.91
 a3d99ee update script
 190f930 release 1.0.92
@@ -15,3 +12,5 @@ df372fa release 1.0.94
 1afe209 fix error for attributes
 fb1df57 release 1.0.96
 61d5743 release 1.0.97
+5003fe1 fix script
+7233890 1.0.98
