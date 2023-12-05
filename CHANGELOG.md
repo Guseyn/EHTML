@@ -1,4 +1,4 @@
-# Release 1.0.92
+# Release 1.0.93
 
 05e8576 1.0.88
 57201cc release v1.0.88
@@ -17,3 +17,5 @@ e39c83f release v1.0.90
 b3d6fd4 update script
 0587c33 1.0.91
 6367729 release v1.0.91
+a3d99ee update script
+190f930 release 1.0.92
