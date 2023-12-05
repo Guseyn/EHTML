@@ -36,7 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.head_commit.message }}
+          tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.event.head_commit.message }}
           body_path: CHANGELOG.md
           draft: false
