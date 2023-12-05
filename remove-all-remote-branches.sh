@@ -1,3 +1,3 @@
 #!/bin/bash
-git branch | grep -v "master" | xargs git push origin --delete
+git branch -r | grep -v 'origin/master' | sed 's/origin\///' | xargs -I {} git push origin --delete {}
 git branch | grep -v "master" | xargs git branch -D

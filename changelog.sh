@@ -19,4 +19,5 @@ $commitData"
 # Write the changelog to a file
 echo "$changelog" > CHANGELOG.md
 
+git add --all
 git commit --amend --no-edit

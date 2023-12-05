@@ -1,3 +1,3 @@
-# Release v1.0.86
+# Release v1.0.87
 
-58655ff scroll into hash view
+de96334 improve some aspects of the code
