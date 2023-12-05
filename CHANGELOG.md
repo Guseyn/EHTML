@@ -1,5 +1,3 @@
-# Release v1.0.85
+# Release v1.0.86
 
-983d44f update change-log
-e071894 update change-log script
-15cfddd update readme
+58655ff scroll into hash view

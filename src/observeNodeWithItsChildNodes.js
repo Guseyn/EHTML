@@ -7,7 +7,7 @@ const observeNodeWithItsChildNodes = (node) => {
   if (!node.isNotForEHTML && nodeIsNotForEHTML(node)) {
     node.isNotForEHTML = true
   }
-  if (!node.attributesObservedByEHTML) {
+  if (!node.attributesObservedByEHTML && !node.isNotForEHTML) {
     observeNodeAttributes(node)
     node.attributesObservedByEHTML = true
   }
