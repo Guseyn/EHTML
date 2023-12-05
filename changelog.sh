@@ -20,4 +20,4 @@ $commitData"
 echo "$changelog" > CHANGELOG.md
 
 git add --all
-git commit --amend --no-edit
+git commit -m "release $latestTag"
