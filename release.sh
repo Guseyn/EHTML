@@ -1,5 +1,8 @@
 #!/bin/bash
 
+npm version patch
+version=$(jq -r '.version' package.json)
+
 # Get the previus version Git commit
 previousCommit=$(git log --grep="^[0-9]\+\.[0-9]\+\.[0-9]\+" --pretty=format:"%H" -n 2 HEAD | tail -n 1)
 echo "Previous Commit Hash: $previousCommit"
@@ -19,5 +22,7 @@ $commitData"
 # Write the changelog to a file
 echo "$changelog" > CHANGELOG.md
 
+
+sed -i "s/\*\*v[0-9]\+\.[0-9]\+\.[0-9]\+\*\*/\*\*$version\*\*/g" README.md
 git add --all
 git commit -m "release $latestTag"
