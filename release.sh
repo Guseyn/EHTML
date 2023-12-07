@@ -3,6 +3,8 @@
 npm version patch --no-git-tag-version
 version=$(jq -r '.version' package.json)
 
+
+
 # Get the previus version Git commit
 previousTag=$(git describe --tags --abbrev=0 HEAD^)
 
