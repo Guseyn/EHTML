@@ -9,7 +9,7 @@ version=$(jq -r '.version' package.json)
 previousTag=$(git describe --tags --abbrev=0 HEAD^)
 
 # Get the commit messages and hashes since the last tag
-commitData=$(git log $previousTag..HEAD^ --pretty=format:"%h %s" --reverse)
+commitData=$(git log --pretty=format:"%h %s (%an, %ad)" $previous_tag..HEAD)
 
 # Format the changelog
 changelog="# Release $version
