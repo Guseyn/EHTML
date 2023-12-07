@@ -1,7 +1,9 @@
 #!/bin/bash
 
-npm version patch --no-git-tag-version
+npm version patch --no-commit-hooks
 version=$(jq -r '.version' package.json)
+git add --all
+git commit -m "update version in package.json to $version"
 
 echo "Current version: $version"
 
@@ -23,6 +25,7 @@ $commitData"
 # Write the changelog to a file
 echo "$changelog" > CHANGELOG.md
 
+# update README with new version
 awk -v version="$version" '{gsub(/[0-9]+\.[0-9]+\.[0-9]+/, version)}1' README.md > README.md.tmp
 mv README.md.tmp README.md
 git add --all
