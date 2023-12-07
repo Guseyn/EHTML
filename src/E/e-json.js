@@ -1,6 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
-const evaluatedStringWithActionsOnResponse = require('./../evaluatedStringWithActionsOnResponse')
+const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 
 module.exports = (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')
@@ -46,7 +46,7 @@ module.exports = (node) => {
     const responseBodyAsObject = JSON.parse(
       responseBodyAsBuffer.toString('utf-8', 0, responseBodyAsBuffer.length)
     )
-    evaluatedStringWithActionsOnResponse(
+    evaluateStringWithActionsOnResponse(
       node.getAttribute('data-actions-on-response'),
       node.getAttribute('data-response-name'),
       {

@@ -1,6 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
-const evaluatedStringWithActionsOnResponse = require('./../evaluatedStringWithActionsOnResponse')
+const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,
@@ -280,7 +280,7 @@ function submit (target, targetIsForm) {
       const responseBodyAsObject = JSON.parse(
         responseBodyAsBuffer.toString('utf-8', 0, responseBodyAsBuffer.length)
       )
-      evaluatedStringWithActionsOnResponse(
+      evaluateStringWithActionsOnResponse(
         target.getAttribute('data-actions-on-response'),
         target.getAttribute('data-response-name'),
         {
