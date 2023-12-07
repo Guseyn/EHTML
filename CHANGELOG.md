@@ -1,3 +1,3 @@
-# Release 1.0.106
+# Release 1.0.107
 
-3f734fa add warning for e-for-each item name as well
+8cf5f4f 1.0.106
