@@ -125,11 +125,11 @@ function activateEForEach (node, state) {
     throw new Error('value in attribute "data-list-to-iterate" is not iterable (array)')
   }
   const listFragment = document.createDocumentFragment()
+  if (state[itemName]) {
+    console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page`)
+  }
   list.forEach((item, index) => {
     item.index = index + 1
-    if (state[itemName]) {
-      console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page`)
-    }
     // eslint-disable-next-line no-eval
     eval(`
       state['${itemName}'] = item
