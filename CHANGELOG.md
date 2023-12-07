@@ -1,4 +1,4 @@
-# Release 1.0.118
+# Release 1.0.119
 
-34a8c3f update version in package.json to 1.0.118 (guseyn, Thu Dec 7 22:05:57 2023 +0400)
-9a9c7fa rename global state (guseyn, Thu Dec 7 22:05:53 2023 +0400)
+8cfbcd4 update version in package.json to 1.0.119 (guseyn, Fri Dec 8 02:25:23 2023 +0400)
+8a685ab update deps (guseyn, Fri Dec 8 02:25:19 2023 +0400)
