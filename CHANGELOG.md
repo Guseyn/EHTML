@@ -1,4 +1,4 @@
-# Release 1.0.104
+# Release 1.0.105
 
-3288aff improve naming
-ac39b20 1.0.103
+d643585 1.0.104
+cc0fe77 add global ehtmlState

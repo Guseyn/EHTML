@@ -8,7 +8,7 @@ previousReleaseCommit=$(git log --grep="^[0-9]\+\.[0-9]\+\.[0-9]\+" --pretty=for
 echo "Previous Commit Hash: $previousReleaseCommit"
 
 # Get the commit messages and hashes since the last tag
-commitData=$(git log $previousReleaseCommit..HEAD^ --pretty=format:"%h %s" --reverse)
+commitData=$(git log $previousReleaseCommit..HEAD^ --pretty=format:"%h %s")
 
 # Format the changelog
 changelog="# Release $version
