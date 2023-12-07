@@ -1,4 +1,3 @@
-# Release 1.0.105
+# Release 1.0.106
 
-d643585 1.0.104
-cc0fe77 add global ehtmlState
+3f734fa add warning for e-for-each item name as well
