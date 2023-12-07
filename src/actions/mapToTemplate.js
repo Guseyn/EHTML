@@ -18,8 +18,8 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (!objName) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  window.ehtmlState = window.ehtmlState || {}
-  const state = window.ehtmlState
+  window.__ehtmlState__ = window.__ehtmlState__ || {}
+  const state = window.__ehtmlState__
   if (state[objName]) {
     console.warn(`consider to rename mapping object "${objName}" in "data-object-name" attribute, because you defined it in already in different place on this page`)
   }
@@ -126,16 +126,14 @@ function activateEForEach (node, state) {
   }
   const listFragment = document.createDocumentFragment()
   if (state[itemName]) {
-    console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page`)
+    console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page which can lead to name conflicts`)
   }
   list.forEach((item, index) => {
     item.index = index + 1
-    // eslint-disable-next-line no-eval
-    eval(`
-      state['${itemName}'] = item
-    `)
     const itemContentNode = document.importNode(node.content, true)
+    state[itemName] = item
     map(itemContentNode, state)
+    delete state[itemName]
     listFragment.appendChild(itemContentNode)
   })
   node.parentNode.replaceChild(listFragment, node)
