@@ -18,7 +18,11 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (!objName) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  const state = {}
+  window.ehtmlState = window.ehtmlState || {}
+  const state = window.ehtmlState
+  if (state[objName]) {
+    console.warn(`consider to rename mapping object "${objName}", because you defined it in already in different place on this page`)
+  }
   // eslint-disable-next-line no-eval
   eval(`
     state['${objName}'] = obj
