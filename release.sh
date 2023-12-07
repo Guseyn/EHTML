@@ -4,7 +4,7 @@ npm version patch --no-git-tag-version
 version=$(jq -r '.version' package.json)
 
 # Get the previus version Git commit
-previousReleaseCommit=$(git log --grep="^[0-9]\+\.[0-9]\+\.[0-9]\+" --pretty=format:"%H" -n 2 HEAD | tail -n 1)
+previousReleaseCommit=$(git log --grep="^[0-9]\+\.[0-9]\+\.[0-9]\+" --pretty=format:"%H" -n 2 HEAD)
 echo "Previous Commit Hash: $previousReleaseCommit"
 
 # Get the commit messages and hashes since the last tag
