@@ -1,4 +1,4 @@
-# Release 1.0.117
+# Release 1.0.118
 
-2b1ddad update version in package.json to 1.0.117 (guseyn, Thu Dec 7 14:58:56 2023 +0400)
-9601eac fix release.sh (guseyn, Thu Dec 7 14:58:54 2023 +0400)
+34a8c3f update version in package.json to 1.0.118 (guseyn, Thu Dec 7 22:05:57 2023 +0400)
+9a9c7fa rename global state (guseyn, Thu Dec 7 22:05:53 2023 +0400)
