@@ -1,3 +1,4 @@
-# Release 1.0.107
+# Release 1.0.108
 
-8cf5f4f 1.0.106
+eeb418c move condition up
+f80275b 1.0.107
