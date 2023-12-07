@@ -1,7 +1,6 @@
 #!/bin/bash
 
 npm version --no-git-tag-version patch
-
 version=$(jq -r '.version' package.json)
 git add --all
 git commit -m "update version in package.json to $version"
@@ -14,7 +13,7 @@ previousTag=$(git describe --tags --abbrev=0 HEAD^)
 echo "Previous version: $previousTag"
 
 # Get the commit messages and hashes since the last tag
-commitData=$(git log --pretty=format:"%h %s (%an, %ad)" $previous_tag..HEAD)
+commitData=$(git log --pretty=format:"%h %s (%an, %ad)" $previousTag..HEAD)
 
 echo "commit history: $commitData"
 
