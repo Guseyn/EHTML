@@ -21,7 +21,7 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   window.ehtmlState = window.ehtmlState || {}
   const state = window.ehtmlState
   if (state[objName]) {
-    console.warn(`consider to rename mapping object "${objName}", because you defined it in already in different place on this page`)
+    console.warn(`consider to rename mapping object "${objName}" in "data-object-name" attribute, because you defined it in already in different place on this page`)
   }
   // eslint-disable-next-line no-eval
   eval(`
@@ -127,6 +127,9 @@ function activateEForEach (node, state) {
   const listFragment = document.createDocumentFragment()
   list.forEach((item, index) => {
     item.index = index + 1
+    if (state[itemName]) {
+      console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page`)
+    }
     // eslint-disable-next-line no-eval
     eval(`
       state['${itemName}'] = item
