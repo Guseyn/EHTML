@@ -34,8 +34,8 @@ module.exports = (node, state) => {
       node.setAttribute(
         attr.name,
         state
-          ? evaluatedStringWithParamsFromState(attr.value, state)
-          : evaluatedStringWithParams(attr.value)
+          ? evaluatedStringWithParamsFromState(attr.value, state, node)
+          : evaluatedStringWithParams(attr.value, node)
       )
       if (attr.name === 'data-text') {
         const textNode = document.createTextNode(
