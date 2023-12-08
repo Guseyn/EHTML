@@ -32,7 +32,7 @@ function mapToTemplate (elmSelectorOrElm, obj) {
 }
 
 function releaseTemplate (mappingElement, elmContentNode) {
-  if (isTemplate(mappingElement, 'e-reusable')) {
+  if (isTemplateWithType(mappingElement, 'e-reusable')) {
     if (mappingElement.hasAttribute('data-prepend-to')) {
       const parentNode = document.querySelector(mappingElement.getAttribute('data-prepend-to'))
       if (!parentNode) {

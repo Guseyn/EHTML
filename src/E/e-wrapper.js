@@ -40,6 +40,7 @@ module.exports = (node) => {
     } else {
       placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
     }
+    node.parentNode.removeChild(node)
     if (window.location.hash.length > 1) {
       const hashElm = document.getElementById(window.location.hash.split('#')[1])
       if (hashElm) {
