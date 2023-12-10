@@ -1,4 +1,4 @@
-# Release 1.0.123
+# Release 1.0.124
 
-68cf84d update version in package.json to 1.0.123 (guseyn, Sun Dec 10 18:55:45 2023 +0400)
-c536175 Update README.md (Guseyn Ismayylov, Sun Dec 10 18:47:57 2023 +0400)
+902e121 update version in package.json to 1.0.124 (guseyn, Mon Dec 11 03:56:27 2023 +0400)
+c84eb1f scroll to hash on every load from external source (guseyn, Mon Dec 11 03:56:22 2023 +0400)
