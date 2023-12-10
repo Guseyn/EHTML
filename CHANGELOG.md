@@ -1,4 +1,4 @@
-# Release 1.0.122
+# Release 1.0.123
 
-17ddfc3 update version in package.json to 1.0.122 (guseyn, Sat Dec 9 02:27:17 2023 +0400)
-47d4305 some optimisations for templates (guseyn, Sat Dec 9 02:27:14 2023 +0400)
+68cf84d update version in package.json to 1.0.123 (guseyn, Sun Dec 10 18:55:45 2023 +0400)
+c536175 Update README.md (Guseyn Ismayylov, Sun Dec 10 18:47:57 2023 +0400)
