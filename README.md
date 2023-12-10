@@ -11,7 +11,13 @@
 - [Blog](https://e-html.org/html/blog.html)
 - [Examples](https://e-html.org/html/examples.html)
 
-[Created by Guseyn](https://guseyn.com/html/about.html)
+# Simple Blog App: Demo Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/dzrW3D_yIrc/0.jpg)](https://www.youtube.com/watch?v=dzrW3D_yIrc)
+
+# Simple Blog App: Source Code
+
+[Link to source code](https://github.com/Guseyn/ehtml-simple-blog-app)
 
 # Contribution and QA
 
