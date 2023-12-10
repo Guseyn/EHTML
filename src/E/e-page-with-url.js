@@ -1,3 +1,5 @@
+const scrollToHash = require('./../scrollToHash')
+
 module.exports = (node) => {
   const urlParams = {}
   const urlPattern = node.getAttribute('data-url-pattern')
@@ -22,6 +24,7 @@ module.exports = (node) => {
   node.parentNode.replaceChild(
     document.importNode(node.content, true), node
   )
+  scrollToHash()
 }
 
 function parsedUrlPattern (url) {

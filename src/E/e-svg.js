@@ -1,6 +1,7 @@
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
   responseFromAjaxRequest({
@@ -18,5 +19,6 @@ module.exports = (node) => {
     const svg = resObj.body
     node.innerHTML = svg
     unwrappedChildrenOfParent(node)
+    scrollToHash()
   })
 }

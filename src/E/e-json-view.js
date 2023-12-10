@@ -2,6 +2,7 @@ const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const prettyHtml = require('json-pretty-html').default
+const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
   responseFromAjaxRequest({
@@ -24,5 +25,6 @@ module.exports = (node) => {
       responseBodyAsObject
     )
     unwrappedChildrenOfParent(node)
+    scrollToHash()
   })
 }

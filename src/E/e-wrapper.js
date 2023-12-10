@@ -1,5 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
   responseFromAjaxRequest({
@@ -41,11 +42,6 @@ module.exports = (node) => {
       placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
     }
     node.parentNode.removeChild(node)
-    if (window.location.hash.length > 1) {
-      const hashElm = document.getElementById(window.location.hash.split('#')[1])
-      if (hashElm) {
-        hashElm.scrollIntoView()
-      }
-    }
+    scrollToHash()
   })
 }

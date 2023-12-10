@@ -3,6 +3,7 @@ const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
+const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
   const extensions = []
@@ -39,11 +40,6 @@ module.exports = (node) => {
       extensions: extensions
     }).makeHtml(resObj.body)
     unwrappedChildrenOfParent(node)
-    if (window.location.hash.length > 1) {
-      const hashElm = document.getElementById(window.location.hash.split('#')[1])
-      if (hashElm) {
-        hashElm.scrollIntoView()
-      }
-    }
+    scrollToHash()
   })
 }
