@@ -18,9 +18,11 @@ const VALIDATION_PATTERNS = {
 module.exports = (node) => {
   const form = replaceWithForm(node)
   setupForm(form)
-  if (form.hasAttribute('data-request-url')) {
-    form.submit(form, true)
-  }
+  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
+    if (form.hasAttribute('data-request-url')) {
+      submit(form, true)
+    }
+  })
 }
 
 function replaceWithForm (node) {
@@ -532,7 +534,6 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     } else if (input.type.toLowerCase() === 'file') {
       obj[input.name] = input.filesInfo
     } else {
-      console.log(input.value)
       obj[input.name] = input.value
     }
   }

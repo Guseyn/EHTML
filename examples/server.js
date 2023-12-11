@@ -82,11 +82,11 @@ app.post('/github', (req, res) => {
         alg: 'HS256',
         typ: 'JWT'
       }
-      const encodedHeaderInBase64 = this.base64UrlEncodeJSON(header)
-      const encodedPayloadInBase64 = this.base64UrlEncodeJSON(
-        this.payloadWithExpiration(payload, minutesFromNow)
+      const encodedHeaderInBase64 = base64UrlEncodeJSON(header)
+      const encodedPayloadInBase64 = base64UrlEncodeJSON(
+        payloadWithExpiration(payload, minutesFromNow)
       )
-      const encodedSignatureInBase64 = this.generateSignature(
+      const encodedSignatureInBase64 = generateSignature(
         `${encodedHeaderInBase64}.${encodedPayloadInBase64}`, jwtSecret
       )
       const jwt = `${encodedHeaderInBase64}.${encodedPayloadInBase64}.${encodedSignatureInBase64}`
