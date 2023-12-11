@@ -1,6 +1,7 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
+const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
@@ -57,6 +58,7 @@ module.exports = (node) => {
       },
       node
     )
+    unwrappedChildrenOfParent(node)
     scrollToHash()
   })
 }
