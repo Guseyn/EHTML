@@ -98,8 +98,8 @@ app.post('/github', (req, res) => {
   })
 })
 
-app.ws('/', function(ws, req) {
-  ws.onmessage = function(msg) {
+app.ws('/', function (ws, req) {
+  ws.onmessage = function (msg) {
     aWss.clients.forEach(function (client) {
       if (client !== ws) {
         client.send(msg.data)
