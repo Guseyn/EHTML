@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- http://localhost:8000/e-page-with-url-and-e-json.html?name=John -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
@@ -17,12 +16,14 @@
         <e-form
           data-request-url="/../github"
           data-request-method="POST"
-          data-request-headers="{}"
+          data-request-headers='{
+            "Content-Type": "application/json"
+          }'
           data-ajax-icon="#ajax-icon"
           data-response-name="responseWithToken"
           data-actions-on-response="
             localStorage.setItem('jwt', responseWithToken.body.jwt)
-            redirect('/../e-github-oauth-button.html');
+            redirect('/html/e-github-oauth-button.html');
           ">
           <input type="hidden" name="code" value="${urlParams.code}">
           <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>

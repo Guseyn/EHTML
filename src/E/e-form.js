@@ -18,9 +18,11 @@ const VALIDATION_PATTERNS = {
 module.exports = (node) => {
   const form = replaceWithForm(node)
   setupForm(form)
-  if (form.hasAttribute('data-request-url')) {
-    submit(form, true)
-  }
+  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
+    if (form.hasAttribute('data-request-url')) {
+      submit(form, true)
+    }
+  })
 }
 
 function replaceWithForm (node) {

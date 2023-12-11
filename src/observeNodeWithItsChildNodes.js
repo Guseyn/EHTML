@@ -22,8 +22,11 @@ const observeNodeWithItsChildNodes = (node) => {
     }
     const childNodes = node.childNodes
     for (let i = 0; i < childNodes.length; i++) {
-      observeNodeWithItsChildNodes(childNodes[i])
+      observeNodeWithItsChildNodes(childNodes[i], i)
     }
+    node.dispatchEvent(
+      new Event('allChildNodesAreObservedByEHTML')
+    )
   }
 }
 
