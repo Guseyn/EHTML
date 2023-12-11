@@ -19,7 +19,6 @@ module.exports = (node) => {
   const form = replaceWithForm(node)
   setupForm(form)
   if (form.hasAttribute('data-request-url')) {
-    console.log(form.inputs[0].attributes['data-value'].value)
     form.submit(form, true)
   }
 }

@@ -25,7 +25,7 @@
             localStorage.setItem('jwt', responseWithToken.body.jwt)
             redirect('/../e-github-oauth-button.html');
           ">
-          <input type="hidden" name="code" data-value="${urlParams.code}">
+          <input type="hidden" name="code" value="${urlParams.code}">
           <img id="ajax-icon" class="ajax-icon" src="/../images/ajax-icon.svg"/>
         </e-form>
       </div> 

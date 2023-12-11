@@ -14,17 +14,6 @@ const profiles = require('./profiles')
 const app = express()
 const port = 4200
 
-// handle trailing slashes in request urls
-app.use((req, res, next) => {
-  const urlParts = req.url.split('?')
-  const urlMainPart = urlParts[0]
-  const urlQueryPart = urlParts[1]
-  const endsWithSlash = urlMainPart.substr(-1) === '/'
-  if (endsWithSlash && urlMainPart.length > 1) {
-    return res.redirect(301, `${urlMainPart.slice(0, -1)}?${urlQueryPart}`)
-  }
-  next()
-})
 app.use(express.static(path.join(__dirname, 'static')))
 app.use(express.json({ limit: '5mb' }))
 
