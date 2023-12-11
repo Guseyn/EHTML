@@ -2,6 +2,7 @@
 
 const { AsyncObject } = require('@cuties/cutie')
 const { SpawnedCommand } = require('@cuties/spawn')
+const { CopiedFile } = require('@cuties/fs')
 
 class LoggedToOutput extends AsyncObject {
   constructor (log) {
@@ -39,8 +40,10 @@ class BuiltJSFiles {
               'rm',
               [ `${buidName}-tmp-bundle.js` ]
             ).after(
-              new LoggedToOutput(
-                `build for ${jsMinBundleName} is successful`
+              new CopiedFile('ehtml.bundle.min.js', './examples/static/js/ehtml.bundle.min.js').after(
+                new LoggedToOutput(
+                  `build for ${jsMinBundleName} is successful`
+                )
               )
             )
           )

@@ -1,14 +1,6 @@
-'use strict'
-
-const { Delayed } = require('@cuties/async')
-const { Endpoint } = require('@cuties/rest')
-const { EndedResponse, ResponseWithWrittenHead } = require('@cuties/http')
-const { StringifiedJSON } = require('@cuties/json')
-const { CreatedOptions } = require('@cuties/object')
-
-const playlist = {
+module.exports = {
   'title': 'My playlist ♥',
-  'photo': '/../images/guitar.svg',
+  'photo': '/images/guitar.svg',
   'songs': [
     {
       'title': 'Nantes',
@@ -42,27 +34,3 @@ const playlist = {
     }
   ]
 }
-
-class GetPlaylistEndpoint extends Endpoint {
-  constructor (regexp, type) {
-    super(regexp, type)
-  }
-
-  body (request, response) {
-    return new Delayed(
-      null, 650
-    ).after(
-      new EndedResponse(
-        new ResponseWithWrittenHead(
-          response, 200, 'ok',
-          new CreatedOptions(
-            'Content-Type', 'application/json'
-          )
-        ),
-        new StringifiedJSON(playlist)
-      )
-    )
-  }
-}
-
-module.exports = GetPlaylistEndpoint

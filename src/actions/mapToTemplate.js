@@ -20,9 +20,6 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   }
   window.__ehtmlState__ = window.__ehtmlState__ || {}
   const state = window.__ehtmlState__
-  if (state[objName]) {
-    console.warn(`consider to rename mapping object "${objName}" in "data-object-name" attribute, because you defined it in already in different place on this page`)
-  }
   // eslint-disable-next-line no-eval
   eval(`
     state['${objName}'] = obj
@@ -125,9 +122,6 @@ function activateEForEach (node, state) {
     throw new Error('value in attribute "data-list-to-iterate" is not iterable (array)')
   }
   const listFragment = document.createDocumentFragment()
-  if (state[itemName]) {
-    console.warn(`consider to rename mapping item name "${itemName}" in "data-item-name" attribute of <e-for-each>, because you defined such name in different place on this page which can lead to name conflicts`)
-  }
   list.forEach((item, index) => {
     item.index = index + 1
     const itemContentNode = document.importNode(node.content, true)
