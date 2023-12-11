@@ -3,7 +3,8 @@ const { ExecutedLint } = require('@cuties/wall')
 new ExecutedLint(
   process,
   './src',
-  './examples/backend/endpoints',
-  './examples/backend/objects',
-  './examples/backend/server.js'
+  './examples/jwt.js',
+  './examples/playlist.js',
+  './examples/profiles.js',
+  './examples/server.js'
 ).call()
