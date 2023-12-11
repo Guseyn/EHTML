@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- http://localhost:8000/e-reusable-with-e-form.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
   <head>
@@ -59,6 +58,9 @@
           <button
             data-request-url="/echo"
             data-request-method="POST"
+            data-request-headers='{
+              "Content-Type": "application/json"
+            }'
             data-ajax-icon="#ajax-icon"
             data-response-name="response"
             onclick="this.form.submit(this)"

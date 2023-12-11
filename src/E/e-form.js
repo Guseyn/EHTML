@@ -193,7 +193,10 @@ function submit (target, targetIsForm) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
   }
   const validations = []
-  if (!targetIsForm) {
+
+  const socketName = target.getAttribute('data-socket')
+
+  if (!targetIsForm && !socketName) {
     target.setAttribute('disabled', 'true')
   }
 
@@ -201,30 +204,45 @@ function submit (target, targetIsForm) {
     target.getAttribute('data-ajax-icon')
   )
 
-  if (ajaxIcon) {
+  if (ajaxIcon && !socketName) {
     ajaxIcon.style.display = 'block'
   }
-  if (target.hasAttribute('data-button-ajax-class') && !targetIsForm) {
+  if (target.hasAttribute('data-button-ajax-class') && !targetIsForm && !socketName) {
     target.classList.add(target.getAttribute('data-button-ajax-class'))
   }
-  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm) {
+  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm && !socketName) {
     target.originalInnerText = target.innerText
     target.innerText = target.getAttribute('data-button-ajax-text')
   }
+
   const { requestBody, queryObject } = requestBodyAndQueryObject(form)
 
   hideAllErrorsForForm(form)
   validateDifferentFormElements(form, requestBody, queryObject, validations)
 
-  const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
-
-  const uploadProgressBarSelector = target.getAttribute('data-upload-progress-bar')
-  const uploadProgressBar = document.querySelector(uploadProgressBarSelector)
-
-  const progressBarSelector = target.getAttribute('data-progress-bar')
-  const progressBar = document.querySelector(progressBarSelector)
-
   if (isFormValid(form, validations)) {
+    if (socketName) {
+      if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
+        throw new Error(`socket with name "${socketName}" is not defined or not open yet`)
+      }
+      const socket = window.__ehtmlState__['webSockets'][socketName]
+      if (socket.readyState === WebSocket.OPEN) {
+        const message = JSON.stringify(requestBody)
+        socket.send(message)
+      } else {
+        throw new Error(`socket with name "${socketName}" is not open`)
+      }
+      return
+    }
+
+    const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
+
+    const uploadProgressBarSelector = target.getAttribute('data-upload-progress-bar')
+    const uploadProgressBar = document.querySelector(uploadProgressBarSelector)
+
+    const progressBarSelector = target.getAttribute('data-progress-bar')
+    const progressBar = document.querySelector(progressBarSelector)
+
     responseFromAjaxRequest({
       url: urlWithQueryParams(
         target.getAttribute('data-request-url'),

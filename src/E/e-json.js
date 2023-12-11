@@ -10,6 +10,23 @@ module.exports = (node) => {
   if (ajaxIcon) {
     ajaxIcon.style.display = ''
   }
+  const socketName = node.getAttribute('data-socket')
+  if (socketName) {
+    if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
+      throw new Error(`socket with name "${socketName}" is not defined or not opened yet`)
+    }
+    const socket = window.__ehtmlState__['webSockets'][socketName]
+    socket.addEventListener('message', (event) => {
+      const response = JSON.parse(event.data)
+      evaluateStringWithActionsOnResponse(
+        node.getAttribute('data-actions-on-response'),
+        node.getAttribute('data-response-name'),
+        response
+      )
+    })
+    unwrappedChildrenOfParent(node)
+    return
+  }
   const progressBarSelector = node.getAttribute('data-progress-bar')
   const progressBar = document.querySelector(progressBarSelector)
   if (progressBar) {
@@ -55,8 +72,7 @@ module.exports = (node) => {
         body: responseBodyAsObject,
         statusCode: resObj.statusCode,
         headers: resObj.headers
-      },
-      node
+      }
     )
     unwrappedChildrenOfParent(node)
     scrollToHash()

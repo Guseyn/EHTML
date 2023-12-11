@@ -3,17 +3,18 @@ module.exports = {
   'e-json': require('./e-json'),
   'e-json-template': require('./e-json-template'),
   'e-json-view': require('./e-json-view'),
-  'e-if': require('./e-if'),
-  'e-for-each': require('./e-for-each'),
+  'e-if-template': require('./e-if-template'),
+  'e-for-each-template': require('./e-for-each-template'),
   'e-form': require('./e-form'),
   'e-form-dynamic-value': require('./e-form-dynamic-value'),
   'e-local-storage-value': require('./e-local-storage-value'),
   'e-session-storage-value': require('./e-session-storage-value'),
   'e-github-oauth-button': require('./e-github-oauth-button'),
-  'e-page-with-url': require('./e-page-with-url'),
-  'e-reusable': require('./e-reusable'),
+  'e-page-with-url-template': require('./e-page-with-url-template'),
+  'e-reusable-template': require('./e-reusable-template'),
   'e-select': require('./e-select'),
   'e-svg': require('./e-svg'),
   'e-markdown': require('./e-markdown'),
-  'e-wrapper': require('./e-wrapper')
+  'e-ws-template': require('./e-ws-template'),
+  'e-wrapper-template': require('./e-wrapper-template')
 }

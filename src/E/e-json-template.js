@@ -15,7 +15,21 @@ module.exports = (node) => {
     progressBar.max = 100
     progressBar.value = 0
     progressBar.style.display = 'none'
-    return progressBar
+  }
+  const socketName = node.getAttribute('data-socket')
+  if (socketName) {
+    if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
+      throw new Error(`socket with name "${socketName}" is not defined or not opened yet`)
+    }
+    const socket = window.__ehtmlState__['webSockets'][socketName]
+    socket.addEventListener('message', (event) => {
+      const response = JSON.parse(event.data)
+      mapToTemplate(
+        node,
+        response
+      )
+    })
+    return
   }
   responseFromAjaxRequest({
     url: encodeURI(node.getAttribute('data-src')),

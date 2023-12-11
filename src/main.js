@@ -3,6 +3,8 @@ const turnEhtmlMutationObserverOn = require('./turnEhtmlMutationObserverOn')
 const turnEhtmlMutationObserverOff = require('./turnEhtmlMutationObserverOff')
 require('./actions/exports')
 
+window.__ehtmlState__ = window.__ehtmlState__ || {}
+
 window.ehtmlMutationObserver = new MutationObserver(
   (mutationsList, observer) => {
     for (let mutation of mutationsList) {

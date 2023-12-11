@@ -18,7 +18,6 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (!objName) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  window.__ehtmlState__ = window.__ehtmlState__ || {}
   const state = window.__ehtmlState__
   // eslint-disable-next-line no-eval
   eval(`

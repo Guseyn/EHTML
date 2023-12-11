@@ -1,4 +1,5 @@
 const express = require('express')
+const expressWs = require('express-ws')(express())
 const path = require('path')
 const axios = require('axios')
 
@@ -11,8 +12,10 @@ const {
 const playlist = require('./playlist')
 const profiles = require('./profiles')
 
-const app = express()
+const app = expressWs.app
 const port = 4200
+
+const aWss = expressWs.getWss('/')
 
 app.use(express.static(path.join(__dirname, 'static')))
 app.use(express.json({ limit: '5mb' }))
@@ -27,11 +30,11 @@ app.get('/echo', (req, res) => {
     headers: req.headers,
     query: req.query
   }
-  return res.json(responseData)
+  res.json(responseData)
 })
 
 app.post('/echo', (req, res) => {
-  return res.status(200).json(req.body)
+  res.status(200).json(req.body)
 })
 
 app.get('/playlist', (req, res) => {
@@ -93,6 +96,16 @@ app.post('/github', (req, res) => {
       res.status(200).json({ jwt })
     })
   })
+})
+
+app.ws('/', function(ws, req) {
+  ws.onmessage = function(msg) {
+    aWss.clients.forEach(function (client) {
+      if (client !== ws) {
+        client.send(msg.data)
+      }
+    })
+  }
 })
 
 app.listen(port, () => {

@@ -51,7 +51,6 @@ module.exports = (node, state) => {
       }
       if (attr.name === 'data-value') {
         node.value = attr.value
-        console.log(node.value)
         node.removeAttribute('data-value')
         continue
       }

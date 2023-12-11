@@ -11,7 +11,6 @@ class LoggedToOutput extends AsyncObject {
 
   asyncCall () {
     return (log, callback) => {
-      console.log(log)
       callback(null, log)
     }
   }

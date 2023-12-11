@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-json page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+
+      <template 
+       is="e-ws" 
+       data-src="ws://localhost:4200" 
+       data-socket-name="firstSocket"
+       data-actions-on-open-connection="
+          showElms('#connetion-open-message-1', '#connetion-open-message-2')
+        "
+      >
+        <div class="iphone">
+          <span id="connection-open-message-1" class="connection-open-message">You are connected (Alice)</span>
+          <div class="brove"><span class="speaker"></span></div>
+          <div class="screen first"></div>
+          <div class="message-box" id="message-box-1"></div> 
+          <!-- get messages (also possible to use <template is="e-json">) -->
+          <e-json
+            data-socket="firstSocket"
+            data-response-name="socketMessageFromFirstIPhone"
+            data-actions-on-response="
+             mapToTemplate('#message-1', socketMessageFromFirstIPhone)
+             const messageBox = document.getElementById('message-box-1')
+             messageBox.scrollTop = messageBox.scrollHeight
+          ">
+            <template
+              is="e-reusable"
+              id="message-1"
+              data-append-to="#message-box-1"
+              data-object-name="messageFromFirstIPhone"
+            >
+              <div class="message-cloud" style="background-color: ${messageFromFirstIPhone.userColor}">
+                <b data-text="${messageFromFirstIPhone.userName}"></b><br>
+                <span data-text="${messageFromFirstIPhone.messageText}"></span>
+              </div>
+            </template>
+          </e-json>
+           <!-- send messages -->
+          <e-form>
+            <input type="hidden" name="userName" value="Alice"></input>
+            <input type="hidden" name="userColor" value="#ff9ff3"></input>
+            <textarea id="message-text-1" placeholder="Type your message..." name="messageText"></textarea>
+            <button
+              data-socket="firstSocket"
+              onclick="
+                this.form.submit(this)
+                mapToTemplate('#message-1', {
+                  userName: 'Alice',
+                  userColor: '#ff9ff3',
+                  messageText: document.querySelector('#message-text-1').value
+                })
+                changeValueOf('#message-text-1', '')
+                const messageBox = document.getElementById('message-box-1')
+                messageBox.scrollTop = messageBox.scrollHeight
+              ">
+              SEND
+            </button>
+          </e-form>
+        </div>
+      </template>
+
+      <template
+        is="e-ws" 
+        data-src="ws://localhost:4200" 
+        data-socket-name="secondSocket"
+        data-actions-on-open-connection="
+          showElms('#connetion-open-message-1', '#connetion-open-message-2')
+        "
+      >
+        <div class="iphone">
+          <span id="connection-open-message-2" class="connection-open-message">You are connected (Bob)</span>
+          <div class="brove"><span class="speaker"></span></div>
+          <div class="screen second"></div>
+          <div class="message-box" id="message-box-2"></div> 
+          <!-- get messages (also possible to use <template is="e-json">) -->
+          <e-json
+            data-socket="secondSocket"
+            data-response-name="socketMessageFromSecondIPhone"
+            data-actions-on-response="
+              mapToTemplate('#message-2', socketMessageFromSecondIPhone)
+              const messageBox = document.getElementById('message-box-2')
+              messageBox.scrollTop = messageBox.scrollHeight
+          ">
+            <template
+              is="e-reusable"
+              id="message-2"
+              data-append-to="#message-box-2"
+              data-object-name="messageFromSecondIPhone"
+            >
+              <div class="message-cloud" style="background-color: ${messageFromSecondIPhone.userColor}">
+                <b data-text="${messageFromSecondIPhone.userName}"></b><br>
+                <span data-text="${messageFromSecondIPhone.messageText}"></span>
+              </div>
+            </template>
+          </e-json>
+           <!-- send messages -->
+          <e-form>
+            <input type="hidden" name="userName" value="Bob"></input>
+            <input type="hidden" name="userColor" value="#54a0ff"></input>
+            <textarea id="message-text-2" placeholder="Type your message..." name="messageText"></textarea>
+            <button
+              data-socket="secondSocket"
+              onclick="
+                this.form.submit(this)
+                mapToTemplate('#message-2', {
+                  userName: 'Bob',
+                  userColor: '#54a0ff',
+                  messageText: document.querySelector('#message-text-2').value
+                })
+                changeValueOf('#message-text-2', '')
+                const messageBox = document.getElementById('message-box-2')
+                messageBox.scrollTop = messageBox.scrollHeight
+              ">
+              SEND
+            </button>
+          </e-form>
+        </div>
+      </template>
+
+    </div> 
+  </body>
+
+</html>
