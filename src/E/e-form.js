@@ -19,7 +19,8 @@ module.exports = (node) => {
   const form = replaceWithForm(node)
   setupForm(form)
   if (form.hasAttribute('data-request-url')) {
-    submit(form, true)
+    console.log(form.inputs[0].attributes['data-value'].value)
+    form.submit(form, true)
   }
 }
 
@@ -532,6 +533,7 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     } else if (input.type.toLowerCase() === 'file') {
       obj[input.name] = input.filesInfo
     } else {
+      console.log(input.value)
       obj[input.name] = input.value
     }
   }

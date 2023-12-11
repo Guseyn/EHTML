@@ -1,4 +1,4 @@
-const profiles = {
+module.exports = {
   'John': {
     'photo': '/../images/John.svg',
     'name': 'John',
@@ -16,19 +16,3 @@ const profiles = {
     'profession': 'race driver'
   }
 }
-
-const { AsyncObject } = require('@cuties/cutie')
-
-class FoundProfile extends AsyncObject {
-  constructor (name) {
-    super(name)
-  }
-
-  syncCall () {
-    return (name) => {
-      return profiles[name] || null
-    }
-  }
-}
-
-module.exports = FoundProfile
