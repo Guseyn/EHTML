@@ -1,4 +1,4 @@
-# Release 1.0.132
+# Release 1.0.133
 
-0a326bf update version in package.json to 1.0.132 (guseyn, Tue Dec 12 19:26:57 2023 +0400)
-8fbc9ab fix example title (guseyn, Tue Dec 12 19:26:55 2023 +0400)
+68dd52e update version in package.json to 1.0.133 (guseyn, Tue Dec 12 19:45:08 2023 +0400)
+c697af8 add isValid to form (guseyn, Tue Dec 12 19:45:06 2023 +0400)
