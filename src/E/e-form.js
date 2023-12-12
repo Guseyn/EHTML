@@ -220,7 +220,10 @@ function submit (target, targetIsForm) {
   hideAllErrorsForForm(form)
   validateDifferentFormElements(form, requestBody, queryObject, validations)
 
+  form.isValid = false
+
   if (isFormValid(form, validations)) {
+    form.isValid = true
     if (socketName) {
       if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
         throw new Error(`socket with name "${socketName}" is not defined or not open yet`)
