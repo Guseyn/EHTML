@@ -127,9 +127,9 @@ table, th, td {
 }
 
 .iphone form button {
-  width: 250px;
+  width: 260px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 20px;
   border: 1px solid white;
   cursor: pointer;
 }
