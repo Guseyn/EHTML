@@ -13,12 +13,20 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (!isTemplate(mappingElement)) {
     throw new Error('Mapping element must be <template>')
   }
+  if (isTemplateWithType(mappingElement, 'e-if')) {
+    throw new Error('You cannot call mapToTemplate() on <template is="e-if"> directly, please wrap it with <template> with attribute "data-object-name".  We think it\'s important to declare such attribute in a separate template for consistency.')
+  }
+  if (isTemplateWithType(mappingElement, 'e-for-each')) {
+    throw new Error('You cannot call mapToTemplate() on <template is="e-for-each"> directly, please wrap it with <template> with attribute "data-object-name".  We think it\'s important to declare such attribute in a separate template for consistency.')
+  }
   const elmContentNode = document.importNode(mappingElement.content, true)
   const objName = mappingElement.getAttribute('data-object-name')
   if (!objName) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  const state = window.__ehtmlState__
+  const stateKey = randomUniqueStateKey(window.__ehtmlState__)
+  window.__ehtmlState__[stateKey] = {}
+  const state = window.__ehtmlState__[stateKey]
   // eslint-disable-next-line no-eval
   eval(`
     state['${objName}'] = obj
@@ -130,6 +138,23 @@ function activateEForEach (node, state) {
     listFragment.appendChild(itemContentNode)
   })
   node.parentNode.replaceChild(listFragment, node)
+}
+
+function randomUniqueStateKey(state) {
+  const characters = 'abcdefghijklmnopqrstuvwxyz'
+  const keyLength = 4
+  let key = ''
+
+  for (let i = 0; i < keyLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length)
+    key += characters.charAt(randomIndex)
+  }
+
+  if (state[key]) {
+    return randomUniqueStateKey(state)
+  }
+
+  return key
 }
 
 window.mapToTemplate = mapToTemplate
