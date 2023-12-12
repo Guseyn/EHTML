@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-if page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      const items = [
+        {
+          numbers: [
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 4 }
+          ]
+        },
+        {
+          numbers: [
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 4 }
+          ]
+        },
+        {
+          numbers: [
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 4 }
+          ]
+        }
+      ]
+    </script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <template
+        is="e-for-each"
+        data-list-to-iterate="${items}" data-item-name="item">
+        <div data-text="number of values: ${item.numbers.length}"></div>
+        <template
+          is="e-for-each"
+          data-list-to-iterate="${item.numbers}" data-item-name="number">
+          <div data-text="${number.value}"></div>
+        </template>
+        <hr>
+      </template>
+    </div> 
+  </body>
+
+</html>

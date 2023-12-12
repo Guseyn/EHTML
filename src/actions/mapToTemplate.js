@@ -84,6 +84,8 @@ function map (elmContentNode, state) {
 }
 
 function iterateChildNodes (elm, state, func) {
+  // Just a reminder: templates don't have child nodes,
+  // thefore it's save to iterate recursively
   const childNodes = Array.from(elm.childNodes)
   childNodes.forEach(node => {
     func(node)
