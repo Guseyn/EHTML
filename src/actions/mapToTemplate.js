@@ -140,7 +140,7 @@ function activateEForEach (node, state) {
   node.parentNode.replaceChild(listFragment, node)
 }
 
-function randomUniqueStateKey(state) {
+function randomUniqueStateKey (state) {
   const characters = 'abcdefghijklmnopqrstuvwxyz'
   const keyLength = 4
   let key = ''
