@@ -1,4 +1,4 @@
-# Release 1.0.128
+# Release 1.0.129
 
-2cb253b update version in package.json to 1.0.128 (guseyn, Tue Dec 12 03:52:17 2023 +0400)
-0e68e5e fix comments (guseyn, Tue Dec 12 03:52:14 2023 +0400)
+105666d update version in package.json to 1.0.129 (guseyn, Tue Dec 12 04:05:26 2023 +0400)
+8c4d5ea fix style issues in example (guseyn, Tue Dec 12 04:05:24 2023 +0400)
