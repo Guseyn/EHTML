@@ -1,4 +1,4 @@
-# Release 1.0.139
+# Release 1.0.140
 
-93ac128 update version in package.json to 1.0.139 (guseyn, Wed Dec 13 12:28:45 2023 +0400)
-bbc7bb7 update build (guseyn, Wed Dec 13 12:28:41 2023 +0400)
+12b7e85 update version in package.json to 1.0.140 (guseyn, Wed Dec 13 21:37:52 2023 +0400)
+14a25a2 handle arrays of primitives in e-json, and make index propery only if it does not exist (guseyn, Wed Dec 13 21:37:43 2023 +0400)
