@@ -9,19 +9,14 @@
     <link rel="stylesheet" href="/../css/normalize.css">
     <link rel="stylesheet" href="/../css/main.css">
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      const items = [
-        { number: 1 }, { number: 2 }, { number: 3 }, { number: 4 }
-      ]
-    </script>
   </head>
 
   <body class="main">
     <div class="base">
       <template
         is="e-for-each"
-        data-list-to-iterate="${items}" data-item-name="item">
-        <div data-text="${item.number}"></div>
+        data-list-to-iterate="[1,2,3,4,5]" data-item-name="item">
+        <div data-text="${item}"></div>
       </template>
     </div> 
   </body>

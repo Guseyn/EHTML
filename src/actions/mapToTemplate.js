@@ -134,7 +134,9 @@ function activateEForEach (node, state) {
   }
   const listFragment = document.createDocumentFragment()
   list.forEach((item, index) => {
-    item.index = index + 1
+    if (typeof item === 'object' && item['index'] === undefined) {
+      item.index = index + 1
+    }
     const itemContentNode = document.importNode(node.content, true)
     state[itemName] = item
     map(itemContentNode, state)
