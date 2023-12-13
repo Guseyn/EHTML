@@ -100,8 +100,9 @@ function activateEIf (node, state) {
   if (!toDisplayExpression) {
     throw new Error('e-if must have "data-condition-to-display" attribute')
   }
+  const inlinedToDisplayExpression = toDisplayExpression.replace(/\n/g, ' ')
   const toDisplay = evaluatedStringWithParamsFromState(
-    toDisplayExpression, state
+    inlinedToDisplayExpression, state
   ).trim()
   if (toDisplay === 'true') {
     const contentNode = document.importNode(node.content, true)
