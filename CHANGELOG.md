@@ -1,4 +1,4 @@
-# Release 1.0.135
+# Release 1.0.136
 
-79280ce update version in package.json to 1.0.135 (guseyn, Wed Dec 13 05:10:23 2023 +0400)
-8c30655 update readme (guseyn, Wed Dec 13 05:10:20 2023 +0400)
+a2d6b8e update version in package.json to 1.0.136 (guseyn, Wed Dec 13 05:13:10 2023 +0400)
+275dac8 update readme (guseyn, Wed Dec 13 05:13:08 2023 +0400)
