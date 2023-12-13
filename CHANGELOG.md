@@ -1,4 +1,4 @@
-# Release 1.0.138
+# Release 1.0.139
 
-2ef52b2 update version in package.json to 1.0.138 (guseyn, Wed Dec 13 12:28:17 2023 +0400)
-ada3563 inline expression in e-if template (guseyn, Wed Dec 13 12:28:14 2023 +0400)
+93ac128 update version in package.json to 1.0.139 (guseyn, Wed Dec 13 12:28:45 2023 +0400)
+bbc7bb7 update build (guseyn, Wed Dec 13 12:28:41 2023 +0400)
