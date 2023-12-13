@@ -1,4 +1,4 @@
-# Release 1.0.137
+# Release 1.0.138
 
-82c4f07 update version in package.json to 1.0.137 (guseyn, Wed Dec 13 12:01:55 2023 +0400)
-d523f28 fix typo in readme, inline expressions to evaulate (guseyn, Wed Dec 13 12:01:52 2023 +0400)
+2ef52b2 update version in package.json to 1.0.138 (guseyn, Wed Dec 13 12:28:17 2023 +0400)
+ada3563 inline expression in e-if template (guseyn, Wed Dec 13 12:28:14 2023 +0400)
