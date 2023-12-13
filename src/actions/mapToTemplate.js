@@ -120,8 +120,9 @@ function activateEForEach (node, state) {
   if (!itemName) {
     throw new Error('e-for-each must have "data-item-name" attribute')
   }
+  const inlinedListDefinitionExpression = listDefinitionExpression.replace(/\n/g, ' ')
   const listDefinitionExpressionBody = evaluatedStringWithParamsFromState(
-    listDefinitionExpression,
+    inlinedListDefinitionExpression,
     state
   )
   let list

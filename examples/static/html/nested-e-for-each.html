@@ -9,41 +9,38 @@
     <link rel="stylesheet" href="/../css/normalize.css">
     <link rel="stylesheet" href="/../css/main.css">
     <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      const items = [
-        {
-          numbers: [
-            { value: 1 },
-            { value: 2 },
-            { value: 3 },
-            { value: 4 }
-          ]
-        },
-        {
-          numbers: [
-            { value: 1 },
-            { value: 2 },
-            { value: 3 },
-            { value: 4 }
-          ]
-        },
-        {
-          numbers: [
-            { value: 1 },
-            { value: 2 },
-            { value: 3 },
-            { value: 4 }
-          ]
-        }
-      ]
-    </script>
   </head>
 
   <body class="main">
     <div class="base">
       <template
         is="e-for-each"
-        data-list-to-iterate="${items}" data-item-name="item">
+        data-list-to-iterate='[
+          {
+            "numbers": [
+              { "value": 1 },
+              { "value": 2 },
+              { "value": 3 },
+              { "value": 4 }
+            ]
+          },
+          {
+            "numbers": [
+              { "value": 1 },
+              { "value": 2 },
+              { "value": 3 },
+              { "value": 4 }
+            ]
+          },
+          {
+            "numbers": [
+              { "value": 1 },
+              { "value": 2 },
+              { "value": 3 },
+              { "value": 4 }
+            ]
+          }
+        ]' data-item-name="item">
         <div data-text="number of values: ${item.numbers.length}"></div>
         <template
           is="e-for-each"
