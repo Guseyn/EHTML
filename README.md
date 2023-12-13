@@ -15,9 +15,13 @@
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/dzrW3D_yIrc/0.jpg)](https://www.youtube.com/watch?v=dzrW3D_yIrc)
 
-# Simple Blog App: Source Code
-
 [Link to source code](https://github.com/Guseyn/ehtml-simple-blog-app)
+
+# Simple Chat App: Demo Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/iaP3Y4SW0MY/0.jpg)](https://www.youtube.com/watch?v=iaP3Y4SW0MY)
+
+[Link to source code](https://github.com/Guseyn/ehtml-simple-chat-app)
 
 # Contribution and QA
 
