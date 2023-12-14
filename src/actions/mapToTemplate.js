@@ -1,3 +1,4 @@
+const clone = require('./../clone')
 const isTemplate = require('./../isTemplate')
 const isTemplateWithType = require('./../isTemplateWithType')
 const observeNodeAttributes = require('./../observeNodeAttributes')
@@ -25,44 +26,33 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (!objName && obj) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  mappingElement.__ehtmlState__ = mappingElement.__ehtmlState__ || {
-    __objNamesStackInEhtmlState__: []
-  }
+  mappingElement.__ehtmlState__ = mappingElement.__ehtmlState__ || {}
   const state = mappingElement.__ehtmlState__
-  const objNameIndex = state.__objNamesStackInEhtmlState__.indexOf(objName)
-  // For the sake of clarity, let's clear state
-  if (objNameIndex !== -1) {
-    for (let objNameIndexToClear = objNameIndex; objNameIndexToClear < state.__objNamesStackInEhtmlState__.length; objNameIndexToClear++) {
-      delete mappingElement.__ehtmlState__[state.__objNamesStackInEhtmlState__[objNameIndexToClear]]
-    }
-    state.__objNamesStackInEhtmlState__.splice(objNameIndex)
-  }
   if (obj) {
     // eslint-disable-next-line no-eval
     eval(`
       state['${objName}'] = obj
     `)
-    state.__objNamesStackInEhtmlState__.push(objName)
   }
   map(elmContentNode, state)
   releaseTemplateWithItsContent(mappingElement, elmContentNode)
 }
 
 function map (elmContentNode, state) {
-  elmContentNode.__ehtmlState__ = state
   iterateChildNodes(
     elmContentNode, state, (node) => {
-      node.__ehtmlState__ = state
+      node.__ehtmlState__ = clone(state)
+      const propagatedState = node.__ehtmlState__
       if (isTemplateWithType(node, 'e-for-each')) {
-        activateEForEach(node, state)
+        activateEForEach(node, propagatedState)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else if (isTemplateWithType(node, 'e-if')) {
-        activateEIf(node, state)
+        activateEIf(node, propagatedState)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else {
-        observeNodeAttributes(node, state)
+        observeNodeAttributes(node, propagatedState)
         node.attributesObservedByEHTML = true
       }
     }
