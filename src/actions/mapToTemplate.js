@@ -1,6 +1,7 @@
 const clone = require('./../clone')
 const isTemplate = require('./../isTemplate')
 const isTemplateWithType = require('./../isTemplateWithType')
+const isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping = require('./../isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping')
 const observeNodeAttributes = require('./../observeNodeAttributes')
 const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 const releaseTemplateWithItsContent = require('./../releaseTemplateWithItsContent')
@@ -42,7 +43,7 @@ function map (elmContentNode, state, isActivatedByEForEach = false) {
   iterateChildNodes(
     elmContentNode, state, (node) => {
       if (isTemplate(node)) {
-        if (isActivatedByEForEach) {
+        if (isActivatedByEForEach && isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping(node)) {
           node.__ehtmlState__ = clone(state)
           state = node.__ehtmlState__
         } else {
