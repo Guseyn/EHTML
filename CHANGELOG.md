@@ -1,4 +1,4 @@
-# Release 1.0.145
+# Release 1.0.146
 
-27fb63f update version in package.json to 1.0.145 (guseyn, Thu Dec 14 17:23:02 2023 +0400)
-40a6156 make clone faster (guseyn, Thu Dec 14 17:22:58 2023 +0400)
+1691d58 update version in package.json to 1.0.146 (guseyn, Thu Dec 14 18:49:13 2023 +0400)
+406c5b7 opimize state propagation only for certain type of templates inside of e-for-each (guseyn, Thu Dec 14 18:49:05 2023 +0400)
