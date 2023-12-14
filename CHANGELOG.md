@@ -1,4 +1,4 @@
-# Release 1.0.140
+# Release 1.0.141
 
-12b7e85 update version in package.json to 1.0.140 (guseyn, Wed Dec 13 21:37:52 2023 +0400)
-14a25a2 handle arrays of primitives in e-json, and make index propery only if it does not exist (guseyn, Wed Dec 13 21:37:43 2023 +0400)
+6222de5 update version in package.json to 1.0.141 (guseyn, Thu Dec 14 05:10:55 2023 +0400)
+983c1dc Improved state management in mapping logic: state is propagated from parent to child nodes + we still avoid collision of names in separate elements + add more nasty nested tests on mapping (guseyn, Thu Dec 14 05:08:58 2023 +0400)
