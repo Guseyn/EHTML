@@ -1,7 +1,5 @@
-const clone = require('./../clone')
 const isTemplate = require('./../isTemplate')
 const isTemplateWithType = require('./../isTemplateWithType')
-const isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping = require('./../isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping')
 const observeNodeAttributes = require('./../observeNodeAttributes')
 const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 const releaseTemplateWithItsContent = require('./../releaseTemplateWithItsContent')
@@ -30,50 +28,43 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   mappingElement.__ehtmlState__ = mappingElement.__ehtmlState__ || {}
   const state = mappingElement.__ehtmlState__
   if (obj) {
-    // eslint-disable-next-line no-eval
-    eval(`
-      state['${objName}'] = obj
-    `)
+    state[objName] = obj
   }
   map(elmContentNode, state)
   releaseTemplateWithItsContent(mappingElement, elmContentNode)
 }
 
-function map (elmContentNode, state, isActivatedByEForEach = false) {
+function map (elmContentNode, state) {
   iterateChildNodes(
-    elmContentNode, state, (node) => {
+    elmContentNode, (node) => {
+      const overridenState = { ...state }
       if (isTemplate(node)) {
-        if (isActivatedByEForEach && isTemplateAsyncOrReusableOrCanBeActivatedLaterByMapping(node)) {
-          node.__ehtmlState__ = clone(state)
-          state = node.__ehtmlState__
-        } else {
-          node.__ehtmlState__ = state
-        }
+        node.__ehtmlState__ = overridenState
       }
       if (isTemplateWithType(node, 'e-for-each')) {
-        activateEForEach(node, state)
+        activateEForEach(node, overridenState)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else if (isTemplateWithType(node, 'e-if')) {
-        activateEIf(node, state)
+        activateEIf(node, overridenState)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else {
-        observeNodeAttributes(node, state)
+        observeNodeAttributes(node, overridenState)
         node.attributesObservedByEHTML = true
       }
     }
   )
 }
 
-function iterateChildNodes (elm, state, func) {
+function iterateChildNodes (elm, func) {
   // Just a reminder: templates don't have child nodes,
   // thefore it's save to iterate recursively
   const childNodes = Array.from(elm.childNodes)
   childNodes.forEach(node => {
     func(node)
     if (node.childNodes.length !== 0) {
-      iterateChildNodes(node, state, func)
+      iterateChildNodes(node, func)
     }
   })
 }
@@ -121,9 +112,8 @@ function activateEForEach (node, state) {
       item.index = index + 1
     }
     const itemContentNode = document.importNode(node.content, true)
-    state[itemName] = item
-    map(itemContentNode, state, true)
-    delete state[itemName]
+    const overridenState = { ...state, [itemName]: item }
+    map(itemContentNode, overridenState)
     listFragment.appendChild(itemContentNode)
   })
   node.parentNode.replaceChild(listFragment, node)
