@@ -1,4 +1,4 @@
-# Release 1.0.143
+# Release 1.0.144
 
-fe4cab1 update version in package.json to 1.0.143 (guseyn, Thu Dec 14 15:45:24 2023 +0400)
-9ef6882 make state immutable but propagate it for each child node of mapping element (guseyn, Thu Dec 14 15:45:20 2023 +0400)
+6247382 update version in package.json to 1.0.144 (guseyn, Thu Dec 14 17:04:09 2023 +0400)
+c042191 improve propagation for only templates insideof e-for-each (guseyn, Thu Dec 14 16:59:19 2023 +0400)
