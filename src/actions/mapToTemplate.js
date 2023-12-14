@@ -38,21 +38,27 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   releaseTemplateWithItsContent(mappingElement, elmContentNode)
 }
 
-function map (elmContentNode, state) {
+function map (elmContentNode, state, isActivatedByEForEach = false) {
   iterateChildNodes(
     elmContentNode, state, (node) => {
-      node.__ehtmlState__ = clone(state)
-      const propagatedState = node.__ehtmlState__
+      if (isTemplate(node)) {
+        if (isActivatedByEForEach) {
+          node.__ehtmlState__ = clone(state)
+          state = node.__ehtmlState__
+        } else {
+          node.__ehtmlState__ = state
+        }
+      }
       if (isTemplateWithType(node, 'e-for-each')) {
-        activateEForEach(node, propagatedState)
+        activateEForEach(node, state)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else if (isTemplateWithType(node, 'e-if')) {
-        activateEIf(node, propagatedState)
+        activateEIf(node, state)
         node.observedByEHTML = true
         node.activatedByHTML = true
       } else {
-        observeNodeAttributes(node, propagatedState)
+        observeNodeAttributes(node, state)
         node.attributesObservedByEHTML = true
       }
     }
@@ -115,7 +121,7 @@ function activateEForEach (node, state) {
     }
     const itemContentNode = document.importNode(node.content, true)
     state[itemName] = item
-    map(itemContentNode, state)
+    map(itemContentNode, state, true)
     delete state[itemName]
     listFragment.appendChild(itemContentNode)
   })
