@@ -10,6 +10,7 @@ module.exports = {
   enableElms: require('./enableElms'),
   insertHTMLInto: require('./insertHTMLInto'),
   loadAndAddTextInto: require('./loadAndAddTextInto'),
+  releaseTemplate: require('./releaseTemplate'),
   mapToTemplate: require('./mapToTemplate'),
   removeElms: require('./removeElms'),
   toggleElms: require('./toggleElms'),

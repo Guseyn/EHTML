@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <title>simple e-json page</title>
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../css/normalize.css">
+    <link rel="stylesheet" href="/../css/main.css">
+    <script src="/../js/ehtml.bundle.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class="main">
+    <div class="base">
+      <div class="profile-box">
+        <img class="ajax-icon" id="ajax-icon-1" src="/../images/ajax-icon.svg"/>
+        <template
+          is="e-json"
+          data-src="/../profile?name=Amanda"
+          data-ajax-icon="#ajax-icon-1"
+          data-object-name="profileResponse1"
+        >
+          <img class="photo" src="${profileResponse1.body.photo}"/>
+          <div class="user-info">
+            <div class="name" data-text="${profileResponse1.body.name}"></div>
+            <div class="email" data-text="${profileResponse1.body.email}"></div>
+            <div class="other-details">
+              <div data-text="Age: ${profileResponse1.body.age}"></div>
+              <div data-text="Country: ${profileResponse1.body.country}"></div>
+              <div data-text="Profession: ${profileResponse1.body.profession}"></div>
+            </div>
+          </div>
+          <img class="ajax-icon" id="ajax-icon-2" src="/../images/ajax-icon.svg"/>
+          <template
+            is="e-json"
+            data-src="/../profile?name=John"
+            data-ajax-icon="#ajax-icon-2"
+            data-object-name="profileResponse2"
+          >
+            <img class="photo" src="${profileResponse2.body.photo}"/>
+            <div class="user-info">
+              <div class="name" data-text="${profileResponse2.body.name}"></div>
+              <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
+              <div class="email" data-text="${profileResponse2.body.email}"></div>
+              <div class="other-details">
+                <div data-text="Age: ${profileResponse2.body.age}"></div>
+                <div data-text="Country: ${profileResponse2.body.country}"></div>
+                <div data-text="Profession: ${profileResponse2.body.profession}"></div>
+              </div>
+            </div>
+            <img class="ajax-icon" id="ajax-icon-3" src="/../images/ajax-icon.svg"/>
+            <template
+              is="e-json"
+              data-src="/../profile?name=Amanda"
+              data-ajax-icon="#ajax-icon-3"
+              data-object-name="profileResponse3"
+            >
+              <img class="photo" src="${profileResponse3.body.photo}"/>
+              <div class="user-info">
+                <div class="name" data-text="${profileResponse3.body.name}"></div>
+                <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
+                <div class="email" data-text="${profileResponse3.body.email}"></div>
+                <div class="other-details">
+                  <div data-text="Age: ${profileResponse3.body.age}"></div>
+                  <div data-text="Country: ${profileResponse3.body.country}"></div>
+                  <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                </div>
+              </div>
+            </template>
+          </template>
+        </template>
+
+        <hr>
+
+        <img class="ajax-icon" id="ajax-icon-4" src="/../images/ajax-icon.svg"/>
+        <template
+          is="e-json"
+          data-src="/../profile?name=John"
+          data-ajax-icon="#ajax-icon-4"
+          data-object-name="profileResponse1"
+        >
+          <img class="photo" src="${profileResponse1.body.photo}"/>
+          <div class="user-info">
+            <div class="name" data-text="${profileResponse1.body.name}"></div>
+            <div class="email" data-text="${profileResponse1.body.email}"></div>
+            <div class="other-details">
+              <div data-text="Age: ${profileResponse1.body.age}"></div>
+              <div data-text="Country: ${profileResponse1.body.country}"></div>
+              <div data-text="Profession: ${profileResponse1.body.profession}"></div>
+            </div>
+          </div>
+          <img class="ajax-icon" id="ajax-icon-5" src="/../images/ajax-icon.svg"/>
+          <template
+            is="e-json"
+            data-src="/../profile?name=Amanda"
+            data-ajax-icon="#ajax-icon-5"
+            data-object-name="profileResponse2"
+          >
+            <img class="photo" src="${profileResponse2.body.photo}"/>
+            <div class="user-info">
+              <div class="name" data-text="${profileResponse2.body.name}"></div>
+              <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
+              <div class="email" data-text="${profileResponse2.body.email}"></div>
+              <div class="other-details">
+                <div data-text="Age: ${profileResponse2.body.age}"></div>
+                <div data-text="Country: ${profileResponse2.body.country}"></div>
+                <div data-text="Profession: ${profileResponse2.body.profession}"></div>
+              </div>
+            </div>
+            <img class="ajax-icon" id="ajax-icon-6" src="/../images/ajax-icon.svg"/>
+            <template
+              is="e-json"
+              data-src="/../profile?name=John"
+              data-ajax-icon="#ajax-icon-6"
+              data-object-name="profileResponse3"
+            >
+              <img class="photo" src="${profileResponse3.body.photo}"/>
+              <div class="user-info">
+                <div class="name" data-text="${profileResponse3.body.name}"></div>
+                <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
+                <div class="email" data-text="${profileResponse3.body.email}"></div>
+                <div class="other-details">
+                  <div data-text="Age: ${profileResponse3.body.age}"></div>
+                  <div data-text="Country: ${profileResponse3.body.country}"></div>
+                  <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                </div>
+              </div>
+            </template>
+          </template>
+        </template>
+      </div>
+    </div> 
+  </body>
+
+</html>

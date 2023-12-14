@@ -2,6 +2,7 @@ const isTemplate = require('./../isTemplate')
 const isTemplateWithType = require('./../isTemplateWithType')
 const observeNodeAttributes = require('./../observeNodeAttributes')
 const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
+const releaseTemplateWithItsContent = require('./../releaseTemplateWithItsContent')
 
 function mapToTemplate (elmSelectorOrElm, obj) {
   const mappingElement = typeof elmSelectorOrElm === 'string'
@@ -21,52 +22,37 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   }
   const elmContentNode = document.importNode(mappingElement.content, true)
   const objName = mappingElement.getAttribute('data-object-name')
-  if (!objName) {
+  if (!objName && obj) {
     throw new Error('Mapping element must have attribute "data-object-name"')
   }
-  const stateKey = randomUniqueStateKey(window.__ehtmlState__)
-  window.__ehtmlState__[stateKey] = {}
-  const state = window.__ehtmlState__[stateKey]
-  // eslint-disable-next-line no-eval
-  eval(`
-    state['${objName}'] = obj
-  `)
-  map(elmContentNode, state)
-  releaseTemplate(mappingElement, elmContentNode)
-}
-
-function releaseTemplate (mappingElement, elmContentNode) {
-  if (isTemplateWithType(mappingElement, 'e-reusable')) {
-    if (mappingElement.hasAttribute('data-prepend-to')) {
-      const parentNode = document.querySelector(mappingElement.getAttribute('data-prepend-to'))
-      if (!parentNode) {
-        throw new Error('element is not found by the selector in the attribute "data-prepend-to"')
-      }
-      parentNode.prepend(elmContentNode)
-    } else if (mappingElement.hasAttribute('data-append-to')) {
-      const parentNode = document.querySelector(mappingElement.getAttribute('data-append-to'))
-      if (!parentNode) {
-        throw new Error('element is not found by the selector in the attribute "data-append-to"')
-      }
-      parentNode.append(elmContentNode)
-    } else if (mappingElement.hasAttribute('data-insert-into')) {
-      const parentNode = document.querySelector(mappingElement.getAttribute('data-insert-into'))
-      if (!parentNode) {
-        throw new Error('element is not found by the selector in the attribute "data-insert-into"')
-      }
-      parentNode.innerHTML = ''
-      parentNode.append(elmContentNode)
-    } else {
-      mappingElement.parentNode.insertBefore(elmContentNode, mappingElement)
-    }
-  } else {
-    mappingElement.parentNode.replaceChild(elmContentNode, mappingElement)
+  mappingElement.__ehtmlState__ = mappingElement.__ehtmlState__ || {
+    __objNamesStackInEhtmlState__: []
   }
+  const state = mappingElement.__ehtmlState__
+  const objNameIndex = state.__objNamesStackInEhtmlState__.indexOf(objName)
+  // For the sake of clarity, let's clear state
+  if (objNameIndex !== -1) {
+    for (let objNameIndexToClear = objNameIndex; objNameIndexToClear < state.__objNamesStackInEhtmlState__.length; objNameIndexToClear++) {
+      delete mappingElement.__ehtmlState__[state.__objNamesStackInEhtmlState__[objNameIndexToClear]]
+    }
+    state.__objNamesStackInEhtmlState__.splice(objNameIndex)
+  }
+  if (obj) {
+    // eslint-disable-next-line no-eval
+    eval(`
+      state['${objName}'] = obj
+    `)
+    state.__objNamesStackInEhtmlState__.push(objName)
+  }
+  map(elmContentNode, state)
+  releaseTemplateWithItsContent(mappingElement, elmContentNode)
 }
 
 function map (elmContentNode, state) {
+  elmContentNode.__ehtmlState__ = state
   iterateChildNodes(
     elmContentNode, state, (node) => {
+      node.__ehtmlState__ = state
       if (isTemplateWithType(node, 'e-for-each')) {
         activateEForEach(node, state)
         node.observedByEHTML = true
@@ -144,23 +130,6 @@ function activateEForEach (node, state) {
     listFragment.appendChild(itemContentNode)
   })
   node.parentNode.replaceChild(listFragment, node)
-}
-
-function randomUniqueStateKey (state) {
-  const characters = 'abcdefghijklmnopqrstuvwxyz'
-  const keyLength = 4
-  let key = ''
-
-  for (let i = 0; i < keyLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length)
-    key += characters.charAt(randomIndex)
-  }
-
-  if (state[key]) {
-    return randomUniqueStateKey(state)
-  }
-
-  return key
 }
 
 window.mapToTemplate = mapToTemplate
