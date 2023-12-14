@@ -1,10 +1,12 @@
+const elms = require('./../elms')
+
 function enableElms (...elmSelectors) {
   elmSelectors.forEach(elmSelector => {
     if (elmSelector) {
-      const elms = document.querySelectorAll(elmSelector)
+      const elements = elms(elmSelector)
       for (let i = 0; i < elms.length; i++) {
-        const elm = elms[i]
-        elm.removeAttribute('disabled')
+        const element = elements[i]
+        element.removeAttribute('disabled')
       }
     }
   })

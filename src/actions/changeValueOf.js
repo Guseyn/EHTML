@@ -1,6 +1,7 @@
-function changeValueOf (elmSelector, value) {
-  const elm = document.querySelector(elmSelector)
-  elm.value = value
+const elm = require('./../elm')
+
+function changeValueOf (elmSelectorOrElm, value) {
+  elm(elmSelectorOrElm).value = value
 }
 
 window.changeValueOf = changeValueOf

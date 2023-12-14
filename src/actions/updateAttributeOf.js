@@ -1,6 +1,7 @@
-function updateAttributeOf (elmSelector, attrName, attrValue) {
-  const elm = document.querySelector(elmSelector)
-  elm.setAttribute(attrName, attrValue)
+const elm = require('./../elm')
+
+function updateAttributeOf (elmSelectorOrElm, attrName, attrValue) {
+  elm(elmSelectorOrElm).setAttribute(attrName, attrValue)
 }
 
 window.updateAttributeOf = updateAttributeOf

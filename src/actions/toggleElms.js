@@ -1,10 +1,12 @@
+const elms = require('./../elms')
+
 function toggleElms (className, ...elmSelectors) {
   elmSelectors.forEach(elmSelector => {
     if (elmSelector) {
-      const elms = document.querySelectorAll(elmSelector)
-      for (let i = 0; i < elms.length; i++) {
-        const elm = elms[i]
-        elm.classList.toggle(className)
+      const elements = elms(elmSelector)
+      for (let i = 0; i < elements.length; i++) {
+        const element = elements[i]
+        element.classList.toggle(className)
       }
     }
   })

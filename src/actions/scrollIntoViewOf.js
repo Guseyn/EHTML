@@ -1,5 +1,7 @@
-function scrollIntoViewOf (elm, options) {
-  elm.scrollIntoView(options)
+const elm = require('./../elm')
+
+function scrollIntoViewOf (elmSelectorOrElm, options) {
+  elm(elmSelectorOrElm).scrollIntoView(options)
 }
 
 window.scrollIntoViewOf = scrollIntoViewOf

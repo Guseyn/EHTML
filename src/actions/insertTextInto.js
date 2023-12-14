@@ -1,6 +1,7 @@
+const elm = require('./../elm')
+
 function insertTextInto (elmSelector, txt) {
-  const elm = document.querySelector(elmSelector)
-  elm.textContent = txt
+  elm(elmSelector).textContent = txt
 }
 
 window.insertTextInto = insertTextInto

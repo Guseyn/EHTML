@@ -1,11 +1,10 @@
+const elm = require('./../elm')
 const isTemplate = require('./../isTemplate')
 const mapToTemplate = require('./../actions/mapToTemplate')
 
 function releaseTemplate (elmSelectorOrElm) {
   const elmIsSelector = typeof elmSelectorOrElm === 'string'
-  const template = elmIsSelector
-    ? document.querySelector(elmSelectorOrElm)
-    : elmSelectorOrElm
+  const template = elm(elmSelectorOrElm)
   if (template === null || template === undefined) {
     if (elmIsSelector) {
       throw new Error(`template with selector ${elmSelectorOrElm} is not found`)

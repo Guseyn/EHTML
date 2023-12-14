@@ -1,22 +1,17 @@
+const elm = require('./../elm')
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
-const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 
-function loadAndAddHTMLInto (elmSelector, url, headers) {
-  const elm = document.querySelector(elmSelector)
+function loadAndAddHTMLInto (elmSelectorOrElm, url, headers) {
   responseFromAjaxRequest({
-    url: encodeURI(elm.getAttribute('data-src')),
+    url: encodeURI(url),
     method: 'GET',
-    headers: JSON.parse(
-      evaluatedStringWithParams(
-        elm.getAttribute('data-request-headers')
-      ) || '{}'
-    )
-  }, (err, resObj) => {
+    headers: headers || {}
+  }, null, (err, resObj) => {
     if (err) {
       throw err
     }
     const html = resObj.body
-    elm.innerHTML += html
+    elm(elmSelectorOrElm).innerHTML += html
   })
 }
 

@@ -1,6 +1,7 @@
+const elm = require('./../elm')
+
 function insertHTMLInto (elmSelector, html) {
-  const elm = document.querySelector(elmSelector)
-  elm.innerHTML = html
+  elm(elmSelector).innerHTML = html
 }
 
 window.insertHTMLInto = insertHTMLInto

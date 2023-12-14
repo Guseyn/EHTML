@@ -1,3 +1,4 @@
+const elm = require('./../elm')
 const isTemplate = require('./../isTemplate')
 const isTemplateWithType = require('./../isTemplateWithType')
 const observeNodeAttributes = require('./../observeNodeAttributes')
@@ -5,9 +6,7 @@ const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithPara
 const releaseTemplateWithItsContent = require('./../releaseTemplateWithItsContent')
 
 function mapToTemplate (elmSelectorOrElm, obj) {
-  const mappingElement = typeof elmSelectorOrElm === 'string'
-    ? document.querySelector(elmSelectorOrElm)
-    : elmSelectorOrElm
+  const mappingElement = elm(elmSelectorOrElm)
   if (mappingElement === null || mappingElement === undefined) {
     throw new Error('Mapping element is not found')
   }

@@ -1,10 +1,12 @@
+const elms = require('./../elms')
+
 function removeElms (...elmSelectors) {
   elmSelectors.forEach(elmSelector => {
     if (elmSelector) {
-      const elms = document.querySelectorAll(elmSelector)
-      for (let i = 0; i < elms.length; i++) {
-        const elm = elms[i]
-        elm.parentNode.removeChild(elm)
+      const elements = elms(elmSelector)
+      for (let i = 0; i < elements.length; i++) {
+        const element = elements[i]
+        element.parentNode.removeChild(element)
       }
     }
   })
