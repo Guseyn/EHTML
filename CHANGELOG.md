@@ -1,4 +1,4 @@
-# Release 1.0.142
+# Release 1.0.143
 
-d2f53bb update version in package.json to 1.0.142 (guseyn, Thu Dec 14 05:12:37 2023 +0400)
-48edd07 fix lint (guseyn, Thu Dec 14 05:12:24 2023 +0400)
+fe4cab1 update version in package.json to 1.0.143 (guseyn, Thu Dec 14 15:45:24 2023 +0400)
+9ef6882 make state immutable but propagate it for each child node of mapping element (guseyn, Thu Dec 14 15:45:20 2023 +0400)
