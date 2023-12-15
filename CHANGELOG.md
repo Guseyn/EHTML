@@ -1,4 +1,4 @@
-# Release 1.0.148
+# Release 1.0.149
 
-05a15d7 update version in package.json to 1.0.148 (guseyn, Fri Dec 15 02:28:16 2023 +0400)
-46ca4fc improve actions (guseyn, Fri Dec 15 02:28:14 2023 +0400)
+a4bd068 update version in package.json to 1.0.149 (guseyn, Fri Dec 15 22:24:31 2023 +0400)
+ef8ed62 fix vars (guseyn, Fri Dec 15 22:24:28 2023 +0400)
