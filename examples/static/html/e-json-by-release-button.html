@@ -21,10 +21,13 @@
             releaseTemplate('#template-2')
             // hideElms('button')
           " 
-        >Start Process</button>
+        >Load John And Amanda In 2 separate boxes</button>
         <img class="ajax-icon" id="ajax-icon" src="/../images/ajax-icon.svg" style="display: none;" />
-        <div id="box-1"></div>
+
+        <div id="box-1" style="min-height: 100px;"></div>
+        <hr>
         <div id="box-2"></div>
+
         <template id="template-1" is="e-reusable" data-insert-into="#box-1" >
           <template
             is="e-json"
@@ -42,47 +45,68 @@
                 <div data-text="Profession: ${profileResponse1.body.profession}"></div>
               </div>
             </div>
-            <template
-              is="e-json"
-              data-src="/../profile?name=John"
-              data-ajax-icon="#ajax-icon"
-              data-object-name="profileResponse2"
-            >
-              <img class="photo" src="${profileResponse2.body.photo}"/>
-              <div class="user-info">
-                <div class="name" data-text="${profileResponse2.body.name}"></div>
-                <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
-                <div class="email" data-text="${profileResponse2.body.email}"></div>
-                <div class="other-details">
-                  <div data-text="Age: ${profileResponse2.body.age}"></div>
-                  <div data-text="Country: ${profileResponse2.body.country}"></div>
-                  <div data-text="Profession: ${profileResponse2.body.profession}"></div>
-                </div>
-              </div>
+
+            <div id="box-1-2"></div>
+            <button 
+              id="#button" 
+              onclick="
+                releaseTemplate('#template-1-2')
+                // hideElms('button')
+              " 
+            >Load John After Amanda In First Box</button>
+            <template is="e-reusable" id="template-1-2" data-insert-into="#box-1-2">
               <template
                 is="e-json"
-                data-src="/../profile?name=Amanda"
+                data-src="/../profile?name=John"
                 data-ajax-icon="#ajax-icon"
-                data-object-name="profileResponse3"
+                data-object-name="profileResponse2"
               >
-                <img class="photo" src="${profileResponse3.body.photo}"/>
+                <img class="photo" src="${profileResponse2.body.photo}"/>
                 <div class="user-info">
-                  <div class="name" data-text="${profileResponse3.body.name}"></div>
-                  <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
-                  <div class="email" data-text="${profileResponse3.body.email}"></div>
+                  <div class="name" data-text="${profileResponse2.body.name}"></div>
+                  <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
+                  <div class="email" data-text="${profileResponse2.body.email}"></div>
                   <div class="other-details">
-                    <div data-text="Age: ${profileResponse3.body.age}"></div>
-                    <div data-text="Country: ${profileResponse3.body.country}"></div>
-                    <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                    <div data-text="Age: ${profileResponse2.body.age}"></div>
+                    <div data-text="Country: ${profileResponse2.body.country}"></div>
+                    <div data-text="Profession: ${profileResponse2.body.profession}"></div>
                   </div>
                 </div>
+
+                <div id="box-1-3"></div>
+                <button 
+                  id="#button" 
+                  onclick="
+                    releaseTemplate('#template-1-3')
+                    // hideElms('button')
+                  " 
+                >Load Amanda After John And After Amanda In First Box</button>
+                <template is="e-reusable" id="template-1-3" data-insert-into="#box-1-3">
+                  <template
+                    is="e-json"
+                    data-src="/../profile?name=Amanda"
+                    data-ajax-icon="#ajax-icon"
+                    data-object-name="profileResponse3"
+                  >
+                    <img class="photo" src="${profileResponse3.body.photo}"/>
+                    <div class="user-info">
+                      <div class="name" data-text="${profileResponse3.body.name}"></div>
+                      <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
+                      <div class="email" data-text="${profileResponse3.body.email}"></div>
+                      <div class="other-details">
+                        <div data-text="Age: ${profileResponse3.body.age}"></div>
+                        <div data-text="Country: ${profileResponse3.body.country}"></div>
+                        <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                      </div>
+                    </div>
+                  </template>
+                </template>
               </template>
             </template>
           </template>
         </template>
 
         <template id="template-2" is="e-reusable" data-insert-into="#box-2" >
-          <hr>
           <template
             is="e-json"
             data-src="/../profile?name=John"
@@ -99,40 +123,62 @@
                 <div data-text="Profession: ${profileResponse1.body.profession}"></div>
               </div>
             </div>
-            <template
-              is="e-json"
-              data-src="/../profile?name=Amanda"
-              data-ajax-icon="#ajax-icon"
-              data-object-name="profileResponse2"
-            >
-              <img class="photo" src="${profileResponse2.body.photo}"/>
-              <div class="user-info">
-                <div class="name" data-text="${profileResponse2.body.name}"></div>
-                <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
-                <div class="email" data-text="${profileResponse2.body.email}"></div>
-                <div class="other-details">
-                  <div data-text="Age: ${profileResponse2.body.age}"></div>
-                  <div data-text="Country: ${profileResponse2.body.country}"></div>
-                  <div data-text="Profession: ${profileResponse2.body.profession}"></div>
-                </div>
-              </div>
+
+            <div id="box-2-2"></div>
+            <button 
+              id="#button" 
+              onclick="
+                releaseTemplate('#template-2-2')
+                // hideElms('button')
+              " 
+            >Load Amand After John In Second Box</button>
+            <template is="e-reusable" id="template-2-2" data-insert-into="#box-2-2">
               <template
                 is="e-json"
-                data-src="/../profile?name=John"
+                data-src="/../profile?name=Amanda"
                 data-ajax-icon="#ajax-icon"
-                data-object-name="profileResponse3"
+                data-object-name="profileResponse2"
               >
-                <img class="photo" src="${profileResponse3.body.photo}"/>
+                <img class="photo" src="${profileResponse2.body.photo}"/>
                 <div class="user-info">
-                  <div class="name" data-text="${profileResponse3.body.name}"></div>
-                  <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
-                  <div class="email" data-text="${profileResponse3.body.email}"></div>
+                  <div class="name" data-text="${profileResponse2.body.name}"></div>
+                  <div class="name" data-text="loaded after ${profileResponse1.body.name}"></div>
+                  <div class="email" data-text="${profileResponse2.body.email}"></div>
                   <div class="other-details">
-                    <div data-text="Age: ${profileResponse3.body.age}"></div>
-                    <div data-text="Country: ${profileResponse3.body.country}"></div>
-                    <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                    <div data-text="Age: ${profileResponse2.body.age}"></div>
+                    <div data-text="Country: ${profileResponse2.body.country}"></div>
+                    <div data-text="Profession: ${profileResponse2.body.profession}"></div>
                   </div>
                 </div>
+
+                <div id="box-2-3"></div>
+                <button 
+                  id="#button" 
+                  onclick="
+                    releaseTemplate('#template-2-3')
+                    // hideElms('button')
+                  " 
+                >Load John After Amanda And After John In Second Box</button>
+                <template is="e-reusable" id="template-2-3" data-insert-into="#box-2-3">
+                  <template
+                    is="e-json"
+                    data-src="/../profile?name=John"
+                    data-ajax-icon="#ajax-icon"
+                    data-object-name="profileResponse3"
+                  >
+                    <img class="photo" src="${profileResponse3.body.photo}"/>
+                    <div class="user-info">
+                      <div class="name" data-text="${profileResponse3.body.name}"></div>
+                      <div class="name" data-text="loaded after ${profileResponse2.body.name}, and after ${profileResponse1.body.name}"></div>
+                      <div class="email" data-text="${profileResponse3.body.email}"></div>
+                      <div class="other-details">
+                        <div data-text="Age: ${profileResponse3.body.age}"></div>
+                        <div data-text="Country: ${profileResponse3.body.country}"></div>
+                        <div data-text="Profession: ${profileResponse3.body.profession}"></div>
+                      </div>
+                    </div>
+                  </template>
+                </template>
               </template>
             </template>
           </template>
