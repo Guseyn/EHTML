@@ -15,5 +15,5 @@ function loadAndAddTxtInto (elmSelectorOrElm, url, headers) {
   })
 }
 
-window.loadAndAddHTMLInto = loadAndAddTxtInto
+window.loadAndAddTxtInto = loadAndAddTxtInto
 module.exports = loadAndAddTxtInto
