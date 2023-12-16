@@ -1,4 +1,4 @@
-# Release 1.0.151
+# Release 1.0.152
 
-1f87f42 update version in package.json to 1.0.151 (guseyn, Sat Dec 16 18:19:11 2023 +0400)
-2273b1c update build (guseyn, Sat Dec 16 18:19:09 2023 +0400)
+e2e26c4 update version in package.json to 1.0.152 (guseyn, Sun Dec 17 00:38:28 2023 +0400)
+8e610c5 pov (guseyn, Sun Dec 17 00:38:13 2023 +0400)
