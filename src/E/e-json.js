@@ -1,5 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const scrollToHash = require('./../scrollToHash')
@@ -33,6 +34,12 @@ module.exports = (node) => {
     progressBar.max = 100
     progressBar.value = 0
     progressBar.style.display = 'none'
+  }
+  if (node.hasAttribute('data-actions-on-progress')) {
+    evaluateStringWithActionsOnProgress(
+      node.getAttribute('data-actions-on-progress'),
+      node
+    )
   }
   responseFromAjaxRequest({
     url: encodeURI(node.getAttribute('data-src')),

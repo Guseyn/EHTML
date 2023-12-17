@@ -1,3 +1,4 @@
+const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnOpenConnection = require('./../evaluateStringWithActionsOnOpenConnection')
 
 module.exports = (node) => {
@@ -17,6 +18,12 @@ module.exports = (node) => {
   const socket = new WebSocket(socketUrl)
   window.__ehtmlState__['webSockets'] = window.__ehtmlState__['webSockets'] || []
   window.__ehtmlState__['webSockets'][socketName] = socket
+  if (node.hasAttribute('data-actions-on-progress')) {
+    evaluateStringWithActionsOnProgress(
+      node.getAttribute('data-actions-on-progress'),
+      node
+    )
+  }
   socket.addEventListener('open', (event) => {
     if (connectionIcon) {
       connectionIcon.style.display = 'none'

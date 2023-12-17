@@ -1,6 +1,7 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
 const scrollToHash = require('./../scrollToHash')
@@ -15,6 +16,12 @@ module.exports = (node) => {
         // Whether to use hljs' auto language detection, default is true
         auto_detection: true
       })
+    )
+  }
+  if (node.hasAttribute('data-actions-on-progress')) {
+    evaluateStringWithActionsOnProgress(
+      node.getAttribute('data-actions-on-progress'),
+      node
     )
   }
   responseFromAjaxRequest({

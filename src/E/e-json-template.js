@@ -1,5 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const { mapToTemplate } = require('./../actions/exports')
 const scrollToHash = require('./../scrollToHash')
 
@@ -30,6 +31,11 @@ module.exports = (node) => {
       )
     })
     return
+  }
+  if (node.hasAttribute('data-actions-on-progress')) {
+    evaluateStringWithActionsOnProgress(
+      node.getAttribute('data-actions-on-progress')
+    )
   }
   responseFromAjaxRequest({
     url: encodeURI(node.getAttribute('data-src')),

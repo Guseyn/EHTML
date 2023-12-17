@@ -1,5 +1,6 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 
 const VALIDATION_PATTERNS = {
@@ -245,6 +246,13 @@ function submit (target, targetIsForm) {
 
     const progressBarSelector = target.getAttribute('data-progress-bar')
     const progressBar = document.querySelector(progressBarSelector)
+
+    if (target.hasAttribute('data-actions-on-progress')) {
+      evaluateStringWithActionsOnProgress(
+        target.getAttribute('data-actions-on-progress'),
+        target
+      )
+    }
 
     responseFromAjaxRequest({
       url: urlWithQueryParams(

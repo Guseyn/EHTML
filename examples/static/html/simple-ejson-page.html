@@ -16,6 +16,9 @@
       <e-json
         data-src="/../profile?name=John"
         data-response-name="profileResponse"
+        data-actions-on-progress="
+          console.log('waiting for progress')
+        "
         data-actions-on-response="
           console.log(profileResponse.body)
           mapToTemplate('#profile-template', profileResponse.body)
