@@ -34,7 +34,8 @@ module.exports = (node) => {
   }
   if (node.hasAttribute('data-actions-on-progress')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress')
+      node.getAttribute('data-actions-on-progress'),
+      node
     )
   }
   responseFromAjaxRequest({

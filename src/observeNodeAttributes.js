@@ -2,7 +2,8 @@ const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE =
   'data-actions-on-response',
   'data-list-to-iterate',
   'data-item-name',
-  'data-bound-to'
+  'data-bound-to',
+  'data-cache-from'
 ]
 
 const TAGS_WITH_SRC_ATTRIBUTE = [

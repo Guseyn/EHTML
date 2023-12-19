@@ -28,6 +28,23 @@ module.exports = (node) => {
     unwrappedChildrenOfParent(node)
     return
   }
+  const cacheFromAttribute = node.getAttribute('data-cache-from')
+  if (cacheFromAttribute) {
+    const evaluatedCacheAsString = evaluatedStringWithParams(cacheFromAttribute)
+    if (evaluatedCacheAsString !== 'undefined' && evaluatedCacheAsString !== 'null') {
+      const cacheObj = JSON.parse(evaluatedCacheAsString)
+      if (cacheObj) {
+        evaluateStringWithActionsOnResponse(
+          node.getAttribute('data-actions-on-response'),
+          node.getAttribute('data-response-name'),
+          cacheObj
+        )
+        unwrappedChildrenOfParent(node)
+        scrollToHash()
+        return
+      }
+    }
+  }
   const progressBarSelector = node.getAttribute('data-progress-bar')
   const progressBar = document.querySelector(progressBarSelector)
   if (progressBar) {
