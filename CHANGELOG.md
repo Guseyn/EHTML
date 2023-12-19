@@ -1,4 +1,4 @@
-# Release 1.0.153
+# Release 1.0.154
 
-2d5da7b update version in package.json to 1.0.153 (guseyn, Sun Dec 17 21:59:01 2023 +0400)
-4415e71 add  data-actions-on-progress for each element with data-src (guseyn, Sun Dec 17 21:58:48 2023 +0400)
+86194b7 update version in package.json to 1.0.154 (guseyn, Tue Dec 19 21:16:13 2023 +0400)
+66d69f6 add cache to e-json (guseyn, Tue Dec 19 21:15:59 2023 +0400)
