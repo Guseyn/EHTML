@@ -6,9 +6,9 @@ const prettyHtml = require('json-pretty-html').default
 const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -32,6 +32,12 @@ module.exports = (node) => {
       responseBodyAsObject
     )
     unwrappedChildrenOfParent(node)
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
     scrollToHash()
   })
 }

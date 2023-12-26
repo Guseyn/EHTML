@@ -5,9 +5,9 @@ const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -26,6 +26,12 @@ module.exports = (node) => {
     const responseBody = resObj.body
     node.innerHTML = responseBody
     unwrappedChildrenOfParent(node)
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
     scrollToHash()
   })
 }

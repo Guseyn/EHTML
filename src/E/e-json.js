@@ -52,9 +52,9 @@ module.exports = (node) => {
     progressBar.value = 0
     progressBar.style.display = 'none'
   }
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -99,6 +99,12 @@ module.exports = (node) => {
       }
     )
     unwrappedChildrenOfParent(node)
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
     scrollToHash()
   })
 }

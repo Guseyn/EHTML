@@ -18,9 +18,9 @@ module.exports = (node) => {
       })
     )
   }
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -47,6 +47,12 @@ module.exports = (node) => {
       extensions: extensions
     }).makeHtml(resObj.body)
     unwrappedChildrenOfParent(node)
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
     scrollToHash()
   })
 }

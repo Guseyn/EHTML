@@ -18,9 +18,9 @@ module.exports = (node) => {
   const socket = new WebSocket(socketUrl)
   window.__ehtmlState__['webSockets'] = window.__ehtmlState__['webSockets'] || []
   window.__ehtmlState__['webSockets'][socketName] = socket
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -35,5 +35,11 @@ module.exports = (node) => {
     node.parentNode.replaceChild(
       document.importNode(node.content, true), node
     )
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
   })
 }

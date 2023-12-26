@@ -32,9 +32,9 @@ module.exports = (node) => {
     })
     return
   }
-  if (node.hasAttribute('data-actions-on-progress')) {
+  if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress'),
+      node.getAttribute('data-actions-on-progress-start'),
       node
     )
   }
@@ -77,6 +77,12 @@ module.exports = (node) => {
         statusСode: resObj.statusСode
       }
     )
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
+    }
     scrollToHash()
   })
 }
