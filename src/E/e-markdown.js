@@ -4,6 +4,7 @@ const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
+const showdownKatex = require('showdown-katex')
 const scrollToHash = require('./../scrollToHash')
 
 module.exports = (node) => {
@@ -15,6 +16,20 @@ module.exports = (node) => {
         pre: true,
         // Whether to use hljs' auto language detection, default is true
         auto_detection: true
+      })
+    )
+  }
+  if (node.getAttribute('data-apply-latex')) {
+    extensions.push(
+      showdownKatex({
+        displayMode: true,
+        throwOnError: false, // allows katex to fail silently
+        errorColor: '#ff0000',
+        delimiters: [
+          { left: '$$', right: '$$', display: false },
+          { left: '~', right: '~', display: false, asciimath: true },
+        ],
+        output: 'mathml'
       })
     )
   }

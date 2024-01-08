@@ -29,4 +29,11 @@ class A {
 }
 ```
 
+Let's try latex:
+<br>
+
+```latex
+\displaystyle{\sum_{n=1}^{\infty} 2^{-n} = 1}
+```
+
 Seems like it works!
