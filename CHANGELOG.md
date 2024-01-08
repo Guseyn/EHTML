@@ -1,4 +1,4 @@
-# Release 1.0.156
+# Release 1.0.157
 
-d6626ed update version in package.json to 1.0.156 (guseyn, Tue Dec 26 04:33:27 2023 +0400)
-cf288b2 remove usused function (guseyn, Tue Dec 26 04:33:25 2023 +0400)
+93188dc update version in package.json to 1.0.157 (guseyn, Mon Jan 8 19:47:47 2024 +0400)
+b260f0d Add Latex support in e-markdown (guseyn, Mon Jan 8 19:47:45 2024 +0400)
