@@ -1,4 +1,4 @@
-const mapToTemaplte = require('./../actions/mapToTemplate')
+const mapToTemplate = require('./../actions/mapToTemplate')
 
 module.exports = (node) => {
   if (!node.hasAttribute('data-item-name')) {
@@ -9,5 +9,5 @@ module.exports = (node) => {
   clonedNode.observedByEHTML = true
   wrapTemplate.content.appendChild(clonedNode)
   node.parentNode.replaceChild(wrapTemplate, node)
-  mapToTemaplte(wrapTemplate)
+  mapToTemplate(wrapTemplate)
 }
