@@ -33,7 +33,7 @@ Let's try latex:
 <br>
 
 ```latex
-\displaystyle{\sum_{n=1}^{\infty} 2^{-n} = 1}
+\displaystyle{f'(x) = \frac{df}{dx}=\lim\limits_{\Delta\to0}\frac{f(x + \Delta) - f(x)}{\Delta}}
 ```
 
 Seems like it works!

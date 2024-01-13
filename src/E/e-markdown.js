@@ -29,7 +29,7 @@ module.exports = (node) => {
           { left: '$$', right: '$$', display: false },
           { left: '~', right: '~', display: false, asciimath: true }
         ],
-        output: 'mathml'
+        output: 'html'
       })
     )
   }

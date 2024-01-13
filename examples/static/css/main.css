@@ -206,7 +206,7 @@ iframe {
   border: 0;
 }
 
-.base {
+div.base {
   width: 100%;
   height: auto;
   clear: both;
@@ -480,7 +480,7 @@ iframe {
 }
 
 @media only screen and (min-width: 700px) {
-  .base {
+  div.base {
     width: 700px;
     font-size: 1.2em;
   }
