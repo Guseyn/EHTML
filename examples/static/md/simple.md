@@ -35,5 +35,7 @@ Let's try latex:
 ```latex
 \displaystyle{f'(x) = \frac{df}{dx}=\lim\limits_{\Delta\to0}\frac{f(x + \Delta) - f(x)}{\Delta}}
 ```
-
+```latex
+x=\frac{ -b\pm\sqrt{ b^2-4ac } } {2a}
+```
 Seems like it works!
