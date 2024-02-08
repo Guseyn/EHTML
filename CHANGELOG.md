@@ -1,4 +1,4 @@
-# Release 1.0.161
+# Release 1.0.162
 
-99f45d0 update version in package.json to 1.0.161 (guseyn, Sat Jan 13 14:38:35 2024 +0400)
-e5b9f4e fix latex example (guseyn, Sat Jan 13 14:38:31 2024 +0400)
+6b1669b update version in package.json to 1.0.162 (guseyn, Thu Feb 8 12:32:11 2024 +0400)
+3c226b8 Custom templates and elements via window.__ehtmlCustomElements__ (guseyn, Thu Feb 8 12:32:00 2024 +0400)
