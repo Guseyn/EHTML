@@ -4,6 +4,7 @@ const turnEhtmlMutationObserverOff = require('./turnEhtmlMutationObserverOff')
 require('./actions/exports')
 
 window.__ehtmlState__ = window.__ehtmlState__ || {}
+window.__ehtmlCustomElements__ = window.__ehtmlCustomElements__ || {}
 
 window.ehtmlMutationObserver = new MutationObserver(
   (mutationsList, observer) => {

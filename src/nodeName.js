@@ -1,5 +1,6 @@
 const isTemplateWithTypeExclusively = require('./isTemplateWithTypeExclusively')
 const isTemplateWithType = require('./isTemplateWithType')
+const isTemplate = require('./isTemplate')
 
 module.exports = (node) => {
   if (isTemplateWithType(node, 'e-json')) {
@@ -19,6 +20,9 @@ module.exports = (node) => {
   }
   if (isTemplateWithTypeExclusively(node, 'e-ws')) {
     return 'e-ws-template'
+  }
+  if (isTemplate(node) && node.hasAttribute('is')) {
+    return `${node.getAttribute('is')}-template`
   }
   return node.nodeName.toLowerCase()
 }

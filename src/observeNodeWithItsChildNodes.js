@@ -19,6 +19,11 @@ const observeNodeWithItsChildNodes = (node) => {
         node.activatedByEHTML = true
         E[nodeNameValue](node)
       }
+    } else if (window.__ehtmlCustomElements__[nodeNameValue]) {
+      if (!node.activatedByEHTML) {
+        node.activatedByEHTML = true
+        window.__ehtmlCustomElements__[nodeNameValue](node)
+      }
     }
     const childNodes = node.childNodes
     for (let i = 0; i < childNodes.length; i++) {
