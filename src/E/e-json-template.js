@@ -2,7 +2,7 @@ const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const { mapToTemplate } = require('./../actions/exports')
-const scrollToHash = require('./../scrollToHash')
+const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')

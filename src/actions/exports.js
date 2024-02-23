@@ -19,5 +19,6 @@ module.exports = {
   loadHTMLInto: require('./loadHTMLInto'),
   redirect: require('./redirect'),
   scrollIntoViewOf: require('./scrollIntoViewOf'),
+  scrollToHash: require('./scrollToHash'),
   updateAttributeOf: require('./updateAttributeOf')
 }

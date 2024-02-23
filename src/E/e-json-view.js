@@ -3,7 +3,7 @@ const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const prettyHtml = require('json-pretty-html').default
-const scrollToHash = require('./../scrollToHash')
+const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
   if (node.hasAttribute('data-actions-on-progress-start')) {

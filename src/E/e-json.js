@@ -3,7 +3,7 @@ const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
-const scrollToHash = require('./../scrollToHash')
+const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')

@@ -1,4 +1,4 @@
-const scrollToHash = require('./../scrollToHash')
+const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
   const urlParams = {}

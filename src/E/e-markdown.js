@@ -5,7 +5,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
 const showdownKatex = require('showdown-katex')
-const scrollToHash = require('./../scrollToHash')
+const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
   const extensions = []
