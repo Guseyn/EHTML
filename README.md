@@ -26,3 +26,4 @@
 # Contribution and QA
 
 If you have any questions or concers about **EHTML**, please feel free to share them in the [issues](https://github.com/Guseyn/EHTML/issues). If you want to send a patch, feel free to create a fork and send it via pull request.
+
