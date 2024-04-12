@@ -3,14 +3,13 @@ const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const scrollToHash = require('./../actions/scrollToHash')
+const showdown = require('showdown')
 
 // Use For LIGHT MODE
-// const showdown = undefined
 // const showdownHighlight = undefined
 // const showdownKatex = undefined
  
 // Default mode
-const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
 const showdownKatex = require('showdown-katex')
 
@@ -70,22 +69,24 @@ module.exports = (node) => {
         github: true,
         extensions: extensions
       }).makeHtml(resObj.body)
-      unwrappedChildrenOfParent(node)
-      if (node.hasAttribute('data-actions-on-progress-end')) {
-        evaluateStringWithActionsOnProgress(
-          node.getAttribute('data-actions-on-progress-end'),
-          node
-        )
-      }
     } else {
-      node.innerText = resObj.body
-      unwrappedChildrenOfParent(node)
-      if (node.hasAttribute('data-actions-on-progress-end')) {
-        evaluateStringWithActionsOnProgress(
-          node.getAttribute('data-actions-on-progress-end'),
-          node
-        )
-      }
+      showdown.setFlavor('github')
+      node.innerHTML = new showdown.Converter({
+        tables: true,
+        tasklists: true,
+        simpleLineBreaks: true,
+        emoji: true,
+        moreStyling: true,
+        github: true,
+        extensions: extensions
+      }).makeHtml(resObj.body)
+    }
+    unwrappedChildrenOfParent(node)
+    if (node.hasAttribute('data-actions-on-progress-end')) {
+      evaluateStringWithActionsOnProgress(
+        node.getAttribute('data-actions-on-progress-end'),
+        node
+      )
     }
     scrollToHash()
   })
