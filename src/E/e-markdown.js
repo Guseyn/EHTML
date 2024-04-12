@@ -8,11 +8,10 @@ const showdown = require('showdown')
 // Use For LIGHT MODE
 // const showdownHighlight = undefined
 // const showdownKatex = undefined
- 
+
 // Default mode
 const showdownHighlight = require('showdown-highlight')
 const showdownKatex = require('showdown-katex')
-
 
 module.exports = (node) => {
   const extensions = []
