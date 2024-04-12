@@ -16,6 +16,8 @@ class LoggedToOutput extends AsyncObject {
   }
 }
 
+const minFileName = process.env.LIGHT_MODE ? 'ehtml.light.bundle.min.js' : 'ehtml.bundle.min.js'
+
 class BuiltJSFiles {
   constructor (jsFoldersToBundle, jsMainFileName, jsMinBundleName) {
     const buidName = jsMinBundleName.split('.')[0]
@@ -39,7 +41,7 @@ class BuiltJSFiles {
               'rm',
               [ `${buidName}-tmp-bundle.js` ]
             ).after(
-              new CopiedFile('ehtml.bundle.min.js', './examples/static/js/ehtml.bundle.min.js').after(
+              new CopiedFile(jsMinBundleName, `./examples/static/js/${jsMinBundleName}`).after(
                 new LoggedToOutput(
                   `build for ${jsMinBundleName} is successful`
                 )
@@ -53,5 +55,5 @@ class BuiltJSFiles {
 }
 
 new BuiltJSFiles(
- [ 'src' ], 'main.js', 'ehtml.bundle.min.js'
+ [ 'src' ], 'main.js', minFileName
 ).call()

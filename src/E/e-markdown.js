@@ -2,14 +2,22 @@ const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
+const scrollToHash = require('./../actions/scrollToHash')
+
+// Use For LIGHT MODE
+// const showdown = undefined
+// const showdownHighlight = undefined
+// const showdownKatex = undefined
+ 
+// Default mode
 const showdown = require('showdown')
 const showdownHighlight = require('showdown-highlight')
 const showdownKatex = require('showdown-katex')
-const scrollToHash = require('./../actions/scrollToHash')
+
 
 module.exports = (node) => {
   const extensions = []
-  if (node.getAttribute('data-apply-code-highlighting')) {
+  if (node.getAttribute('data-apply-code-highlighting') && showdownHighlight) {
     extensions.push(
       showdownHighlight({
         // Whether to add the classes to the <pre> tag, default is false
@@ -19,7 +27,7 @@ module.exports = (node) => {
       })
     )
   }
-  if (node.getAttribute('data-apply-latex')) {
+  if (node.getAttribute('data-apply-latex') && showdownKatex) {
     extensions.push(
       showdownKatex({
         displayMode: true,
@@ -38,6 +46,7 @@ module.exports = (node) => {
       node
     )
   }
+
   responseFromAjaxRequest({
     url: encodeURI(node.getAttribute('data-src')),
     method: 'GET',
@@ -50,22 +59,33 @@ module.exports = (node) => {
     if (err) {
       throw err
     }
-    showdown.setFlavor('github')
-    node.innerHTML = new showdown.Converter({
-      tables: true,
-      tasklists: true,
-      simpleLineBreaks: true,
-      emoji: true,
-      moreStyling: true,
-      github: true,
-      extensions: extensions
-    }).makeHtml(resObj.body)
-    unwrappedChildrenOfParent(node)
-    if (node.hasAttribute('data-actions-on-progress-end')) {
-      evaluateStringWithActionsOnProgress(
-        node.getAttribute('data-actions-on-progress-end'),
-        node
-      )
+    if (showdown) {
+      showdown.setFlavor('github')
+      node.innerHTML = new showdown.Converter({
+        tables: true,
+        tasklists: true,
+        simpleLineBreaks: true,
+        emoji: true,
+        moreStyling: true,
+        github: true,
+        extensions: extensions
+      }).makeHtml(resObj.body)
+      unwrappedChildrenOfParent(node)
+      if (node.hasAttribute('data-actions-on-progress-end')) {
+        evaluateStringWithActionsOnProgress(
+          node.getAttribute('data-actions-on-progress-end'),
+          node
+        )
+      }
+    } else {
+      node.innerText = resObj.body
+      unwrappedChildrenOfParent(node)
+      if (node.hasAttribute('data-actions-on-progress-end')) {
+        evaluateStringWithActionsOnProgress(
+          node.getAttribute('data-actions-on-progress-end'),
+          node
+        )
+      }
     }
     scrollToHash()
   })
