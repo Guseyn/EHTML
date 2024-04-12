@@ -1,4 +1,4 @@
-# Release 1.0.163
+# Release 1.0.164
 
-f885a0a update version in package.json to 1.0.163 (guseyn, Fri Feb 23 08:14:19 2024 +0400)
-26b377a make scrollToHash global (guseyn, Fri Feb 23 08:14:13 2024 +0400)
+0ffda4a update version in package.json to 1.0.164 (guseyn, Fri Apr 12 14:48:04 2024 +0400)
+73d2205 add light version (guseyn, Fri Apr 12 14:48:01 2024 +0400)
