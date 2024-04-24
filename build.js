@@ -19,35 +19,14 @@ class LoggedToOutput extends AsyncObject {
 const minFileName = process.env.LIGHT_MODE ? 'ehtml.light.bundle.min.js' : 'ehtml.bundle.min.js'
 
 class BuiltJSFiles {
-  constructor (jsFoldersToBundle, jsMainFileName, jsMinBundleName) {
-    const buidName = jsMinBundleName.split('.')[0]
+  constructor (jsMainFileName, jsMinBundleName) {
     return new SpawnedCommand(
-      './node_modules/.bin/babel',
-      [ ...jsFoldersToBundle, '--out-dir', `${buidName}-js-out`, '--config-file', './.babelrc' ]
+      './node_modules/.bin/esbuild',
+      [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}` ]
     ).after(
-      new SpawnedCommand(
-        './node_modules/.bin/browserify',
-        [ `${buidName}-js-out/${jsMainFileName}`, '--outfile', `${buidName}-tmp-bundle.js` ]
-      ).after(
-        new SpawnedCommand(
-          './node_modules/.bin/uglifyjs',
-          [ `${buidName}-tmp-bundle.js`, '--output', jsMinBundleName ]
-        ).after(
-          new SpawnedCommand(
-            'rm',
-            ['-r', '-f', `${buidName}-js-out`]
-          ).after(
-            new SpawnedCommand(
-              'rm',
-              [ `${buidName}-tmp-bundle.js` ]
-            ).after(
-              new CopiedFile(jsMinBundleName, `./examples/static/js/${jsMinBundleName}`).after(
-                new LoggedToOutput(
-                  `build for ${jsMinBundleName} is successful`
-                )
-              )
-            )
-          )
+      new CopiedFile(jsMinBundleName, `./examples/static/js/${jsMinBundleName}`).after(
+        new LoggedToOutput(
+          `build for ${jsMinBundleName} is successful`
         )
       )
     )
@@ -55,5 +34,5 @@ class BuiltJSFiles {
 }
 
 new BuiltJSFiles(
- [ 'src' ], 'main.js', minFileName
+  'src/main.js', minFileName
 ).call()

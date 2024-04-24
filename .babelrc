@@ -1,9 +1,0 @@
-{
-  "presets": ["@babel/preset-env"],
-  "plugins": [
-    "@babel/plugin-syntax-object-rest-spread",
-    ["@babel/plugin-transform-modules-commonjs", {
-      "strictMode": false
-    }]
-  ]
-}
