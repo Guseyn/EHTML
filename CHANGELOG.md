@@ -1,4 +1,4 @@
-# Release 1.0.166
+# Release 1.0.167
 
-4ea66f7 update version in package.json to 1.0.166 (guseyn, Fri Apr 12 18:05:43 2024 +0400)
-9a0cd7d fix lint (guseyn, Fri Apr 12 18:05:39 2024 +0400)
+3a879e0 update version in package.json to 1.0.167 (guseyn, Wed Apr 24 18:33:17 2024 +0400)
+78a0546 esbuild (guseyn, Wed Apr 24 18:33:14 2024 +0400)
