@@ -22,7 +22,9 @@ class BuiltJSFiles {
   constructor (jsMainFileName, jsMinBundleName) {
     return new SpawnedCommand(
       './node_modules/.bin/esbuild',
-      [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}` ]
+      process.env.LIGHT_MODE
+        ? [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}`, '--define:process.env.LIGHT_MODE="true"' ]
+        : [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}` ]
     ).after(
       new CopiedFile(jsMinBundleName, `./examples/static/js/${jsMinBundleName}`).after(
         new LoggedToOutput(

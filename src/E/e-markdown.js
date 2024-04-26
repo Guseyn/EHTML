@@ -5,13 +5,13 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const scrollToHash = require('./../actions/scrollToHash')
 const showdown = require('showdown')
 
-// Use For LIGHT MODE
-// const showdownHighlight = undefined
-// const showdownKatex = undefined
+let showdownHighlight
+let showdownKatex
 
-// Default mode
-const showdownHighlight = require('showdown-highlight')
-const showdownKatex = require('showdown-katex')
+if (!process.env.LIGHT_MODE) {
+  showdownHighlight = require('showdown-highlight')
+  showdownKatex = require('showdown-katex')
+}
 
 module.exports = (node) => {
   const extensions = []
