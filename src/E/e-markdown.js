@@ -8,6 +8,7 @@ const showdown = require('showdown')
 let showdownHighlight
 let showdownKatex
 
+// eslint-disable-next-line  no-undef
 if (!LIGHT_VERSION) {
   showdownHighlight = require('showdown-highlight')
   showdownKatex = require('showdown-katex')
