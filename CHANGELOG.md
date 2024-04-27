@@ -1,4 +1,4 @@
-# Release 1.0.168
+# Release 1.0.169
 
-6805d08 update version in package.json to 1.0.168 (guseyn, Sat Apr 27 02:47:28 2024 +0400)
-0453973 improve build process (guseyn, Sat Apr 27 02:47:25 2024 +0400)
+298d773 update version in package.json to 1.0.169 (guseyn, Sat Apr 27 14:49:36 2024 +0400)
+2166017 improve release and esbuild (guseyn, Sat Apr 27 14:49:33 2024 +0400)
