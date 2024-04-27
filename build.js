@@ -16,15 +16,15 @@ class LoggedToOutput extends AsyncObject {
   }
 }
 
+process.env.LIGHT_MODE = process.env.LIGHT_MODE || false
+
 const minFileName = process.env.LIGHT_MODE ? 'ehtml.light.bundle.min.js' : 'ehtml.bundle.min.js'
 
 class BuiltJSFiles {
   constructor (jsMainFileName, jsMinBundleName) {
     return new SpawnedCommand(
       './node_modules/.bin/esbuild',
-      process.env.LIGHT_MODE
-        ? [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}`, '--define:process.env.LIGHT_MODE="true"' ]
-        : [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}` ]
+      [ jsMainFileName, '--bundle', '--minify', `--outfile=${jsMinBundleName}`, `--define:LIGHT_VERSION=${process.env.LIGHT_MODE}` ]
     ).after(
       new CopiedFile(jsMinBundleName, `./examples/static/js/${jsMinBundleName}`).after(
         new LoggedToOutput(

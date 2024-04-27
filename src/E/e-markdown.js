@@ -8,7 +8,7 @@ const showdown = require('showdown')
 let showdownHighlight
 let showdownKatex
 
-if (!process.env.LIGHT_MODE) {
+if (!LIGHT_VERSION) {
   showdownHighlight = require('showdown-highlight')
   showdownKatex = require('showdown-katex')
 }
