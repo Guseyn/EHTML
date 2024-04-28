@@ -1,4 +1,4 @@
-# Release 1.0.171
+# Release 1.0.172
 
-8bb1dfe update version in package.json to 1.0.171 (guseyn, Sun Apr 28 16:08:57 2024 +0400)
-21c76f8 fix build, and start e-a (guseyn, Sun Apr 28 16:08:54 2024 +0400)
+d14e5c1 update version in package.json to 1.0.172 (guseyn, Sun Apr 28 16:11:01 2024 +0400)
+8bcb3fe fix lint (guseyn, Sun Apr 28 16:10:58 2024 +0400)
