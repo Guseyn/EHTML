@@ -1,4 +1,4 @@
-# Release 1.0.173
+# Release 1.0.174
 
-b7e240a update version in package.json to 1.0.173 (guseyn, Sun Apr 28 17:25:23 2024 +0400)
-cc9aa2f e-a is on hold (guseyn, Sun Apr 28 17:25:17 2024 +0400)
+6a330eb update version in package.json to 1.0.174 (guseyn, Sun Apr 28 17:26:21 2024 +0400)
+96ab9e3 fix lint (guseyn, Sun Apr 28 17:26:17 2024 +0400)
