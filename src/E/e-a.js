@@ -67,7 +67,7 @@ module.exports = (node) => {
   })
 }
 
-function updatePage(html) {
+function updatePage (html) {
   const title = html.title
   const head = html.head
   const body = html.body
