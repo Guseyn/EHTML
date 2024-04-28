@@ -16,5 +16,6 @@ module.exports = {
   'e-svg': require('./e-svg'),
   'e-markdown': require('./e-markdown'),
   'e-ws-template': require('./e-ws-template'),
-  'e-wrapper-template': require('./e-wrapper-template')
+  'e-wrapper-template': require('./e-wrapper-template'),
+  'e-a': require('./e-a')
 }

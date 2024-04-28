@@ -16,9 +16,11 @@ class LoggedToOutput extends AsyncObject {
   }
 }
 
-process.env.LIGHT_MODE = process.env.LIGHT_MODE || false
+process.env.LIGHT_MODE = process.env.LIGHT_MODE || 'false'
 
-const minFileName = process.env.LIGHT_MODE ? 'ehtml.light.bundle.min.js' : 'ehtml.bundle.min.js'
+const minFileName = process.env.LIGHT_MODE === 'true' ? 'ehtml.light.bundle.min.js' : 'ehtml.bundle.min.js'
+
+console.log(minFileName, typeof process.env.LIGHT_MODE)
 
 class BuiltJSFiles {
   constructor (jsMainFileName, jsMinBundleName) {
