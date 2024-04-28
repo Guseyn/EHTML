@@ -17,5 +17,6 @@ module.exports = {
   'e-markdown': require('./e-markdown'),
   'e-ws-template': require('./e-ws-template'),
   'e-wrapper-template': require('./e-wrapper-template'),
-  'e-a': require('./e-a')
+  // Too much hustle for nothing at the moment
+  // 'e-a': require('./e-a')
 }
