@@ -1,4 +1,3 @@
-const mapToTemplate = require('./../actions/mapToTemplate')
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
@@ -60,12 +59,12 @@ module.exports = (node) => {
       scripts.forEach(script => {
         if (script.src && !document.querySelector(`script[src="${script.src}"]`)) {
           const newScript = document.createElement('script')
-          newScript.setAttribute('type', 'text/javascript') 
+          newScript.setAttribute('type', 'text/javascript')
           newScript.src = script.src
           document.head.appendChild(newScript)
         } else {
           const newScript = document.createElement('script')
-          newScript.setAttribute('type', 'text/javascript') 
+          newScript.setAttribute('type', 'text/javascript')
           newScript.textContent = script.textContent
           document.head.appendChild(newScript)
         }
@@ -73,15 +72,15 @@ module.exports = (node) => {
       stylesAsLink.forEach(style => {
         if (style.href && document.querySelector(`script[href="${style.href}"]`)) {
           const newStyle = document.createElement('link')
-          newScript.setAttribute('rel', 'stylesheet') 
-          newScript.href = style.href
-          document.head.appendChild(newScript)
+          newStyle.setAttribute('rel', 'stylesheet')
+          newStyle.href = style.href
+          document.head.appendChild(newStyle)
         }
       })
       styles.forEach(style => {
-        const newStyle = document.createElement('style');
-        newStyle.textContent = style.textContent;
-        document.head.appendChild(newStyle);
+        const newStyle = document.createElement('style')
+        newStyle.textContent = style.textContent
+        document.head.appendChild(newStyle)
       })
 
       document.body.innerHTML = body.innerHTML
@@ -93,6 +92,5 @@ module.exports = (node) => {
         )
       }
     })
-
   })
 }
