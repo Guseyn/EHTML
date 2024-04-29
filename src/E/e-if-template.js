@@ -7,7 +7,7 @@ module.exports = (node) => {
   }
   const toDisplay = evaluatedStringWithParams(toDisplayExpression)
   if (toDisplay === 'true') {
-    const contentNode = document.importNode(node.content, true)
+    const contentNode = node.content.cloneNode(true)
     node.parentNode.insertBefore(contentNode, node)
   }
   node.parentNode.removeChild(node)

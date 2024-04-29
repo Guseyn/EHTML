@@ -28,13 +28,13 @@ module.exports = (node) => {
     const wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after' // also possible 'before' and 'instead'
     const wrapperTemplateReplacement = document.createElement('template')
     wrapperTemplateReplacement.innerHTML = html
-    const wrapperTemplateReplacementContentNode = document.importNode(wrapperTemplateReplacement.content, true)
+    const wrapperTemplateReplacementContentNode = wrapperTemplateReplacement.content.cloneNode(true)
     wrapperTemplate.parentNode.insertBefore(wrapperTemplateReplacementContentNode, wrapperTemplate)
     const placeholderElement = wrapperTemplate.parentNode.querySelector(placeholderSelector)
     if (!placeholderElement) {
       throw new Error('element is not found by the selector in the attribute "data-where-to-place"')
     }
-    const wrapperTemplateContentNode = document.importNode(wrapperTemplate.content, true)
+    const wrapperTemplateContentNode = wrapperTemplate.content.cloneNode(true)
     if (wayToPlace === 'before') {
       placeholderElement.parentNode.insertBefore(wrapperTemplateContentNode, placeholderElement)
     } else if (wayToPlace === 'after') {

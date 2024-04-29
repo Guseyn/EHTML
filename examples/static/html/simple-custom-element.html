@@ -14,7 +14,7 @@
         if (node.nodeName.toLowerCase() !== 'template') {
           throw new Error('node is not template')
         }
-        const elmContentNode = document.importNode(node.content, true)
+        const elmContentNode = node.content.cloneNode(true)
         const child = document.createElement('div')
         child.innerText = node.getAttribute('data-content')
         elmContentNode.appendChild(child)

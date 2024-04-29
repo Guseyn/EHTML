@@ -19,7 +19,7 @@ function mapToTemplate (elmSelectorOrElm, obj) {
   if (isTemplateWithType(mappingElement, 'e-for-each')) {
     throw new Error('You cannot call mapToTemplate() on <template is="e-for-each"> directly, please wrap it with <template> with attribute "data-object-name".  We think it\'s important to declare such attribute in a separate template for consistency.')
   }
-  const elmContentNode = document.importNode(mappingElement.content, true)
+  const elmContentNode = mappingElement.content.cloneNode(true)
   const objName = mappingElement.getAttribute('data-object-name')
   if (!objName && obj) {
     throw new Error('Mapping element must have attribute "data-object-name"')
@@ -78,7 +78,7 @@ function activateEIf (node, state) {
     inlinedToDisplayExpression, state
   ).trim()
   if (toDisplay === 'true') {
-    const contentNode = document.importNode(node.content, true)
+    const contentNode = node.content.cloneNode(true)
     map(contentNode, state)
     node.parentNode.insertBefore(contentNode, node)
   }
@@ -110,7 +110,7 @@ function activateEForEach (node, state) {
     if (typeof item === 'object' && item['index'] === undefined) {
       item.index = index + 1
     }
-    const itemContentNode = document.importNode(node.content, true)
+    const itemContentNode = node.content.cloneNode(true)
     const overridenState = { ...state, [itemName]: item }
     map(itemContentNode, overridenState)
     listFragment.appendChild(itemContentNode)

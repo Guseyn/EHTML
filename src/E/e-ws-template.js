@@ -33,7 +33,7 @@ module.exports = (node) => {
       node
     )
     node.parentNode.replaceChild(
-      document.importNode(node.content, true), node
+      node.content.cloneNode(true), node
     )
     if (node.hasAttribute('data-actions-on-progress-end')) {
       evaluateStringWithActionsOnProgress(

@@ -22,7 +22,7 @@ module.exports = (node) => {
   urlParams.hash = window.location.hash.substr(1)
   window.urlParams = urlParams
   node.parentNode.replaceChild(
-    document.importNode(node.content, true), node
+    node.content.cloneNode(true), node
   )
   scrollToHash()
 }

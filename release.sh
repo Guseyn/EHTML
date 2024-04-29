@@ -1,7 +1,6 @@
 #!/bin/bash
 
-npm run build
-npm run build:light
+npm run build:all
 
 npm version --no-git-tag-version patch
 version=$(jq -r '.version' package.json)
