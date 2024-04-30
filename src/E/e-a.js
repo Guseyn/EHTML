@@ -7,7 +7,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 window.addEventListener('popstate', (event) => {
   if (event.state && event.state.itIsEhtmlState) {
     updatePage(event.state.htmlAsString)
-    setTimeout(function() {
+    setTimeout(() => {
       (document.documentElement || document.body).scrollTo(
         event.state.scrollLeft,
         event.state.scrollTop

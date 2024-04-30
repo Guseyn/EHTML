@@ -16,6 +16,7 @@ module.exports = {
   'e-svg': require('./e-svg'),
   'e-markdown': require('./e-markdown'),
   'e-ws-template': require('./e-ws-template'),
-  'e-wrapper-template': require('./e-wrapper-template'),
-  'e-a': require('./e-a')
+  'e-wrapper-template': require('./e-wrapper-template') // ,
+  // I am not sure about this feature at. If I can improve the feel of ajax redirects, I will consider to include it
+  // 'e-a': require('./e-a')
 }
