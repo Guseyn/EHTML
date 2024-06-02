@@ -32,7 +32,7 @@
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "dependencies": {
     "json-pretty-html": "^1.1.6",
-    "showdown": "^2.1.0",
+    "showdown": "^1.9.1",
     "showdown-highlight": "^3.1.0",
     "showdown-katex": "^0.8.0",
     "ws": "^8.15.0"
