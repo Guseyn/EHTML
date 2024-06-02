@@ -410,7 +410,7 @@ function validateFormElement (form, element, requestBody, queryObject) {
         throw new Error('checkbox must have \'value\' attribute')
       }
       if (value.indexOf(checkboxValue) === -1) {
-        form.showErrorForFormElement(
+        showErrorForFormElement(
           form,
           element,
           element.getAttribute('data-validation-absence-error-message'),
