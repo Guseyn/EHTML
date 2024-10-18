@@ -38,8 +38,15 @@ module.exports = (node) => {
       node
     )
   }
+  if (!node.hasAttribute('data-src')) {
+    throw new Error('e-json template must have "data-src" attribute if it\'s not connected to a socket')
+  }
   responseFromAjaxRequest({
-    url: encodeURI(node.getAttribute('data-src')),
+    url: encodeURI(
+      evaluatedStringWithParams(
+        node.getAttribute('data-src')
+      )
+    ),
     method: 'GET',
     headers: JSON.parse(
       evaluatedStringWithParams(

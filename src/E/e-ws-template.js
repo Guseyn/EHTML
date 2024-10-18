@@ -1,11 +1,14 @@
+const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnOpenConnection = require('./../evaluateStringWithActionsOnOpenConnection')
 
 module.exports = (node) => {
-  const socketUrl = node.getAttribute('data-src')
-  if (!socketUrl) {
+  if (!node.hasAttribute('data-src')) {
     throw new Error('e-ws must have "data-src" attribute')
   }
+  const socketUrl = evaluatedStringWithParams(
+    node.getAttribute('data-src')
+  )
   const socketName = node.getAttribute('data-socket-name')
   if (!socketName) {
     throw new Error('e-ws must have "data-socket-name" attribute')

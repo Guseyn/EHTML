@@ -254,9 +254,15 @@ function submit (target, targetIsForm) {
       )
     }
 
+    if (!target.hasAttribute('data-request-url')) {
+      throw new Error('e-form must have "data-request-url" attribute in the element that submits it')
+    }
+
     responseFromAjaxRequest({
       url: urlWithQueryParams(
-        target.getAttribute('data-request-url'),
+        evaluatedStringWithParams(
+          target.getAttribute('data-request-url')
+        ),
         queryObject
       ),
       headers: JSON.parse(

@@ -46,8 +46,15 @@ module.exports = (node) => {
     )
   }
 
+  if (!node.hasAttribute('data-src')) {
+    throw new Error('e-markdown must have "data-src" attribute')
+  }
   responseFromAjaxRequest({
-    url: encodeURI(node.getAttribute('data-src')),
+    url: encodeURI(
+      evaluatedStringWithParams(
+        node.getAttribute('data-src')
+      )
+    ),
     method: 'GET',
     headers: JSON.parse(
       evaluatedStringWithParams(

@@ -1,9 +1,12 @@
-const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE = [
+const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = [
   'data-actions-on-response',
   'data-list-to-iterate',
   'data-item-name',
   'data-bound-to',
-  'data-cache-from'
+  'data-cache-from',
+  'data-src',
+  'data-request-headers',
+  'data-request-url'
 ]
 
 const TAGS_WITH_SRC_ATTRIBUTE = [
@@ -27,7 +30,13 @@ module.exports = (node, state) => {
     const nodeAttributes = Array.from(node.attributes)
     for (let i = 0; i < nodeAttributes.length; i++) {
       const attr = nodeAttributes[i]
-      const isAttributeToBeObserved = ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE.indexOf(attr.name) === -1 &&
+      const isAttributeToBeObserved = 
+        (
+          ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.indexOf(attr.name) === -1 ||
+          (
+            attr.name === 'data-src' && TAGS_WITH_SRC_ATTRIBUTE.indexOf(node.tagName.toLowerCase()) !== -1
+          )
+        ) &&
         /\$\{([^${}]+)\}/gm.test(attr.value)
       if (!isAttributeToBeObserved) {
         continue
