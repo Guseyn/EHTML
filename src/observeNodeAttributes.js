@@ -30,7 +30,7 @@ module.exports = (node, state) => {
     const nodeAttributes = Array.from(node.attributes)
     for (let i = 0; i < nodeAttributes.length; i++) {
       const attr = nodeAttributes[i]
-      const isAttributeToBeObserved = 
+      const isAttributeToBeObserved =
         (
           ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.indexOf(attr.name) === -1 ||
           (
