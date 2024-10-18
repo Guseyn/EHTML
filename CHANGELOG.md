@@ -1,4 +1,4 @@
-# Release 1.0.180
+# Release 1.0.181
 
-16e97cf update version in package.json to 1.0.180 (guseyn, Sat Oct 19 00:03:01 2024 +0400)
-efa5305 fix lint (guseyn, Sat Oct 19 00:02:57 2024 +0400)
+0634c27 update version in package.json to 1.0.181 (guseyn, Sat Oct 19 02:34:52 2024 +0400)
+a19493c add inside way to place for e-wrapper template (guseyn, Sat Oct 19 02:34:47 2024 +0400)
