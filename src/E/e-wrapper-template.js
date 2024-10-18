@@ -32,7 +32,7 @@ module.exports = (node) => {
     const html = resObj.body
     const wrapperTemplate = node
     const placeholderSelector = wrapperTemplate.getAttribute('data-where-to-place')
-    const wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after' // also possible 'before' and 'instead'
+    const wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after' // also possible 'before', 'instead' and 'inside'
     const wrapperTemplateReplacement = document.createElement('template')
     wrapperTemplateReplacement.innerHTML = html
     const wrapperTemplateReplacementContentNode = wrapperTemplateReplacement.content.cloneNode(true)
@@ -52,6 +52,9 @@ module.exports = (node) => {
       } else {
         placeholderElement.parentNode.append(wrapperTemplateContentNode)
       }
+    } else if (wayToPlace === 'inside') {
+      placeholderElement.innerHTML = ''
+      placeholderElement.appendChild(wrapperTemplateContentNode)
     } else {
       placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
     }
