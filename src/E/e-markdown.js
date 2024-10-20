@@ -77,16 +77,7 @@ module.exports = (node) => {
         extensions: extensions
       }).makeHtml(resObj.body)
     } else {
-      showdown.setFlavor('github')
-      node.innerHTML = new showdown.Converter({
-        tables: true,
-        tasklists: true,
-        simpleLineBreaks: true,
-        emoji: true,
-        moreStyling: true,
-        github: true,
-        extensions: extensions
-      }).makeHtml(resObj.body)
+      node.innerHTML = resObj.body
     }
     unwrappedChildrenOfParent(node)
     if (node.hasAttribute('data-actions-on-progress-end')) {
