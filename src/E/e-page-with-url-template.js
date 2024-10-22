@@ -1,11 +1,19 @@
 const scrollToHash = require('./../actions/scrollToHash')
 
 module.exports = (node) => {
-  const urlParams = {}
   const urlPattern = node.getAttribute('data-url-pattern')
+  window.urlParams = constructedUrlParams(urlPattern, window.location)
+  node.parentNode.replaceChild(
+    node.content.cloneNode(true), node
+  )
+  scrollToHash()
+}
+
+function constructedUrlParams (urlPattern, windowLocation) {
+  const urlParams = {}
   const parsedUrlPatternValue = parsedUrlPattern(urlPattern)
-  const locationPath = window.location.pathname
-  const locationSearch = window.location.search
+  const locationPath = windowLocation.pathname
+  const locationSearch = windowLocation.search
   const localtionPathParts = locationPath.split(/\//g).filter(part => part !== '')
   const locationRequestParams = requestParamsOfLocationSearch(locationSearch)
   parsedUrlPatternValue.pathVariables.forEach((variable, index) => {
@@ -19,12 +27,10 @@ module.exports = (node) => {
       urlParams[key] = locationRequestParams[key]
     }
   })
-  urlParams.hash = window.location.hash.substr(1)
-  window.urlParams = urlParams
-  node.parentNode.replaceChild(
-    node.content.cloneNode(true), node
-  )
-  scrollToHash()
+  if (windowLocation.hash) {
+    urlParams['hash'] = windowLocation.hash.split('#')[1]
+  }
+  return urlParams
 }
 
 function parsedUrlPattern (url) {
