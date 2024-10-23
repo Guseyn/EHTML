@@ -1,6 +1,7 @@
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnOpenConnection = require('./../evaluateStringWithActionsOnOpenConnection')
+const evaluateStringWithActionsOnCloseConnection = require('./../evaluateStringWithActionsOnCloseConnection')
 
 module.exports = (node) => {
   if (!node.hasAttribute('data-src')) {
@@ -33,6 +34,7 @@ module.exports = (node) => {
     }
     evaluateStringWithActionsOnOpenConnection(
       node.getAttribute('data-actions-on-open-connection'),
+      event,
       node
     )
     node.parentNode.replaceChild(
@@ -44,5 +46,12 @@ module.exports = (node) => {
         node
       )
     }
+  })
+  socket.addEventListener('close', (event) => {
+    evaluateStringWithActionsOnCloseConnection(
+      node.getAttribute('data-actions-on-open-connection'),
+      event,
+      node
+    )
   })
 }
