@@ -1,4 +1,4 @@
-# Release 1.0.183
+# Release 1.0.184
 
-9823adc update version in package.json to 1.0.183 (guseyn, Tue Oct 22 20:15:50 2024 +0400)
-e13a61a add hash to url params (guseyn, Tue Oct 22 20:15:36 2024 +0400)
+7031f32 update version in package.json to 1.0.184 (guseyn, Thu Oct 24 02:05:05 2024 +0400)
+b193260 add event param to connection action in ws (guseyn, Thu Oct 24 02:04:47 2024 +0400)
