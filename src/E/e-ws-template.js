@@ -32,11 +32,13 @@ module.exports = (node) => {
     if (connectionIcon) {
       connectionIcon.style.display = 'none'
     }
-    evaluateStringWithActionsOnOpenConnection(
-      node.getAttribute('data-actions-on-open-connection'),
-      event,
-      node
-    )
+    if (node.hasAttribute('data-actions-on-open-connection')) {
+      evaluateStringWithActionsOnOpenConnection(
+        node.getAttribute('data-actions-on-open-connection'),
+        event,
+        node
+      )
+    }
     node.parentNode.replaceChild(
       node.content.cloneNode(true), node
     )
@@ -48,10 +50,12 @@ module.exports = (node) => {
     }
   })
   socket.addEventListener('close', (event) => {
-    evaluateStringWithActionsOnCloseConnection(
-      node.getAttribute('data-actions-on-open-connection'),
-      event,
-      node
-    )
+    if (node.hasAttribute('data-actions-on-close-connection')) {
+      evaluateStringWithActionsOnCloseConnection(
+        node.getAttribute('data-actions-on-close-connection'),
+        event,
+        node
+      )
+    }
   })
 }
