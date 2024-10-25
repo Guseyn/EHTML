@@ -1,4 +1,4 @@
-# Release 1.0.184
+# Release 1.0.185
 
-7031f32 update version in package.json to 1.0.184 (guseyn, Thu Oct 24 02:05:05 2024 +0400)
-b193260 add event param to connection action in ws (guseyn, Thu Oct 24 02:04:47 2024 +0400)
+4c1499b update version in package.json to 1.0.185 (guseyn, Fri Oct 25 22:29:17 2024 +0400)
+3fcd8e9 fix events evaluations in connection events in ws (guseyn, Fri Oct 25 22:29:12 2024 +0400)
