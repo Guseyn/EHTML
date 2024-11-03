@@ -4,7 +4,7 @@
 
 [![EHTML CI](https://github.com/Guseyn/EHTML/actions/workflows/ehtml.yml/badge.svg?branch=master)](https://github.com/Guseyn/EHTML/actions/workflows/ehtml.yml)
 
-**EHTML (or Extended HTML)** can be described as a set of custom elements that you can place on an HTML page for different purposes and use cases. The goal of this library is to provide a convenient way to eliminate JavaScript code on the client side as much as possible for basic and routine tasks. The biggest focus of this library is to offer the easiest way to perform **AJAX** operations just by using **HTML**. Also **EHTML** treat your HTML code code not only as a markup language but also as a templating language.
+**EHTML (Extended HTML)** is a library of custom HTML elements designed for various use cases, making it easy to add functionality directly within HTML pages. Its primary goal is to minimize the need for client-side JavaScript by handling basic and routine tasks more efficiently through HTML alone. A key feature of EHTML is simplifying AJAX operations, allowing you to perform them directly in HTML without writing JavaScript. Additionally, EHTML treats HTML not only as a markup language but also as a templating language, enhancing its versatility and functionality.
 
 - [Web Page](https://e-html.org)
 - [Documentation](https://e-html.org/html/documentation.html)
