@@ -1,10 +1,12 @@
 const observeNodeWithItsChildNodes = require('./observeNodeWithItsChildNodes')
 const turnEhtmlMutationObserverOn = require('./turnEhtmlMutationObserverOn')
 const turnEhtmlMutationObserverOff = require('./turnEhtmlMutationObserverOff')
+const registerShowdownExtension = require('./registerShowdownExtension')
 require('./actions/exports')
 
 window.__ehtmlState__ = window.__ehtmlState__ || {}
 window.__ehtmlCustomElements__ = window.__ehtmlCustomElements__ || {}
+window.__ehtmlShowdownExtensions__ = window.__ehtmlShowdownExtensions__ || []
 
 window.ehtmlMutationObserver = new MutationObserver(
   (mutationsList, observer) => {
@@ -25,3 +27,4 @@ turnEhtmlMutationObserverOn(
 
 window.turnEhtmlMutationObserverOn = turnEhtmlMutationObserverOn
 window.turnEhtmlMutationObserverOff = turnEhtmlMutationObserverOff
+window.registerShowdownExtension = registerShowdownExtension

@@ -15,7 +15,7 @@ if (!LIGHT_VERSION) {
 }
 
 module.exports = (node) => {
-  const extensions = []
+  const extensions = window.__ehtmlShowdownExtensions__ || []
   if (node.getAttribute('data-apply-code-highlighting') && showdownHighlight) {
     extensions.push(
       showdownHighlight({
