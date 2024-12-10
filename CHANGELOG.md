@@ -1,6 +1,6 @@
-# Release 1.0.186
+# Release 1.0.187
 
-e53b452 update version in package.json to 1.0.186 (guseyn, Mon Nov 4 02:32:48 2024 +0400)
-aadacbd update readme (guseyn, Mon Nov 4 02:32:44 2024 +0400)
-7bbc637 update (guseyn, Mon Nov 4 02:31:52 2024 +0400)
-465feb1 update readme (guseyn, Mon Nov 4 02:01:03 2024 +0400)
+776db12 update version in package.json to 1.0.187 (guseyn, Tue Dec 10 21:00:04 2024 +0400)
+d3fb2a4 fix typo (statusCode) in e-json-template (guseyn, Tue Dec 10 20:59:55 2024 +0400)
+cf31e17 fix lint (guseyn, Sun Nov 24 16:29:21 2024 +0400)
+d2f82a5 add possibility to register showdown extensions (guseyn, Sun Nov 24 16:23:44 2024 +0400)
