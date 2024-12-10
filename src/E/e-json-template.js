@@ -81,7 +81,7 @@ module.exports = (node) => {
       {
         body: responseBodyAsObject,
         headers: resObj.headers,
-        statusСode: resObj.statusСode
+        statusCode: resObj.statusCode
       }
     )
     if (node.hasAttribute('data-actions-on-progress-end')) {
