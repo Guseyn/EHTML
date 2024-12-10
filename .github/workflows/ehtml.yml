@@ -34,10 +34,10 @@ jobs:
       - name: Check commit message format
         id: check_commit
         run: |
-          if [[ "${{ github.event.head_commit.message }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "commit_message_format=valid" >> $GITHUB_ENV
-          else
-            echo "commit_message_format=invalid" >> $GITHUB_ENV
+          if [[ "${{ github.event.head_commit.message }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then \
+            echo "commit_message_format=valid" >> $GITHUB_ENV \
+          else \
+            echo "commit_message_format=invalid" >> $GITHUB_ENV \
       - name: Create GitHub Release
         if: env.commit_message_format == 'valid'
         uses: actions/create-release@v1
