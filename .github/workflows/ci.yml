@@ -3,8 +3,6 @@ name: EHTML CI
 on:
   push:
     branches: [ "master" ]
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
     branches: [ "master" ]
 
@@ -24,6 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-        run: npm ci
-        run: npm run lint
-        run: npm run build
+        run: |
+          npm ci
+          npm run lint
+          npm run build
