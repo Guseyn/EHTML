@@ -1,4 +1,4 @@
-# Release 1.0.193
+# Release 1.0.194
 
-598e4f1 update version in package.json to 1.0.193 (guseyn, Tue Dec 10 21:36:48 2024 +0400)
-f91ec22 try to fix yml ci file (guseyn, Tue Dec 10 21:36:45 2024 +0400)
+080da72 update version in package.json to 1.0.194 (guseyn, Tue Dec 10 21:39:11 2024 +0400)
+20caa69 try again (guseyn, Tue Dec 10 21:39:07 2024 +0400)
