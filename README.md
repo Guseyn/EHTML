@@ -2,7 +2,7 @@
 
 **v1.0.195**
 
-[![EHTML CI](https://github.com/Guseyn/EHTML/actions/workflows/ehtml.yml/badge.svg?branch=master)](https://github.com/Guseyn/EHTML/actions/workflows/ehtml.yml)
+[![EHTML CI](https://github.com/Guseyn/EHTML/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Guseyn/EHTML/actions/workflows/ci.yml)
 
 **EHTML (Extended HTML)** is a library of custom HTML elements designed for various use cases.
 
