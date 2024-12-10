@@ -1,4 +1,4 @@
-# Release 1.0.194
+# Release 1.0.195
 
-080da72 update version in package.json to 1.0.194 (guseyn, Tue Dec 10 21:39:11 2024 +0400)
-20caa69 try again (guseyn, Tue Dec 10 21:39:07 2024 +0400)
+3da6d9d update version in package.json to 1.0.195 (guseyn, Tue Dec 10 21:44:36 2024 +0400)
+ab71cdc input for release tag (guseyn, Tue Dec 10 21:44:27 2024 +0400)
