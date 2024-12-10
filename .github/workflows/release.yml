@@ -2,6 +2,10 @@ name: Release EHTML
 
 on:
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release (e.g., v1.0.0)'
+        required: true
 
 jobs:
   release:
@@ -16,8 +20,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.head_commit.message }}
-          release_name: ${{ github.event.head_commit.message }}
+          tag_name: ${{ github.event.inputs.tag_name }}
+          release_name: ${{ github.event.inputs.tag_name }}
           body_path: CHANGELOG.md
           draft: false
           prerelease: false
