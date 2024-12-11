@@ -1,11 +1,13 @@
-const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 
 module.exports = (node) => {
   node.style.display = 'none'
   node.name = node.getAttribute('name')
   node.value = () => {
-    return evaluatedStringWithParams(
-      node.getAttribute('data-bound-to')
+    return evaluatedStringWithParamsFromState(
+      node.getAttribute('data-bound-to'),
+      node.__ehtmlState__,
+      node
     )
   }
 }

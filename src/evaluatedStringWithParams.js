@@ -6,8 +6,10 @@ module.exports = (string, node) => {
   }
   return string.replace(pattern, (match, expression) => {
     const inlinedExpression = expression.replace(/\n/g, ' ')
-    // eslint-disable-next-line no-eval
-    const evaluationResult = eval('(function() { const thisElement = node; return (' + inlinedExpression + ')})()')
+    // Use Function constructor to isolate the evaluation scope
+    // eslint-disable-next-line no-new-func
+    const func = new Function('thisElement', `return (${inlinedExpression});`)
+    const evaluationResult = func(node)
     if (typeof evaluationResult === 'object') {
       return JSON.stringify(evaluationResult)
     }

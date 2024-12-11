@@ -75,7 +75,7 @@ function activateEIf (node, state) {
   }
   const inlinedToDisplayExpression = toDisplayExpression.replace(/\n/g, ' ')
   const toDisplay = evaluatedStringWithParamsFromState(
-    inlinedToDisplayExpression, state
+    inlinedToDisplayExpression, state, node
   ).trim()
   if (toDisplay === 'true') {
     const contentNode = node.content.cloneNode(true)

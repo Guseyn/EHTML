@@ -1,5 +1,5 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
-const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const scrollToHash = require('./../actions/scrollToHash')
 
@@ -15,14 +15,18 @@ module.exports = (node) => {
   }
   responseFromAjaxRequest({
     url: encodeURI(
-      evaluatedStringWithParams(
-        node.getAttribute('data-src')
+      evaluatedStringWithParamsFromState(
+        node.getAttribute('data-src'),
+        node.__ehtmlState__,
+        node
       )
     ),
     method: 'GET',
     headers: JSON.parse(
-      evaluatedStringWithParams(
-        node.getAttribute('data-headers') || '{}'
+      evaluatedStringWithParamsFromState(
+        node.getAttribute('data-headers') || '{}',
+        node.__ehtmlState__,
+        node
       )
     )
   }, undefined, (err, resObj) => {

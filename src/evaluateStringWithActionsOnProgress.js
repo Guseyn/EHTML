@@ -1,9 +1,14 @@
 module.exports = (string, node) => {
-  // eslint-disable-next-line no-eval
-  eval(
-    '(() => {' + '\n' +
-      'const thisElement = node' + '\n' +
-      string + '\n' +
-    '})()'
+  // Create a function using the Function constructor
+  // eslint-disable-next-line no-new-func
+  const func = new Function(
+    'thisElement',
+    `
+      (() => {
+        ${string}
+      })()
+    `
   )
+  // Call the function, passing in `node` as `thisElement`
+  func(node)
 }

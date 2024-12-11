@@ -6,7 +6,8 @@ const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_A
   'data-cache-from',
   'data-src',
   'data-request-headers',
-  'data-request-url'
+  'data-request-url',
+  'data-socket'
 ]
 
 const TAGS_WITH_SRC_ATTRIBUTE = [
@@ -30,14 +31,15 @@ module.exports = (node, state) => {
     const nodeAttributes = Array.from(node.attributes)
     for (let i = 0; i < nodeAttributes.length; i++) {
       const attr = nodeAttributes[i]
-      const isAttributeToBeObserved =
+      const isAttributeToBeIgnored = ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.indexOf(attr.name) >= 0 ||
         (
-          ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.indexOf(attr.name) === -1 ||
-          (
-            attr.name === 'data-src' && TAGS_WITH_SRC_ATTRIBUTE.indexOf(node.tagName.toLowerCase()) !== -1
-          )
-        ) &&
-        /\$\{([^${}]+)\}/gm.test(attr.value)
+          attr.name === 'data-src' && TAGS_WITH_SRC_ATTRIBUTE.indexOf(node.tagName.toLowerCase()) === -1
+        )
+      const isAttributeWithParams = /\$\{([^${}]+)\}/gm.test(attr.value)
+      const isAttributeToBeObserved = !isAttributeToBeIgnored && isAttributeWithParams
+      if (isAttributeToBeIgnored && isAttributeWithParams) {
+        node.__ehtmlState__ = state
+      }
       if (!isAttributeToBeObserved) {
         continue
       }

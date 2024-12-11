@@ -1,5 +1,5 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
-const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
@@ -22,7 +22,8 @@ module.exports = (node) => {
       evaluateStringWithActionsOnResponse(
         node.getAttribute('data-actions-on-response'),
         node.getAttribute('data-response-name'),
-        response
+        response,
+        node
       )
     })
     unwrappedChildrenOfParent(node)
@@ -30,14 +31,19 @@ module.exports = (node) => {
   }
   const cacheFromAttribute = node.getAttribute('data-cache-from')
   if (cacheFromAttribute) {
-    const evaluatedCacheAsString = evaluatedStringWithParams(cacheFromAttribute)
+    const evaluatedCacheAsString = evaluatedStringWithParamsFromState(
+      cacheFromAttribute,
+      node.__ehtmlState__,
+      node
+    )
     if (evaluatedCacheAsString !== 'undefined' && evaluatedCacheAsString !== 'null') {
       const cacheObj = JSON.parse(evaluatedCacheAsString)
       if (cacheObj) {
         evaluateStringWithActionsOnResponse(
           node.getAttribute('data-actions-on-response'),
           node.getAttribute('data-response-name'),
-          cacheObj
+          cacheObj,
+          node
         )
         unwrappedChildrenOfParent(node)
         scrollToHash()
@@ -63,15 +69,19 @@ module.exports = (node) => {
   }
   responseFromAjaxRequest({
     url: encodeURI(
-      evaluatedStringWithParams(
-        node.getAttribute('data-src')
+      evaluatedStringWithParamsFromState(
+        node.getAttribute('data-src'),
+        node.__ehtmlState__,
+        node
       )
     ),
     method: 'GET',
     headers: JSON.parse(
-      evaluatedStringWithParams(
-        node.getAttribute('data-request-headers')
-      ) || '{}'
+      evaluatedStringWithParamsFromState(
+        node.getAttribute('data-request-headers') || '{}',
+        node.__ehtmlState__,
+        node
+      )
     ),
     progressEvent: (event) => {
       if (progressBar) {
@@ -103,7 +113,8 @@ module.exports = (node) => {
         body: responseBodyAsObject,
         statusCode: resObj.statusCode,
         headers: resObj.headers
-      }
+      },
+      node
     )
     unwrappedChildrenOfParent(node)
     if (node.hasAttribute('data-actions-on-progress-end')) {

@@ -4,10 +4,17 @@ module.exports = (string, state, node) => {
   if (!string) {
     return null
   }
+  state = state || {}
   return string.replace(pattern, (match, expression) => {
     const inlinedExpression = expression.replace(/\n/g, ' ')
-    // eslint-disable-next-line no-eval
-    const evaluationResult = eval('(function() { with (state) { const thisElement = node; return (' + inlinedExpression + ') }})()')
+    // Use Function constructor and pass state and thisElement as arguments
+    // eslint-disable-next-line no-new-func
+    const func = new Function('state', 'thisElement', `
+      with (state) {
+        return (${inlinedExpression});
+      }
+    `)
+    const evaluationResult = func(state, node)
     if (typeof evaluationResult === 'object') {
       return JSON.stringify(evaluationResult)
     }

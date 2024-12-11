@@ -1,5 +1,5 @@
 const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
-const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
 const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActionsOnProgress')
 const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 
@@ -260,14 +260,18 @@ function submit (target, targetIsForm) {
 
     responseFromAjaxRequest({
       url: urlWithQueryParams(
-        evaluatedStringWithParams(
-          target.getAttribute('data-request-url')
+        evaluatedStringWithParamsFromState(
+          target.getAttribute('data-request-url'),
+          target.__ehtmlState__,
+          target
         ),
         queryObject
       ),
       headers: JSON.parse(
-        evaluatedStringWithParams(
-          target.getAttribute('data-request-headers')
+        evaluatedStringWithParamsFromState(
+          target.getAttribute('data-request-headers'),
+          target.__ehtmlState__,
+          target
         ) || '{}'
       ),
       method: target.getAttribute('data-request-method') || 'POST',
