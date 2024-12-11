@@ -1,4 +1,5 @@
-# Release 1.0.195
+# Release 1.0.196
 
-3da6d9d update version in package.json to 1.0.195 (guseyn, Tue Dec 10 21:44:36 2024 +0400)
-ab71cdc input for release tag (guseyn, Tue Dec 10 21:44:27 2024 +0400)
+7ba22df update version in package.json to 1.0.196 (guseyn, Wed Dec 11 13:39:46 2024 +0400)
+6afd2ea add some state around dynamic attributes (guseyn, Wed Dec 11 13:39:09 2024 +0400)
+caf9589 fix badge (guseyn, Tue Dec 10 21:47:54 2024 +0400)
