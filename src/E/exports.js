@@ -1,22 +1,39 @@
-module.exports = {
-  'e-html': require('./e-html'),
-  'e-json': require('./e-json'),
-  'e-json-template': require('./e-json-template'),
-  'e-json-view': require('./e-json-view'),
-  'e-if-template': require('./e-if-template'),
-  'e-for-each-template': require('./e-for-each-template'),
-  'e-form': require('./e-form'),
-  'e-form-dynamic-value': require('./e-form-dynamic-value'),
-  'e-local-storage-value': require('./e-local-storage-value'),
-  'e-session-storage-value': require('./e-session-storage-value'),
-  'e-github-oauth-button': require('./e-github-oauth-button'),
-  'e-page-with-url-template': require('./e-page-with-url-template'),
-  'e-reusable-template': require('./e-reusable-template'),
-  'e-select': require('./e-select'),
-  'e-svg': require('./e-svg'),
-  'e-markdown': require('./e-markdown'),
-  'e-ws-template': require('./e-ws-template'),
-  'e-wrapper-template': require('./e-wrapper-template') // ,
-  // I am not sure about this feature at. If I can improve the feel of ajax redirects, I will consider to include it
-  // 'e-a': require('./e-a')
+import eHtml from 'e-html'
+import eJson from 'e-json'
+import eJsonTemplate from 'e-json-template'
+import eJsonView from 'e-json-view'
+import eIfTemplate from 'e-if-template'
+import eForEachTemplate from 'e-for-each-template'
+import eForm from 'e-form'
+import eFormDynamicValue from 'e-form-dynamic-value'
+import eLocalStorageValue from 'e-local-storage-value'
+import eSessionStorageValue from 'e-session-storage-value'
+import eGithubOauthButton from 'e-github-oauth-button'
+import ePageWithUrlTemplate from 'e-page-with-url-template'
+import eReusableTemplate from 'e-reusable-template'
+import eSelect from 'e-select'
+import eSvg from 'e-svg'
+import eMarkdown from 'e-markdown'
+import eWsTemplate from 'e-ws-template'
+import eWrapperTemplate from 'e-wrapper-template'
+
+export default {
+  'e-html': eHtml,
+  'e-json': eJson,
+  'e-json-template': eJsonTemplate,
+  'e-json-view': eJsonView,
+  'e-if-template': eIfTemplate,
+  'e-for-each-template': eForEachTemplate,
+  'e-form': eForm,
+  'e-form-dynamic-value': eFormDynamicValue,
+  'e-local-storage-value': eLocalStorageValue,
+  'e-session-storage-value': eSessionStorageValue,
+  'e-github-oauth-button': eGithubOauthButton,
+  'e-page-with-url-template': ePageWithUrlTemplate,
+  'e-reusable-template': eReusableTemplate,
+  'e-select': eSelect,
+  'e-svg': eSvg,
+  'e-markdown': eMarkdown,
+  'e-ws-template': eWsTemplate,
+  'e-wrapper-template': eWrapperTemplate
 }

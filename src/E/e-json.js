@@ -5,7 +5,7 @@ const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActi
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const scrollToHash = require('./../actions/scrollToHash')
 
-module.exports = (node) => {
+export default (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')
   const ajaxIcon = document.querySelector(ajaxIconSelector)
   if (ajaxIcon) {

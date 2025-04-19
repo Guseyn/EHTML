@@ -1,6 +1,6 @@
 const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
 
-module.exports = (node) => {
+export default (node) => {
   const toDisplayExpression = node.getAttribute('data-condition-to-display')
   if (!toDisplayExpression) {
     throw new Error('e-if must have "data-condition-to-display" attribute')

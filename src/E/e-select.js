@@ -1,4 +1,4 @@
-module.exports = (node) => {
+export default (node) => {
   const select = replaceWithSelect(node)
   const value = select.getAttribute('value')
   for (let index = 0; index < select.options.length; index++) {

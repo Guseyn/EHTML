@@ -4,7 +4,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const { mapToTemplate } = require('./../actions/exports')
 const scrollToHash = require('./../actions/scrollToHash')
 
-module.exports = (node) => {
+export default (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')
   const ajaxIcon = document.querySelector(ajaxIconSelector)
   if (ajaxIcon) {

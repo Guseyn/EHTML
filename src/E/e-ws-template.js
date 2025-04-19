@@ -3,7 +3,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const evaluateStringWithActionsOnOpenConnection = require('./../evaluateStringWithActionsOnOpenConnection')
 const evaluateStringWithActionsOnCloseConnection = require('./../evaluateStringWithActionsOnCloseConnection')
 
-module.exports = (node) => {
+export default (node) => {
   if (!node.hasAttribute('data-src')) {
     throw new Error('e-ws must have "data-src" attribute')
   }

@@ -1,4 +1,4 @@
-module.exports = (node) => {
+export default (node) => {
   node.name = node.getAttribute('name')
   node.value = () => {
     return sessionStorage.getItem(
