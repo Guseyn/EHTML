@@ -1,4 +1,4 @@
-module.exports = (node) => {
+export default (node) => {
   const button = replaceWithButton(node)
   initGighubOauth(button)
 }

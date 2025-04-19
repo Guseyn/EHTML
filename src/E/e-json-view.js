@@ -5,7 +5,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const prettyHtml = require('json-pretty-html').default
 const scrollToHash = require('./../actions/scrollToHash')
 
-module.exports = (node) => {
+export default (node) => {
   if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
       node.getAttribute('data-actions-on-progress-start'),

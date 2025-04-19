@@ -14,7 +14,7 @@ if (!LIGHT_VERSION) {
   showdownKatex = require('showdown-katex')
 }
 
-module.exports = (node) => {
+export default (node) => {
   const extensions = window.__ehtmlShowdownExtensions__ || []
   if (node.getAttribute('data-apply-code-highlighting') && showdownHighlight) {
     extensions.push(

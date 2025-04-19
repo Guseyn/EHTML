@@ -1,6 +1,6 @@
 const elm = require('./../elm')
 
-function addTextInto (elmSelectorOrElm, txt) {
+export default function addTextInto (elmSelectorOrElm, txt) {
   elm(elmSelectorOrElm).textContent += txt
 }
 

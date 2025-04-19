@@ -4,7 +4,7 @@ const evaluateStringWithActionsOnProgress = require('./../evaluateStringWithActi
 const unwrappedChildrenOfParent = require('./../unwrappedChildrenOfParent')
 const scrollToHash = require('./../actions/scrollToHash')
 
-module.exports = (node) => {
+export default (node) => {
   if (node.hasAttribute('data-actions-on-progress-start')) {
     evaluateStringWithActionsOnProgress(
       node.getAttribute('data-actions-on-progress-start'),

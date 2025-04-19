@@ -1,6 +1,6 @@
-const mapToTemplate = require('./../actions/mapToTemplate')
+import mapToTemplate from 'actions/mapToTemplate'
 
-module.exports = (node) => {
+export default (node) => {
   if (!node.hasAttribute('data-item-name')) {
     throw new Error('<template is="e-for-each"> must contain attribute "data-item-name"')
   }

@@ -1,6 +1,6 @@
 const scrollToHash = require('./../actions/scrollToHash')
 
-module.exports = (node) => {
+export default (node) => {
   const urlPattern = node.getAttribute('data-url-pattern')
   window.urlParams = constructedUrlParams(urlPattern, window.location)
   node.parentNode.replaceChild(

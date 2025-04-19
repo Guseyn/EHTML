@@ -1,6 +1,6 @@
-const evaluatedStringWithParamsFromState = require('./../evaluatedStringWithParamsFromState')
+import evaluatedStringWithParamsFromState from 'evaluatedStringWithParamsFromState'
 
-module.exports = (node) => {
+export default (node) => {
   node.style.display = 'none'
   node.name = node.getAttribute('name')
   node.value = () => {
