@@ -4,11 +4,9 @@
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "scripts": {
-    "lint": "node lint",
-    "build": "node build",
-    "build:light": "LIGHT_MODE=true node build",
-    "build:all": "npm run build && npm run build:light",
-    "examples": "node examples/server"
+    "lint": "eslint src/ examples/js --ext .js",
+    "examples": "node examples/server",
+    "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml"
   },
   "repository": {
     "type": "git",
@@ -30,19 +28,11 @@
     "url": "https://github.com/Guseyn/EHTML/issues"
   },
   "homepage": "https://github.com/Guseyn/EHTML#readme",
-  "dependencies": {
-    "json-pretty-html": "^1.1.6",
-    "showdown": "^1.9.1",
-    "showdown-highlight": "^3.1.0",
-    "showdown-katex": "^0.8.0",
-    "ws": "^8.15.0"
-  },
   "devDependencies": {
     "@cuties/fs": "^1.2.4",
     "@cuties/spawn": "^1.0.2",
     "@cuties/wall": "^1.1.2",
     "axios": "^1.6.2",
-    "esbuild": "0.20.2",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
@@ -50,6 +40,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
-    "test-executor": "^1.2.4"
+    "test-executor": "^1.2.4",
+    "ws": "^8.15.0"
   }
 }
