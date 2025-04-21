@@ -1,4 +1,4 @@
-import { Showdown as showdown } from 'ehtml/third-party/showdown'
+import * as showdown from 'ehtml/third-party/showdown'
 
 export default function (name, extensionFunction) {
   showdown.extension(name, extensionFunction)

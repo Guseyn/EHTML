@@ -3,9 +3,9 @@ import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent'
 import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
 import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
 import scrollToHash from 'ehtml/actions/scrollToHash'
-import { Showdown as showdown } from 'ehtml/third-party/showdown'
-const showdownHighlight = await import('ehtml/third-party/showdown-highlight')
-const showdownKatex = await import('ehtml/third-party/showdown-katex')
+import * as showdown from 'ehtml/third-party/showdown'
+import * as showdownHighlight from 'ehtml/third-party/showdown-highlight'
+import * as showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'
 
 export default (node) => {
   const extensions = window.__ehtmlShowdownExtensions__ || []
