@@ -11,7 +11,6 @@ window.__ehtmlShowdownExtensions__ = window.__ehtmlShowdownExtensions__ || []
 window.ehtmlMutationObserver = new MutationObserver(
   (mutationsList, observer) => {
     for (let mutation of mutationsList) {
-      console.log(mutation)
       if (mutation.type === 'childList') {
         for (let i = 0; i < mutation.addedNodes.length; i++) {
           const node = mutation.addedNodes[i]
@@ -29,3 +28,6 @@ turnEhtmlMutationObserverOn(
 window.turnEhtmlMutationObserverOn = turnEhtmlMutationObserverOn
 window.turnEhtmlMutationObserverOff = turnEhtmlMutationObserverOff
 window.registerShowdownExtension = registerShowdownExtension
+
+// Trigger Mutations for the very first time
+document.body.innerHTML += '<!-- Comment to trigger mutation for the very first time -->'
