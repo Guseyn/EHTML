@@ -1,7 +1,7 @@
 import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
 import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
 import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import mapToTemplate from 'ehtml/actions/exports'
+import mapToTemplate from 'ehtml/actions/mapToTemplate'
 import scrollToHash from 'ehtml/actions/scrollToHash'
 
 export default (node) => {
