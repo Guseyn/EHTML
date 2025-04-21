@@ -3,7 +3,10 @@ import nodeIsNotForEHTML from 'ehtml/nodeIsNotForEHTML'
 import observeNodeAttributes from 'ehtml/observeNodeAttributes'
 import nodeName from 'ehtml/nodeName'
 
+console.log(E)
+
 export default (node) => {
+  console.log('!!!!!!!!!!!!!!!')
   if (!node.isNotForEHTML && nodeIsNotForEHTML(node)) {
     node.isNotForEHTML = true
   }
@@ -14,6 +17,7 @@ export default (node) => {
   if (!node.observedByEHTML && !node.isNotForEHTML) {
     node.observedByEHTML = true
     const nodeNameValue = nodeName(node)
+    console.log('!!!!!!!!!!!!!!', E[nodeNameValue])
     if (E[nodeNameValue]) {
       if (!node.activatedByEHTML) {
         node.activatedByEHTML = true
