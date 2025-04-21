@@ -1,6 +1,6 @@
 import * as katex from 'ehtml/third-party/katex/katex';
 import * as renderMathInElement from 'ehtml/third-party/katex/auto-render';
-import showdown from 'ehtml/third-party/showdown';
+import * as showdown from 'ehtml/third-party/showdown';
 import * as asciimathToTex from 'ehtml/third-party/showdown-katex/asciimath-to-tex';
 
 /**

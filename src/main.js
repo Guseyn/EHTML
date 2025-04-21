@@ -11,6 +11,7 @@ window.__ehtmlShowdownExtensions__ = window.__ehtmlShowdownExtensions__ || []
 window.ehtmlMutationObserver = new MutationObserver(
   (mutationsList, observer) => {
     for (let mutation of mutationsList) {
+      console.log(mutation)
       if (mutation.type === 'childList') {
         for (let i = 0; i < mutation.addedNodes.length; i++) {
           const node = mutation.addedNodes[i]
@@ -28,11 +29,3 @@ turnEhtmlMutationObserverOn(
 window.turnEhtmlMutationObserverOn = turnEhtmlMutationObserverOn
 window.turnEhtmlMutationObserverOff = turnEhtmlMutationObserverOff
 window.registerShowdownExtension = registerShowdownExtension
-
-export default {
-  __ehtmlState__,
-  __ehtmlCustomElements__,
-  __ehtmlShowdownExtensions__,
-  ehtmlMutationObserver,
-  actions
-}
