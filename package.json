@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint src/ examples/js --ext .js",
     "examples": "node examples/server",
-    "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml"
+    "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
+    "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html"
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,6 @@
   },
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "devDependencies": {
-    "@cuties/fs": "^1.2.4",
-    "@cuties/spawn": "^1.0.2",
-    "@cuties/wall": "^1.1.2",
     "axios": "^1.6.2",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",

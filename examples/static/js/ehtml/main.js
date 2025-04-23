@@ -29,5 +29,6 @@ window.turnEhtmlMutationObserverOn = turnEhtmlMutationObserverOn
 window.turnEhtmlMutationObserverOff = turnEhtmlMutationObserverOff
 window.registerShowdownExtension = registerShowdownExtension
 
-// Trigger Mutations for the very first time
-document.body.innerHTML += '<!-- Comment to trigger mutation for the very first time -->'
+window.addEventListener('load', () => {
+  observeNodeWithItsChildNodes(document)
+})
