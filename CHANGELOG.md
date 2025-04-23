@@ -1,7 +1,10 @@
-# Release 2.0.2
+# Release 2.0.3
 
-2e166c8 update version in package.json to 2.0.2 (guseyn, Wed Apr 23 23:55:32 2025 +0400)
-9e9e0b7 fix hljs error (guseyn, Wed Apr 23 23:55:20 2025 +0400)
+ef44db7 update version in package.json to 2.0.3 (guseyn, Thu Apr 24 03:46:34 2025 +0400)
+7ee4c4f fix asciimathToTex import (guseyn, Thu Apr 24 03:43:50 2025 +0400)
+fc6954c 2.0.2 (guseyn, Wed Apr 23 23:55:32 2025 +0400)
+5d3ec11 update version in package.json to 2.0.2 (guseyn, Wed Apr 23 23:55:32 2025 +0400)
+70bee12 fix hljs error (guseyn, Wed Apr 23 23:55:20 2025 +0400)
 5fada46 2.0.1 (guseyn, Wed Apr 23 23:36:03 2025 +0400)
 3906135 update version in package.json to 2.0.1 (guseyn, Wed Apr 23 23:36:03 2025 +0400)
 66d24be improve one more (guseyn, Wed Apr 23 23:09:28 2025 +0400)
