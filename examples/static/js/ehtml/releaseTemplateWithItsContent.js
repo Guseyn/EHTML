@@ -1,6 +1,6 @@
 import isTemplateWithType from 'ehtml/isTemplateWithType'
 
-export default (template, contentNode) => {
+export default function (template, contentNode) {
   if (isTemplateWithType(template, 'e-reusable')) {
     if (template.hasAttribute('data-prepend-to')) {
       const parentNode = document.querySelector(template.getAttribute('data-prepend-to'))
