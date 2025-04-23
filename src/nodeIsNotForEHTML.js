@@ -1,4 +1,4 @@
-export default (node) => {
+export default function (node) {
   if (node.parentElement && node.parentElement.closest('[data-no-ehtml="true"]')) {
     return true
   }

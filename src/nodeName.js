@@ -2,7 +2,7 @@ import isTemplateWithTypeExclusively from 'ehtml/isTemplateWithTypeExclusively'
 import isTemplateWithType from 'ehtml/isTemplateWithType'
 import isTemplate from 'ehtml/isTemplate'
 
-export default (node) => {
+export default function (node) {
   if (isTemplateWithType(node, 'e-json')) {
     return 'e-json-template'
   }

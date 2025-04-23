@@ -1,6 +1,6 @@
 const pattern = /\${([^}]+)}/g
 
-export default (string, state, node) => {
+export default function (string, state, node) {
   if (!string) {
     return null
   }

@@ -4,7 +4,7 @@
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/ examples/js --ext .js",
+    "lint": "eslint src/ examples/static/js --ext .js --fix",
     "examples": "node examples/server",
     "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
     "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html"
