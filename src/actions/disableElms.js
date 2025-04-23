@@ -1,4 +1,4 @@
-import elm from 'ehtml/elm'
+import elms from 'ehtml/elms'
 
 export default function disableElms (...elmSelectors) {
   elmSelectors.forEach(elmSelector => {

@@ -1,4 +1,4 @@
-import elms from 'ehtml/elms'
+import elm from 'ehtml/elm'
 
 export default function updateAttributeOf (elmSelectorOrElm, attrName, attrValue) {
   elm(elmSelectorOrElm).setAttribute(attrName, attrValue)
