@@ -45,7 +45,7 @@
 		"ehtml/actions/updateAttributeOf": "/js/ehtml/actions/updateAttributeOf.js",
 		"ehtml/actions/exports": "/js/ehtml/actions/exports.js",
 
-    	"ehtml/third-party/katex/auto-render": "/js/ehtml/third-party/katex/auto-render.js",
+    "ehtml/third-party/katex/auto-render": "/js/ehtml/third-party/katex/auto-render.js",
 		"ehtml/third-party/katex/katex": "/js/ehtml/third-party/katex/katex.min.js",
 		"ehtml/third-party/showdown-katex/showdown-katex": "/js/ehtml/third-party/showdown-katex/showdown-katex.js",
 		"ehtml/third-party/showdown-katex/asciimath-to-tex": "/js/ehtml/third-party/showdown-katex/asciimath-to-tex.min.js",

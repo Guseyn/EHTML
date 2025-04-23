@@ -76,7 +76,7 @@ const merge = function(options, defaults) {
 
 // Modified version of `ucs2encode`; see https://mths.be/punycode.
 const codePointToSymbol = function(codePoint, strict) {
-  const output = ''
+  let output = ''
   if ((codePoint >= 0xD800 && codePoint <= 0xDFFF) || codePoint > 0x10FFFF) {
     // See issue #4:
     // “Otherwise, if the number is in the range 0xD800 to 0xDFFF or is
