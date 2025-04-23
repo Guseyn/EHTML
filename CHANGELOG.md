@@ -1,6 +1,9 @@
-# Release 2.0.1
+# Release 2.0.2
 
-869d1e3 update version in package.json to 2.0.1 (guseyn, Wed Apr 23 23:36:03 2025 +0400)
+2e166c8 update version in package.json to 2.0.2 (guseyn, Wed Apr 23 23:55:32 2025 +0400)
+9e9e0b7 fix hljs error (guseyn, Wed Apr 23 23:55:20 2025 +0400)
+5fada46 2.0.1 (guseyn, Wed Apr 23 23:36:03 2025 +0400)
+3906135 update version in package.json to 2.0.1 (guseyn, Wed Apr 23 23:36:03 2025 +0400)
 66d24be improve one more (guseyn, Wed Apr 23 23:09:28 2025 +0400)
 54b3892 improve one more (guseyn, Wed Apr 23 23:08:49 2025 +0400)
 abd76d2 improve code (guseyn, Wed Apr 23 23:07:23 2025 +0400)
