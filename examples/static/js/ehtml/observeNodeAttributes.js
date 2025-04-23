@@ -26,7 +26,7 @@ const TAGS_WITH_SRC_ATTRIBUTE = [
   'midi-player'
 ]
 
-export default (node, state) => {
+export default function (node, state) {
   if (node.attributes) {
     const nodeAttributes = Array.from(node.attributes)
     for (let i = 0; i < nodeAttributes.length; i++) {

@@ -1,4 +1,4 @@
-export default (string, resName, resObj, node) => {
+export default function (string, resName, resObj, node) {
   // Create a dynamic function string to define the resource name
   const dynamicFunctionBody = `
     const thisElement = node

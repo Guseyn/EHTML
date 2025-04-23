@@ -1,6 +1,6 @@
 import isTemplate from 'ehtml/isTemplate'
 
-export default (node, type) => {
+export default function (node, type) {
   if (isTemplate(node)) {
     const templateType = node.getAttribute('is')
     if (templateType) {
