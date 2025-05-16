@@ -1,5 +1,7 @@
-# Release 2.0.6
+# Release 2.0.7
 
+bc1ca48 update version in package.json to 2.0.7 (guseyn, Sat May 17 00:22:51 2025 +0400)
+bb29964 2.0.6 (guseyn, Sat May 17 00:22:46 2025 +0400)
 1548187 update version in package.json to 2.0.6 (guseyn, Sat May 17 00:22:46 2025 +0400)
 9b420ca remove usused dep (guseyn, Sat May 17 00:21:30 2025 +0400)
 d9c748c 2.0.6 (guseyn, Sat May 17 00:20:58 2025 +0400)
