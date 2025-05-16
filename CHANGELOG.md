@@ -1,4 +1,5 @@
-# Release 2.0.4
+# Release 2.0.5
 
-9ab5a3f update version in package.json to 2.0.4 (guseyn, Thu Apr 24 12:54:45 2025 +0400)
-029d110 fix font in katex (guseyn, Thu Apr 24 12:54:43 2025 +0400)
+0677281 update version in package.json to 2.0.5 (guseyn, Sat May 17 00:19:15 2025 +0400)
+01bd896 use string replacement for light mode (guseyn, Sat May 17 00:18:48 2025 +0400)
+603381a back to bundle (guseyn, Fri May 16 21:19:00 2025 +0400)
