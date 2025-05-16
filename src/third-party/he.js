@@ -51,7 +51,7 @@ const has = function(object, propertyName) {
 }
 
 const contains = function(array, value) {
-  const index = -1
+  let index = -1
   const length = array.length
   while (++index < length) {
     if (array[index] == value) {

@@ -4,8 +4,17 @@ import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsF
 import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
 import scrollToHash from 'ehtml/actions/scrollToHash'
 import * as showdown from 'ehtml/third-party/showdown'
-import showdownHighlight from 'ehtml/third-party/showdown-highlight'
-import showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'
+
+const MODE = typeof _EHTML_MODE_ !== 'undefined'
+  ? _EHTML_MODE_
+  : 'NORMAL'
+
+let showdownHighlight
+let showdownKatex
+if (MODE === 'NORMAL') {
+  showdownHighlight = (await import('ehtml/third-party/showdown-highlight')).default
+  showdownKatex = (await import('ehtml/third-party/showdown-katex/showdown-katex')).default
+}
 
 export default (node) => {
   const extensions = window.__ehtmlShowdownExtensions__ || []

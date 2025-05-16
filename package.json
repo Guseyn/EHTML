@@ -3,11 +3,13 @@
   "version": "2.0.4",
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint src/ examples/static/js --ext .js --fix",
     "examples": "node examples/server",
     "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
-    "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html"
+    "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html",
+    "ehtml:bundle": "node bundle.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,8 @@
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "devDependencies": {
     "axios": "^1.6.2",
+    "esbuild": "^0.25.4",
+    "esbuild-plugin-import-map": "^2.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
@@ -38,6 +42,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
+    "fast-glob": "^3.3.3",
     "test-executor": "^1.2.4",
     "ws": "^8.15.0"
   }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { promises: fs } = require('fs')
-const path = require('path')
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
 async function getHtmlFiles(dir) {
   let results = []
