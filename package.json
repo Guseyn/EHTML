@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint src/ examples/static/js --ext .js --fix",
+    "lint": "eslint src/ examples/static/js/ehtml --ext .js --fix",
     "examples": "node examples/server",
     "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
     "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html",
