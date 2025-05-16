@@ -1,7 +1,54 @@
 import path from 'node:path'
-import { copyFile, readdir, stat } from 'node:fs/promises';
+import { copyFile, readdir, stat, readFile } from 'node:fs/promises'
 import { build } from 'esbuild'
 import glob from 'fast-glob'
+
+const dynamicImportsByFiles = {
+  'src/E/e-markdown.js': (contents) => {
+    if (
+      contents.includes("import showdownHighlight from 'ehtml/third-party/showdown-highlight'") &&
+      contents.includes("import showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'")
+    ) {
+      contents = contents.replace(
+`import showdownHighlight from 'ehtml/third-party/showdown-highlight'
+import showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'`,
+`
+let showdownHighlight = null
+let showdownKatex = null
+if (typeof _EHTML_MODE_ === 'string' && _EHTML_MODE_ === 'NORMAL') {
+  const [highlight, katex] = await Promise.all([
+    import('ehtml/third-party/showdown-highlight'),
+    import('ehtml/third-party/showdown-katex/showdown-katex')
+  ])
+
+  showdownHighlight = highlight.default
+  showdownKatex = katex.default
+}`
+      )
+      return contents
+    }
+  }
+}
+
+const replaceStaticImports = {
+  name: 'replace-optional-markdown-imports',
+  setup(build) {
+    build.onLoad({ filter: /\.js$/ }, async (args) => {
+      let contents = await readFile(args.path, 'utf8')
+
+      const fileKey = args.path.split('EHTML/')[1]
+
+      if (dynamicImportsByFiles[fileKey]) {
+        contents = dynamicImportsByFiles[fileKey](contents)
+      }
+
+      return {
+        contents,
+        loader: 'js',
+      }
+    })
+  }
+}
 
 const baseDir = path.resolve('./src')
 
@@ -46,7 +93,8 @@ await build({
   sourcemap: true,
   define: {
     '_EHTML_MODE_': '"NORMAL"'
-  }
+  },
+  plugins: [replaceStaticImports]
 })
 
 await build({
@@ -69,7 +117,8 @@ await build({
   ],
   define: {
     '_EHTML_MODE_': '"LIGHT"'
-  }
+  },
+  plugins: [replaceStaticImports]
 })
 
 await copyFile('dist/ehtml.min.js', './examples/static/js/ehtml.min.js')
