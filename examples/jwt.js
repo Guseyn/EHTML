@@ -1,28 +1,27 @@
-const crypto = require('crypto')
+import crypto from 'node:crypto';
 
-module.exports = {
-  payloadWithExpiration: (payload, minutesFromNow) => {
-    const payloadWithExpiration = Object.assign({}, payload)
-    let date = new Date()
-    date.setMinutes(date.getMinutes() + minutesFromNow)
-    payloadWithExpiration.exp = date.getTime()
-    return payloadWithExpiration
-  },
+export const payloadWithExpiration = (payload, minutesFromNow) => {
+  const payloadWithExpiration = { ...payload };
+  const date = new Date();
+  date.setMinutes(date.getMinutes() + minutesFromNow);
+  payloadWithExpiration.exp = date.getTime();
+  return payloadWithExpiration;
+};
 
-  base64UrlEncodeJSON: (json) => {
-    return Buffer.from(
-      JSON.stringify(json)
-    ).toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-  },
+export const base64UrlEncodeJSON = (json) => {
+  return Buffer.from(JSON.stringify(json))
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, ''); // Optional: Remove padding if needed
+};
 
-  generateSignature: (str, secret) => {
-    return crypto
-      .createHmac('sha256', secret)
-      .update(str)
-      .digest('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-  }
-}
+export const generateSignature = (str, secret) => {
+  return crypto
+    .createHmac('sha256', secret)
+    .update(str)
+    .digest('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, ''); // Optional: Remove padding if needed
+};

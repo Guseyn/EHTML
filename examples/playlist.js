@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'title': 'My playlist ♥',
   'photo': '/images/guitar.svg',
   'songs': [

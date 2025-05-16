@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'John': {
     'photo': '/../images/John.svg',
     'name': 'John',
@@ -15,4 +15,4 @@ module.exports = {
     'country': 'Australia',
     'profession': 'race driver'
   }
-}
+};
