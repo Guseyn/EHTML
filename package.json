@@ -1,6 +1,6 @@
 {
   "name": "ehtml",
-  "version": "2.0.6",
+  "version": "2.0.5",
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "type": "module",
@@ -34,7 +34,6 @@
   "devDependencies": {
     "axios": "^1.6.2",
     "esbuild": "^0.25.4",
-    "esbuild-plugin-import-map": "^2.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
