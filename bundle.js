@@ -12,25 +12,15 @@ const dynamicImportsByFiles = {
       contents = contents.replace(
 `import showdownHighlight from 'ehtml/third-party/showdown-highlight'
 import showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'`,
-`
-let showdownHighlight = null
-let showdownKatex = null
-if (typeof _EHTML_MODE_ === 'string' && _EHTML_MODE_ === 'NORMAL') {
-  const [highlight, katex] = await Promise.all([
-    import('ehtml/third-party/showdown-highlight'),
-    import('ehtml/third-party/showdown-katex/showdown-katex')
-  ])
-
-  showdownHighlight = highlight.default
-  showdownKatex = katex.default
-}`
+`const showdownHighlight = null
+const showdownKatex = null`
       )
       return contents
     }
   }
 }
 
-const replaceStaticImports = {
+const removeStaticImports = {
   name: 'replace-optional-markdown-imports',
   setup(build) {
     build.onLoad({ filter: /\.js$/ }, async (args) => {
@@ -91,10 +81,8 @@ await build({
   alias,
   minify: false,
   sourcemap: true,
-  define: {
-    '_EHTML_MODE_': '"NORMAL"'
-  },
-  plugins: [replaceStaticImports]
+  define: {},
+  plugins: []
 })
 
 await build({
@@ -115,10 +103,8 @@ await build({
     './src/third-party/showdown-katex/asciimath-to-tex.min.js',
     './src/third-party/showdown-katex/showdown-katex.js',
   ],
-  define: {
-    '_EHTML_MODE_': '"LIGHT"'
-  },
-  plugins: [replaceStaticImports]
+  define: {},
+  plugins: [removeStaticImports]
 })
 
 await copyFile('dist/ehtml.min.js', './examples/static/js/ehtml.min.js')
