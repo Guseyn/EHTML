@@ -18,12 +18,15 @@ const VALIDATION_PATTERNS = {
 
 export default (node) => {
   const form = replaceWithForm(node)
-  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
+  if (!node.hasAttribute('data-setup-form-manually')) {
     setupForm(form)
+  }
+  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
     if (form.hasAttribute('data-request-url')) {
       submit(form, true)
     }
   })
+  form.setupForm = setupForm
 }
 
 function replaceWithForm (node) {
