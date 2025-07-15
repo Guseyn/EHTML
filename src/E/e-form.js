@@ -24,7 +24,6 @@ export default (node) => {
       submit(form, true)
     }
   })
-  form.setupForm = setupForm
 }
 
 function replaceWithForm (node) {
