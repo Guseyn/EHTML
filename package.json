@@ -1,6 +1,6 @@
 {
   "name": "ehtml",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "HTML Framework that allows you write no JavaScript code at all.",
   "main": "index.js",
   "type": "module",
