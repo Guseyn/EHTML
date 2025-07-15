@@ -1,4 +1,4 @@
-# Release 2.0.13
+# Release 2.0.14
 
-e8cd2fb update version in package.json to 2.0.13 (guseyn, Tue Jul 15 18:35:32 2025 +0400)
-de99056 revert one line (guseyn, Tue Jul 15 18:35:30 2025 +0400)
+36b64de update version in package.json to 2.0.14 (guseyn, Tue Jul 15 23:51:30 2025 +0400)
+e4fff1c data-setup-form-manually (guseyn, Tue Jul 15 23:51:25 2025 +0400)
