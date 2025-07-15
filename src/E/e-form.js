@@ -432,6 +432,9 @@ function validateFormElement (form, element, requestBody, queryObject) {
     }
   }
   if (validationPatternAttribute) {
+    if (value === '' && !requiredAttribute) {
+      return true
+    }
     const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
     if (!validationPattern.test(value)) {
       showErrorForFormElement(
