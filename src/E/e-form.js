@@ -18,12 +18,13 @@ const VALIDATION_PATTERNS = {
 
 export default (node) => {
   const form = replaceWithForm(node)
-  setupForm(form)
   form.addEventListener('allChildNodesAreObservedByEHTML', () => {
+    setupForm(form)
     if (form.hasAttribute('data-request-url')) {
       submit(form, true)
     }
   })
+  form.setupForm = setupForm
 }
 
 function replaceWithForm (node) {
@@ -108,7 +109,7 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
     }
   }
   reader.onprogress = (event) => {
-    if (event.lengthComputable) {
+    if (event.lengthComputable && readProgressBar) {
       readProgressBar.style.display = ''
       const percentComplete = parseInt((event.loaded / event.total) * 100)
       readProgressBar.value = percentComplete
@@ -116,10 +117,12 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
   }
   reader.onloadend = () => {
     filesRead.count += 1
-    if (filesRead.count === filesLength) {
-      readProgressBar.style.display = 'none'
-    } else {
-      readProgressBar.value = 0
+    if (readProgressBar) {
+      if (filesRead.count === filesLength) {
+        readProgressBar.style.display = 'none'
+      } else {
+        readProgressBar.value = 0
+      }
     }
   }
   reader.onerror = function () {
