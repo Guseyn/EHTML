@@ -1,5 +1,4 @@
-# Release 2.0.9
+# Release 2.0.10
 
-d40f8a1 update version in package.json to 2.0.9 (guseyn, Sat May 17 14:02:40 2025 +0400)
-b962633 simplify light version bundling (guseyn, Sat May 17 14:02:26 2025 +0400)
-981c44a add more examples (guseyn, Sat May 17 00:49:31 2025 +0400)
+eb00c9a update version in package.json to 2.0.10 (guseyn, Tue Jul 15 11:17:21 2025 +0400)
+0e30363 empty non required fields in e-form are valid (guseyn, Tue Jul 15 11:17:02 2025 +0400)
