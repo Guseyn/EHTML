@@ -1,4 +1,4 @@
-# Release 2.0.16
+# Release 2.0.17
 
-a47416e update version in package.json to 2.0.16 (guseyn, Wed Jul 16 13:41:36 2025 +0400)
-9efd26b update onsubmit (guseyn, Wed Jul 16 13:41:33 2025 +0400)
+e18f40d update version in package.json to 2.0.17 (guseyn, Wed Jul 16 13:42:09 2025 +0400)
+c12d1e1 update bundles (guseyn, Wed Jul 16 13:42:07 2025 +0400)
