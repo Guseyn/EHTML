@@ -39,10 +39,10 @@ function replaceWithForm (node) {
       node.attributes[i].value
     )
   }
-  onsubmit = () => {
+  const onsubmit = () => {
     return false
   }
-  form.submit = submit
+  form.submit = onsubmit
   form.validationErrorBoxes = []
   form.elementsWithValidationError = []
   while (node.firstChild) {
