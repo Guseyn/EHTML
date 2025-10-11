@@ -8,9 +8,11 @@ import releaseTemplateWithItsContent from 'ehtml/releaseTemplateWithItsContent'
 export default function mapToTemplate (elmSelectorOrElm, obj) {
   const mappingElement = elm(elmSelectorOrElm)
   if (mappingElement === null || mappingElement === undefined) {
+    console.log(elmSelectorOrElm, mappingElement, obj)
     throw new Error('Mapping element is not found')
   }
   if (!isTemplate(mappingElement)) {
+    console.log(elmSelectorOrElm, mappingElement, obj)
     throw new Error('Mapping element must be <template>')
   }
   if (isTemplateWithType(mappingElement, 'e-if')) {

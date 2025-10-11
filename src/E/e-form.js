@@ -18,11 +18,11 @@ const VALIDATION_PATTERNS = {
 
 export default (node) => {
   const form = replaceWithForm(node)
-  if (!node.hasAttribute('data-setup-form-manually')) {
+  if (!node.hasAttribute('data-setup-form-manually') || node.getAttribute('data-setup-form-manually') === 'false') {
     setupForm(form)
   }
   form.addEventListener('allChildNodesAreObservedByEHTML', () => {
-    if (form.hasAttribute('data-request-url')) {
+    if (form.hasAttribute('data-request-url') || form.hasAttribute('data-socket')) {
       submit(form, true)
     }
   })
@@ -187,12 +187,14 @@ function urlWithQueryParams (url, queryObject) {
     queryStringBuffer.push(`${key}=${value}`)
   }
   if (queryStringBuffer.length > 0) {
-    return encodeURI(`${url}?${queryStringBuffer.join('&')}`)
+    return `${url}?${queryStringBuffer.join('&')}`
   }
-  return encodeURI(url)
+  return url
 }
 
 function submit (target, targetIsForm) {
+
+
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -558,7 +560,7 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     const valueIsForQueryObject = input.hasAttribute('data-is-query-param')
     const obj = valueIsForQueryObject ? queryObject : requestBody
     if (!input.name) {
-      throw new Error(`input ${input} has no name`)
+      continue
     }
     if (input.type.toLowerCase() === 'radio') {
       if (input.checked) {
