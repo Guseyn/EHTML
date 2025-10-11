@@ -14,10 +14,15 @@ export default function (string, state, node) {
         return (${inlinedExpression});
       }
     `)
-    const evaluationResult = func(state, node)
-    if (typeof evaluationResult === 'object') {
-      return JSON.stringify(evaluationResult)
+    try {
+      const evaluationResult = func(state, node)
+      if (typeof evaluationResult === 'object') {
+        return JSON.stringify(evaluationResult)
+      }
+      return evaluationResult
+    } catch (err) {
+      console.error(`Expression ${inlinedExpression} fails:`)
+      throw err
     }
-    return evaluationResult
   })
 }

@@ -18,12 +18,15 @@ const VALIDATION_PATTERNS = {
 
 export default (node) => {
   const form = replaceWithForm(node)
-  setupForm(form)
+  if (!node.hasAttribute('data-setup-form-manually') || node.getAttribute('data-setup-form-manually') === 'false') {
+    setupForm(form)
+  }
   form.addEventListener('allChildNodesAreObservedByEHTML', () => {
-    if (form.hasAttribute('data-request-url')) {
+    if (form.hasAttribute('data-request-url') || form.hasAttribute('data-socket')) {
       submit(form, true)
     }
   })
+  form.setupForm = setupForm
 }
 
 function replaceWithForm (node) {
@@ -36,10 +39,9 @@ function replaceWithForm (node) {
       node.attributes[i].value
     )
   }
-  onsubmit = () => {
+  window.onsubmit = () => {
     return false
   }
-  form.submit = submit
   form.validationErrorBoxes = []
   form.elementsWithValidationError = []
   while (node.firstChild) {
@@ -108,7 +110,7 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
     }
   }
   reader.onprogress = (event) => {
-    if (event.lengthComputable) {
+    if (event.lengthComputable && readProgressBar) {
       readProgressBar.style.display = ''
       const percentComplete = parseInt((event.loaded / event.total) * 100)
       readProgressBar.value = percentComplete
@@ -116,10 +118,12 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
   }
   reader.onloadend = () => {
     filesRead.count += 1
-    if (filesRead.count === filesLength) {
-      readProgressBar.style.display = 'none'
-    } else {
-      readProgressBar.value = 0
+    if (readProgressBar) {
+      if (filesRead.count === filesLength) {
+        readProgressBar.style.display = 'none'
+      } else {
+        readProgressBar.value = 0
+      }
     }
   }
   reader.onerror = function () {
@@ -183,12 +187,14 @@ function urlWithQueryParams (url, queryObject) {
     queryStringBuffer.push(`${key}=${value}`)
   }
   if (queryStringBuffer.length > 0) {
-    return encodeURI(`${url}?${queryStringBuffer.join('&')}`)
+    return `${url}?${queryStringBuffer.join('&')}`
   }
-  return encodeURI(url)
+  return url
 }
 
 function submit (target, targetIsForm) {
+
+
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -432,6 +438,9 @@ function validateFormElement (form, element, requestBody, queryObject) {
     }
   }
   if (validationPatternAttribute) {
+    if (value === '' && !requiredAttribute) {
+      return true
+    }
     const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
     if (!validationPattern.test(value)) {
       showErrorForFormElement(
@@ -551,7 +560,7 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     const valueIsForQueryObject = input.hasAttribute('data-is-query-param')
     const obj = valueIsForQueryObject ? queryObject : requestBody
     if (!input.name) {
-      throw new Error(`input ${input} has no name`)
+      continue
     }
     if (input.type.toLowerCase() === 'radio') {
       if (input.checked) {

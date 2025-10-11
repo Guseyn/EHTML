@@ -1,3 +1,8 @@
+import releaseTemplate from 'ehtml/actions/releaseTemplate'
+
 export default (node) => {
-  // no logic on it's own, we just want to mention that such element exists.
+  const releaseOnLoad = node.getAttribute('release-on-load') === 'true'
+  if (releaseOnLoad) {
+    releaseTemplate(node)
+  }
 }

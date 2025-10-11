@@ -61,8 +61,19 @@ export default function (node, state) {
         node.removeAttribute('data-text')
         continue
       }
+      if (node.tagName.toLowerCase() === 'input' && node.getAttribute('type') === 'checkbox' && attr.name === 'data-checked') {
+        if (attr.value === 'true') {
+          node.setAttribute('checked', 'checked')
+        }
+        node.removeAttribute('data-checked')
+        continue
+      }
       if (attr.name === 'data-value') {
-        node.value = attr.value
+        if (node.tagName.toLowerCase() === 'input' && node.getAttribute('type') === 'number') {
+          node.value = attr.value * 1
+        } else {
+          node.value = attr.value
+        }
         node.removeAttribute('data-value')
         continue
       }
