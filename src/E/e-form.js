@@ -1,7 +1,6 @@
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import evaluateStringWithActionsOnResponse from 'ehtml/evaluateStringWithActionsOnResponse'
+const responseFromAjaxRequest = require('./../responseFromAjaxRequest')
+const evaluatedStringWithParams = require('./../evaluatedStringWithParams')
+const evaluateStringWithActionsOnResponse = require('./../evaluateStringWithActionsOnResponse')
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,
@@ -16,17 +15,12 @@ const VALIDATION_PATTERNS = {
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
-export default (node) => {
+module.exports = (node) => {
   const form = replaceWithForm(node)
-  if (!node.hasAttribute('data-setup-form-manually') || node.getAttribute('data-setup-form-manually') === 'false') {
-    setupForm(form)
+  setupForm(form)
+  if (form.hasAttribute('data-request-url')) {
+    form.submit(form, true)
   }
-  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
-    if (form.hasAttribute('data-request-url') || form.hasAttribute('data-socket')) {
-      submit(form, true)
-    }
-  })
-  form.setupForm = setupForm
 }
 
 function replaceWithForm (node) {
@@ -39,9 +33,10 @@ function replaceWithForm (node) {
       node.attributes[i].value
     )
   }
-  window.onsubmit = () => {
+  onsubmit = () => {
     return false
   }
+  form.submit = submit
   form.validationErrorBoxes = []
   form.elementsWithValidationError = []
   while (node.firstChild) {
@@ -110,7 +105,7 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
     }
   }
   reader.onprogress = (event) => {
-    if (event.lengthComputable && readProgressBar) {
+    if (event.lengthComputable) {
       readProgressBar.style.display = ''
       const percentComplete = parseInt((event.loaded / event.total) * 100)
       readProgressBar.value = percentComplete
@@ -118,12 +113,10 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
   }
   reader.onloadend = () => {
     filesRead.count += 1
-    if (readProgressBar) {
-      if (filesRead.count === filesLength) {
-        readProgressBar.style.display = 'none'
-      } else {
-        readProgressBar.value = 0
-      }
+    if (filesRead.count === filesLength) {
+      readProgressBar.style.display = 'none'
+    } else {
+      readProgressBar.value = 0
     }
   }
   reader.onerror = function () {
@@ -187,23 +180,18 @@ function urlWithQueryParams (url, queryObject) {
     queryStringBuffer.push(`${key}=${value}`)
   }
   if (queryStringBuffer.length > 0) {
-    return `${url}?${queryStringBuffer.join('&')}`
+    return encodeURI(`${url}?${queryStringBuffer.join('&')}`)
   }
-  return url
+  return encodeURI(url)
 }
 
 function submit (target, targetIsForm) {
-
-
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
   }
   const validations = []
-
-  const socketName = target.getAttribute('data-socket')
-
-  if (!targetIsForm && !socketName) {
+  if (!targetIsForm) {
     target.setAttribute('disabled', 'true')
   }
 
@@ -211,73 +199,38 @@ function submit (target, targetIsForm) {
     target.getAttribute('data-ajax-icon')
   )
 
-  if (ajaxIcon && !socketName) {
+  if (ajaxIcon) {
     ajaxIcon.style.display = 'block'
   }
-  if (target.hasAttribute('data-button-ajax-class') && !targetIsForm && !socketName) {
+  if (target.hasAttribute('data-button-ajax-class') && !targetIsForm) {
     target.classList.add(target.getAttribute('data-button-ajax-class'))
   }
-  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm && !socketName) {
+  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm) {
     target.originalInnerText = target.innerText
     target.innerText = target.getAttribute('data-button-ajax-text')
   }
-
   const { requestBody, queryObject } = requestBodyAndQueryObject(form)
 
   hideAllErrorsForForm(form)
   validateDifferentFormElements(form, requestBody, queryObject, validations)
 
-  form.isValid = false
+  const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
+
+  const uploadProgressBarSelector = target.getAttribute('data-upload-progress-bar')
+  const uploadProgressBar = document.querySelector(uploadProgressBarSelector)
+
+  const progressBarSelector = target.getAttribute('data-progress-bar')
+  const progressBar = document.querySelector(progressBarSelector)
 
   if (isFormValid(form, validations)) {
-    form.isValid = true
-    if (socketName) {
-      if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
-        throw new Error(`socket with name "${socketName}" is not defined or not open yet`)
-      }
-      const socket = window.__ehtmlState__['webSockets'][socketName]
-      if (socket.readyState === WebSocket.OPEN) {
-        const message = JSON.stringify(requestBody)
-        socket.send(message)
-      } else {
-        throw new Error(`socket with name "${socketName}" is not open`)
-      }
-      return
-    }
-
-    const downloadResponseBodyAsFileWithName = target.getAttribute('data-download-response-body-as-file-with-name')
-
-    const uploadProgressBarSelector = target.getAttribute('data-upload-progress-bar')
-    const uploadProgressBar = document.querySelector(uploadProgressBarSelector)
-
-    const progressBarSelector = target.getAttribute('data-progress-bar')
-    const progressBar = document.querySelector(progressBarSelector)
-
-    if (target.hasAttribute('data-actions-on-progress')) {
-      evaluateStringWithActionsOnProgress(
-        target.getAttribute('data-actions-on-progress'),
-        target
-      )
-    }
-
-    if (!target.hasAttribute('data-request-url')) {
-      throw new Error('e-form must have "data-request-url" attribute in the element that submits it')
-    }
-
     responseFromAjaxRequest({
       url: urlWithQueryParams(
-        evaluatedStringWithParamsFromState(
-          target.getAttribute('data-request-url'),
-          target.__ehtmlState__,
-          target
-        ),
+        target.getAttribute('data-request-url'),
         queryObject
       ),
       headers: JSON.parse(
-        evaluatedStringWithParamsFromState(
-          target.getAttribute('data-request-headers'),
-          target.__ehtmlState__,
-          target
+        evaluatedStringWithParams(
+          target.getAttribute('data-request-headers')
         ) || '{}'
       ),
       method: target.getAttribute('data-request-method') || 'POST',
@@ -426,7 +379,7 @@ function validateFormElement (form, element, requestBody, queryObject) {
         throw new Error('checkbox must have \'value\' attribute')
       }
       if (value.indexOf(checkboxValue) === -1) {
-        showErrorForFormElement(
+        form.showErrorForFormElement(
           form,
           element,
           element.getAttribute('data-validation-absence-error-message'),
@@ -438,9 +391,6 @@ function validateFormElement (form, element, requestBody, queryObject) {
     }
   }
   if (validationPatternAttribute) {
-    if (value === '' && !requiredAttribute) {
-      return true
-    }
     const validationPattern = VALIDATION_PATTERNS[validationPatternAttribute] || new RegExp(validationPatternAttribute, 'ig')
     if (!validationPattern.test(value)) {
       showErrorForFormElement(
@@ -560,7 +510,7 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     const valueIsForQueryObject = input.hasAttribute('data-is-query-param')
     const obj = valueIsForQueryObject ? queryObject : requestBody
     if (!input.name) {
-      continue
+      throw new Error(`input ${input} has no name`)
     }
     if (input.type.toLowerCase() === 'radio') {
       if (input.checked) {
@@ -582,6 +532,7 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
     } else if (input.type.toLowerCase() === 'file') {
       obj[input.name] = input.filesInfo
     } else {
+      console.log(input.value)
       obj[input.name] = input.value
     }
   }
