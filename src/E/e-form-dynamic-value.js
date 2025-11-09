@@ -1,4 +1,4 @@
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
 
 export default (node) => {
   node.style.display = 'none'

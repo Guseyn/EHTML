@@ -1,4 +1,4 @@
-import isTemplate from 'ehtml/isTemplate'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
 
 export default function (node, type) {
   if (isTemplate(node)) {

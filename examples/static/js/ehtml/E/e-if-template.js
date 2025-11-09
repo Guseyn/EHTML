@@ -1,4 +1,4 @@
-import evaluatedStringWithParams from 'ehtml/evaluatedStringWithParams'
+import evaluatedStringWithParams from 'ehtml/evaluatedStringWithParams.js'
 
 export default (node) => {
   const toDisplayExpression = node.getAttribute('data-condition-to-display')

@@ -1,8 +1,8 @@
 "use strict"
 
-import he from 'ehtml/third-party/he'
-import * as showdown from 'ehtml/third-party/showdown'
-import hljs from 'ehtml/third-party/highlight'
+import he from 'ehtml/third-party/he.js'
+import * as showdown from 'ehtml/third-party/showdown.min.js'
+import hljs from 'ehtml/third-party/highlight.min.js'
 
 const classAttr = 'class="'
 

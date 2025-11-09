@@ -1,4 +1,4 @@
-import elm from 'ehtml/elm'
+import elm from '#ehtml/elm.js?v=21adcdae'
 
 export default function changeValueOf (elmSelectorOrElm, value) {
   elm(elmSelectorOrElm).value = value

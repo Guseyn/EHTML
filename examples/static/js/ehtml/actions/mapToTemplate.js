@@ -1,9 +1,9 @@
-import elm from 'ehtml/elm'
-import isTemplate from 'ehtml/isTemplate'
-import isTemplateWithType from 'ehtml/isTemplateWithType'
-import observeNodeAttributes from 'ehtml/observeNodeAttributes'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import releaseTemplateWithItsContent from 'ehtml/releaseTemplateWithItsContent'
+import elm from 'ehtml/elm.js'
+import isTemplate from 'ehtml/isTemplate.js'
+import isTemplateWithType from 'ehtml/isTemplateWithType.js'
+import observeNodeAttributes from 'ehtml/observeNodeAttributes.js'
+import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
+import releaseTemplateWithItsContent from 'ehtml/releaseTemplateWithItsContent.js'
 
 export default function mapToTemplate (elmSelectorOrElm, obj) {
   const mappingElement = elm(elmSelectorOrElm)

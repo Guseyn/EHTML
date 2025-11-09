@@ -1,11 +1,11 @@
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
-import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import scrollToHash from 'ehtml/actions/scrollToHash'
-import * as showdown from 'ehtml/third-party/showdown'
-import showdownHighlight from 'ehtml/third-party/showdown-highlight'
-import showdownKatex from 'ehtml/third-party/showdown-katex/showdown-katex'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
+import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=dced24cf'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
+import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
+import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
+import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=500cdc06'
+import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=f059e907'
 
 export default (node) => {
   const extensions = window.__ehtmlShowdownExtensions__ || []

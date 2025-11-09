@@ -1,4 +1,4 @@
-import elms from 'ehtml/elms'
+import elms from '#ehtml/elms.js?v=fcdf76bb'
 
 export default function showElms (...elmSelectors) {
   elmSelectors.forEach(elmSelector => {

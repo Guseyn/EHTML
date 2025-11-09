@@ -1,7 +1,7 @@
-import E from 'ehtml/E/exports'
-import nodeIsNotForEHTML from 'ehtml/nodeIsNotForEHTML'
-import observeNodeAttributes from 'ehtml/observeNodeAttributes'
-import nodeName from 'ehtml/nodeName'
+import E from 'ehtml/E/exports.js'
+import nodeIsNotForEHTML from 'ehtml/nodeIsNotForEHTML.js'
+import observeNodeAttributes from 'ehtml/observeNodeAttributes.js'
+import nodeName from 'ehtml/nodeName.js'
 
 function observeNodeWithItsChildNodes (node) {
   if (!node.isNotForEHTML && nodeIsNotForEHTML(node)) {

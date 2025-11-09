@@ -1,5 +1,5 @@
-import evaluatedStringWithParams from 'ehtml/evaluatedStringWithParams'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
+import evaluatedStringWithParams from 'ehtml/evaluatedStringWithParams.js'
+import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
 
 const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = [
   'data-actions-on-response',

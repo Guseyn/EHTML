@@ -1,9 +1,9 @@
-import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent'
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import scrollToHash from 'ehtml/actions/scrollToHash'
-import prettyHtml from 'ehtml/third-party/json-pretty-html'
+import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent.js'
+import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest.js'
+import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
+import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress.js'
+import scrollToHash from 'ehtml/actions/scrollToHash.js'
+import prettyHtml from 'ehtml/third-party/json-pretty-html.js'
 
 export default (node) => {
   if (node.hasAttribute('data-actions-on-progress-start')) {

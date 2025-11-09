@@ -1,18 +1,22 @@
-const express = require('express')
-const path = require('path')
-const axios = require('axios')
+import express from 'express'
+import path from 'path'
+import axios from 'axios'
+import { fileURLToPath } from 'url'
 
-const {
+import {
   base64UrlEncodeJSON,
   payloadWithExpiration,
   generateSignature
-} = require('./jwt')
+} from './jwt.js'
 
-const playlist = require('./playlist')
-const profiles = require('./profiles')
+import playlist from './playlist.js'
+import profiles from './profiles.js'
 
 const app = express()
 const port = 4200
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(express.static(path.join(__dirname, 'static')))
 app.use(express.json({ limit: '5mb' }))

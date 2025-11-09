@@ -1,4 +1,4 @@
-import elm from 'ehtml/elm'
+import elm from 'ehtml/elm.js'
 
 export default function scrollIntoViewOf (elmSelectorOrElm, options) {
   elm(elmSelectorOrElm).scrollIntoView(options)

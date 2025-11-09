@@ -1,8 +1,8 @@
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent'
-import scrollToHash from 'ehtml/actions/scrollToHash'
+import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest.js'
+import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
+import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress.js'
+import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent.js'
+import scrollToHash from 'ehtml/actions/scrollToHash.js'
 
 export default (node) => {
   if (node.hasAttribute('data-actions-on-progress-start')) {

@@ -1,4 +1,4 @@
-import mapToTemplate from 'ehtml/actions/mapToTemplate'
+import mapToTemplate from '#ehtml/actions/mapToTemplate.js?v=d34ba685'
 
 export default (node) => {
   if (!node.hasAttribute('data-item-name')) {

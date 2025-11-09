@@ -1,7 +1,7 @@
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress'
-import evaluateStringWithActionsOnResponse from 'ehtml/evaluateStringWithActionsOnResponse'
+import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest.js'
+import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
+import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress.js'
+import evaluateStringWithActionsOnResponse from 'ehtml/evaluateStringWithActionsOnResponse.js'
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,

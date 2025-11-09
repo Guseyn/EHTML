@@ -1,6 +1,6 @@
-import elm from 'ehtml/elm'
-import isTemplate from 'ehtml/isTemplate'
-import mapToTemplate from 'ehtml/actions/mapToTemplate'
+import elm from 'ehtml/elm.js'
+import isTemplate from 'ehtml/isTemplate.js'
+import mapToTemplate from 'ehtml/actions/mapToTemplate.js'
 
 export default function releaseTemplate (elmSelectorOrElm) {
   const elmIsSelector = typeof elmSelectorOrElm === 'string'

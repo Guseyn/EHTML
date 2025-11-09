@@ -1,4 +1,4 @@
-import elms from 'ehtml/elms'
+import elms from 'ehtml/elms.js'
 
 export default function toggleElms (className, ...elmSelectors) {
   elmSelectors.forEach(elmSelector => {

@@ -1,4 +1,4 @@
-import releaseTemplate from 'ehtml/actions/releaseTemplate'
+import releaseTemplate from 'ehtml/actions/releaseTemplate.js'
 
 export default (node) => {
   const releaseOnLoad = node.getAttribute('release-on-load') === 'true'
