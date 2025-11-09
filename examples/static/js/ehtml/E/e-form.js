@@ -193,8 +193,6 @@ function urlWithQueryParams (url, queryObject) {
 }
 
 function submit (target, targetIsForm) {
-
-
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')

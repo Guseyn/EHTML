@@ -1,4 +1,4 @@
-export default function updateEFormIfNeeded(node, nodeNameValue) {
+export default function updateEFormIfNeeded (node, nodeNameValue) {
   if (!node.closest) {
     return
   }
