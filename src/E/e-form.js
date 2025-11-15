@@ -17,14 +17,6 @@ const VALIDATION_PATTERNS = {
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
-function isPlainObject(value) {
-  return (
-    value !== null &&
-    typeof value === 'object' &&
-    Object.getPrototypeOf(value) === Object.prototype
-  )
-}
-
 export default (node) => {
   const form = replaceWithForm(node)
   form.addEventListener('allChildNodesAreObservedByEHTML', () => {
@@ -101,7 +93,7 @@ function setupForm (form) {
 }
 
 function filterApplicableFormElements (form, elms) {
-  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') == form)
+  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') === form)
 }
 
 function tuneFileInputs (fileInputs) {
@@ -249,7 +241,6 @@ function urlWithQueryParams (url, queryObject) {
 }
 
 function submit (target, targetIsForm) {
-
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -751,7 +742,7 @@ function returnValueByPropertyPath (requestBodySubObject, remainingPropertyPath)
   return null
 }
 
-function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, properyPath, valueIsForQueryObject) {
+function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement, properyPath, valueIsForQueryObject) {
   if (valueIsForQueryObject) {
     properyPath.unshift({
       name: formElement.name,
@@ -796,7 +787,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, 
     theMostClosest = closestFormObject
   }
 
-  if (closestForm == theMostClosest) {
+  if (closestForm === theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -806,7 +797,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, 
     return
   }
 
-  if (closestFormArray == theMostClosest) {
+  if (closestFormArray === theMostClosest) {
     const formElementQuerySelector = [
       'input',
       'select',
@@ -846,7 +837,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, 
         if (elClosestFormObject !== el && elClosestFormObject !== closestFormObject) {
           return false
         }
-        
+
         return true
       })
     const formElementIndex = topLevelElements.indexOf(formElement)
@@ -866,7 +857,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, 
     return
   }
 
-  if (closestFormObject == theMostClosest) {
+  if (closestFormObject === theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -878,7 +869,6 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, 
       properyPath,
       valueIsForQueryObject
     )
-    return
   }
 }
 
