@@ -1,9 +1,9 @@
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest.js'
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress.js'
-import evaluateStringWithActionsOnResponse from 'ehtml/evaluateStringWithActionsOnResponse.js'
-import unwrappedChildrenOfParent from 'ehtml/unwrappedChildrenOfParent.js'
-import scrollToHash from 'ehtml/actions/scrollToHash.js'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
+import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
+import evaluateStringWithActionsOnResponse from '#ehtml/evaluateStringWithActionsOnResponse.js?v=2edf1120'
+import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=dced24cf'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')

@@ -2,7 +2,7 @@ import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec2
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
 import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
 import evaluateStringWithActionsOnResponse from '#ehtml/evaluateStringWithActionsOnResponse.js?v=2edf1120'
-import nodeName from '#ehtml/nodeName.js?v=4640752c'
+import nodeName from '#ehtml/nodeName.js?v=3a6378ad'
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,
@@ -15,6 +15,14 @@ const VALIDATION_PATTERNS = {
   time: /\d\d:\d\d/,
   // eslint-disable-next-line  no-useless-escape
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+}
+
+function isPlainObject(value) {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) === Object.prototype
+  )
 }
 
 export default (node) => {
@@ -93,7 +101,7 @@ function setupForm (form) {
 }
 
 function filterApplicableFormElements (form, elms) {
-  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') === form)
+  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') == form)
 }
 
 function tuneFileInputs (fileInputs) {
@@ -241,6 +249,7 @@ function urlWithQueryParams (url, queryObject) {
 }
 
 function submit (target, targetIsForm) {
+
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -276,13 +285,12 @@ function submit (target, targetIsForm) {
   if (target.hasAttribute('data-button-ajax-class') && !targetIsForm && !socketName) {
     target.classList.add(target.getAttribute('data-button-ajax-class'))
   }
-  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm && !socketName) {
+  if (target.hasAttribute('data-button-ajax-text') && !targetIsForm && !socketName && target.nodeName.toLowerCase() === 'button') {
     target.originalInnerText = target.innerText
     target.innerText = target.getAttribute('data-button-ajax-text')
   }
 
   const { requestBody, queryObject } = requestBodyAndQueryObject(form)
-
   hideAllErrorsForForm(form)
   validateDifferentFormElements(form, requestBody, queryObject, validations)
 
@@ -743,7 +751,7 @@ function returnValueByPropertyPath (requestBodySubObject, remainingPropertyPath)
   return null
 }
 
-function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement, properyPath, valueIsForQueryObject) {
+function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, properyPath, valueIsForQueryObject) {
   if (valueIsForQueryObject) {
     properyPath.unshift({
       name: formElement.name,
@@ -788,7 +796,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     theMostClosest = closestFormObject
   }
 
-  if (closestForm === theMostClosest) {
+  if (closestForm == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -798,7 +806,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormArray === theMostClosest) {
+  if (closestFormArray == theMostClosest) {
     const formElementQuerySelector = [
       'input',
       'select',
@@ -838,7 +846,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
         if (elClosestFormObject !== el && elClosestFormObject !== closestFormObject) {
           return false
         }
-
+        
         return true
       })
     const formElementIndex = topLevelElements.indexOf(formElement)
@@ -858,7 +866,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormObject === theMostClosest) {
+  if (closestFormObject == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -870,6 +878,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
       properyPath,
       valueIsForQueryObject
     )
+    return
   }
 }
 
@@ -908,10 +917,14 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
         )
       }
     } else if (input.type.toLowerCase() === 'checkbox') {
+      const exitingCheckboxValue = returnValueByPropertyPath(
+        obj,
+        properyPath
+      )
       const requestBodyCheckboxPart = assignAndReturnValueToRequestBody(
         obj,
         properyPath,
-        []
+        exitingCheckboxValue || []
       )
       const inputValue = input.value
       if (!inputValue) {
@@ -1034,6 +1047,9 @@ function retrievedDynamicValuesForRequestBodyAndQueryObject (dynamicValues, requ
     if (!dynamicValue.name) {
       throw new Error(`dynamicValue ${dynamicValue} has no name`)
     }
+    if (!dynamicValue.hasAttribute('data-bound-to')) {
+      throw new Error(`dynamicValue ${dynamicValue} has no data-bound-to attribute`)
+    }
     const properyPath = []
     buildFullPathOfProperyForRequestBodyByFormElementPosition(
       dynamicValue,
@@ -1043,7 +1059,7 @@ function retrievedDynamicValuesForRequestBodyAndQueryObject (dynamicValues, requ
     assignAndReturnValueToRequestBody(
       obj,
       properyPath,
-      dynamicValue.value
+      dynamicValue.value()
     )
   }
 }

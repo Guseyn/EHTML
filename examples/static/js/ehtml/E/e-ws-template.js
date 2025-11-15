@@ -1,7 +1,7 @@
-import evaluatedStringWithParamsFromState from 'ehtml/evaluatedStringWithParamsFromState.js'
-import evaluateStringWithActionsOnProgress from 'ehtml/evaluateStringWithActionsOnProgress.js'
-import evaluateStringWithActionsOnOpenConnection from 'ehtml/evaluateStringWithActionsOnOpenConnection.js'
-import evaluateStringWithActionsOnCloseConnection from 'ehtml/evaluateStringWithActionsOnCloseConnection.js'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
+import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
+import evaluateStringWithActionsOnOpenConnection from '#ehtml/evaluateStringWithActionsOnOpenConnection.js?v=e6e2dca2'
+import evaluateStringWithActionsOnCloseConnection from '#ehtml/evaluateStringWithActionsOnCloseConnection.js?v=e6e2dca2'
 
 export default (node) => {
   if (!node.hasAttribute('data-src')) {

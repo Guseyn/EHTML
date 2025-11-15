@@ -1,9 +1,11 @@
-import observeNodeWithItsChildNodes from 'ehtml/observeNodeWithItsChildNodes.js'
-import turnEhtmlMutationObserverOn from 'ehtml/turnEhtmlMutationObserverOn.js'
-import turnEhtmlMutationObserverOff from 'ehtml/turnEhtmlMutationObserverOff.js'
-import registerShowdownExtension from 'ehtml/registerShowdownExtension.js'
+// EHTML: v2.0.21
+
+import observeNodeWithItsChildNodes from '#ehtml/observeNodeWithItsChildNodes.js?v=237b82a0'
+import turnEhtmlMutationObserverOn from '#ehtml/turnEhtmlMutationObserverOn.js?v=cdec7143'
+import turnEhtmlMutationObserverOff from '#ehtml/turnEhtmlMutationObserverOff.js?v=251ee5f3'
+import registerShowdownExtension from '#ehtml/registerShowdownExtension.js?v=fea75542'
 // eslint-disable-next-line no-unused-vars
-import actions from 'ehtml/actions/exports.js'
+import actions from '#ehtml/actions/exports.js?v=0b990341'
 
 window.__ehtmlState__ = window.__ehtmlState__ || {}
 window.__ehtmlCustomElements__ = window.__ehtmlCustomElements__ || {}

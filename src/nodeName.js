@@ -1,5 +1,5 @@
-import isTemplateWithTypeExclusively from '#ehtml/isTemplateWithTypeExclusively.js?v=122dc1b2'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=2188f4ee'
+import isTemplateWithTypeExclusively from '#ehtml/isTemplateWithTypeExclusively.js?v=46e3bf34'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
 
 export default function (node) {

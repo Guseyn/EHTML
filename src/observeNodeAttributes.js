@@ -28,70 +28,70 @@ const TAGS_WITH_SRC_ATTRIBUTE = [
 
 const NATIVE_EVENT_LISTENERS = [
   // Clipboard events
-  'oncopy', 'oncut', 'onpaste',
+  "oncopy", "oncut", "onpaste",
 
   // Form events
-  'onblur', 'onchange', 'oncontextmenu', 'onfocus', 'oninput', 'oninvalid',
-  'onreset', 'onsearch', 'onselect', 'onsubmit',
+  "onblur", "onchange", "oncontextmenu", "onfocus", "oninput", "oninvalid",
+  "onreset", "onsearch", "onselect", "onsubmit",
 
   // Keyboard events
-  'onkeydown', 'onkeypress', 'onkeyup',
+  "onkeydown", "onkeypress", "onkeyup",
 
   // Mouse events
-  'onclick', 'ondblclick', 'onmousedown', 'onmouseenter', 'onmouseleave',
-  'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onwheel',
+  "onclick", "ondblclick", "onmousedown", "onmouseenter", "onmouseleave",
+  "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onwheel",
 
   // Drag & Drop events
-  'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover',
-  'ondragstart', 'ondrop',
+  "ondrag", "ondragend", "ondragenter", "ondragleave", "ondragover",
+  "ondragstart", "ondrop",
 
   // Media events
-  'onabort', 'oncanplay', 'oncanplaythrough', 'oncuechange', 'ondurationchange',
-  'onemptied', 'onended', 'onerror', 'onloadeddata', 'onloadedmetadata',
-  'onloadstart', 'onpause', 'onplay', 'onplaying', 'onprogress', 'onratechange',
-  'onseeked', 'onseeking', 'onstalled', 'onsuspend', 'ontimeupdate', 'onvolumechange',
-  'onwaiting',
+  "onabort", "oncanplay", "oncanplaythrough", "oncuechange", "ondurationchange",
+  "onemptied", "onended", "onerror", "onloadeddata", "onloadedmetadata",
+  "onloadstart", "onpause", "onplay", "onplaying", "onprogress", "onratechange",
+  "onseeked", "onseeking", "onstalled", "onsuspend", "ontimeupdate", "onvolumechange",
+  "onwaiting",
 
   // Animation & Transition events
-  'onanimationcancel', 'onanimationend', 'onanimationiteration', 'onanimationstart',
-  'ontransitioncancel', 'ontransitionend', 'ontransitionrun', 'ontransitionstart',
+  "onanimationcancel", "onanimationend", "onanimationiteration", "onanimationstart",
+  "ontransitioncancel", "ontransitionend", "ontransitionrun", "ontransitionstart",
 
   // Window / Frame events
-  'onafterprint', 'onbeforeprint', 'onbeforeunload', 'onerror', 'onhashchange',
-  'onload', 'onmessage', 'onoffline', 'ononline', 'onpagehide', 'onpageshow',
-  'onpopstate', 'onresize', 'onstorage', 'onunload',
+  "onafterprint", "onbeforeprint", "onbeforeunload", "onerror", "onhashchange",
+  "onload", "onmessage", "onoffline", "ononline", "onpagehide", "onpageshow",
+  "onpopstate", "onresize", "onstorage", "onunload",
 
   // Focus events (in addition to form ones)
-  'onfocusin', 'onfocusout',
+  "onfocusin", "onfocusout",
 
   // Touch events (mobile)
-  'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart',
+  "ontouchcancel", "ontouchend", "ontouchmove", "ontouchstart",
 
   // Pointer events
-  'ongotpointercapture', 'onlostpointercapture', 'onpointercancel',
-  'onpointerdown', 'onpointerenter', 'onpointerleave', 'onpointermove',
-  'onpointerout', 'onpointerover', 'onpointerup',
+  "ongotpointercapture", "onlostpointercapture", "onpointercancel",
+  "onpointerdown", "onpointerenter", "onpointerleave", "onpointermove",
+  "onpointerout", "onpointerover", "onpointerup",
 
   // Wheel / Scroll / Resize
-  'onscroll', 'onwheel',
+  "onscroll", "onwheel",
 
   // Print events (for completeness)
-  'onbeforeprint', 'onafterprint',
+  "onbeforeprint", "onafterprint",
 
   // Speech / Input composition
-  'oncompositionstart', 'oncompositionupdate', 'oncompositionend',
+  "oncompositionstart", "oncompositionupdate", "oncompositionend",
 
   // Details / Toggle
-  'ontoggle',
+  "ontoggle",
 
   // Progress element events
-  'onprogress',
+  "onprogress",
 
   // WebSocket / Server-sent events
-  'onopen', 'onmessage', 'onclose',
+  "onopen", "onmessage", "onclose",
 
   // Misc newer ones
-  'onsecuritypolicyviolation', 'onvisibilitychange', 'onbeforematch', 'oncancel'
+  "onsecuritypolicyviolation", "onvisibilitychange", "onbeforematch", "oncancel"
 ]
 
 export default function (node, state) {

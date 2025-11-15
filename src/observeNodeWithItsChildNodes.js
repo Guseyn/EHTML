@@ -1,8 +1,8 @@
-import E from '#ehtml/E/exports.js?v=6e563378'
+import E from '#ehtml/E/exports.js?v=22016e5d'
 import nodeIsNotForEHTML from '#ehtml/nodeIsNotForEHTML.js?v=c6f93764'
-import observeNodeAttributes from '#ehtml/observeNodeAttributes.js?v=c22a1391'
-import nodeName from '#ehtml/nodeName.js?v=4640752c'
-import updateEFormIfNeeded from '#ehtml/updateEFormIfNeeded.js?v=083e9d9a'
+import observeNodeAttributes from '#ehtml/observeNodeAttributes.js?v=b46e4e7c'
+import nodeName from '#ehtml/nodeName.js?v=3a6378ad'
+import updateEFormIfNeeded from '#ehtml/updateEFormIfNeeded.js?v=d78b9b33'
 
 function observeNodeWithItsChildNodes (node) {
   if (!node.isNotForEHTML && nodeIsNotForEHTML(node)) {

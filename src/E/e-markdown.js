@@ -4,8 +4,8 @@ import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParams
 import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
-import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=500cdc06'
-import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=f059e907'
+import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=8c2f2982'
+import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=088647e7'
 
 export default (node) => {
   const extensions = window.__ehtmlShowdownExtensions__ || []

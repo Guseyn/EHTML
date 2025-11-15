@@ -1,4 +1,4 @@
-import isTemplateWithType from 'ehtml/isTemplateWithType.js'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function (node, type) {
   if (node.nodeName.toLowerCase() === type) {

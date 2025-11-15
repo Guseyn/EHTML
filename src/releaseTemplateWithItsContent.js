@@ -1,4 +1,4 @@
-import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=2188f4ee'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function (template, contentNode) {
   if (isTemplateWithType(template, 'e-reusable')) {

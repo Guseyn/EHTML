@@ -1,5 +1,5 @@
-import elm from 'ehtml/elm.js'
-import responseFromAjaxRequest from 'ehtml/responseFromAjaxRequest.js'
+import elm from '#ehtml/elm.js?v=21adcdae'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
 
 export default function loadHTMLInto (elmSelectorOrElm, url, headers) {
   responseFromAjaxRequest({

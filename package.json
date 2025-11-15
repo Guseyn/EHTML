@@ -1,15 +1,14 @@
 {
   "name": "ehtml",
   "version": "2.0.20",
-  "description": "HTML Framework that allows you write no JavaScript code at all.",
+  "description": "Extended HTML.",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "lint": "eslint src/ examples/static/js/ehtml --ext .js --fix",
     "examples": "node examples/server",
     "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
-    "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html",
-    "ehtml:bundle": "node bundle.js"
+    "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html"
   },
   "repository": {
     "type": "git",

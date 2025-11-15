@@ -1,4 +1,4 @@
-export default function updateEFormIfNeeded (node, nodeNameValue) {
+export default function updateEFormIfNeeded(node, nodeNameValue) {
   if (!node.closest) {
     return
   }
@@ -7,6 +7,7 @@ export default function updateEFormIfNeeded (node, nodeNameValue) {
     const isNodeFormElement =
       nodeNameValue === 'input' ||
       nodeNameValue === 'select' ||
+      nodeNameValue === 'option' ||
       nodeNameValue === 'textarea' ||
       nodeNameValue === 'e-local-storage-value' ||
       nodeNameValue === 'e-session-storage-value' ||
