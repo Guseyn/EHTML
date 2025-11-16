@@ -16,6 +16,7 @@ Additionally, EHTML treats HTML not only as a markup language but also as a temp
 - [Documentation](https://e-html.org/html/documentation.html)
 - [Blog](https://e-html.org/html/blog.html)
 - [Examples](https://e-html.org/html/examples.html)
+- [Newsletter](https://e-html.org/html/in-touch.html) (Don't miss new video tutorials and articles)
 
 # Simple Blog App: Demo Video
 
