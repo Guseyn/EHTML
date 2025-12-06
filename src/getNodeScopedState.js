@@ -1,13 +1,13 @@
-export default function getNodeScopedState(node) {
-  let current = node
+export default function getNodeScopedState (node) {
+  let current = node;
 
   while (current) {
-    const state = window.__EHTML_SCOPED_STATE__.get(current)
+    const state = window.__EHTML_SCOPED_STATE__.get(current);
     if (state) {
-      return state
+      return state;
     }
-    current = current.parentNode
+    current = current.parentNode;
   }
 
-  return {}
+  return {};
 }

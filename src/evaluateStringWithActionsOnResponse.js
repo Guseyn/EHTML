@@ -1,16 +1,16 @@
-export default function evaluateStringWithActionsOnResponse(string, resName, resObj, node) {
+export default function evaluateStringWithActionsOnResponse (string, resName, resObj, node) {
   // Create a dynamic function string to define the resource name
   const dynamicFunctionBody = `
     const thisElement = node
     const ${resName} = resObj
     ${string}
-  `
+  `;
 
   // Use Function constructor for execution
-  // eslint-disable-next-line no-new-func
-  const func = new Function('node', 'resObj', dynamicFunctionBody)
+   
+  const func = new Function("node", "resObj", dynamicFunctionBody);
 
-  /*──────────────────────────────────────────────────────────────────────────────
+  /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
 
@@ -28,8 +28,8 @@ export default function evaluateStringWithActionsOnResponse(string, resName, res
         4) actions run safely afterward
 
     In short: “mutation first → activation second → actions last.”
-  ──────────────────────────────────────────────────────────────────────────────*/
+  ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node, resObj)
-  })
+    func(node, resObj);
+  });
 }

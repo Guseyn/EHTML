@@ -1,57 +1,57 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import getNodeScopedState from "#ehtml/getNodeScopedState.js?v=41ab2bfa";
+import evaluatedValueWithParamsFromState from "#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e";
 
 export default class EIfTemplate extends HTMLTemplateElement {
-  constructor() {
-    super()
-    this.ehtmlActivated = false
+  constructor () {
+    super();
+    this.ehtmlActivated = false;
   }
 
-  connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  connectedCallback () {
+    this.addEventListener("ehtml:activated", this.onEHTMLActivated, { once: true });
   }
 
-  onEHTMLActivated() {
+  onEHTMLActivated () {
     if (this.ehtmlActivated) {
-      return
+      return;
     }
-    this.ehtmlActivated = true
+    this.ehtmlActivated = true;
 
-    this.run()
+    this.run();
   }
 
-  run() {
-    const expr = this.getAttribute('data-condition-to-display')
+  run () {
+    const expr = this.getAttribute("data-condition-to-display");
     if (!expr) {
-      throw new Error(`<template is="e-if"> must have data-condition-to-display`)
+      throw new Error("<template is=\"e-if\"> must have data-condition-to-display");
     }
 
     // 1. Get inherited lexical state at this <template>
-    const state = getNodeScopedState(this)
+    const state = getNodeScopedState(this);
 
     // 2. Evaluate the list expression (JSON string)
     const evaluated = evaluatedValueWithParamsFromState(
-      expr.replace(/\n/g, ' '),
+      expr.replace(/\n/g, " "),
       state,
       this
-    )
+    );
 
-    const show = evaluated === true || evaluated === 'true'
+    const show = evaluated === true || evaluated === "true";
 
     if (show) {
-      this.insertContent()
+      this.insertContent();
     } else {
-      this.remove()
+      this.remove();
     }
   }
 
-  insertContent() {
+  insertContent () {
     // Clone the <template> content
-    const fragment = this.content.cloneNode(true)
-    const parent = this.parentNode
-    parent.insertBefore(fragment, this)
-    parent.replaceChild(fragment, this)
+    const fragment = this.content.cloneNode(true);
+    const parent = this.parentNode;
+    parent.insertBefore(fragment, this);
+    parent.replaceChild(fragment, this);
   }
 }
 
-customElements.define('e-if', EIfTemplate, { extends: 'template' })
+customElements.define("e-if", EIfTemplate, { extends: "template" });

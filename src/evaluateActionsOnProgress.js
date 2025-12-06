@@ -1,15 +1,15 @@
-export default function evaluateActionsOnProgress(string, node, state) {
+export default function evaluateActionsOnProgress (string, node, state) {
   // Create a function using the Function constructor
-  // eslint-disable-next-line no-new-func
+   
   const func = new Function(
-    'state',
+    "state",
     `
       with (state) {
         ${string}
       }
     `
-  )
-  /*──────────────────────────────────────────────────────────────────────────────
+  );
+  /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
 
@@ -27,8 +27,8 @@ export default function evaluateActionsOnProgress(string, node, state) {
         4) actions run safely afterward
 
     In short: “mutation first → activation second → actions last.”
-  ──────────────────────────────────────────────────────────────────────────────*/
+  ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func.apply(node, [state])
-  })
+    func.apply(node, [state]);
+  });
 }

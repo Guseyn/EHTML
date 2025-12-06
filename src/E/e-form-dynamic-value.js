@@ -1,36 +1,36 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
+import getNodeScopedState from "#ehtml/getNodeScopedState.js?v=41ab2bfa";
+import evaluatedStringWithParamsFromState from "#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e";
 
 export default class EFormDynamicValue extends HTMLElement {
-  constructor() {
-    super()
-    this.ehtmlActivated = false
+  constructor () {
+    super();
+    this.ehtmlActivated = false;
   }
 
-  connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  connectedCallback () {
+    this.addEventListener("ehtml:activated", this.onEHTMLActivated, { once: true });
   }
 
-  onEHTMLActivated() {
+  onEHTMLActivated () {
     if (this.ehtmlActivated) {
-      return
+      return;
     }
-    this.ehtmlActivated = true
-    this.run()
+    this.ehtmlActivated = true;
+    this.run();
   }
 
-  run() {
-    this.style.display = 'none'
-    this.name = this.getAttribute('name')
-    const state = getNodeScopedState(this)
+  run () {
+    this.style.display = "none";
+    this.name = this.getAttribute("name");
+    const state = getNodeScopedState(this);
     this.value = () => {
       return evaluatedStringWithParamsFromState(
-        this.getAttribute('data-bound-to'),
+        this.getAttribute("data-bound-to"),
         state,
         this
-      )
-    }
+      );
+    };
   }
 }
 
-customElements.define('e-form-dynamic-value', EFormDynamicValue)
+customElements.define("e-form-dynamic-value", EFormDynamicValue);

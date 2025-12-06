@@ -1,31 +1,31 @@
 export default class ELocalStorageValue extends HTMLElement {
-  constructor() {
-    super()
-    this.ehtmlActivated = false
+  constructor () {
+    super();
+    this.ehtmlActivated = false;
   }
 
-  connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  connectedCallback () {
+    this.addEventListener("ehtml:activated", this.onEHTMLActivated, { once: true });
   }
 
-  onEHTMLActivated() {
+  onEHTMLActivated () {
     if (this.ehtmlActivated) {
-      return
+      return;
     }
-    this.ehtmlActivated = true
-    this.run()
+    this.ehtmlActivated = true;
+    this.run();
   }
 
-  __setup() {
+  __setup () {
     // exactly same behavior as before
-    this.name = this.getAttribute('name')
+    this.name = this.getAttribute("name");
 
     this.value = () => {
       return localStorage.getItem(
-        this.getAttribute('data-key')
-      )
-    }
+        this.getAttribute("data-key")
+      );
+    };
   }
 }
 
-customElements.define('e-local-storage-value', ELocalStorageValue)
+customElements.define("e-local-storage-value", ELocalStorageValue);

@@ -1,5 +1,5 @@
 export default function reload () {
-  window.location.reload()
+  window.location.reload();
 }
 
-window.reload = reload
+window.reload = reload;

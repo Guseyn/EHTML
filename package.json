@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint src/ examples/static/js/ehtml --ext .js --fix",
+    "lint": "eslint src/ --ext .js --fix",
     "examples": "node examples/server",
     "examples:ehtml:update": "rm -rf examples/static/js/ehtml && cp -r src examples/static/js/ehtml",
     "examples:source:maps:update": "node update-importmap ./importmap.json examples/static/html"
@@ -31,17 +31,11 @@
   },
   "homepage": "https://github.com/Guseyn/EHTML#readme",
   "devDependencies": {
-    "axios": "^1.6.2",
-    "esbuild": "^0.25.4",
+    "eslint": "^9.39.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "express": "^4.18.2",
-    "express-ws": "^5.0.2",
-    "fast-glob": "^3.3.3",
-    "test-executor": "^1.2.4",
-    "ws": "^8.15.0"
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

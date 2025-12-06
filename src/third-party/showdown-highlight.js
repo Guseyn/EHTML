@@ -1,10 +1,10 @@
-"use strict"
+"use strict";
 
-import he from '#ehtml/third-party/he.js?v=914328cc'
-import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
-import hljs from '#ehtml/third-party/highlight.min.js?v=a8ebabba'
+import he from "#ehtml/third-party/he.js?v=914328cc";
+import * as showdown from "#ehtml/third-party/showdown.min.js?v=8e1f0558";
+import hljs from "#ehtml/third-party/highlight.min.js?v=a8ebabba";
 
-const classAttr = 'class="'
+const classAttr = "class=\"";
 
 /**
  * showdownHighlight
@@ -47,34 +47,34 @@ export default function showdownHighlight({ pre = false, auto_detection = true }
       left: "<pre><code\\b[^>]*>",
       right: "</code></pre>",
       flags: "g"
-    }
+    };
 
     const replacement = (wholeMatch, match, left, right) => {
-      match = he.decode(match)
+      match = he.decode(match);
 
-      const lang = (left.match(/class=\"([^ \"]+)/) || [])[1]
+      const lang = (left.match(/class=\"([^ \"]+)/) || [])[1];
 
       if (!lang && !auto_detection) {
-        return wholeMatch
+        return wholeMatch;
       }
 
       if (left.includes(classAttr)) {
-        const attrIndex = left.indexOf(classAttr) + classAttr.length
-        left = left.slice(0, attrIndex) + 'hljs ' + left.slice(attrIndex)
+        const attrIndex = left.indexOf(classAttr) + classAttr.length;
+        left = left.slice(0, attrIndex) + "hljs " + left.slice(attrIndex);
       } else {
-        left = left.slice(0, -1) + ' class="hljs">'
+        left = left.slice(0, -1) + " class=\"hljs\">";
       }
 
       if (pre && lang) {
-        left = left.replace('<pre>', `<pre class="${lang} language-${lang}">`)
+        left = left.replace("<pre>", `<pre class="${lang} language-${lang}">`);
       }
 
       if (lang && hljs.getLanguage(lang)) {
-        return left + hljs.highlight(match, { language: lang }).value + right
+        return left + hljs.highlight(match, { language: lang }).value + right;
       }
 
-      return left + hljs.highlightAuto(match).value + right
-    }
+      return left + hljs.highlightAuto(match).value + right;
+    };
 
     return showdown.helper.replaceRecursiveRegExp(
       text,
@@ -82,13 +82,13 @@ export default function showdownHighlight({ pre = false, auto_detection = true }
       params.left,
       params.right,
       params.flags
-    )
-  }
+    );
+  };
 
   return [
     {
       type: "output",
       filter
     }
-  ]
+  ];
 }

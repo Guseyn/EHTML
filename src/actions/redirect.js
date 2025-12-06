@@ -1,5 +1,5 @@
 export default function redirect (url) {
-  window.location.href = encodeURI(url)
+  window.location.href = encodeURI(url);
 }
 
-window.redirect = redirect
+window.redirect = redirect;

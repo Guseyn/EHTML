@@ -1,27 +1,27 @@
 export default class EFormArray extends HTMLElement {
-  constructor() {
-    super()
-    this.ehtmlActivated = false
+  constructor () {
+    super();
+    this.ehtmlActivated = false;
   }
 
-  connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  connectedCallback () {
+    this.addEventListener("ehtml:activated", this.onEHTMLActivated, { once: true });
   }
 
-  onEHTMLActivated() {
+  onEHTMLActivated () {
     if (this.ehtmlActivated) {
-      return
+      return;
     }
-    this.ehtmlActivated = true
-    this.run()
+    this.ehtmlActivated = true;
+    this.run();
   }
 
-  run() {
-    const name = this.getAttribute('name')
+  run () {
+    const name = this.getAttribute("name");
     if (name) {
-      this.name = name
+      this.name = name;
     }
   }
 }
 
-customElements.define('e-form-array', EFormArray)
+customElements.define("e-form-array", EFormArray);

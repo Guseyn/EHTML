@@ -1,7 +1,7 @@
-import * as katex from '#ehtml/third-party/katex/katex.min.js?v=ea128365'
-import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
-import asciimathToTex from '#ehtml/third-party/showdown-katex/asciimath-to-tex.min.js?v=c830a925'
-import renderMathInElement from '#ehtml/third-party/katex/auto-render.js?v=9a446a04'
+import * as katex from "#ehtml/third-party/katex/katex.min.js?v=ea128365";
+import * as showdown from "#ehtml/third-party/showdown.min.js?v=8e1f0558";
+import asciimathToTex from "#ehtml/third-party/showdown-katex/asciimath-to-tex.min.js?v=c830a925";
+import renderMathInElement from "#ehtml/third-party/katex/auto-render.js?v=9a446a04";
 
 /**
  * @param {object} opts
@@ -10,14 +10,14 @@ import renderMathInElement from '#ehtml/third-party/katex/auto-render.js?v=9a446
  * @param {boolean} opts.isAsciimath
  */
 function renderBlockElements ({ elements, config, isAsciimath }) {
-  if (!elements.length) return
+  if (!elements.length) return;
 
   elements.forEach(element => {
-    const input = element.textContent
-    const latex = isAsciimath ? asciimathToTex(input) : input
-    const html = katex.renderToString(latex, config)
-    element.parentNode.outerHTML = `<span title="${input.trim()}">${html}</span>`
-  })
+    const input = element.textContent;
+    const latex = isAsciimath ? asciimathToTex(input) : input;
+    const html = katex.renderToString(latex, config);
+    element.parentNode.outerHTML = `<span title="${input.trim()}">${html}</span>`;
+  });
 }
 
 /**
@@ -28,71 +28,71 @@ function renderBlockElements ({ elements, config, isAsciimath }) {
  * @returns {string}
  */
 function escapeRegExp (str) {
-  return str.replace(/[-[\]/{}()*+?.\\$^|]/g, '\\$&')
+  return str.replace(/[-[\]/{}()*+?.\\$^|]/g, "\\$&");
 }
 
 // KaTeX configuration
 const getConfig = (config = {}) => ({
   displayMode: true,
   throwOnError: false,
-  errorColor: '#ff0000',
+  errorColor: "#ff0000",
   ...config,
   delimiters: (config.delimiters || []).concat([
-    { left: '$$', right: '$$', display: false },
-    { left: '~', right: '~', display: false, asciimath: true }
+    { left: "$$", right: "$$", display: false },
+    { left: "~", right: "~", display: false, asciimath: true }
   ])
-})
+});
 
 const showdownKatex = userConfig => () => {
-  const parser = new DOMParser()
-  const config = getConfig(userConfig)
+  const parser = new DOMParser();
+  const config = getConfig(userConfig);
 
   const asciimathDelimiters = config.delimiters
     .filter(item => item.asciimath)
     .map(({ left, right }) => {
-      const test = new RegExp(`${escapeRegExp(left)}(.*?)${escapeRegExp(right)}`, 'g')
-      const replacer = (match, asciimath) => `${left}${asciimathToTex(asciimath)}${right}`
-      return { test, replacer }
-    })
+      const test = new RegExp(`${escapeRegExp(left)}(.*?)${escapeRegExp(right)}`, "g");
+      const replacer = (match, asciimath) => `${left}${asciimathToTex(asciimath)}${right}`;
+      return { test, replacer };
+    });
 
   return [
     {
-      type: 'output',
-      filter (html = '') {
-        const wrapper = parser.parseFromString(html, 'text/html').body
+      type: "output",
+      filter (html = "") {
+        const wrapper = parser.parseFromString(html, "text/html").body;
 
         if (asciimathDelimiters.length) {
           // Convert inline AsciiMath to LaTeX in non-code elements
-          wrapper.querySelectorAll(':not(code):not(pre)').forEach(el => {
+          wrapper.querySelectorAll(":not(code):not(pre)").forEach(el => {
             const textNodes = [...el.childNodes].filter(
-              node => node.nodeName === '#text' && node.nodeValue.trim()
-            )
+              node => node.nodeName === "#text" && node.nodeValue.trim()
+            );
 
             textNodes.forEach(node => {
               const newText = asciimathDelimiters.reduce(
                 (acc, { test, replacer }) => acc.replace(test, replacer),
                 node.nodeValue
-              )
-              node.nodeValue = newText
-            })
-          })
+              );
+              node.nodeValue = newText;
+            });
+          });
         }
 
-        const latex = wrapper.querySelectorAll('code.latex.language-latex')
-        const asciimath = wrapper.querySelectorAll('code.asciimath.language-asciimath')
+        const latex = wrapper.querySelectorAll("code.latex.language-latex");
+        const asciimath = wrapper.querySelectorAll("code.asciimath.language-asciimath");
 
-        renderBlockElements({ elements: latex, config })
-        renderBlockElements({ elements: asciimath, config, isAsciimath: true })
+        renderBlockElements({ elements: latex, config });
+        renderBlockElements({ elements: asciimath, config, isAsciimath: true });
 
-        renderMathInElement(wrapper, config)
+        renderMathInElement(wrapper, config);
 
-        return wrapper.innerHTML
+        return wrapper.innerHTML;
       }
     }
-  ]
-}
+  ];
+};
 
 // Register extension with default config
-showdown.default.extension('showdown-katex', showdownKatex())
+showdown.default.extension("showdown-katex", showdownKatex());
 
-export default showdownKatex
+export default showdownKatex;

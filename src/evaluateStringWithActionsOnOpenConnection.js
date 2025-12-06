@@ -1,16 +1,16 @@
-export default function evaluateStringWithActionsOnOpenConnection(string, e, node) {
+export default function evaluateStringWithActionsOnOpenConnection (string, e, node) {
   // Create a function using the Function constructor
-  // eslint-disable-next-line no-new-func
+   
   const func = new Function(
-    'thisElement',
-    'event',
+    "thisElement",
+    "event",
     `
       (() => {
         ${string}
       })()
     `
-  )
-  /*──────────────────────────────────────────────────────────────────────────────
+  );
+  /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
 
@@ -28,8 +28,8 @@ export default function evaluateStringWithActionsOnOpenConnection(string, e, nod
         4) actions run safely afterward
 
     In short: “mutation first → activation second → actions last.”
-  ──────────────────────────────────────────────────────────────────────────────*/
+  ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node, e)
-  })
+    func(node, e);
+  });
 }

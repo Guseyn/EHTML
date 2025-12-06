@@ -29,21 +29,21 @@
  *    • Works reliably even on browsers that refuse to upgrade customized
  *      built-ins (notably iOS Safari).
  * ════════════════════════════════════════════════════════════════════════ */
-export default function isCustomElement(el) {
+export default function isCustomElement (el) {
   /*
    * Skip all non-element nodes (text, comments, fragments, etc.)
    */
   if (!(el instanceof Element)) {
-    return false
+    return false;
   }
 
   /*
    * Autonomous custom elements:
    * Their tag name is the registered custom element type.
    */
-  const tagName = el.tagName.toLowerCase()
+  const tagName = el.tagName.toLowerCase();
   if (customElements.get(tagName)) {
-    return true
+    return true;
   }
 
   /*
@@ -56,16 +56,16 @@ export default function isCustomElement(el) {
    *
    * We check whether the "is" type exists in the customElements registry.
    */
-  const isAttr = el.getAttribute('is')
+  const isAttr = el.getAttribute("is");
   if (isAttr) {
-    const type = isAttr.toLowerCase()
+    const type = isAttr.toLowerCase();
     if (customElements.get(type)) {
-      return true
+      return true;
     }
   }
 
   /*
    * No matching custom element definition was found.
    */
-  return false
+  return false;
 }

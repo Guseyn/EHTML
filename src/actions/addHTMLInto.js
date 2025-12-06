@@ -1,7 +1,7 @@
-import elm from '#ehtml/elm.js?v=41b9eaba'
+import elm from "#ehtml/elm.js?v=41b9eaba";
 
 export default function addHTMLInto (elmSelectorOrElm, html) {
-  elm(elmSelectorOrElm).innerHTML += html
+  elm(elmSelectorOrElm).innerHTML += html;
 }
 
-window.addHTMLInto = addHTMLInto
+window.addHTMLInto = addHTMLInto;
