@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npm version --no-git-tag-version major
+npm version --no-git-tag-version patch
 version=$(jq -r '.version' package.json)
 git add --all
 git commit -m "update version in package.json to $version"
