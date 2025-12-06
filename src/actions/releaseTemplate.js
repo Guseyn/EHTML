@@ -1,20 +1,42 @@
-import elm from '#ehtml/elm.js?v=21adcdae'
+import elm from '#ehtml/elm.js?v=41b9eaba'
 import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
-import mapToTemplate from '#ehtml/actions/mapToTemplate.js?v=41e9e9e3'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
-export default function releaseTemplate (elmSelectorOrElm) {
-  const elmIsSelector = typeof elmSelectorOrElm === 'string'
-  const template = elm(elmSelectorOrElm)
-  if (template === null || template === undefined) {
-    if (elmIsSelector) {
-      throw new Error(`template with selector ${elmSelectorOrElm} is not found`)
-    }
-    throw new Error(`template in releaseTemplate() is not found`)
+export default function releaseTemplate(elmSelectorOrElm) {
+  const element = elm(elmSelectorOrElm)
+
+  if (!element || !isTemplate(element)) {
+    throw new Error(
+      `releaseTemplate() is called on element ${elmSelectorOrElm} which is not <template>`
+    )
   }
-  if (!isTemplate(template)) {
-    throw new Error('releaseTemplate() handles only <template> elements')
+
+  // Allow only:
+  //   - native <template>
+  //   - <template is="e-reusable">
+  const templateIsNativeOrReusable =
+    isTemplateWithType(element, 'e-reusable') ||
+    !element.hasAttribute('is')
+
+  if (!templateIsNativeOrReusable) {
+    throw new Error(
+      `releaseTemplate() works only on native <template> or <template is="e-reusable">.`
+    )
   }
-  mapToTemplate(template)
+
+  // ✔ New state model:
+  //   releaseTemplate just triggers the template with an *empty state patch*
+  //
+  //   The template (via templateTriggerEventListener)
+  //   will merge this patch into the parent’s lexical state.
+  //
+  //   If template needs data, the user should call mapToTemplate().
+  element.dispatchEvent(
+    new CustomEvent('ehtml:template-triggered', {
+      bubbles: false,
+      detail: { state: {} }
+    })
+  )
 }
 
 window.releaseTemplate = releaseTemplate

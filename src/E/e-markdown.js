@@ -1,88 +1,138 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
-import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=dced24cf'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
-import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=98b3528d'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f83d7b'
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
-import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=8c2f2982'
+import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=41419cd4'
 import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=088647e7'
 
-export default (node) => {
-  const extensions = window.__ehtmlShowdownExtensions__ || []
-  if (node.getAttribute('data-apply-code-highlighting') && showdownHighlight) {
-    extensions.push(
-      showdownHighlight({
-        // Whether to add the classes to the <pre> tag, default is false
-        pre: true,
-        // Whether to use hljs' auto language detection, default is true
-        auto_detection: true
-      })
-    )
-  }
-  if (node.getAttribute('data-apply-latex') && showdownKatex) {
-    extensions.push(
-      showdownKatex({
-        displayMode: true,
-        throwOnError: false, // allows katex to fail silently
-        errorColor: '#ff0000',
-        delimiters: [
-          { left: '$$', right: '$$', display: false },
-          { left: '~', right: '~', display: false, asciimath: true }
-        ]
-      })
-    )
-  }
-  if (node.hasAttribute('data-actions-on-progress-start')) {
-    evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress-start'),
-      node
-    )
+export default class EMarkdown extends HTMLElement {
+  constructor() {
+    super()
+    this.ehtmlActivated = false
   }
 
-  if (!node.hasAttribute('data-src')) {
-    throw new Error('e-markdown must have "data-src" attribute')
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
-  responseFromAjaxRequest({
-    url: encodeURI(
-      evaluatedStringWithParamsFromState(
-        node.getAttribute('data-src'),
-        node.__ehtmlState__,
-        node
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
+    }
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  run() {
+    const state = getNodeScopedState(this)
+
+    // --- Progress start ---
+    if (this.hasAttribute('data-actions-on-progress-start')) {
+      evaluateActionsOnProgress(
+        this.getAttribute('data-actions-on-progress-start'),
+        this,
+        state
       )
-    ),
-    method: 'GET',
-    headers: JSON.parse(
+    }
+
+    if (!this.hasAttribute('data-src')) {
+      throw new Error('e-markdown must have "data-src" attribute')
+    }
+
+    // --- Resolve showdown extensions (global registry) ---
+    const extensions = window.__EHTML_SHOWDOWN_EXTENSIONS__ || []
+
+    // Code highlighting extension
+    if (this.hasAttribute('data-apply-code-highlighting') && showdownHighlight) {
+      extensions.push(
+        showdownHighlight({
+          pre: true,
+          auto_detection: true
+        })
+      )
+    }
+
+    // LaTeX / KaTeX extension
+    if (this.hasAttribute('data-apply-latex') && showdownKatex) {
+      extensions.push(
+        showdownKatex({
+          displayMode: true,
+          throwOnError: false,
+          errorColor: '#ff0000',
+          delimiters: [
+            { left: '$$', right: '$$', display: false },
+            { left: '~', right: '~', display: false, asciimath: true }
+          ]
+        })
+      )
+    }
+
+    // --- AJAX request ---
+    const url = encodeURI(
       evaluatedStringWithParamsFromState(
-        node.getAttribute('data-headers') || '{}',
-        node.__ehtmlState__,
-        node
+        this.getAttribute('data-src'),
+        state,
+        this
       )
     )
-  }, undefined, (err, resObj) => {
-    if (err) {
-      throw err
-    }
-    if (showdown) {
-      showdown.setFlavor('github')
-      node.innerHTML = new showdown.Converter({
-        tables: true,
-        tasklists: true,
-        simpleLineBreaks: true,
-        emoji: true,
-        moreStyling: true,
-        github: true,
-        extensions: extensions
-      }).makeHtml(resObj.body)
-    } else {
-      node.innerHTML = resObj.body
-    }
-    unwrappedChildrenOfParent(node)
-    if (node.hasAttribute('data-actions-on-progress-end')) {
-      evaluateStringWithActionsOnProgress(
-        node.getAttribute('data-actions-on-progress-end'),
-        node
-      )
-    }
-    scrollToHash()
-  })
+
+    const headers = evaluatedValueWithParamsFromState(
+      this.getAttribute('data-headers') || '${{}}',
+      state,
+      this
+    )
+
+    responseFromAjaxRequest(
+      {
+        url: url,
+        method: 'GET',
+        headers: headers
+      },
+      undefined,
+      (err, resObj) => {
+        if (err) {
+          throw err
+        }
+
+        const markdown = resObj.body
+
+        // --- Render markdown ---
+        if (showdown) {
+          showdown.setFlavor('github')
+          const converter = new showdown.Converter({
+            tables: true,
+            tasklists: true,
+            simpleLineBreaks: true,
+            emoji: true,
+            moreStyling: true,
+            github: true,
+            extensions: extensions
+          })
+          this.innerHTML = converter.makeHtml(markdown)
+        } else {
+          this.innerHTML = markdown
+        }
+
+        // Remove <e-markdown> wrapper
+        unwrappedChildrenOfParent(this)
+
+        // --- Progress end ---
+        if (this.hasAttribute('data-actions-on-progress-end')) {
+          evaluateActionsOnProgress(
+            this.getAttribute('data-actions-on-progress-end'),
+            this,
+            state
+          )
+        }
+
+        scrollToHash()
+      }
+    )
+  }
 }
+
+customElements.define('e-markdown', EMarkdown)

@@ -1,28 +1,39 @@
-export default (node) => {
-  const select = replaceWithSelect(node)
-  const value = select.getAttribute('value')
-  for (let index = 0; index < select.options.length; index++) {
-    const item = select.options.item(index)
-    if (item.value === value) {
-      item.setAttribute('selected', true)
-      break
+export default class ESelect extends HTMLSelectElement {
+  constructor() {
+    super()
+    this.ehtmlActivated = false
+  }
+
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  }
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
+    }
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  // ─────────────────────────────────────────────
+  //  Apply "value" attribute to select options
+  // ─────────────────────────────────────────────
+  run() {
+    const value = this.getAttribute('value')
+
+    if (value === null) {
+      return
+    }
+
+    for (let i = 0; i < this.options.length; i++) {
+      const opt = this.options.item(i)
+      if (opt.value === value) {
+        opt.selected = true
+        break
+      }
     }
   }
 }
 
-function replaceWithSelect (node) {
-  const select = document.createElement('select')
-  select.setAttribute('data-e-select', 'true')
-  for (let i = 0; i < node.attributes.length; i++) {
-    select.setAttribute(
-      node.attributes[i].name,
-      node.attributes[i].value
-    )
-  }
-  while (node.firstChild) {
-    const child = node.removeChild(node.firstChild)
-    select.appendChild(child)
-  }
-  node.parentNode.replaceChild(select, node)
-  return select
-}
+customElements.define('e-select', ESelect, { extends: 'select' })

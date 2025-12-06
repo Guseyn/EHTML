@@ -1,13 +1,36 @@
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
 
-export default (node) => {
-  node.style.display = 'none'
-  node.name = node.getAttribute('name')
-  node.value = () => {
-    return evaluatedStringWithParamsFromState(
-      node.getAttribute('data-bound-to'),
-      node.__ehtmlState__,
-      node
-    )
+export default class EFormDynamicValue extends HTMLElement {
+  constructor() {
+    super()
+    this.ehtmlActivated = false
+  }
+
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  }
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
+    }
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  run() {
+    this.style.display = 'none'
+    this.name = this.getAttribute('name')
+    const state = getNodeScopedState(this)
+    this.value = () => {
+      return evaluatedStringWithParamsFromState(
+        this.getAttribute('data-bound-to'),
+        state,
+        this
+      )
+    }
   }
 }
+
+customElements.define('e-form-dynamic-value', EFormDynamicValue)

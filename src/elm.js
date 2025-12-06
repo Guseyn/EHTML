@@ -1,4 +1,4 @@
-export default (elmSelectorOrElm) => {
+export default function (elmSelectorOrElm) {
   if (typeof elmSelectorOrElm === 'string') {
     return document.querySelector(elmSelectorOrElm)
   }

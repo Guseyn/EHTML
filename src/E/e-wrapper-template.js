@@ -1,74 +1,128 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
-import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f83d7b'
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
-export default (node) => {
-  if (node.hasAttribute('data-actions-on-progress-start')) {
-    evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress-start'),
-      node
-    )
+export default class EWrapperTemplate extends HTMLTemplateElement {
+  constructor() {
+    super()
+    this.ehtmlActivated = false
   }
-  if (!node.hasAttribute('data-src')) {
-    throw new Error('e-wrapper template must have "data-src" attribute')
+
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
-  responseFromAjaxRequest({
-    url: encodeURI(
-      evaluatedStringWithParamsFromState(
-        node.getAttribute('data-src'),
-        node.__ehtmlState__,
-        node
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
+    }
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  run() {
+    const state = getNodeScopedState(this)
+
+    if (this.hasAttribute('data-actions-on-progress-start')) {
+      evaluateActionsOnProgress(
+        this.getAttribute('data-actions-on-progress-start'),
+        this,
+        state
       )
-    ),
-    method: 'GET',
-    headers: JSON.parse(
+    }
+
+    if (!this.hasAttribute('data-src')) {
+      throw new Error('e-wrapper template must have "data-src" attribute')
+    }
+
+    const url = encodeURI(
       evaluatedStringWithParamsFromState(
-        node.getAttribute('data-headers') || '{}',
-        node.__ehtmlState__,
-        node
+        this.getAttribute('data-src'),
+        state,
+        this
       )
     )
-  }, undefined, (err, resObj) => {
-    if (err) {
-      throw err
-    }
-    const html = resObj.body
-    const wrapperTemplate = node
-    const placeholderSelector = wrapperTemplate.getAttribute('data-where-to-place')
-    const wayToPlace = wrapperTemplate.getAttribute('data-how-to-place') || 'after' // also possible 'before', 'instead' and 'inside'
-    const wrapperTemplateReplacement = document.createElement('template')
-    wrapperTemplateReplacement.innerHTML = html
-    const wrapperTemplateReplacementContentNode = wrapperTemplateReplacement.content.cloneNode(true)
-    wrapperTemplate.parentNode.insertBefore(wrapperTemplateReplacementContentNode, wrapperTemplate)
-    const placeholderElement = wrapperTemplate.parentNode.querySelector(placeholderSelector)
-    if (!placeholderElement) {
-      throw new Error('element is not found by the selector in the attribute "data-where-to-place"')
-    }
-    const wrapperTemplateContentNode = wrapperTemplate.content.cloneNode(true)
-    if (wayToPlace === 'before') {
-      placeholderElement.parentNode.insertBefore(wrapperTemplateContentNode, placeholderElement)
-    } else if (wayToPlace === 'after') {
-      if (placeholderElement.nextSibling) {
-        placeholderElement.parentNode.insertBefore(
-          wrapperTemplateContentNode, placeholderElement.nextSibling
-        )
-      } else {
-        placeholderElement.parentNode.append(wrapperTemplateContentNode)
+
+    const headers = evaluatedValueWithParamsFromState(
+      this.getAttribute('data-headers') || '${{}}',
+      state,
+      this
+    )
+
+    responseFromAjaxRequest(
+      {
+        url: url,
+        method: 'GET',
+        headers: headers
+      },
+      undefined,
+      (err, resObj) => {
+        if (err) {
+          throw err
+        }
+
+        this.insert(resObj.body)
+
+        if (this.hasAttribute('data-actions-on-progress-end')) {
+          evaluateActionsOnProgress(
+            this.getAttribute('data-actions-on-progress-end'),
+            this,
+            state
+          )
+        }
+
+        scrollToHash()
       }
-    } else if (wayToPlace === 'inside') {
-      placeholderElement.innerHTML = ''
-      placeholderElement.appendChild(wrapperTemplateContentNode)
-    } else {
-      placeholderElement.parentNode.replaceChild(wrapperTemplateContentNode, placeholderElement)
-    }
-    node.parentNode.removeChild(node)
-    if (node.hasAttribute('data-actions-on-progress-end')) {
-      evaluateStringWithActionsOnProgress(
-        node.getAttribute('data-actions-on-progress-end'),
-        node
+    )
+  }
+
+  insert(html) {
+    // Create fragment
+    const fetched = document.createElement('template')
+    fetched.innerHTML = html
+    const fetchedContent = fetched.content.cloneNode(true)
+
+    // Step 1: Insert fetched HTML into DOM BEFORE manipulation
+    this.parentNode.insertBefore(fetchedContent, this)
+
+    // Step 2: Look for placeholder in real DOM
+    const placeholderSelector = this.getAttribute('data-where-to-place')
+    const how = this.getAttribute('data-how-to-place') || 'after'
+
+    const placeholder = this.parentNode.querySelector(placeholderSelector)
+
+    if (!placeholder) {
+      throw new Error(
+        `element not found by selector "${placeholderSelector}" in data-where-to-place`
       )
     }
-    scrollToHash()
-  })
+
+    // Step 3: Clone wrapper content
+    const wrapperContent = this.content.cloneNode(true)
+
+    // Step 4: Insert wrapper content into real DOM
+    if (how === 'before') {
+      placeholder.parentNode.insertBefore(wrapperContent, placeholder)
+    } else if (how === 'after') {
+      if (placeholder.nextSibling) {
+        placeholder.parentNode.insertBefore(wrapperContent, placeholder.nextSibling)
+      } else {
+        placeholder.parentNode.appendChild(wrapperContent)
+      }
+    } else if (how === 'inside') {
+      placeholder.innerHTML = ''
+      placeholder.appendChild(wrapperContent)
+    } else {
+      // instead
+      placeholder.parentNode.replaceChild(wrapperContent, placeholder)
+    }
+
+    // Step 5: Remove original wrapper template
+    this.parentNode.removeChild(this)
+  }
 }
+
+customElements.define('e-wrapper', EWrapperTemplate, { extends: 'template' })

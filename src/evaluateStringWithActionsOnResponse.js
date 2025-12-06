@@ -1,4 +1,4 @@
-export default function (string, resName, resObj, node) {
+export default function evaluateStringWithActionsOnResponse(string, resName, resObj, node) {
   // Create a dynamic function string to define the resource name
   const dynamicFunctionBody = `
     const thisElement = node
@@ -10,6 +10,26 @@ export default function (string, resName, resObj, node) {
   // eslint-disable-next-line no-new-func
   const func = new Function('node', 'resObj', dynamicFunctionBody)
 
-  // Call the function, passing in `node` and `resObj`
-  func(node, resObj)
+  /*──────────────────────────────────────────────────────────────────────────────
+    We schedule action execution as a microtask to preserve the correct EHTML
+    lifecycle for <template> elements.
+
+    When the DOM changes, templates must first be discovered by the
+    MutationObserver, then activated by activateNode(), and only after that
+    do they attach their "template-triggered" event listeners.
+
+    If we executed actions synchronously, they could fire *before* those
+    listeners exist, causing template-triggered events to be missed.
+
+    The microtask ensures:
+        1) DOM mutations complete
+        2) MutationObserver processes new templates
+        3) activateNode() attaches template-triggered handlers
+        4) actions run safely afterward
+
+    In short: “mutation first → activation second → actions last.”
+  ──────────────────────────────────────────────────────────────────────────────*/
+  queueMicrotask(() => {
+    func(node, resObj)
+  })
 }

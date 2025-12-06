@@ -1,48 +1,87 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
-import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
-import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=dced24cf'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f83d7b'
+import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=98b3528d'
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
-export default (node) => {
-  if (node.hasAttribute('data-actions-on-progress-start')) {
-    evaluateStringWithActionsOnProgress(
-      node.getAttribute('data-actions-on-progress-start'),
-      node
-    )
+export default class Ehtml extends HTMLElement {
+
+  constructor() {
+    super()
+    this.ehtmlActivated = false
   }
-  if (!node.hasAttribute('data-src')) {
-    throw new Error('e-html must have "data-src" attribute')
+
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
-  responseFromAjaxRequest({
-    url: encodeURI(
-      evaluatedStringWithParamsFromState(
-        node.getAttribute('data-src'),
-        node.__ehtmlState__,
-        node
-      )
-    ),
-    method: 'GET',
-    headers: JSON.parse(
-      evaluatedStringWithParamsFromState(
-        node.getAttribute('data-request-headers'),
-        node.__ehtmlState__,
-        node
-      ) || '{}'
-    )
-  }, undefined, (err, resObj) => {
-    if (err) {
-      throw err
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
     }
-    const responseBody = resObj.body
-    node.innerHTML = responseBody
-    unwrappedChildrenOfParent(node)
-    if (node.hasAttribute('data-actions-on-progress-end')) {
-      evaluateStringWithActionsOnProgress(
-        node.getAttribute('data-actions-on-progress-end'),
-        node
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  run() {
+    const state = getNodeScopedState(this)
+
+    if (this.hasAttribute('data-actions-on-progress-start')) {
+      evaluateActionsOnProgress(
+        this.getAttribute('data-actions-on-progress-start'),
+        this,
+        state
       )
     }
-    scrollToHash()
-  })
+
+    if (!this.hasAttribute('data-src')) {
+      throw new Error('<e-html> must have "data-src" attribute')
+    }
+
+    const src = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-src'),
+      state,
+      this
+    )
+
+    const headers = evaluatedValueWithParamsFromState(
+      this.getAttribute('data-request-headers') || '${{}}',
+      state,
+      this
+    )
+
+    responseFromAjaxRequest(
+      {
+        url: encodeURI(src),
+        method: 'GET',
+        headers: headers
+      },
+      undefined,
+      (err, resObj) => {
+        if (err) {
+          throw err
+        }
+
+        const buffer = resObj.body
+        const text = buffer.toString('utf-8', 0, buffer.length)
+
+        this.innerHTML = text
+        unwrappedChildrenOfParent(this)
+
+        if (this.hasAttribute('data-actions-on-progress-end')) {
+          evaluateActionsOnProgress(
+            this.getAttribute('data-actions-on-progress-end'),
+            this,
+            state
+          )
+        }
+
+        scrollToHash()
+      }
+    )
+  }
 }
+
+customElements.define('e-html', Ehtml)

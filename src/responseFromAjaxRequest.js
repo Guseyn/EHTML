@@ -1,7 +1,7 @@
 // custom call
 // err, {statusCode, headers, body} in callback
 // options: {url, method, headers, mimeType, withCredentials, user, password, timeout, progressEvent, loadStartEvent, loadEndEvent, uploadProgressEvent, uploadStartEvent, uploadEndEvent}
-export default (options, requestBody, callback) => {
+export default function (options, requestBody, callback) {
   let resObj = {}
   const req = new XMLHttpRequest()
   req.open(options.method, options.url, true, options.user || null, options.password || null)

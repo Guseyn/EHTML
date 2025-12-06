@@ -1,15 +1,16 @@
-export default function evaluateStringWithActionsOnCloseConnection(string, e, node) {
-  // Create a function using the Function constructor
+export default function evaluateActionsOnResponse(string, resName, resObj, node, state) {
+  // Create a dynamic function string to define the resource name
+  const dynamicFunctionBody = `
+    const ${resName} = resObj
+    with (state) {
+      ${string}
+    }
+  `
+
+  // Use Function constructor for execution
   // eslint-disable-next-line no-new-func
-  const func = new Function(
-    'thisElement',
-    'event',
-    `
-      (() => {
-        ${string}
-      })()
-    `
-  )
+  const func = new Function('resObj', 'state', dynamicFunctionBody)
+
   /*──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
@@ -22,14 +23,14 @@ export default function evaluateStringWithActionsOnCloseConnection(string, e, no
     listeners exist, causing template-triggered events to be missed.
 
     The microtask ensures:
-        1) DOM mutations complete
-        2) MutationObserver processes new templates
-        3) activateNode() attaches template-triggered handlers
-        4) actions run safely afterward
+      1) DOM mutations complete
+      2) MutationObserver processes new templates
+      3) activateNode() attaches template-triggered handlers
+      4) actions run safely afterward
 
     In short: “mutation first → activation second → actions last.”
   ──────────────────────────────────────────────────────────────────────────────*/
   queueMicrotask(() => {
-    func(node, e)
+    func.apply(node, [resObj, state])
   })
 }

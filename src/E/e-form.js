@@ -1,8 +1,9 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
-import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
-import evaluateStringWithActionsOnResponse from '#ehtml/evaluateStringWithActionsOnResponse.js?v=2edf1120'
-import nodeName from '#ehtml/nodeName.js?v=3a6378ad'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f83d7b'
+import evaluateActionsOnResponse from '#ehtml/evaluateActionsOnResponse.js?v=1ff0631a'
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,
@@ -17,63 +18,149 @@ const VALIDATION_PATTERNS = {
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
-export default (node) => {
-  const form = replaceWithForm(node)
-  form.addEventListener('allChildNodesAreObservedByEHTML', () => {
-    if (form.hasAttribute('data-request-url') || form.hasAttribute('data-socket')) {
-      submit(form, true)
+export default class EForm extends HTMLFormElement {
+  constructor() {
+    super()
+    this.ehtmlActivated = false
+  }
+
+  connectedCallback() {
+    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+  }
+
+  onEHTMLActivated() {
+    if (this.ehtmlActivated) {
+      return
     }
-  })
+    this.ehtmlActivated = true
+    this.run()
+  }
+
+  run() {
+    initializeForm(this)
+  }
 }
 
-function replaceWithForm (node) {
-  const form = document.createElement('form')
+customElements.define('e-form', EForm, { extends: 'form' })
+
+function initializeForm(form) {
   form.setAttribute('novalidate', 'true')
-  form.setAttribute('data-e-form', 'true')
-  for (let i = 0; i < node.attributes.length; i++) {
-    form.setAttribute(
-      node.attributes[i].name,
-      node.attributes[i].value
-    )
-  }
-  window.onsubmit = (event) => {
-    return false
-  }
   form.addEventListener('keydown', (event) => {
-    if (
-      event.key === 'Enter' &&
-      event.target.tagName === 'INPUT'
-    ) {
+    if (event.key === 'Enter' && event.target.tagName === 'INPUT') {
       event.preventDefault()
       event.stopPropagation()
+
       const closestForm = event.target.closest('form')
       if (form !== closestForm) {
         return false
       }
-      const firstElmWithRequestUrl = closestForm.querySelector('[data-request-url]')
+
+      const firstElmWithRequestUrl =
+        closestForm.querySelector('[data-request-url]')
+
       if (!firstElmWithRequestUrl) {
         return false
       }
       if (firstElmWithRequestUrl.closest('form') !== form) {
         return false
       }
-      if (firstElmWithRequestUrl.hasAttribute('data-do-not-trigger-on-enter')) {
+      if (form.hasAttribute('data-do-not-trigger-on-enter')) {
         return false
       }
+
       submit(firstElmWithRequestUrl)
     }
   })
+  form.onsubmit = () => {
+    return false
+  }
+
   form.validationErrorBoxes = []
   form.elementsWithValidationError = []
-  while (node.firstChild) {
-    const child = node.removeChild(node.firstChild)
-    form.appendChild(child)
-  }
-  node.parentNode.replaceChild(form, node)
   form.setupForm = setupForm
   form.updateForm = setupForm
   form.submit = submit
+  form.ehtmlSubmit = submit
+
   setupForm(form)
+
+  let setupPending = false
+
+  // Tags that matter for form structure
+  const RELEVANT_TAGS = new Set([
+    'INPUT',
+    'SELECT',
+    'TEXTAREA',
+    'BUTTON',
+
+    // EHTML form-related custom elements
+    'E-LOCAL-STORAGE-VALUE',
+    'E-SESSION-STORAGE-VALUE',
+    'E-FORM-DYNAMIC-VALUE',
+    'E-FORM-ARRAY',
+    'E-FORM-OBJECT'
+  ])
+
+  function nodeIsRelevant(node) {
+    if (!(node instanceof Element)) {
+      return false
+    }
+    if (RELEVANT_TAGS.has(node.tagName)) {
+      return true
+    }
+    for (const child of node.querySelectorAll('*')) {
+      if (RELEVANT_TAGS.has(child.tagName)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  queueMicrotask(() => {
+    if (form.hasAttribute('data-request-url') || form.hasAttribute('data-socket')) {
+      submit(form, true)
+    }
+  })
+
+  const observer = new MutationObserver((mutationList) => {
+    let shouldRunSetup = false
+
+    for (const mut of mutationList) {
+      for (const node of mut.addedNodes) {
+        if (!form.contains(node)) continue
+        if (nodeIsRelevant(node)) {
+          shouldRunSetup = true
+          break
+        }
+      }
+      for (const node of mut.removedNodes) {
+        if (nodeIsRelevant(node)) {
+          shouldRunSetup = true
+          break
+        }
+      }
+      if (shouldRunSetup) {
+        break
+      }
+    }
+
+    if (shouldRunSetup && !setupPending) {
+      setupPending = true
+      queueMicrotask(() => {
+        setupPending = false
+        setupForm(form)
+      })
+    }
+  })
+
+  observer.observe(form, {
+    childList: true,
+    subtree: true
+  })
+
+  // store observer on form so cleanup is possible later
+  form.ehtmlFormMutationObserver = observer
+
   return form
 }
 
@@ -93,7 +180,7 @@ function setupForm (form) {
 }
 
 function filterApplicableFormElements (form, elms) {
-  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') === form)
+  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') == form)
 }
 
 function tuneFileInputs (fileInputs) {
@@ -241,6 +328,7 @@ function urlWithQueryParams (url, queryObject) {
 }
 
 function submit (target, targetIsForm) {
+
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -287,13 +375,15 @@ function submit (target, targetIsForm) {
 
   form.isValid = false
 
+  const state = getNodeScopedState(target)
+
   if (isFormValid(form, validations)) {
     form.isValid = true
     if (socketName) {
-      if (!window.__ehtmlState__['webSockets'] || !window.__ehtmlState__['webSockets'][socketName]) {
+      if (!window.__EHTML_WEB_SOCKETS__ || !window.__EHTML_WEB_SOCKETS__[socketName]) {
         throw new Error(`socket with name "${socketName}" is not defined or not open yet`)
       }
-      const socket = window.__ehtmlState__['webSockets'][socketName]
+      const socket = window.__EHTML_WEB_SOCKETS__[socketName]
       if (socket.readyState === WebSocket.OPEN) {
         const message = JSON.stringify(requestBody)
         socket.send(message)
@@ -320,7 +410,7 @@ function submit (target, targetIsForm) {
       if (target.originalInnerText) {
         target.innerText = target.originalInnerText
       }
-      evaluateStringWithActionsOnResponse(
+      evaluateActionsOnResponse(
         target.getAttribute('data-actions-on-response'),
         target.getAttribute('data-response-name'),
         {
@@ -331,7 +421,8 @@ function submit (target, targetIsForm) {
             ':status': 200
           }
         },
-        target
+        target,
+        state
       )
       return
     }
@@ -345,9 +436,10 @@ function submit (target, targetIsForm) {
     const progressBar = document.querySelector(progressBarSelector)
 
     if (target.hasAttribute('data-actions-on-progress')) {
-      evaluateStringWithActionsOnProgress(
+      evaluateActionsOnProgress(
         target.getAttribute('data-actions-on-progress'),
-        target
+        target,
+        state
       )
     }
 
@@ -355,17 +447,15 @@ function submit (target, targetIsForm) {
       url: urlWithQueryParams(
         evaluatedStringWithParamsFromState(
           target.getAttribute('data-request-url'),
-          target.__ehtmlState__,
+          state,
           target
         ),
         queryObject
       ),
-      headers: JSON.parse(
-        evaluatedStringWithParamsFromState(
-          target.getAttribute('data-request-headers'),
-          target.__ehtmlState__,
-          target
-        ) || '{}'
+      headers: evaluatedValueWithParamsFromState(
+        target.getAttribute('data-request-headers') || '${{}}',
+        state,
+        target
       ),
       method: target.getAttribute('data-request-method') || 'POST',
       uploadProgressEvent: (event) => {
@@ -414,7 +504,7 @@ function submit (target, targetIsForm) {
       const responseBodyAsObject = JSON.parse(
         responseBodyAsBuffer.toString('utf-8', 0, responseBodyAsBuffer.length)
       )
-      evaluateStringWithActionsOnResponse(
+      evaluateActionsOnResponse(
         target.getAttribute('data-actions-on-response'),
         target.getAttribute('data-response-name'),
         {
@@ -422,7 +512,8 @@ function submit (target, targetIsForm) {
           statusCode: resObj.statusCode,
           headers: resObj.headers
         },
-        target
+        target,
+        state
       )
     })
   } else {
@@ -560,14 +651,26 @@ function isFile (element) {
 
 function showErrorForFormElement (form, element, errorMessage, elementErrorClass, messageBoxErrorClass) {
   let elementWithErrorMessageBox
+  let messageBox
   if (errorMessage) {
-    elementWithErrorMessageBox = document.createElement('div')
-    const messageBox = document.createElement('div')
+    if (element.parentElement.tagName.toLowerCase() === 'label') {
+      elementWithErrorMessageBox = element.parentElement
+    } else {
+      if (element === form) {
+        elementWithErrorMessageBox = element
+      } else {
+        elementWithErrorMessageBox = document.createElement('label')
+        elementWithErrorMessageBox.appendChild(element)
+        element.parentElement.replaceChild(
+          elementWithErrorMessageBox,
+          element
+        )
+      }
+    }
+    messageBox = document.createElement('span')
     messageBox.innerText = errorMessage
-    element.parentNode.replaceChild(elementWithErrorMessageBox, element)
-    elementWithErrorMessageBox.appendChild(element)
     elementWithErrorMessageBox.appendChild(messageBox)
-    form.validationErrorBoxes.push(elementWithErrorMessageBox)
+    form.validationErrorBoxes.push(messageBox)
     if (messageBoxErrorClass) {
       messageBox.classList.add(messageBoxErrorClass)
     }
@@ -577,10 +680,8 @@ function showErrorForFormElement (form, element, errorMessage, elementErrorClass
     form.elementsWithValidationError.push(element)
   }
   const listener = () => {
-    if (elementWithErrorMessageBox) {
-      if (elementWithErrorMessageBox.parentNode) {
-        elementWithErrorMessageBox.parentNode.replaceChild(element, elementWithErrorMessageBox)
-      }
+    if (messageBox) {
+      messageBox.parentElement.removeChild(messageBox)
     }
     if (elementErrorClass) {
       element.classList.remove(elementErrorClass)
@@ -593,10 +694,10 @@ function showErrorForFormElement (form, element, errorMessage, elementErrorClass
 }
 
 function hideAllErrorsForForm (form) {
-  form.validationErrorBoxes.forEach(elementWithErrorMessageBox => {
-    if (elementWithErrorMessageBox.parentNode) {
-      elementWithErrorMessageBox.parentNode.replaceChild(
-        elementWithErrorMessageBox.firstChild, elementWithErrorMessageBox
+  form.validationErrorBoxes.forEach(messageBox => {
+    if (messageBox.parentNode) {
+      messageBox.parentNode.removeChild(
+        messageBox
       )
     }
   })
@@ -742,7 +843,7 @@ function returnValueByPropertyPath (requestBodySubObject, remainingPropertyPath)
   return null
 }
 
-function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement, properyPath, valueIsForQueryObject) {
+function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, properyPath, valueIsForQueryObject) {
   if (valueIsForQueryObject) {
     properyPath.unshift({
       name: formElement.name,
@@ -751,8 +852,8 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  const isArray = nodeName(formElement) === 'e-form-array'
-  const isObject = nodeName(formElement) === 'e-form-object'
+  const isArray = formElement.tagName.toLowerCase() === 'e-form-array'
+  const isObject = formElement.tagName.toLowerCase() === 'e-form-object'
   const isLiteral = !isArray && !isObject
 
   const closestForm = formElement.closest('form')
@@ -787,7 +888,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     theMostClosest = closestFormObject
   }
 
-  if (closestForm === theMostClosest) {
+  if (closestForm == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -797,7 +898,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormArray === theMostClosest) {
+  if (closestFormArray == theMostClosest) {
     const formElementQuerySelector = [
       'input',
       'select',
@@ -837,7 +938,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
         if (elClosestFormObject !== el && elClosestFormObject !== closestFormObject) {
           return false
         }
-
+        
         return true
       })
     const formElementIndex = topLevelElements.indexOf(formElement)
@@ -857,7 +958,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormObject === theMostClosest) {
+  if (closestFormObject == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -869,6 +970,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
       properyPath,
       valueIsForQueryObject
     )
+    return
   }
 }
 
