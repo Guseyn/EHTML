@@ -1,3 +1,3 @@
 export default function (node) {
-  return node.nodeName.toLowerCase() === "template";
+  return node.nodeName.toLowerCase() === 'template'
 }

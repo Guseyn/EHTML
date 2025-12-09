@@ -2,14 +2,14 @@ export default function evaluateStringWithActionsOnCloseConnection (string, e, n
   // Create a function using the Function constructor
    
   const func = new Function(
-    "thisElement",
-    "event",
+    'thisElement',
+    'event',
     `
       (() => {
         ${string}
       })()
     `
-  );
+  )
   /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
@@ -30,6 +30,6 @@ export default function evaluateStringWithActionsOnCloseConnection (string, e, n
     In short: “mutation first → activation second → actions last.”
   ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node, e);
-  });
+    func(node, e)
+  })
 }

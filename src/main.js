@@ -69,7 +69,7 @@
  * initialize and activate reliably on every platform.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import "#ehtml/third-party/custom-elements-polyfill.js";
+import '#ehtml/third-party/custom-elements-polyfill.js'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               ACTIVATE NODE
@@ -95,7 +95,7 @@ import "#ehtml/third-party/custom-elements-polyfill.js";
  * declaration of components completely open and extensible.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import activateNode from "#ehtml/activateNode.js?v=6a20044a";
+import activateNode from '#ehtml/activateNode.js?v=6a20044a'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               EHTML ELEMENTS
@@ -110,7 +110,7 @@ import activateNode from "#ehtml/activateNode.js?v=6a20044a";
  * the browser and available for activation.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import "#ehtml/E/exports.js?v=8febe801";
+import '#ehtml/E/exports.js?v=8febe801'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               EHTML ACTIONS
@@ -139,7 +139,7 @@ import "#ehtml/E/exports.js?v=8febe801";
  * Importing and exporting them as a single object makes it easy for the
  * EHTML engine to look them up by name and invoke them at runtime.
  * ════════════════════════════════════════════════════════════════════════ */
-import "#ehtml/actions/exports.js?v=de317e5d";
+import '#ehtml/actions/exports.js?v=de317e5d'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                       EHTML NODE-SCOPED STATE MAP
@@ -159,7 +159,7 @@ import "#ehtml/actions/exports.js?v=de317e5d";
  * internals.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-window.__EHTML_SCOPED_STATE__ = new WeakMap();
+window.__EHTML_SCOPED_STATE__ = new WeakMap()
 
 /* ════════════════════════════════════════════════════════════════════════
  *                      EHTML WEBSOCKET CONNECTION REGISTRY
@@ -173,7 +173,7 @@ window.__EHTML_SCOPED_STATE__ = new WeakMap();
  * avoiding redundant WebSockets and enabling efficient real-time updates.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || [];
+window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || []
 
 /* ════════════════════════════════════════════════════════════════════════
  *                    EHTML MARKDOWN EXTENSION REGISTRY
@@ -194,7 +194,7 @@ window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || [];
  * `<e-markdown>` will read from this registry each time it performs a
  * markdown → HTML conversion.
  * ════════════════════════════════════════════════════════════════════════ */
-window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [];
+window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || []
 
 /* ====================================================================
  *                       MUTATION OBSERVER CALLBACK
@@ -300,9 +300,9 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  * ==================================================================== */
 function mutationHandler (mutations) {
   for (const mut of mutations) {
-    if (mut.type === "childList") {
+    if (mut.type === 'childList') {
       for (const node of mut.addedNodes) {
-        activateNode(node);
+        activateNode(node)
       }
     }
   }
@@ -316,7 +316,7 @@ function mutationHandler (mutations) {
  *   - childList: true   → detect inserted DOM nodes
  *   - subtree: true     → detect nodes inserted anywhere under body
  * ==================================================================== */
-let observer = new MutationObserver(mutationHandler);
+let observer = new MutationObserver(mutationHandler)
 
 /* ====================================================================
  *  PUBLIC API — ENABLE OBSERVER
@@ -343,7 +343,7 @@ export function turnEhtmlObserverOn () {
   observer.observe(document.body, {
     childList: true,
     subtree: true
-  });
+  })
 }
 
 /* ====================================================================
@@ -374,7 +374,7 @@ export function turnEhtmlObserverOn () {
  *  to manually run activation once.
  * ==================================================================== */
 export function turnEhtmlObserverOff () {
-  observer.disconnect();
+  observer.disconnect()
 }
 
 /* ====================================================================
@@ -391,9 +391,9 @@ export function turnEhtmlObserverOff () {
  *  This makes EHTML highly predictable and debuggable:
  *      every activation step is deliberate and observable.
  * ==================================================================== */
-window.turnEhtmlObserverOn = turnEhtmlObserverOn;
-window.turnEhtmlObserverOff = turnEhtmlObserverOff;
-window.activateNode = activateNode;
+window.turnEhtmlObserverOn = turnEhtmlObserverOn
+window.turnEhtmlObserverOff = turnEhtmlObserverOff
+window.activateNode = activateNode
 
 /* ====================================================================
  *                   INITIAL ACTIVATION — BOOTSTRAP PHASE
@@ -417,5 +417,5 @@ window.activateNode = activateNode;
  *      - extremely performant during runtime
  *
  * ==================================================================== */
-queueMicrotask(() => activateNode(document.body)); // one-time full-tree activation
-turnEhtmlObserverOn(); // incremental activation from now on
+queueMicrotask(() => activateNode(document.body)) // one-time full-tree activation
+turnEhtmlObserverOn() // incremental activation from now on

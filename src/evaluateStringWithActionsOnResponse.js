@@ -4,11 +4,11 @@ export default function evaluateStringWithActionsOnResponse (string, resName, re
     const thisElement = node
     const ${resName} = resObj
     ${string}
-  `;
+  `
 
   // Use Function constructor for execution
    
-  const func = new Function("node", "resObj", dynamicFunctionBody);
+  const func = new Function('node', 'resObj', dynamicFunctionBody)
 
   /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
@@ -30,6 +30,6 @@ export default function evaluateStringWithActionsOnResponse (string, resName, re
     In short: “mutation first → activation second → actions last.”
   ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node, resObj);
-  });
+    func(node, resObj)
+  })
 }

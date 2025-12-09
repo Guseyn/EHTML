@@ -2,13 +2,13 @@ export default function evaluateStringWithActionsOnProgress (string, node) {
   // Create a function using the Function constructor
    
   const func = new Function(
-    "thisElement",
+    'thisElement',
     `
       (() => {
         ${string}
       })()
     `
-  );
+  )
   /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
@@ -29,6 +29,6 @@ export default function evaluateStringWithActionsOnProgress (string, node) {
     In short: “mutation first → activation second → actions last.”
   ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node);
-  });
+    func(node)
+  })
 }

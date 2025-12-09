@@ -15,7 +15,7 @@ export default [
 
     rules: {
       // Semicolons required
-      "semi": ["error", "always"],
+      "semi": ["error", "never"],
 
       // 2 space indentation
       "indent": ["error", 2],
@@ -25,10 +25,12 @@ export default [
       "no-undef": "off",
 
       // Style: double quotes
-      "quotes": ["error", "double"],
+      "quotes": ["error", "single"],
 
       // No trailing commas
-      "comma-dangle": ["error", "never"]
+      "comma-dangle": ["error", "never"],
+
+      "no-multi-spaces": "error"
     }
   }
 

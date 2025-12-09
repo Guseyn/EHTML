@@ -2,14 +2,14 @@ export default function evaluateActionsOnOpenConnection (string, e, node, state)
   // Create a function using the Function constructor
    
   const func = new Function(
-    "event",
-    "state",
+    'event',
+    'state',
     `
       with (state) {
         ${string}
       }
     `
-  );
+  )
   /* ──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
@@ -30,6 +30,6 @@ export default function evaluateActionsOnOpenConnection (string, e, node, state)
     In short: “mutation first → activation second → actions last.”
   ────────────────────────────────────────────────────────────────────────────── */
   queueMicrotask(() => {
-    func(node, [e, state]);
-  });
+    func(node, [e, state])
+  })
 }
