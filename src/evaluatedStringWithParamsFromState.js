@@ -1,6 +1,6 @@
 const pattern = /\${([^}]+)}/g
 
-export default function evaluatedStringWithParamsFromState (string, state, node) {
+export default function evaluatedStringWithParamsFromState(string, state, node) {
   if (!string) {
     return null
   }

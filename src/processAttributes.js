@@ -100,7 +100,7 @@ const NATIVE_EVENT_LISTENERS = [
 
 const hasParams = v => v.includes('${')
 
-export default function processAttributes (node) {
+export default function processAttributes(node) {
   if (!node.attributes) {
     return
   }
@@ -129,7 +129,7 @@ export default function processAttributes (node) {
 
     // evaluate now
     const state = getNodeScopedState(node)
-
+    
     if (name === 'data-internal-state') {
       const evaluated = evaluatedValueWithParamsFromState(rawValue, state, node)
       node.internalState = evaluated

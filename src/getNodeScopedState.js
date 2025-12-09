@@ -1,4 +1,4 @@
-export default function getNodeScopedState (node) {
+export default function getNodeScopedState(node) {
   let current = node
 
   while (current) {

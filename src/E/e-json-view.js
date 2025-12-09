@@ -8,16 +8,17 @@ import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 import prettyHtml from '#ehtml/third-party/json-pretty-html.js?v=acd8d719'
 
 export default class EJsonView extends HTMLElement {
-  constructor () {
+
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -25,7 +26,7 @@ export default class EJsonView extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     const state = getNodeScopedState(this)
 
     if (this.hasAttribute('data-actions-on-progress-start')) {

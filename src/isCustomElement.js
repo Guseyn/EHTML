@@ -29,7 +29,7 @@
  *    • Works reliably even on browsers that refuse to upgrade customized
  *      built-ins (notably iOS Safari).
  * ════════════════════════════════════════════════════════════════════════ */
-export default function isCustomElement (el) {
+export default function isCustomElement(el) {
   /*
    * Skip all non-element nodes (text, comments, fragments, etc.)
    */

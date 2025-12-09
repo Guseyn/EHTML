@@ -1,14 +1,14 @@
 export default class ESessionStorageValue extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -16,7 +16,7 @@ export default class ESessionStorageValue extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     // exactly same behavior as before
     this.name = this.getAttribute('name')
 

@@ -6,16 +6,16 @@ import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EWrapperTemplate extends HTMLTemplateElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -23,7 +23,7 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
     this.run()
   }
 
-  run () {
+  run() {
     const state = getNodeScopedState(this)
 
     if (this.hasAttribute('data-actions-on-progress-start')) {
@@ -79,7 +79,7 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
     )
   }
 
-  insert (html) {
+  insert(html) {
     // Create fragment
     const fetched = document.createElement('template')
     fetched.innerHTML = html

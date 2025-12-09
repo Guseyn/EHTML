@@ -5,26 +5,26 @@ import evaluateActionsOnOpenConnection from '#ehtml/evaluateActionsOnOpenConnect
 import evaluateActionsOnCloseConnection from '#ehtml/evaluateActionsOnCloseConnection.js?v=85da1111'
 
 export default class EWs extends HTMLTemplateElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener(
       'ehtml:activated',
       this.onEHTMLActivated
     )
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     this.removeEventListener(
       'ehtml:activated',
       this.onEHTMLActivated
     )
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -32,7 +32,7 @@ export default class EWs extends HTMLTemplateElement {
     this.run()
   }
 
-  run () {
+  run() {
     const state = getNodeScopedState(this)
 
     if (!this.hasAttribute('data-src')) {

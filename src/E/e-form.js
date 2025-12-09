@@ -19,16 +19,16 @@ const VALIDATION_PATTERNS = {
 }
 
 export default class EForm extends HTMLFormElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -36,14 +36,14 @@ export default class EForm extends HTMLFormElement {
     this.run()
   }
 
-  run () {
+  run() {
     initializeForm(this)
   }
 }
 
 customElements.define('e-form', EForm, { extends: 'form' })
 
-function initializeForm (form) {
+function initializeForm(form) {
   form.setAttribute('novalidate', 'true')
   form.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' && event.target.tagName === 'INPUT') {
@@ -101,7 +101,7 @@ function initializeForm (form) {
     'E-FORM-OBJECT'
   ])
 
-  function nodeIsRelevant (node) {
+  function nodeIsRelevant(node) {
     if (!(node instanceof Element)) {
       return false
     }
@@ -180,7 +180,7 @@ function setupForm (form) {
 }
 
 function filterApplicableFormElements (form, elms) {
-  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') === form)
+  return elms.filter(e => !e.hasAttribute('data-ignore')).filter(e => e.closest('form') == form)
 }
 
 function tuneFileInputs (fileInputs) {
@@ -328,6 +328,7 @@ function urlWithQueryParams (url, queryObject) {
 }
 
 function submit (target, targetIsForm) {
+
   const form = targetIsForm ? target : target.form
   if (!form) {
     throw new Error('you must pass form in submit method like: \'this.submit(this)\'')
@@ -842,7 +843,7 @@ function returnValueByPropertyPath (requestBodySubObject, remainingPropertyPath)
   return null
 }
 
-function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement, properyPath, valueIsForQueryObject) {
+function buildFullPathOfProperyForRequestBodyByFormElementPosition(formElement, properyPath, valueIsForQueryObject) {
   if (valueIsForQueryObject) {
     properyPath.unshift({
       name: formElement.name,
@@ -887,7 +888,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     theMostClosest = closestFormObject
   }
 
-  if (closestForm === theMostClosest) {
+  if (closestForm == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -897,7 +898,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormArray === theMostClosest) {
+  if (closestFormArray == theMostClosest) {
     const formElementQuerySelector = [
       'input',
       'select',
@@ -937,7 +938,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
         if (elClosestFormObject !== el && elClosestFormObject !== closestFormObject) {
           return false
         }
-
+        
         return true
       })
     const formElementIndex = topLevelElements.indexOf(formElement)
@@ -957,7 +958,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
     return
   }
 
-  if (closestFormObject === theMostClosest) {
+  if (closestFormObject == theMostClosest) {
     properyPath.unshift({
       name: formElement.name,
       isLiteral,
@@ -969,6 +970,7 @@ function buildFullPathOfProperyForRequestBodyByFormElementPosition (formElement,
       properyPath,
       valueIsForQueryObject
     )
+    return
   }
 }
 

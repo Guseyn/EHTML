@@ -1,14 +1,14 @@
 export default class ESelect extends HTMLSelectElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -19,7 +19,7 @@ export default class ESelect extends HTMLSelectElement {
   // ─────────────────────────────────────────────
   //  Apply "value" attribute to select options
   // ─────────────────────────────────────────────
-  run () {
+  run() {
     const value = this.getAttribute('value')
 
     if (value === null) {

@@ -1,16 +1,16 @@
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EPageWithUrl extends HTMLTemplateElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -18,7 +18,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     this.run()
   }
 
-  run () {
+  run() {
     const urlPattern = this.getAttribute('data-url-pattern')
     if (!urlPattern) {
       throw new Error('<template is="e-page-with-url"> must have data-url-pattern')
@@ -36,7 +36,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     scrollToHash()
   }
 
-  __constructedUrlParams (urlPattern, windowLocation) {
+  __constructedUrlParams(urlPattern, windowLocation) {
     const urlParams = {}
 
     const parsedUrl = this.__parsedUrlPattern(urlPattern)
@@ -67,7 +67,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     return urlParams
   }
 
-  __parsedUrlPattern (url) {
+  __parsedUrlPattern(url) {
     const split = url.split('?')
     const beforeQuery = split[0]
     const afterQuery = split[1]
@@ -82,7 +82,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     }
   }
 
-  __requestParamsOfLocationSearch (locationSearch) {
+  __requestParamsOfLocationSearch(locationSearch) {
     const params = {}
     const searchPart = locationSearch.split('?')[1]
     if (!searchPart) {

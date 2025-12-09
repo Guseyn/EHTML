@@ -1,4 +1,4 @@
-export default function evaluatedValueWithParamsFromState (expression, state, node) {
+export default function evaluatedValueWithParamsFromState(expression, state, node) {
   if (!expression) {
     return null
   }

@@ -1,6 +1,6 @@
 import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=7806d68f'
 
-export default function templateTriggerEventListener (template, state) {
+export default function templateTriggerEventListener(template, state) {
   const contentNode = template.content.cloneNode(true)
   if (template.hasAttribute('data-prepend-to')) {
     const attr = template.getAttribute('data-prepend-to')

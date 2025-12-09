@@ -1,4 +1,4 @@
-export default function evaluateActionsOnResponse (string, resName, resObj, node, state) {
+export default function evaluateActionsOnResponse(string, resName, resObj, node, state) {
   // Create a dynamic function string to define the resource name
   const dynamicFunctionBody = `
     const ${resName} = resObj
@@ -11,7 +11,7 @@ export default function evaluateActionsOnResponse (string, resName, resObj, node
    
   const func = new Function('resObj', 'state', dynamicFunctionBody)
 
-  /* ──────────────────────────────────────────────────────────────────────────────
+  /*──────────────────────────────────────────────────────────────────────────────
     We schedule action execution as a microtask to preserve the correct EHTML
     lifecycle for <template> elements.
 
@@ -29,7 +29,7 @@ export default function evaluateActionsOnResponse (string, resName, resObj, node
       4) actions run safely afterward
 
     In short: “mutation first → activation second → actions last.”
-  ────────────────────────────────────────────────────────────────────────────── */
+  ──────────────────────────────────────────────────────────────────────────────*/
   queueMicrotask(() => {
     func.apply(node, [resObj, state])
   })

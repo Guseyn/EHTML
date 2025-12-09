@@ -37,5 +37,5 @@ export default {
   EMarkdown,
   ESelect,
   ESvg,
-  EWs
+  EWs  
 }

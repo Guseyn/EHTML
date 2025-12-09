@@ -7,16 +7,17 @@ import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=98b
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class Ehtml extends HTMLElement {
-  constructor () {
+
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -24,7 +25,7 @@ export default class Ehtml extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     const state = getNodeScopedState(this)
 
     if (this.hasAttribute('data-actions-on-progress-start')) {

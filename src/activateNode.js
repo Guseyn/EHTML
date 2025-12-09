@@ -4,7 +4,8 @@ import shouldSkipNode from '#ehtml/shouldSkipNode.js?v=edc4a483'
 import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
 import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=5b49af76'
 
-export default function activateNode (node) {
+export default function activateNode(node) {
+
   if (!(node instanceof Element)) {
     return
   }
@@ -32,7 +33,7 @@ export default function activateNode (node) {
   }
 
   // 3. Native <template> (NO "is") — attach template-trigger listener once
-  if (isTemplate(node) && !node.getAttribute('is')) {
+  if (isTemplate(node) && !node.getAttribute('is')) {    
     if (!node.ehtmlTemplateTriggerEventListenerAttached) {
       node.ehtmlTemplateTriggerEventListenerAttached = true
       if (node.hasAttribute('data-release-on-load')) {

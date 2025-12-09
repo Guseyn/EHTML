@@ -2,16 +2,16 @@ import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
 
 export default class EIfTemplate extends HTMLTemplateElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -20,7 +20,7 @@ export default class EIfTemplate extends HTMLTemplateElement {
     this.run()
   }
 
-  run () {
+  run() {
     const expr = this.getAttribute('data-condition-to-display')
     if (!expr) {
       throw new Error('<template is="e-if"> must have data-condition-to-display')
@@ -45,7 +45,7 @@ export default class EIfTemplate extends HTMLTemplateElement {
     }
   }
 
-  insertContent () {
+  insertContent() {
     // Clone the <template> content
     const fragment = this.content.cloneNode(true)
     const parent = this.parentNode

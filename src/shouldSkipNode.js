@@ -1,4 +1,4 @@
-export default function shouldSkipNode (node) {
+export default function shouldSkipNode(node) {
   if (node.parentElement && node.parentElement.closest('[data-no-ehtml="true"]')) {
     return true
   }

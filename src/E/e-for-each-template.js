@@ -3,16 +3,16 @@ import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=7806d68f'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=a8e84941'
 
 export default class EForEachTemplate extends HTMLTemplateElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -20,7 +20,7 @@ export default class EForEachTemplate extends HTMLTemplateElement {
     this.run()
   }
 
-  run () {
+  run() {
     const listExpr = this.getAttribute('data-list-to-iterate')
     const itemName = this.getAttribute('data-item-name')
 

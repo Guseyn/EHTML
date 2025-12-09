@@ -1,4 +1,4 @@
-export default function supportsCustomizedBuiltIns () {
+export default function supportsCustomizedBuiltIns() {
   try {
     class EButton extends HTMLButtonElement {}
     customElements.define('e-button', EButton, { extends: 'button' })

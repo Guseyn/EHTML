@@ -15,9 +15,9 @@ export default function (parent) {
   }
 
   // 2. Reassign scope to the *new* parent of the children
-  const newParent = parent.parentNode
+  const newParent = parent.parentElement
   if (!newParent) {
-    throw new Error('unwrap: parent has no parentNode')
+    throw new Error('unwrap: parent has no parentElement')
   }
 
   setNodeScopedState(newParent, state)

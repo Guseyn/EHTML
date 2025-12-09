@@ -2,16 +2,16 @@ import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
 
 export default class EFormDynamicValue extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -19,7 +19,7 @@ export default class EFormDynamicValue extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     this.style.display = 'none'
     this.name = this.getAttribute('name')
     const state = getNodeScopedState(this)

@@ -8,16 +8,16 @@ import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=98b
 import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EJson extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {    
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -25,7 +25,7 @@ export default class EJson extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     const socketName = this.getAttribute('data-socket')
     if (socketName) {
       return this.runSocketMode()
@@ -42,7 +42,7 @@ export default class EJson extends HTMLElement {
     return this.runAjax()
   }
 
-  runSocketMode () {
+  runSocketMode() {
     const state = getNodeScopedState(this)
     const ajaxIcon = this.resolveIcon()
     if (ajaxIcon) {
@@ -72,7 +72,7 @@ export default class EJson extends HTMLElement {
     unwrappedChildrenOfParent(this)
   }
 
-  tryCache () {
+  tryCache() {
     const state = getNodeScopedState(this)
     const cacheAttr = this.getAttribute('data-cache-from')
 
@@ -106,7 +106,7 @@ export default class EJson extends HTMLElement {
     return true
   }
 
-  runAjax () {
+  runAjax() {
     const state = getNodeScopedState(this)
 
     const src = this.getAttribute('data-src')
@@ -189,8 +189,6 @@ export default class EJson extends HTMLElement {
           state
         )
 
-        unwrappedChildrenOfParent(this)
-
         if (this.hasAttribute('data-actions-on-progress-end')) {
           evaluateActionsOnProgress(
             this.getAttribute('data-actions-on-progress-end'),
@@ -200,11 +198,15 @@ export default class EJson extends HTMLElement {
         }
 
         scrollToHash()
+
+        if (this.parentElement) {
+          unwrappedChildrenOfParent(this)
+        }
       }
     )
   }
 
-  resolveProgressBar () {
+  resolveProgressBar() {
     const sel = this.getAttribute('data-progress-bar')
     if (!sel) {
       return null
@@ -212,7 +214,7 @@ export default class EJson extends HTMLElement {
     return document.querySelector(sel)
   }
 
-  resolveIcon () {
+  resolveIcon() {
     const sel = this.getAttribute('data-ajax-icon')
     if (!sel) {
       return null

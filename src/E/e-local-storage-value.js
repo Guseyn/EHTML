@@ -1,14 +1,14 @@
 export default class ELocalStorageValue extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -16,7 +16,7 @@ export default class ELocalStorageValue extends HTMLElement {
     this.run()
   }
 
-  __setup () {
+  __setup() {
     // exactly same behavior as before
     this.name = this.getAttribute('name')
 

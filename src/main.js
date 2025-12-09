@@ -4,9 +4,9 @@
  *
  * This file connects the three parts of the EHTML engine:
  *
- *   1. Custom Element Definitions
- *   2. The Activation Pipeline (activateNode)
- *   3. The Global Mutation Observer
+ *   1. Custom Element Definitions  
+ *   2. The Activation Pipeline (activateNode)  
+ *   3. The Global Mutation Observer  
  *
  * Together they form the loop that turns plain HTML into a live,
  * declarative UI without frameworks, a virtual DOM, or a build step.
@@ -23,16 +23,16 @@
  * ---------------------------------------------------------------------
  * Every node that enters the DOM goes through activation. This handles:
  *
- *   • evaluating `${...}` expressions with scoped state
- *   • dispatching `"ehtml:activated"` to custom elements
- *   • wiring template triggers for mapToTemplate()
+ *   • evaluating `${...}` expressions with scoped state  
+ *   • dispatching `"ehtml:activated"` to custom elements  
+ *   • wiring template triggers for mapToTemplate()  
  *
  * Activation is recursive and always runs top-down.
  *
  * ---------------------------------------------------------------------
  * 3. Mutation Observer
  * ---------------------------------------------------------------------
- * EHTML listens only for new DOM nodes (`childList` mutations).
+ * EHTML listens only for new DOM nodes (`childList` mutations).  
  * When a node is inserted, it is passed through the activation pipeline.
  * Attribute changes are ignored — they are evaluated only once on insert.
  *
@@ -48,15 +48,16 @@
  * ---------------------------------------------------------------------
  * EHTML’s model is simple:
  *
- *   • HTML is the component system
- *   • Expressions are evaluated once
- *   • Custom elements activate via explicit events
- *   • All dynamic DOM passes through a single activation pipeline
+ *   • HTML is the component system  
+ *   • Expressions are evaluated once  
+ *   • Custom elements activate via explicit events  
+ *   • All dynamic DOM passes through a single activation pipeline  
  *
  * The browser does the rendering; EHTML handles only the wiring.
  *
  * =====================================================================
  */
+
 
 /* ════════════════════════════════════════════════════════════════════════
  *              CUSTOM ELEMENTS POLYFILL (CROSS-BROWSER SUPPORT)
@@ -75,16 +76,16 @@ import '#ehtml/third-party/custom-elements-polyfill.js'
  *                               ACTIVATE NODE
  * ════════════════════════════════════════════════════════════════════════
  *
- * `activateNode` is the entry point for EHTML’s manual activation flow.
+ * `activateNode` is the entry point for EHTML’s manual activation flow.  
  * Whenever a node enters the DOM—whether created by templates, loops,
  * <e-json>, or user scripts—this function prepares it for EHTML behavior.
  *
  * Activation performs three jobs:
  *
- *   • evaluate `${...}` expressions using the correct scoped state
- *   • dispatch the `"ehtml:activated"` event so components can run their logic
+ *   • evaluate `${...}` expressions using the correct scoped state  
+ *   • dispatch the `"ehtml:activated"` event so components can run their logic  
  *   • attach `"ehtml:template-triggered"` to native <template> elements
- *       (those without `is="..."`) so mapToTemplate() can release them
+ *       (those without `is="..."`) so mapToTemplate() can release them  
  *
  * EHTML uses an explicit event-based activation model not as a workaround,
  * but by design: dispatching `"ehtml:activated"` decouples component behavior
@@ -96,50 +97,6 @@ import '#ehtml/third-party/custom-elements-polyfill.js'
  *
  * ════════════════════════════════════════════════════════════════════════ */
 import activateNode from '#ehtml/activateNode.js?v=6a20044a'
-
-/* ════════════════════════════════════════════════════════════════════════
- *                               EHTML ELEMENTS
- * ════════════════════════════════════════════════════════════════════════
- *
- * This module loads all built-in EHTML custom elements: <e-json>, <e-if>,
- * <e-for-each>, <e-html>, <e-wrapper>, <e-reusable>, <e-form>, <e-markdown>,
- * and others. Each element defines its own behavior declaratively and is
- * activated by the EHTML runtime through `"ehtml:activated"` events.
- *
- * Importing this module ensures every EHTML component is registered with
- * the browser and available for activation.
- *
- * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/E/exports.js?v=8febe801'
-
-/* ════════════════════════════════════════════════════════════════════════
- *                               EHTML ACTIONS
- * ════════════════════════════════════════════════════════════════════════
- *
- * This module registers all **built-in EHTML actions**—the imperative
- * operations that templates can trigger via attributes like:
- *
- *   data-actions-on-response="mapToTemplate(#foo, obj)"
- *
- * Each import below is a self-contained action function. Examples include:
- *
- *   • addHTMLInto / insertHTMLInto / addTextInto / insertTextInto
- *   • hideElms / showElms / toggleElms / removeElms
- *   • disableElms / enableElms / changeValueOf / updateAttributeOf
- *   • loadHTMLInto / loadTextInto / loadAndAddHTMLInto / loadAndAddTextInto
- *   • mapToTemplate / releaseTemplate
- *   • scrollIntoViewOf / scrollToHash
- *   • redirect / reload
- *
- * These actions are plain JavaScript functions used by the EHTML runtime
- * to manipulate the DOM and perform side effects in response to declarative
- * HTML attributes. They provide the “do something” layer for EHTML templates,
- * without requiring user-land JavaScript wiring.
- *
- * Importing and exporting them as a single object makes it easy for the
- * EHTML engine to look them up by name and invoke them at runtime.
- * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/actions/exports.js?v=de317e5d'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                       EHTML NODE-SCOPED STATE MAP
@@ -196,6 +153,50 @@ window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || []
  * ════════════════════════════════════════════════════════════════════════ */
 window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || []
 
+/* ════════════════════════════════════════════════════════════════════════
+ *                               EHTML ELEMENTS
+ * ════════════════════════════════════════════════════════════════════════
+ *
+ * This module loads all built-in EHTML custom elements: <e-json>, <e-if>,
+ * <e-for-each>, <e-html>, <e-wrapper>, <e-reusable>, <e-form>, <e-markdown>,
+ * and others. Each element defines its own behavior declaratively and is
+ * activated by the EHTML runtime through `"ehtml:activated"` events.
+ *
+ * Importing this module ensures every EHTML component is registered with
+ * the browser and available for activation.
+ *
+ * ════════════════════════════════════════════════════════════════════════ */
+import '#ehtml/E/exports.js?v=8febe801'
+
+/* ════════════════════════════════════════════════════════════════════════
+ *                               EHTML ACTIONS
+ * ════════════════════════════════════════════════════════════════════════
+ *
+ * This module registers all **built-in EHTML actions**—the imperative
+ * operations that templates can trigger via attributes like:
+ *
+ *   data-actions-on-response="mapToTemplate(#foo, obj)"
+ *
+ * Each import below is a self-contained action function. Examples include:
+ *
+ *   • addHTMLInto / insertHTMLInto / addTextInto / insertTextInto
+ *   • hideElms / showElms / toggleElms / removeElms
+ *   • disableElms / enableElms / changeValueOf / updateAttributeOf
+ *   • loadHTMLInto / loadTextInto / loadAndAddHTMLInto / loadAndAddTextInto
+ *   • mapToTemplate / releaseTemplate
+ *   • scrollIntoViewOf / scrollToHash
+ *   • redirect / reload
+ *
+ * These actions are plain JavaScript functions used by the EHTML runtime
+ * to manipulate the DOM and perform side effects in response to declarative
+ * HTML attributes. They provide the “do something” layer for EHTML templates,
+ * without requiring user-land JavaScript wiring.
+ *
+ * Importing and exporting them as a single object makes it easy for the
+ * EHTML engine to look them up by name and invoke them at runtime.
+ * ════════════════════════════════════════════════════════════════════════ */
+import '#ehtml/actions/exports.js?v=de317e5d'
+
 /* ====================================================================
  *                       MUTATION OBSERVER CALLBACK
  * ====================================================================
@@ -234,16 +235,16 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  *  PERFORMANCE CHARACTERISTICS
  * --------------------------------------------------------------------
  *
- *  • **Initial Cost:**
+ *  • **Initial Cost:**  
  *      The very first call `activateNode(document.body)` performs a
  *      depth-first walk of the entire static DOM. This is equivalent to
  *      your initial page load cost and happens exactly once.
  *
- *  • **Afterward:**
+ *  • **Afterward:**  
  *      EHTML NEVER re-scans the whole document again. Everything is
  *      incremental and reactive to actual DOM insertions.
  *
- *  • **Recursion Scope:**
+ *  • **Recursion Scope:**  
  *      activateNode(node) only descends into *the subtree of that node*.
  *
  *      Cost per mutation is:
@@ -272,10 +273,10 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  *
  *  Benefits:
  *
- *      ✓ Lazy DOM activation
- *      ✓ No overhead for unused UI branches
- *      ✓ Large UI blocks can be released in constant-time operations
- *      ✓ MutationObserver workload stays tightly bounded
+ *      ✓ Lazy DOM activation  
+ *      ✓ No overhead for unused UI branches  
+ *      ✓ Large UI blocks can be released in constant-time operations  
+ *      ✓ MutationObserver workload stays tightly bounded  
  *
  * --------------------------------------------------------------------
  *  WHY THIS MATTERS
@@ -283,22 +284,22 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  *
  *  EHTML’s model avoids:
  *
- *      ✗ virtual DOM diffing
- *      ✗ global invalidation
- *      ✗ full-document rescans (after bootstrap)
- *      ✗ heavy reactivity frameworks
+ *      ✗ virtual DOM diffing  
+ *      ✗ global invalidation  
+ *      ✗ full-document rescans (after bootstrap)  
+ *      ✗ heavy reactivity frameworks  
  *
  *  Instead, it uses:
  *
- *      ✓ deterministic one-time activation
- *      ✓ subtree-only work
- *      ✓ browser-native notifications
- *      ✓ template-based lazy rendering
+ *      ✓ deterministic one-time activation  
+ *      ✓ subtree-only work  
+ *      ✓ browser-native notifications  
+ *      ✓ template-based lazy rendering  
  *
  *  This makes EHTML extremely predictable and efficient for real apps.
  *
  * ==================================================================== */
-function mutationHandler (mutations) {
+function mutationHandler(mutations) {
   for (const mut of mutations) {
     if (mut.type === 'childList') {
       for (const node of mut.addedNodes) {
@@ -339,7 +340,7 @@ let observer = new MutationObserver(mutationHandler)
  *
  *  The observer is typically ON at all times after page load.
  * ==================================================================== */
-export function turnEhtmlObserverOn () {
+export function turnEhtmlObserverOn() {
   observer.observe(document.body, {
     childList: true,
     subtree: true
@@ -373,7 +374,7 @@ export function turnEhtmlObserverOn () {
  *
  *  to manually run activation once.
  * ==================================================================== */
-export function turnEhtmlObserverOff () {
+export function turnEhtmlObserverOff() {
   observer.disconnect()
 }
 

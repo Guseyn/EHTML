@@ -10,16 +10,16 @@ import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=41419c
 import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=088647e7'
 
 export default class EMarkdown extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.ehtmlActivated = false
   }
 
-  connectedCallback () {
+  connectedCallback() {
     this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
   }
 
-  onEHTMLActivated () {
+  onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
@@ -27,7 +27,7 @@ export default class EMarkdown extends HTMLElement {
     this.run()
   }
 
-  run () {
+  run() {
     const state = getNodeScopedState(this)
 
     // --- Progress start ---

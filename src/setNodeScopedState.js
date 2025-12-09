@@ -1,6 +1,6 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
 
-export default function setNodeScopedState (node, state) {
+export default function setNodeScopedState(node, state) {
   if (!node || typeof node !== 'object') {
     throw new Error('setNodeScopedState: node must be a DOM element')
   }

@@ -2,7 +2,7 @@ import elm from '#ehtml/elm.js?v=41b9eaba'
 import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
 import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
-export default function mapToTemplate (elmSelectorOrElm, obj) {
+export default function mapToTemplate(elmSelectorOrElm, obj) {
   const templateElm = elm(elmSelectorOrElm)
 
   if (!templateElm) {
@@ -38,12 +38,17 @@ export default function mapToTemplate (elmSelectorOrElm, obj) {
     statePatch[objName] = obj
   }
 
-  templateElm.dispatchEvent(
-    new CustomEvent('ehtml:template-triggered', {
-      bubbles: false,
-      detail: { state: statePatch }
-    })
-  )
+  // We use queueMicrotask() to ensure this event fires *after* the current
+  // synchronous DOM operations complete, so if the template is appended
+  // synchronously before this call, it will already be connected.
+  queueMicrotask(() => {
+    templateElm.dispatchEvent(
+      new CustomEvent('ehtml:template-triggered', {
+        bubbles: false,
+        detail: { state: statePatch }
+      })
+    )
+  })  
 }
 
 window.mapToTemplate = mapToTemplate
