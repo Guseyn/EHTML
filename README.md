@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Guseyn/logos/master/ehtml.svg?sanitize=true">
 
-**v3.0.1**
+**v3.0.2**
 
 [![EHTML CI](https://github.com/Guseyn/EHTML/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Guseyn/EHTML/actions/workflows/ci.yml)
 
