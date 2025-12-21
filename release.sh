@@ -1,5 +1,7 @@
 #!/bin/bash
 
+find . -type f -name "*.js" -exec sed -E -i '' 's/\?v=[^"'\''&]+//g' {} +
+
 npm version --no-git-tag-version patch
 version=$(jq -r '.version' package.json)
 git add --all
