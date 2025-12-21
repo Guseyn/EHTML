@@ -1,5 +1,5 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=7806d68f'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js'
+import setNodeScopedState from '#ehtml/setNodeScopedState.js'
 
 export default function (parent) {
   // 1. Capture parent's scope before removing it

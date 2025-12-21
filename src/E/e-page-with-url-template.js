@@ -1,4 +1,4 @@
-import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
+import scrollToHash from '#ehtml/actions/scrollToHash.js'
 
 export default (node) => {
   const urlPattern = node.getAttribute('data-url-pattern')

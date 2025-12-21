@@ -1,6 +1,6 @@
-import isTemplateWithTypeExclusively from '#ehtml/isTemplateWithTypeExclusively.js?v=46e3bf34'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
-import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import isTemplateWithTypeExclusively from '#ehtml/isTemplateWithTypeExclusively.js'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js'
+import isTemplate from '#ehtml/isTemplate.js'
 
 export default function (node) {
   if (isTemplateWithType(node, 'e-json')) {

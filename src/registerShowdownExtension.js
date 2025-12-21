@@ -1,4 +1,4 @@
-import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
+import * as showdown from '#ehtml/third-party/showdown.min.js'
 
 export default function (name, extensionFunction) {
   showdown.extension(name, extensionFunction)

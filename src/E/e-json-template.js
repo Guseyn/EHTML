@@ -1,8 +1,8 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=4d85ec20'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=e2d7e253'
-import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js?v=c20d640c'
-import mapToTemplate from '#ehtml/actions/mapToTemplate.js?v=41e9e9e3'
-import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
+import evaluateStringWithActionsOnProgress from '#ehtml/evaluateStringWithActionsOnProgress.js'
+import mapToTemplate from '#ehtml/actions/mapToTemplate.js'
+import scrollToHash from '#ehtml/actions/scrollToHash.js'
 
 export default (node) => {
   const ajaxIconSelector = node.getAttribute('data-ajax-icon')
