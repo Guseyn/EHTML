@@ -1,5 +1,5 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=5b49af76'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=a7b069af'
 
 export default class EReusableTemplate extends HTMLTemplateElement {
   constructor() {

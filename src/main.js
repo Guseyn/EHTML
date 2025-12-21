@@ -70,7 +70,7 @@
  * initialize and activate reliably on every platform.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/third-party/custom-elements-polyfill.js'
+import '#ehtml/third-party/custom-elements-polyfill.js?v=f4e8eeb1'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               ACTIVATE NODE
@@ -96,7 +96,7 @@ import '#ehtml/third-party/custom-elements-polyfill.js'
  * declaration of components completely open and extensible.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import activateNode from '#ehtml/activateNode.js?v=6a20044a'
+import activateNode from '#ehtml/activateNode.js?v=39c3792e'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                       EHTML NODE-SCOPED STATE MAP
@@ -130,7 +130,7 @@ window.__EHTML_SCOPED_STATE__ = new WeakMap()
  * avoiding redundant WebSockets and enabling efficient real-time updates.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || []
+window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || [];
 
 /* ════════════════════════════════════════════════════════════════════════
  *                    EHTML MARKDOWN EXTENSION REGISTRY
@@ -166,7 +166,7 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  * the browser and available for activation.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/E/exports.js?v=8febe801'
+import '#ehtml/E/exports.js?v=c3cbc7d7'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               EHTML ACTIONS
@@ -195,7 +195,7 @@ import '#ehtml/E/exports.js?v=8febe801'
  * Importing and exporting them as a single object makes it easy for the
  * EHTML engine to look them up by name and invoke them at runtime.
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/actions/exports.js?v=de317e5d'
+import '#ehtml/actions/exports.js?v=8abee754'
 
 /* ====================================================================
  *                       MUTATION OBSERVER CALLBACK
@@ -301,7 +301,7 @@ import '#ehtml/actions/exports.js?v=de317e5d'
  * ==================================================================== */
 function mutationHandler(mutations) {
   for (const mut of mutations) {
-    if (mut.type === 'childList') {
+    if (mut.type === "childList") {
       for (const node of mut.addedNodes) {
         activateNode(node)
       }
@@ -418,5 +418,5 @@ window.activateNode = activateNode
  *      - extremely performant during runtime
  *
  * ==================================================================== */
-queueMicrotask(() => activateNode(document.body)) // one-time full-tree activation
-turnEhtmlObserverOn() // incremental activation from now on
+queueMicrotask(() => activateNode(document.body))   // one-time full-tree activation
+turnEhtmlObserverOn()                               // incremental activation from now on

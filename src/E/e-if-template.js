@@ -1,5 +1,5 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=01fa3e7e'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=33eb829e'
 
 export default class EIfTemplate extends HTMLTemplateElement {
   constructor() {
@@ -23,7 +23,7 @@ export default class EIfTemplate extends HTMLTemplateElement {
   run() {
     const expr = this.getAttribute('data-condition-to-display')
     if (!expr) {
-      throw new Error('<template is="e-if"> must have data-condition-to-display')
+      throw new Error(`<template is="e-if"> must have data-condition-to-display`)
     }
 
     // 1. Get inherited lexical state at this <template>

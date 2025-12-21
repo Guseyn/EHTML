@@ -1,8 +1,8 @@
-import isCustomElement from '#ehtml/isCustomElement.js?v=3875f7f3'
-import processAttributes from '#ehtml/processAttributes.js?v=ef2145f1'
+import isCustomElement from '#ehtml/isCustomElement.js?v=2be70586'
+import processAttributes from '#ehtml/processAttributes.js?v=2d3f1f96'
 import shouldSkipNode from '#ehtml/shouldSkipNode.js?v=edc4a483'
 import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=5b49af76'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=a7b069af'
 
 export default function activateNode(node) {
 

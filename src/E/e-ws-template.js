@@ -1,8 +1,8 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=01fa3e7e'
-import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=c7f83d7b'
-import evaluateActionsOnOpenConnection from '#ehtml/evaluateActionsOnOpenConnection.js?v=4f2d2e81'
-import evaluateActionsOnCloseConnection from '#ehtml/evaluateActionsOnCloseConnection.js?v=85da1111'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=b4513dec'
+import evaluateActionsOnOpenConnection from '#ehtml/evaluateActionsOnOpenConnection.js?v=40bcf142'
+import evaluateActionsOnCloseConnection from '#ehtml/evaluateActionsOnCloseConnection.js?v=10d8e22b'
 
 export default class EWs extends HTMLTemplateElement {
   constructor() {
