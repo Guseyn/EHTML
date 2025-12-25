@@ -18,13 +18,19 @@ Additionally, EHTML treats HTML not only as a markup language but also as a temp
 - [Examples](https://e-html.org/html/examples.html)
 - [Newsletter](https://e-html.org/html/in-touch.html) (Don't miss new video tutorials and articles)
 
-# Simple Blog App: Demo Video
+# EHTML v3: Demo Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/kPsFMC2cDY0/0.jpg)](https://www.youtube.com/watch?v=kPsFMC2cDY0)
+
+[Link to source code](https://github.com/Guseyn/ehtml-simple-blog-app)
+
+# Simple Blog App (EHTML v2): Demo Video
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/dzrW3D_yIrc/0.jpg)](https://www.youtube.com/watch?v=dzrW3D_yIrc)
 
 [Link to source code](https://github.com/Guseyn/ehtml-simple-blog-app)
 
-# Simple Chat App: Demo Video
+# Simple Chat App (EHTML v2): Demo Video
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/iaP3Y4SW0MY/0.jpg)](https://www.youtube.com/watch?v=iaP3Y4SW0MY)
 
