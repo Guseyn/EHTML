@@ -30,19 +30,6 @@ export default class EMarkdown extends HTMLElement {
   run() {
     const state = getNodeScopedState(this)
 
-    // --- Progress start ---
-    if (this.hasAttribute('data-actions-on-progress-start')) {
-      evaluateActionsOnProgress(
-        this.getAttribute('data-actions-on-progress-start'),
-        this,
-        state
-      )
-    }
-
-    if (!this.hasAttribute('data-src')) {
-      throw new Error('e-markdown must have "data-src" attribute')
-    }
-
     // --- Resolve showdown extensions (global registry) ---
     const extensions = window.__EHTML_SHOWDOWN_EXTENSIONS__ || []
 
@@ -69,6 +56,24 @@ export default class EMarkdown extends HTMLElement {
           ]
         })
       )
+    }
+
+    if (this.internalState) {
+      this.renderMarkdown(this.internalState)
+      return
+    }
+
+    // --- Progress start ---
+    if (this.hasAttribute('data-actions-on-progress-start')) {
+      evaluateActionsOnProgress(
+        this.getAttribute('data-actions-on-progress-start'),
+        this,
+        state
+      )
+    }
+
+    if (!this.hasAttribute('data-src')) {
+      throw new Error('e-markdown must have "data-src" attribute')
     }
 
     // --- AJAX request ---
@@ -100,25 +105,7 @@ export default class EMarkdown extends HTMLElement {
 
         const markdown = resObj.body
 
-        // --- Render markdown ---
-        if (showdown) {
-          showdown.setFlavor('github')
-          const converter = new showdown.Converter({
-            tables: true,
-            tasklists: true,
-            simpleLineBreaks: true,
-            emoji: true,
-            moreStyling: true,
-            github: true,
-            extensions: extensions
-          })
-          this.innerHTML = converter.makeHtml(markdown)
-        } else {
-          this.innerHTML = markdown
-        }
-
-        // Remove <e-markdown> wrapper
-        unwrappedChildrenOfParent(this)
+        this.renderMarkdown(markdown)
 
         // --- Progress end ---
         if (this.hasAttribute('data-actions-on-progress-end')) {
@@ -132,6 +119,28 @@ export default class EMarkdown extends HTMLElement {
         scrollToHash()
       }
     )
+  }
+
+  renderMarkdown(markdown) {
+    // --- Render markdown ---
+    if (showdown) {
+      showdown.setFlavor('github')
+      const converter = new showdown.Converter({
+        tables: true,
+        tasklists: true,
+        simpleLineBreaks: true,
+        emoji: true,
+        moreStyling: true,
+        github: true,
+        extensions: extensions
+      })
+      this.innerHTML = converter.makeHtml(markdown)
+    } else {
+      this.innerHTML = markdown
+    }
+
+    // Remove <e-markdown> wrapper
+    unwrappedChildrenOfParent(this)
   }
 }
 
