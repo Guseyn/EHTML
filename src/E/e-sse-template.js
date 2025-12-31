@@ -4,10 +4,11 @@ import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
 import evaluateActionsOnOpenConnection from '#ehtml/evaluateActionsOnOpenConnection.js'
 import evaluateActionsOnCloseConnection from '#ehtml/evaluateActionsOnCloseConnection.js'
 
-export default class EWs extends HTMLTemplateElement {
+export default class ESse extends HTMLTemplateElement {
   constructor() {
     super()
     this.ehtmlActivated = false
+    this.eventSourceName = null
   }
 
   connectedCallback() {
@@ -16,6 +17,12 @@ export default class EWs extends HTMLTemplateElement {
       this.onEHTMLActivated,
       { once: true }
     )
+  }
+
+  disconnectedCallback() {
+    if (this.eventSourceName) {
+      window.__EHTML_SERVER_EVENT_SOURCES__[eventSourceName].close()
+    }
   }
 
   onEHTMLActivated() {
@@ -30,24 +37,26 @@ export default class EWs extends HTMLTemplateElement {
     const state = getNodeScopedState(this)
 
     if (!this.hasAttribute('data-src')) {
-      throw new Error('e-ws must have "data-src" attribute')
+      throw new Error('e-sse must have "data-src" attribute')
     }
 
-    if (!this.hasAttribute('data-socket-name')) {
-      throw new Error('e-ws must have "data-socket-name" attribute')
+    if (!this.hasAttribute('data-source-name')) {
+      throw new Error('e-ws must have "data-event-source-name" attribute')
     }
 
-    const socketUrl = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-src'),
+    const eventSourceUrl = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-event-source-name'),
       state,
       this
     )
 
-    const socketName = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-socket-name'),
+    const eventSourceName = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-event-source-name'),
       state,
       this
     )
+
+    this.eventSourceName = eventSourceName
 
     const connectionIconSelector = this.getAttribute('data-connection-icon')
     const connectionIcon = connectionIconSelector
@@ -58,15 +67,15 @@ export default class EWs extends HTMLTemplateElement {
       connectionIcon.style.display = ''
     }
 
-    const socket = new WebSocket(socketUrl)
+    const eventSource = new EventSource(eventSourceUrl)
 
     // global EHTML storage
-    window.__EHTML_WEB_SOCKETS__ =
-      window.__EHTML_WEB_SOCKETS__ || {}
+    window.__EHTML_SERVER_EVENT_SOURCES__ =
+      window.__EHTML_SERVER_EVENT_SOURCES__ || {}
 
-    window.__EHTML_WEB_SOCKETS__[socketName] = socket
+    window.__EHTML_SERVER_EVENT_SOURCES__[eventSourceName] = eventSource
 
-    socket.addEventListener('open', event => {
+    eventSource.addEventListener('open', event => {
       if (connectionIcon) {
         connectionIcon.style.display = 'none'
       }
@@ -85,17 +94,6 @@ export default class EWs extends HTMLTemplateElement {
         this.content.cloneNode(true),
         this
       )
-    })
-
-    socket.addEventListener('close', event => {
-      if (this.hasAttribute('data-actions-on-close-connection')) {
-        evaluateActionsOnCloseConnection(
-          this.getAttribute('data-actions-on-close-connection'),
-          event,
-          this,
-          state
-        )
-      }
     })
   }
 }

@@ -68,6 +68,26 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
     }
 
     // ---------------------------------------------------------
+    // EVENT SOURCE MODE
+    // ---------------------------------------------------------
+    const eventSourceName = this.getAttribute('data-event-source')
+    if (eventSourceName) {
+      const eventSources = window.__EHTML_SERVER_EVENT_SOURCES__
+      if (!eventSources || !eventSources[eventSourceName]) {
+        throw new Error(`event source with name "${eventSourceName}" is not defined or not opened yet`)
+      }
+
+      const eventSource = eventSources[eventSourceName]
+
+      eventSource.addEventListener('message', event => {
+        const response = JSON.parse(event.data)
+        mapToTemplate(this, response)
+      })
+
+      return
+    }
+
+    // ---------------------------------------------------------
     // PROGRESS START
     // ---------------------------------------------------------
     if (this.hasAttribute('data-actions-on-progress-start')) {

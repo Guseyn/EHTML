@@ -31,6 +31,11 @@ export default class EJson extends HTMLElement {
       return this.runSocketMode()
     }
 
+    const eventSourceName = this.getAttribute('data-event-source')
+    if (eventSourceName) {
+      return this.runEventSourceMode()
+    }
+
     const cacheAttr = this.getAttribute('data-cache-from')
     if (cacheAttr) {
       const cached = this.tryCache()
@@ -44,10 +49,6 @@ export default class EJson extends HTMLElement {
 
   runSocketMode() {
     const state = getNodeScopedState(this)
-    const ajaxIcon = this.resolveIcon()
-    if (ajaxIcon) {
-      ajaxIcon.style.display = ''
-    }
 
     const socketName = this.getAttribute('data-socket')
 
@@ -59,6 +60,32 @@ export default class EJson extends HTMLElement {
     const socket = sockets[socketName]
 
     socket.addEventListener('message', event => {
+      const response = JSON.parse(event.data)
+      evaluateActionsOnResponse(
+        this.getAttribute('data-actions-on-response'),
+        this.getAttribute('data-response-name'),
+        response,
+        this,
+        state
+      )
+    })
+
+    unwrappedChildrenOfParent(this)
+  }
+
+  runEventSourceMode() {
+    const state = getNodeScopedState(this)
+
+    const eventSourceName = this.getAttribute('data-event-source')
+
+    const eventSources = window.__EHTML_SERVER_EVENT_SOURCES__
+    if (!eventSources || !eventSources[eventSourceName]) {
+      throw new Error(`eventSource "${eventSourceName}" is not defined or not opened yet`)
+    }
+
+    const eventSource = eventSources[eventSourceName]
+
+    eventSource.addEventListener('message', event => {
       const response = JSON.parse(event.data)
       evaluateActionsOnResponse(
         this.getAttribute('data-actions-on-response'),
