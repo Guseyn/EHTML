@@ -59,7 +59,7 @@ export default class EMarkdown extends HTMLElement {
     }
 
     if (this.internalState) {
-      this.renderMarkdown(this.internalState)
+      this.renderMarkdown(this.internalState, extensions)
       return
     }
 
@@ -105,7 +105,7 @@ export default class EMarkdown extends HTMLElement {
 
         const markdown = resObj.body
 
-        this.renderMarkdown(markdown)
+        this.renderMarkdown(markdown, extensions)
 
         // --- Progress end ---
         if (this.hasAttribute('data-actions-on-progress-end')) {
@@ -121,7 +121,7 @@ export default class EMarkdown extends HTMLElement {
     )
   }
 
-  renderMarkdown(markdown) {
+  renderMarkdown(markdown, extensions) {
     // --- Render markdown ---
     if (showdown) {
       showdown.setFlavor('github')

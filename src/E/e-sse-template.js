@@ -19,12 +19,6 @@ export default class ESse extends HTMLTemplateElement {
     )
   }
 
-  disconnectedCallback() {
-    if (this.eventSourceName) {
-      window.__EHTML_SERVER_EVENT_SOURCES__[eventSourceName].close()
-    }
-  }
-
   onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
@@ -40,12 +34,12 @@ export default class ESse extends HTMLTemplateElement {
       throw new Error('e-sse must have "data-src" attribute')
     }
 
-    if (!this.hasAttribute('data-source-name')) {
-      throw new Error('e-ws must have "data-event-source-name" attribute')
+    if (!this.hasAttribute('data-event-source-name')) {
+      throw new Error('e-sse must have "data-event-source-name" attribute')
     }
 
     const eventSourceUrl = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-event-source-name'),
+      this.getAttribute('data-src'),
       state,
       this
     )
@@ -67,7 +61,13 @@ export default class ESse extends HTMLTemplateElement {
       connectionIcon.style.display = ''
     }
 
-    const eventSource = new EventSource(eventSourceUrl)
+    const eventSource = new EventSource(eventSourceUrl, {
+      withCredentials: (
+        this.hasAttribute('data-with-credentials') &&
+        this.getAttribute('data-with-credentials') === 'true'
+      ) ? true
+        : false
+    })
 
     // global EHTML storage
     window.__EHTML_SERVER_EVENT_SOURCES__ =
@@ -89,7 +89,7 @@ export default class ESse extends HTMLTemplateElement {
         )
       }
 
-      // Replace <template is="e-ws"> with its content
+      // Replace <template is="e-sse"> with its content
       this.parentNode.replaceChild(
         this.content.cloneNode(true),
         this
@@ -98,4 +98,4 @@ export default class ESse extends HTMLTemplateElement {
   }
 }
 
-customElements.define('e-ws', EWs, { extends: 'template' })
+customElements.define('e-sse', ESse, { extends: 'template' })

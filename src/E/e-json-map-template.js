@@ -79,11 +79,29 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
 
       const eventSource = eventSources[eventSourceName]
 
-      eventSource.addEventListener('message', event => {
-        const response = JSON.parse(event.data)
-        mapToTemplate(this, response)
-      })
-
+      if (!this.hasAttribute('data-event')) {
+        eventSource.onmessage = (event) => {
+          const response = JSON.parse(event.data)
+          evaluateActionsOnResponse(
+            this.getAttribute('data-actions-on-response'),
+            this.getAttribute('data-response-name'),
+            response,
+            this,
+            state
+          )
+        }
+      } else {
+        eventSource.addEventListener(this.getAttribute('data-event'), (event) => {
+          const response = JSON.parse(event.data)
+          evaluateActionsOnResponse(
+            this.getAttribute('data-actions-on-response'),
+            this.getAttribute('data-response-name'),
+            response,
+            this,
+            state
+          )
+        })
+      }
       return
     }
 
