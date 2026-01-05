@@ -9,7 +9,11 @@ export default class EForEachTemplate extends HTMLTemplateElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {
@@ -37,7 +41,7 @@ export default class EForEachTemplate extends HTMLTemplateElement {
 
     // 2. Evaluate the list expression
     const list = evaluatedValueWithParamsFromState(
-      listExpr.replace(/\n/g, ' '),
+      listExpr,
       state,
       this
     )

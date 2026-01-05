@@ -7,14 +7,17 @@ import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js'
 import scrollToHash from '#ehtml/actions/scrollToHash.js'
 
 export default class Ehtml extends HTMLElement {
-
   constructor() {
     super()
     this.ehtmlActivated = false
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {

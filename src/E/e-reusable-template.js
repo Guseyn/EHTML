@@ -8,12 +8,22 @@ export default class EReusableTemplate extends HTMLTemplateElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
-    this.addEventListener('ehtml:template-triggered', this.onEHTMLTemplateTriggered)
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
+    this.addEventListener(
+      'ehtml:template-triggered',
+      this.onEHTMLTemplateTriggered
+    )
   }
 
   disconnectedCallback() {
-    this.removeEventListener('ehtml:template-triggered', this.onEHTMLTemplateTriggered)
+    this.removeEventListener(
+      'ehtml:template-triggered',
+      this.onEHTMLTemplateTriggered
+    )
   }
 
   onEHTMLActivated() {

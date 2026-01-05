@@ -5,7 +5,11 @@ export default class ELocalStorageValue extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {
@@ -16,7 +20,7 @@ export default class ELocalStorageValue extends HTMLElement {
     this.run()
   }
 
-  __setup() {
+  run() {
     // exactly same behavior as before
     this.name = this.getAttribute('name')
 

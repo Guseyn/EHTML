@@ -1,21 +1,85 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
+import elmName from '#ehtml/elmName.js'
 
-const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = [
-  'data-actions-on-response',
-  'data-actions-on-progress-start',
-  'data-actions-on-progress-end',
-  'data-condition-to-display',
-  'data-list-to-iterate',
-  'data-item-name',
-  'data-bound-to',
-  'data-cache-from',
-  'data-src',
-  'data-request-headers',
-  'data-request-url',
-  'data-socket'
-]
+const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = {
+  'e-for-each': [
+    'data-list-to-iterate'
+  ],
+  'e-form-array': [],
+  'e-form-dynamic-value': [
+    'data-bound-to'
+  ],
+  'e-form-object': [],
+  'e-form': [
+    'data-request-url',
+    'data-request-headers',
+    'data-actions-on-response',
+    'data-actions-on-progress'
+  ],
+  'e-html': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-if-template': [
+    'data-condition-to-display'
+  ],
+  'e-json-map-template': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-json-view': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-json': [
+    'data-src',
+    'data-request-headers',
+    'data-cache-from',
+    'data-actions-on-response',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-local-storage-value': [],
+  'e-markdown': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-page-with-url': [],
+  'e-reusable': [],
+  'e-select': [],
+  'e-session-storage-value': [],
+  'e-sse': [
+    'data-src',
+    'data-actions-on-open-connection'
+  ],
+  'e-svg': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-wrapper': [
+    'data-src',
+    'data-request-headers',
+    'data-actions-on-progress-start',
+    'data-actions-on-progress-end'
+  ],
+  'e-ws': [
+    'data-src',
+    'data-actions-on-open-connection',
+    'data-actions-on-close-connection'
+  ]
+}
 
 const TAGS_WITH_SRC_ATTRIBUTE = [
   'audio',
@@ -106,7 +170,7 @@ export default function processAttributes(node) {
   }
 
   const attrs = Array.from(node.attributes)
-  const tag = node.tagName.toLowerCase()
+  const tag = elmName(node)
 
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i]
@@ -114,8 +178,15 @@ export default function processAttributes(node) {
     const rawValue = attr.value
 
     const ignore =
-      ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.includes(name) ||
+      (
+        ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME[tag] &&
+        ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME[tag].includes(name)
+      ) ||
       (name === 'data-src' && !TAGS_WITH_SRC_ATTRIBUTE.includes(tag)) ||
+      (
+        node.hasAttribute('data-attributes-to-ignore') &&
+        node.getAttribute('data-attributes-to-ignore').split(',').map(a => a.trim()).includes(name)
+      ) ||
       NATIVE_EVENT_LISTENERS.includes(name)
 
     if (ignore) {

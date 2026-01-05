@@ -25,7 +25,11 @@ export default class EForm extends HTMLFormElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {

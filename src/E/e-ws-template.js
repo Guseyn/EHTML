@@ -43,11 +43,7 @@ export default class EWs extends HTMLTemplateElement {
       this
     )
 
-    const socketName = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-socket-name'),
-      state,
-      this
-    )
+    const socketName = this.getAttribute('data-socket-name')
 
     const connectionIconSelector = this.getAttribute('data-connection-icon')
     const connectionIcon = connectionIconSelector

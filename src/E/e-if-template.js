@@ -8,7 +8,11 @@ export default class EIfTemplate extends HTMLTemplateElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {
@@ -31,7 +35,7 @@ export default class EIfTemplate extends HTMLTemplateElement {
 
     // 2. Evaluate the list expression (JSON string)
     const evaluated = evaluatedValueWithParamsFromState(
-      expr.replace(/\n/g, ' '),
+      expr,
       state,
       this
     )

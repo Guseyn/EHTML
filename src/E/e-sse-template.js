@@ -44,11 +44,7 @@ export default class ESse extends HTMLTemplateElement {
       this
     )
 
-    const eventSourceName = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-event-source-name'),
-      state,
-      this
-    )
+    const eventSourceName = this.getAttribute('data-event-source-name')
 
     this.eventSourceName = eventSourceName
 

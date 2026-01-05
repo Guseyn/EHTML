@@ -1,6 +1,6 @@
 import Ehtml from '#ehtml/E/e-html.js'
 import EWrapperTemplate from '#ehtml/E/e-wrapper-template.js'
-import EPageWithUrl from '#ehtml/E/e-page-with-url.js'
+import EPageWithUrl from '#ehtml/E/e-page-with-url-template.js'
 import EJson from '#ehtml/E/e-json.js'
 import EJsonMapTemplate from '#ehtml/E/e-json-map-template.js'
 import EJsonView from '#ehtml/E/e-json-view.js'

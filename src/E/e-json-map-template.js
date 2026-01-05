@@ -3,8 +3,8 @@ import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
 import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
-import mapToTemplate from '#ehtml/actions/mapToTemplate.js'
 import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import mapToTemplate from '#ehtml/actions/mapToTemplate.js'
 import scrollToHash from '#ehtml/actions/scrollToHash.js'
 
 export default class EJsonMapTemplate extends HTMLTemplateElement {
@@ -14,12 +14,22 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
   }
 
   connectedCallback() {
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
-    this.addEventListener('ehtml:template-triggered', this.onEHTMLTemplateTriggered)
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
+    this.addEventListener(
+      'ehtml:template-triggered',
+      this.onEHTMLTemplateTriggered
+    )
   }
 
   disconnectedCallback() {
-    this.removeEventListener('ehtml:template-triggered', this.onEHTMLTemplateTriggered)
+    this.removeEventListener(
+      'ehtml:template-triggered',
+      this.onEHTMLTemplateTriggered
+    )
   }
 
   onEHTMLActivated() {
@@ -31,83 +41,127 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
   }
 
   run() {
+    const socketName = this.getAttribute('data-socket')
+    if (socketName) {
+      return this.runSocketMode()
+    }
+
+    const eventSourceName = this.getAttribute('data-event-source')
+    if (eventSourceName) {
+      return this.runEventSourceMode()
+    }
+
+    const cacheAttr = this.getAttribute('data-cache-from')
+    if (cacheAttr) {
+      const cached = this.tryCache()
+      if (cached) {
+        return
+      }
+    }
+
+    return this.runAjax()
+  }
+
+  runSocketMode() {
     const state = getNodeScopedState(this)
 
-    const ajaxIconSelector = this.getAttribute('data-ajax-icon')
-    const ajaxIcon = ajaxIconSelector ? document.querySelector(ajaxIconSelector) : null
+    const socketName = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-socket'),
+      state,
+      this
+    )
+
+    const sockets = window.__EHTML_WEB_SOCKETS__
+    if (!sockets || !sockets[socketName]) {
+      throw new Error(`socket "${socketName}" is not defined or not opened yet`)
+    }
+
+    const socket = sockets[socketName]
+
+    socket.addEventListener('message', event => {
+      const response = JSON.parse(event.data)
+      mapToTemplate(this, response)
+      scrollToHash()
+    })
+  }
+
+  runEventSourceMode() {
+    const state = getNodeScopedState(this)
+
+    const eventSourceName = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-event-source'),
+      state,
+      this
+    )
+
+    const eventSources = window.__EHTML_SERVER_EVENT_SOURCES__
+    if (!eventSources || !eventSources[eventSourceName]) {
+      throw new Error(`eventSource "${eventSourceName}" is not defined or not opened yet`)
+    }
+
+    const eventSource = eventSources[eventSourceName]
+
+    if (!this.hasAttribute('data-event')) {
+      eventSource.onmessage = (event) => {
+        const response = JSON.parse(event.data)
+        mapToTemplate(this, response)
+        scrollToHash()
+      }
+    } else {
+      eventSource.addEventListener(this.getAttribute('data-event'), (event) => {
+        const response = JSON.parse(event.data)
+        mapToTemplate(this, response)
+        scrollToHash()
+      })
+    }
+  }
+
+  tryCache() {
+    const state = getNodeScopedState(this)
+    const cacheAttr = this.getAttribute('data-cache-from')
+
+    const evaluated = evaluatedValueWithParamsFromState(
+      cacheAttr,
+      state,
+      this
+    )
+
+    if (evaluated === 'undefined' || evaluated === 'null') {
+      return false
+    }
+
+    const obj = evaluated
+
+    if (!obj) {
+      return false
+    }
+
+    mapToTemplate(this, obj)
+    scrollToHash()
+
+    return true
+  }
+
+  runAjax() {
+    const state = getNodeScopedState(this)
+
+    const src = this.getAttribute('data-src')
+    if (!src) {
+      throw new Error('<e-json> must have data-src or data-socket')
+    }
+
+    const ajaxIcon = this.resolveIcon()
     if (ajaxIcon) {
       ajaxIcon.style.display = ''
     }
 
-    const progressBarSelector = this.getAttribute('data-progress-bar')
-    const progressBar = progressBarSelector ? document.querySelector(progressBarSelector) : null
+    const progressBar = this.resolveProgressBar()
     if (progressBar) {
       progressBar.max = 100
       progressBar.value = 0
       progressBar.style.display = 'none'
     }
 
-    // ---------------------------------------------------------
-    // SOCKET MODE
-    // ---------------------------------------------------------
-    const socketName = this.getAttribute('data-socket')
-    if (socketName) {
-      const sockets = window.__EHTML_WEB_SOCKETS__
-      if (!sockets || !sockets[socketName]) {
-        throw new Error(`socket with name "${socketName}" is not defined or not opened yet`)
-      }
-
-      const socket = sockets[socketName]
-
-      socket.addEventListener('message', event => {
-        const response = JSON.parse(event.data)
-        mapToTemplate(this, response)
-      })
-
-      return
-    }
-
-    // ---------------------------------------------------------
-    // EVENT SOURCE MODE
-    // ---------------------------------------------------------
-    const eventSourceName = this.getAttribute('data-event-source')
-    if (eventSourceName) {
-      const eventSources = window.__EHTML_SERVER_EVENT_SOURCES__
-      if (!eventSources || !eventSources[eventSourceName]) {
-        throw new Error(`event source with name "${eventSourceName}" is not defined or not opened yet`)
-      }
-
-      const eventSource = eventSources[eventSourceName]
-
-      if (!this.hasAttribute('data-event')) {
-        eventSource.onmessage = (event) => {
-          const response = JSON.parse(event.data)
-          evaluateActionsOnResponse(
-            this.getAttribute('data-actions-on-response'),
-            this.getAttribute('data-response-name'),
-            response,
-            this,
-            state
-          )
-        }
-      } else {
-        eventSource.addEventListener(this.getAttribute('data-event'), (event) => {
-          const response = JSON.parse(event.data)
-          evaluateActionsOnResponse(
-            this.getAttribute('data-actions-on-response'),
-            this.getAttribute('data-response-name'),
-            response,
-            this,
-            state
-          )
-        })
-      }
-      return
-    }
-
-    // ---------------------------------------------------------
-    // PROGRESS START
-    // ---------------------------------------------------------
     if (this.hasAttribute('data-actions-on-progress-start')) {
       evaluateActionsOnProgress(
         this.getAttribute('data-actions-on-progress-start'),
@@ -116,17 +170,8 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
       )
     }
 
-    // ---------------------------------------------------------
-    // AJAX MODE
-    // ---------------------------------------------------------
-    if (!this.hasAttribute('data-src')) {
-      throw new Error('e-json-map-template must have "data-src" attribute if no socket is used')
-    }
-
-    const src = evaluatedStringWithParamsFromState(
-      this.getAttribute('data-src'),
-      state,
-      this
+    const url = encodeURI(
+      evaluatedStringWithParamsFromState(src, state, this)
     )
 
     const headers = evaluatedValueWithParamsFromState(
@@ -137,7 +182,7 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
 
     responseFromAjaxRequest(
       {
-        url: encodeURI(src),
+        url: url,
         method: 'GET',
         headers: headers,
         progressEvent: event => {
@@ -145,7 +190,7 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
             return
           }
           progressBar.style.display = ''
-          const percent = parseInt((event.loaded / event.total) * 100)
+          const percent = Math.floor((event.loaded / event.total) * 100)
           progressBar.value = percent
           if (percent === 100) {
             progressBar.style.display = 'none'
@@ -166,11 +211,14 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
         const text = buffer.toString('utf-8', 0, buffer.length)
         const obj = JSON.parse(text)
 
-        mapToTemplate(this, {
+        const responsePayload = {
           body: obj,
-          headers: resObj.headers,
-          statusCode: resObj.statusCode
-        })
+          statusCode: resObj.statusCode,
+          headers: resObj.headers
+        }
+
+        mapToTemplate(this, response)
+        scrollToHash()
 
         if (this.hasAttribute('data-actions-on-progress-end')) {
           evaluateActionsOnProgress(
@@ -179,10 +227,24 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
             state
           )
         }
-
-        scrollToHash()
       }
     )
+  }
+
+  resolveProgressBar() {
+    const sel = this.getAttribute('data-progress-bar')
+    if (!sel) {
+      return null
+    }
+    return document.querySelector(sel)
+  }
+
+  resolveIcon() {
+    const sel = this.getAttribute('data-ajax-icon')
+    if (!sel) {
+      return null
+    }
+    return document.querySelector(sel)
   }
 
   onEHTMLTemplateTriggered(event) {
@@ -190,7 +252,7 @@ export default class EJsonMapTemplate extends HTMLTemplateElement {
     const state = event?.detail?.state ?? getNodeScopedState(this)
 
     templateTriggerEventListener(template, state)
-    if (event.target.parentNode) {
+    if (event.target.parentNode && !event.target.hasAttribute('data-reusable')) {
       event.target.parentNode.removeChild(event.target)
     }
   }

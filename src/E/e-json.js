@@ -14,7 +14,11 @@ export default class EJson extends HTMLElement {
   }
 
   connectedCallback() {    
-    this.addEventListener('ehtml:activated', this.onEHTMLActivated, { once: true })
+    this.addEventListener(
+      'ehtml:activated',
+      this.onEHTMLActivated,
+      { once: true }
+    )
   }
 
   onEHTMLActivated() {
@@ -50,7 +54,11 @@ export default class EJson extends HTMLElement {
   runSocketMode() {
     const state = getNodeScopedState(this)
 
-    const socketName = this.getAttribute('data-socket')
+    const socketName = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-socket'),
+      state,
+      this
+    )
 
     const sockets = window.__EHTML_WEB_SOCKETS__
     if (!sockets || !sockets[socketName]) {
@@ -76,7 +84,11 @@ export default class EJson extends HTMLElement {
   runEventSourceMode() {
     const state = getNodeScopedState(this)
 
-    const eventSourceName = this.getAttribute('data-event-source')
+    const eventSourceName = evaluatedStringWithParamsFromState(
+      this.getAttribute('data-event-source'),
+      state,
+      this
+    )
 
     const eventSources = window.__EHTML_SERVER_EVENT_SOURCES__
     if (!eventSources || !eventSources[eventSourceName]) {
