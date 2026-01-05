@@ -1,5 +1,4 @@
-# Release 3.0.5
+# Release 3.0.6
 
-d096399 update version in package.json to 3.0.5 (guseyn, Mon Jan 5 16:14:43 2026 +0400)
-f538b93 make all elms consistent (guseyn, Mon Jan 5 16:14:36 2026 +0400)
-049ecc9 improve consistency in processing of attributes (guseyn, Mon Jan 5 16:13:33 2026 +0400)
+b0910ad update version in package.json to 3.0.6 (guseyn, Mon Jan 5 16:48:38 2026 +0400)
+5e7737c add data-cache-from attrs (guseyn, Mon Jan 5 16:48:25 2026 +0400)
