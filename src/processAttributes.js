@@ -30,6 +30,7 @@ const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_A
   'e-json-map-template': [
     'data-src',
     'data-request-headers',
+    'data-cache-from',
     'data-actions-on-progress-start',
     'data-actions-on-progress-end'
   ],
