@@ -1,6 +1,6 @@
 {
   "name": "ehtml",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Extended HTML.",
   "main": "index.js",
   "type": "module",
