@@ -1,4 +1,4 @@
-# Release 3.0.7
+# Release 3.0.8
 
-d56477a update version in package.json to 3.0.7 (guseyn, Mon Jan 5 17:13:29 2026 +0400)
-d25f720 delete unused function (guseyn, Mon Jan 5 17:13:16 2026 +0400)
+e7e1b11 update version in package.json to 3.0.8 (guseyn, Tue Feb 17 20:30:06 2026 +0400)
+c86bb91 add caching (guseyn, Tue Feb 17 20:29:51 2026 +0400)
