@@ -1,5 +1,4 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=9342ff9d'
 
 export default class EReusableTemplate extends HTMLTemplateElement {
   constructor() {
@@ -10,55 +9,54 @@ export default class EReusableTemplate extends HTMLTemplateElement {
   connectedCallback() {
     this.addEventListener(
       'ehtml:activated',
-      this.onEHTMLActivated,
+      this.#onEHTMLActivated,
       { once: true }
     )
     this.addEventListener(
       'ehtml:template-triggered',
-      this.onEHTMLTemplateTriggered
+      this.#onEHTMLTemplateTriggered
     )
   }
 
   disconnectedCallback() {
     this.removeEventListener(
       'ehtml:template-triggered',
-      this.onEHTMLTemplateTriggered
+      this.#onEHTMLTemplateTriggered
     )
   }
 
-  onEHTMLActivated() {
+  #onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
-    if (!this.hasAttribute('data-object-name')) {
-      throw new Error('e-reusable template must have "data-object-name" attribute')
-    }
     this.ehtmlActivated = true
-    this.run()
+    this.#run()
   }
 
-  run() {
+  #run() {
     const releaseOnLoad = this.getAttribute('data-release-on-load') === 'true'
     if (!releaseOnLoad) {
       return
     }
 
     const state = {}
-    if (this.internalState) {
-      state[this.getAttribute('data-object-name')] = this.internalState
-    } else {
-      state[this.getAttribute('data-object-name')] = {}
+    if (this.hasAttribute('data-object-name')) {
+      if (this.internalState) {
+        state[this.getAttribute('data-object-name')] = this.internalState
+      } else {
+        state[this.getAttribute('data-object-name')] = {}
+      }
     }
 
-    this.onEHTMLTemplateTriggered({
+    this.#onEHTMLTemplateTriggered({
       target: this,
-      detail: { state: state }
+      detail: { state }
     })
   }
 
-  onEHTMLTemplateTriggered(event) {
+  #onEHTMLTemplateTriggered(event) {
     const template = event?.target ?? this
-    const state = event?.detail?.state ?? getNodeScopedState(this)
+    const state = event?.detail?.state
 
     templateTriggerEventListener(template, state)
   }

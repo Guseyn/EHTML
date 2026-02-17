@@ -1,7 +1,7 @@
-import setNodeScopedState from '#ehtml/setNodeScopedState.js'
+import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=e54b7ee2'
 
 export default function templateTriggerEventListener(template, state) {
-  const contentNode = template.content.cloneNode(true)
+  const contentNode = document.importNode(template.content, true)
   if (template.hasAttribute('data-prepend-to')) {
     const attr = template.getAttribute('data-prepend-to')
     const parentNode = document.querySelector(template.getAttribute('data-prepend-to'))
@@ -33,6 +33,18 @@ export default function templateTriggerEventListener(template, state) {
     setNodeScopedState(parentNode, state)
     parentNode.innerHTML = ''
     parentNode.append(contentNode)
+    return
+  }
+
+  if (template.hasAttribute('data-place-instead')) {
+    const attr = template.getAttribute('data-place-instead')
+    const targetNode = document.querySelector(template.getAttribute('data-place-instead'))
+    const parentNode = targetNode.parentNode
+    if (!targetNode) {
+      throw new Error(`element is not found by the selector ${attr} in data-place-instead`)
+    }
+    setNodeScopedState(parentNode, state)
+    parentNode.replaceChild(contentNode, targetNode)
     return
   }
   // default: insert BEFORE the template but do NOT remove it

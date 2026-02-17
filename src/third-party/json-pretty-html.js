@@ -9,23 +9,23 @@ function escapeHtml (str) {
     let lastIndex = 0
     for (index = match.index; index < str.length; index++) {
       switch (str.charCodeAt(index)) {
-      case 34: // "
-        escape = '&quot;'
-        break
-      case 38: // &
-        escape = '&amp;'
-        break
-      case 39: // '
-        escape = '&#39;'
-        break
-      case 60: // <
-        escape = '&lt;'
-        break
-      case 62: // >
-        escape = '&gt;'
-        break
-      default:
-        continue
+        case 34: // "
+          escape = '&quot;'
+          break
+        case 38: // &
+          escape = '&amp;'
+          break
+        case 39: // '
+          escape = '&#39;'
+          break
+        case 60: // <
+          escape = '&lt;'
+          break
+        case 62: // >
+          escape = '&gt;'
+          break
+        default:
+          continue
       }
       if (lastIndex !== index) {
         html += str.substring(lastIndex, index)
@@ -139,29 +139,29 @@ function printObject (object, out, idt, selection, options) {
     out.print(':')
     out.space()
     switch (typeof value) {
-    case 'number':
-      out.printNumber(value)
-      break
-    case 'boolean':
-      out.printBoolean(value)
-      break
-    case 'string':
-      out.printString(value)
-      break
-    case 'object':
-      if (value === null) {
-        out.print('null')
-      } else if (Array.isArray(value)) {
-        printArray(value, out, idt + 1, selection, options)
-      } else {
-        printObject(value, out, idt + 1, selection, options)
-      }
-      break
-    case 'undefined':
-      out.print('undefined')
-      break
-    default:
-      throw new Error(`Don't know what to do with ${typeof value}`)
+      case 'number':
+        out.printNumber(value)
+        break
+      case 'boolean':
+        out.printBoolean(value)
+        break
+      case 'string':
+        out.printString(value)
+        break
+      case 'object':
+        if (value === null) {
+          out.print('null')
+        } else if (Array.isArray(value)) {
+          printArray(value, out, idt + 1, selection, options)
+        } else {
+          printObject(value, out, idt + 1, selection, options)
+        }
+        break
+      case 'undefined':
+        out.print('undefined')
+        break
+      default:
+        throw new Error(`Don't know what to do with ${typeof value}`)
     }
     if (i < keys.length - 1) {
       out.print(',')
@@ -186,27 +186,27 @@ function printArray (array, out, idt, selection, options) {
     }
     out.indent(idt + 1)
     switch (typeof value) {
-    case 'number':
-      out.printNumber(value)
-      break
-    case 'boolean':
-      out.printBoolean(value)
-      break
-    case 'string':
-      out.printString(value)
-      break
-    case 'object':
-      if (value == null) {
-        out.print('null')
-      } else {
-        printObject(value, out, idt + 1, selection, options)
-      }
-      break
-    case 'undefined':
-      out.print('undefined')
-      break
-    default:
-      throw new Error(`Don't know what to do with ${typeof value}`)
+      case 'number':
+        out.printNumber(value)
+        break
+      case 'boolean':
+        out.printBoolean(value)
+        break
+      case 'string':
+        out.printString(value)
+        break
+      case 'object':
+        if (value == null) {
+          out.print('null')
+        } else {
+          printObject(value, out, idt + 1, selection, options)
+        }
+        break
+      case 'undefined':
+        out.print('undefined')
+        break
+      default:
+        throw new Error(`Don't know what to do with ${typeof value}`)
     }
     if (i < array.length - 1) {
       out.print(',')

@@ -1,4 +1,4 @@
-export default function evaluateActionsOnProgress(string, node, state) {
+export default function evaluateActions(string, node, state) {
   // Create a function using the Function constructor
   // eslint-disable-next-line no-new-func
   const func = new Function(

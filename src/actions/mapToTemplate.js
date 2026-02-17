@@ -1,6 +1,6 @@
-import elm from '#ehtml/elm.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function mapToTemplate(elmSelectorOrElm, obj) {
   const templateElm = elm(elmSelectorOrElm)
@@ -10,7 +10,7 @@ export default function mapToTemplate(elmSelectorOrElm, obj) {
   }
 
   if (!isTemplate(templateElm)) {
-    throw new Error('mapToTemplate(): target must be <template>.')
+    throw new Error(`mapToTemplate(): target must be <template>.`)
   }
 
   // Allow:
@@ -24,13 +24,13 @@ export default function mapToTemplate(elmSelectorOrElm, obj) {
 
   if (!templateIsNativeOrReusable) {
     throw new Error(
-      'mapToTemplate() works only on native <template>, <template is="e-reusable"> or <template is="e-json-map">.'
+      `mapToTemplate() works only on native <template>, <template is="e-reusable"> or <template is="e-json-map">.`
     )
   }
 
   const objName = templateElm.getAttribute('data-object-name')
   if (!objName && obj) {
-    throw new Error('Mapping template must have data-object-name="…".')
+    throw new Error(`Mapping template must have data-object-name="…".`)
   }
 
   const statePatch = {}

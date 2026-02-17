@@ -1,9 +1,9 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
-import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
-import scrollToHash from '#ehtml/actions/scrollToHash.js'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=33eb829e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=b4513dec'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EWrapperTemplate extends HTMLTemplateElement {
   constructor() {
@@ -14,20 +14,20 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
   connectedCallback() {
     this.addEventListener(
       'ehtml:activated',
-      this.onEHTMLActivated,
+      this.#onEHTMLActivated,
       { once: true }
     )
   }
 
-  onEHTMLActivated() {
+  #onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
     this.ehtmlActivated = true
-    this.run()
+    this.#run()
   }
 
-  run() {
+  #run() {
     const state = getNodeScopedState(this)
 
     if (this.hasAttribute('data-actions-on-progress-start')) {
@@ -68,7 +68,7 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
           throw err
         }
 
-        this.insert(resObj.body)
+        this.#insert(resObj.body)
 
         if (this.hasAttribute('data-actions-on-progress-end')) {
           evaluateActionsOnProgress(
@@ -83,16 +83,13 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
     )
   }
 
-  insert(html) {
-    // Create fragment
+  #insert(html) {
     const fetched = document.createElement('template')
     fetched.innerHTML = html
     const fetchedContent = fetched.content.cloneNode(true)
 
-    // Step 1: Insert fetched HTML into DOM BEFORE manipulation
     this.parentNode.insertBefore(fetchedContent, this)
 
-    // Step 2: Look for placeholder in real DOM
     const placeholderSelector = this.getAttribute('data-where-to-place')
     const how = this.getAttribute('data-how-to-place') || 'after'
 
@@ -104,10 +101,8 @@ export default class EWrapperTemplate extends HTMLTemplateElement {
       )
     }
 
-    // Step 3: Clone wrapper content
     const wrapperContent = this.content.cloneNode(true)
 
-    // Step 4: Insert wrapper content into real DOM
     if (how === 'before') {
       placeholder.parentNode.insertBefore(wrapperContent, placeholder)
     } else if (how === 'after') {

@@ -1,8 +1,8 @@
-import isCustomElement from '#ehtml/isCustomElement.js'
-import processAttributes from '#ehtml/processAttributes.js'
-import shouldSkipNode from '#ehtml/shouldSkipNode.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import isCustomElement from '#ehtml/isCustomElement.js?v=2be70586'
+import processAttributes from '#ehtml/processAttributes.js?v=a1d68662'
+import shouldSkipNode from '#ehtml/shouldSkipNode.js?v=edc4a483'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=9342ff9d'
 
 export default function activateNode(node) {
 
@@ -63,8 +63,8 @@ export default function activateNode(node) {
               event.detail.state
             )
             // Remove template after triggering it,
-            // since it's not e-reusable or does not data-reusable attribute
-            if (event.target.parentNode && !event.target.hasAttribute('data-reusable')) {
+            // since it's not e-reusable
+            if (event.target.parentNode) {
               event.target.parentNode.removeChild(event.target)
             }
           },

@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════
- *  isCustomElement(elm)
+ *  isCustomElement(el)
  * ------------------------------------------------------------------------
  *  Determines whether a given DOM element should be treated as an EHTML
  *  custom element.
@@ -18,7 +18,7 @@
  *
  *  Detection rules:
  *
- *    • If 'elm' is not an Element → false
+ *    • If 'el' is not an Element → false
  *    • If tagName exists in customElements registry → true
  *    • If "is" attribute exists and its value is registered → true
  *    • Otherwise → false
@@ -29,11 +29,11 @@
  *    • Works reliably even on browsers that refuse to upgrade customized
  *      built-ins (notably iOS Safari).
  * ════════════════════════════════════════════════════════════════════════ */
-export default function isCustomElement(elm) {
+export default function isCustomElement(el) {
   /*
    * Skip all non-element nodes (text, comments, fragments, etc.)
    */
-  if (!(elm instanceof Element)) {
+  if (!(el instanceof Element)) {
     return false
   }
 
@@ -41,7 +41,7 @@ export default function isCustomElement(elm) {
    * Autonomous custom elements:
    * Their tag name is the registered custom element type.
    */
-  const tagName = elm.tagName.toLowerCase()
+  const tagName = el.tagName.toLowerCase()
   if (customElements.get(tagName)) {
     return true
   }
@@ -56,7 +56,7 @@ export default function isCustomElement(elm) {
    *
    * We check whether the "is" type exists in the customElements registry.
    */
-  const isAttr = elm.getAttribute('is')
+  const isAttr = el.getAttribute('is')
   if (isAttr) {
     const type = isAttr.toLowerCase()
     if (customElements.get(type)) {

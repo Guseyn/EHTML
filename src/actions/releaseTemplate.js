@@ -1,6 +1,6 @@
-import elm from '#ehtml/elm.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function releaseTemplate(elmSelectorOrElm) {
   const element = elm(elmSelectorOrElm)
@@ -20,7 +20,7 @@ export default function releaseTemplate(elmSelectorOrElm) {
 
   if (!templateIsNativeOrReusable) {
     throw new Error(
-      'releaseTemplate() works only on native <template> or <template is="e-reusable">.'
+      `releaseTemplate() works only on native <template> or <template is="e-reusable">.`
     )
   }
 
@@ -31,17 +31,12 @@ export default function releaseTemplate(elmSelectorOrElm) {
   //   will merge this patch into the parent’s lexical state.
   //
   //   If template needs data, the user should call mapToTemplate().
-  // We use queueMicrotask() to ensure this event fires *after* the current
-  // synchronous DOM operations complete, so if the template is appended
-  // synchronously before this call, it will already be connected.
-  queueMicrotask(() => {
-    element.dispatchEvent(
-      new CustomEvent('ehtml:template-triggered', {
-        bubbles: false,
-        detail: { state: {} }
-      })
-    )
-  })
+  element.dispatchEvent(
+    new CustomEvent('ehtml:template-triggered', {
+      bubbles: false,
+      detail: { state: {} }
+    })
+  )
 }
 
 window.releaseTemplate = releaseTemplate

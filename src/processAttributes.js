@@ -1,86 +1,20 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
-import elmName from '#ehtml/elmName.js'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=33eb829e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
 
-const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = {
-  'e-for-each': [
-    'data-list-to-iterate'
-  ],
-  'e-form-array': [],
-  'e-form-dynamic-value': [
-    'data-bound-to'
-  ],
-  'e-form-object': [],
-  'e-form': [
-    'data-request-url',
-    'data-request-headers',
-    'data-actions-on-response',
-    'data-actions-on-progress'
-  ],
-  'e-html': [
-    'data-src',
-    'data-request-headers',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-if-template': [
-    'data-condition-to-display'
-  ],
-  'e-json-map-template': [
-    'data-src',
-    'data-request-headers',
-    'data-cache-from',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-json-view': [
-    'data-src',
-    'data-request-headers',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-json': [
-    'data-src',
-    'data-request-headers',
-    'data-cache-from',
-    'data-actions-on-response',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-local-storage-value': [],
-  'e-markdown': [
-    'data-src',
-    'data-request-headers',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-page-with-url': [],
-  'e-reusable': [],
-  'e-select': [],
-  'e-session-storage-value': [],
-  'e-sse': [
-    'data-src',
-    'data-actions-on-open-connection'
-  ],
-  'e-svg': [
-    'data-src',
-    'data-request-headers',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-wrapper': [
-    'data-src',
-    'data-request-headers',
-    'data-actions-on-progress-start',
-    'data-actions-on-progress-end'
-  ],
-  'e-ws': [
-    'data-src',
-    'data-actions-on-open-connection',
-    'data-actions-on-close-connection'
-  ]
-}
+const ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME = [
+  'data-actions-on-response',
+  'data-actions-on-progress-start',
+  'data-actions-on-progress-end',
+  'data-condition-to-display',
+  'data-list-to-iterate',
+  'data-item-name',
+  'data-bound-to',
+  'data-cache-from',
+  'data-request-headers',
+  'data-request-url',
+  'data-socket'
+]
 
 const TAGS_WITH_SRC_ATTRIBUTE = [
   'audio',
@@ -97,70 +31,77 @@ const TAGS_WITH_SRC_ATTRIBUTE = [
 
 const NATIVE_EVENT_LISTENERS = [
   // Clipboard events
-  'oncopy', 'oncut', 'onpaste',
+  "oncopy", "oncut", "onpaste",
 
   // Form events
-  'onblur', 'onchange', 'oncontextmenu', 'onfocus', 'oninput', 'oninvalid',
-  'onreset', 'onsearch', 'onselect', 'onsubmit',
+  "onblur", "onchange", "oncontextmenu", "onfocus", "oninput", "oninvalid",
+  "onreset", "onsearch", "onselect", "onsubmit",
 
   // Keyboard events
-  'onkeydown', 'onkeypress', 'onkeyup',
+  "onkeydown", "onkeypress", "onkeyup",
 
   // Mouse events
-  'onclick', 'ondblclick', 'onmousedown', 'onmouseenter', 'onmouseleave',
-  'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onwheel',
+  "onclick", "ondblclick", "onmousedown", "onmouseenter", "onmouseleave",
+  "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onwheel",
 
   // Drag & Drop events
-  'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover',
-  'ondragstart', 'ondrop',
+  "ondrag", "ondragend", "ondragenter", "ondragleave", "ondragover",
+  "ondragstart", "ondrop",
 
   // Media events
-  'onabort', 'oncanplay', 'oncanplaythrough', 'oncuechange', 'ondurationchange',
-  'onemptied', 'onended', 'onerror', 'onloadeddata', 'onloadedmetadata',
-  'onloadstart', 'onpause', 'onplay', 'onplaying', 'onprogress', 'onratechange',
-  'onseeked', 'onseeking', 'onstalled', 'onsuspend', 'ontimeupdate', 'onvolumechange',
-  'onwaiting',
+  "onabort", "oncanplay", "oncanplaythrough", "oncuechange", "ondurationchange",
+  "onemptied", "onended", "onerror", "onloadeddata", "onloadedmetadata",
+  "onloadstart", "onpause", "onplay", "onplaying", "onprogress", "onratechange",
+  "onseeked", "onseeking", "onstalled", "onsuspend", "ontimeupdate", "onvolumechange",
+  "onwaiting",
 
   // Animation & Transition events
-  'onanimationcancel', 'onanimationend', 'onanimationiteration', 'onanimationstart',
-  'ontransitioncancel', 'ontransitionend', 'ontransitionrun', 'ontransitionstart',
+  "onanimationcancel", "onanimationend", "onanimationiteration", "onanimationstart",
+  "ontransitioncancel", "ontransitionend", "ontransitionrun", "ontransitionstart",
 
   // Window / Frame events
-  'onafterprint', 'onbeforeprint', 'onbeforeunload', 'onerror', 'onhashchange',
-  'onload', 'onmessage', 'onoffline', 'ononline', 'onpagehide', 'onpageshow',
-  'onpopstate', 'onresize', 'onstorage', 'onunload',
+  "onafterprint", "onbeforeprint", "onbeforeunload", "onerror", "onhashchange",
+  "onload", "onmessage", "onoffline", "ononline", "onpagehide", "onpageshow",
+  "onpopstate", "onresize", "onstorage", "onunload",
 
   // Focus events (in addition to form ones)
-  'onfocusin', 'onfocusout',
+  "onfocusin", "onfocusout",
 
   // Touch events (mobile)
-  'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart',
+  "ontouchcancel", "ontouchend", "ontouchmove", "ontouchstart",
 
   // Pointer events
-  'ongotpointercapture', 'onlostpointercapture', 'onpointercancel',
-  'onpointerdown', 'onpointerenter', 'onpointerleave', 'onpointermove',
-  'onpointerout', 'onpointerover', 'onpointerup',
+  "ongotpointercapture", "onlostpointercapture", "onpointercancel",
+  "onpointerdown", "onpointerenter", "onpointerleave", "onpointermove",
+  "onpointerout", "onpointerover", "onpointerup",
 
   // Wheel / Scroll / Resize
-  'onscroll', 'onwheel',
+  "onscroll", "onwheel",
 
   // Print events (for completeness)
-  'onbeforeprint', 'onafterprint',
+  "onbeforeprint", "onafterprint",
 
   // Speech / Input composition
-  'oncompositionstart', 'oncompositionupdate', 'oncompositionend',
+  "oncompositionstart", "oncompositionupdate", "oncompositionend",
 
   // Details / Toggle
-  'ontoggle',
+  "ontoggle",
 
   // Progress element events
-  'onprogress',
+  "onprogress",
 
   // WebSocket / Server-sent events
-  'onopen', 'onmessage', 'onclose',
+  "onopen", "onmessage", "onclose",
 
   // Misc newer ones
-  'onsecuritypolicyviolation', 'onvisibilitychange', 'onbeforematch', 'oncancel'
+  "onsecuritypolicyviolation", "onvisibilitychange", "onbeforematch", "oncancel"
+]
+
+const TAGS_THAT_CAN_BE_DISABLED = [
+  'input',
+  'select',
+  'textarea',
+  'button'
 ]
 
 const hasParams = v => v.includes('${')
@@ -171,7 +112,7 @@ export default function processAttributes(node) {
   }
 
   const attrs = Array.from(node.attributes)
-  const tag = elmName(node)
+  const tag = node.tagName.toLowerCase()
 
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i]
@@ -179,18 +120,14 @@ export default function processAttributes(node) {
     const rawValue = attr.value
 
     const ignore =
-      (
-        ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME[tag] &&
-        ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME[tag].includes(name)
-      ) ||
+      ATTRIBUTE_NAMES_TO_IGNORE_SINCE_THEY_MUST_BE_RESOLVED_IN_THEIR_OWN_SCOPE_AND_TIME.includes(name) ||
       (name === 'data-src' && !TAGS_WITH_SRC_ATTRIBUTE.includes(tag)) ||
-      (
-        node.hasAttribute('data-attributes-to-ignore') &&
-        node.getAttribute('data-attributes-to-ignore').split(',').map(a => a.trim()).includes(name)
-      ) ||
       NATIVE_EVENT_LISTENERS.includes(name)
 
     if (ignore) {
+      if (name === 'data-src') {
+        console.log(node)
+      }
       continue
     }
 
@@ -201,7 +138,7 @@ export default function processAttributes(node) {
 
     // evaluate now
     const state = getNodeScopedState(node)
-    
+
     if (name === 'data-internal-state') {
       const evaluated = evaluatedValueWithParamsFromState(rawValue, state, node)
       node.internalState = evaluated
@@ -219,6 +156,12 @@ export default function processAttributes(node) {
     }
 
     // ---- attribute transformations -----
+
+    if (TAGS_THAT_CAN_BE_DISABLED.indexOf(tag) >= 0 && node.hasAttribute('data-disabled')) {
+      if (evaluatedString === 'true') {
+        node.setAttribute('disabled', '')
+      }
+    }
 
     if (name === 'data-text') {
       const textNode = document.createTextNode(evaluatedString)
@@ -249,7 +192,7 @@ export default function processAttributes(node) {
       continue
     }
 
-    if (name === 'data-src' && TAGS_WITH_SRC.includes(tag)) {
+    if (name === 'data-src' && TAGS_WITH_SRC_ATTRIBUTE.includes(tag)) {
       node.setAttribute('src', evaluatedString)
       node.removeAttribute('data-src')
       continue
