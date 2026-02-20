@@ -1,4 +1,4 @@
-# Release 3.0.8
+# Release 3.0.9
 
-e7e1b11 update version in package.json to 3.0.8 (guseyn, Tue Feb 17 20:30:06 2026 +0400)
-c86bb91 add caching (guseyn, Tue Feb 17 20:29:51 2026 +0400)
+9bf5220 update version in package.json to 3.0.9 (guseyn, Fri Feb 20 16:39:59 2026 +0400)
+a20f578 update cache and new features from instrux (guseyn, Fri Feb 20 16:39:45 2026 +0400)
