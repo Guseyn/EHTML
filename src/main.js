@@ -70,7 +70,7 @@
  * initialize and activate reliably on every platform.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/third-party/custom-elements-polyfill.js?v=f4e8eeb1'
+import '#ehtml/third-party/custom-elements-polyfill.js'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               ACTIVATE NODE
@@ -96,7 +96,7 @@ import '#ehtml/third-party/custom-elements-polyfill.js?v=f4e8eeb1'
  * declaration of components completely open and extensible.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import activateNode from '#ehtml/activateNode.js?v=4e8c2b2a'
+import activateNode from '#ehtml/activateNode.js'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                       EHTML NODE-SCOPED STATE MAP
@@ -166,7 +166,7 @@ window.__EHTML_SHOWDOWN_EXTENSIONS__ = window.__EHTML_SHOWDOWN_EXTENSIONS__ || [
  * the browser and available for activation.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/E/exports.js?v=ac96739b'
+import '#ehtml/E/exports.js'
 
 /* ════════════════════════════════════════════════════════════════════════
  *                               EHTML ACTIONS
@@ -195,7 +195,7 @@ import '#ehtml/E/exports.js?v=ac96739b'
  * Importing and exporting them as a single object makes it easy for the
  * EHTML engine to look them up by name and invoke them at runtime.
  * ════════════════════════════════════════════════════════════════════════ */
-import '#ehtml/actions/exports.js?v=12de47f6'
+import '#ehtml/actions/exports.js'
 
 /* ====================================================================
  *                       MUTATION OBSERVER CALLBACK

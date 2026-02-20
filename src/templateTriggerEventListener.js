@@ -1,4 +1,4 @@
-import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=e54b7ee2'
+import setNodeScopedState from '#ehtml/setNodeScopedState.js'
 
 export default function templateTriggerEventListener(template, state) {
   const contentNode = document.importNode(template.content, true)
