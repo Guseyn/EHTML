@@ -1,6 +1,6 @@
-import elm from '#ehtml/elm.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function mapToTemplate(elmSelectorOrElm, obj) {
   const templateElm = elm(elmSelectorOrElm)

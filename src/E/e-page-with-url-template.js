@@ -1,4 +1,4 @@
-import scrollToHash from '#ehtml/actions/scrollToHash.js'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EPageWithUrl extends HTMLTemplateElement {
   constructor() {
@@ -9,27 +9,27 @@ export default class EPageWithUrl extends HTMLTemplateElement {
   connectedCallback() {
     this.addEventListener(
       'ehtml:activated',
-      this.onEHTMLActivated,
+      this.#onEHTMLActivated,
       { once: true }
     )
   }
 
-  onEHTMLActivated() {
+  #onEHTMLActivated() {
     if (this.ehtmlActivated) {
       return
     }
     this.ehtmlActivated = true
-    this.run()
+    this.#run()
   }
 
-  run() {
+  #run() {
     const urlPattern = this.getAttribute('data-url-pattern')
     if (!urlPattern) {
       throw new Error('<template is="e-page-with-url"> must have data-url-pattern')
     }
 
     // Build global urlParams
-    window.urlParams = this.constructedUrlParams(urlPattern, window.location)
+    window.urlParams = this.#constructedUrlParams(urlPattern, window.location)
 
     // Replace template with its content
     this.parentNode.replaceChild(
@@ -40,15 +40,15 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     scrollToHash()
   }
 
-  constructedUrlParams(urlPattern, windowLocation) {
+  #constructedUrlParams(urlPattern, windowLocation) {
     const urlParams = {}
 
-    const parsedUrl = this.parsedUrlPattern(urlPattern)
+    const parsedUrl = this.#parsedUrlPattern(urlPattern)
     const locationPath = windowLocation.pathname
     const locationSearch = windowLocation.search
 
     const pathParts = locationPath.split(/\//g).filter(x => x !== '')
-    const requestParams = this.requestParamsOfLocationSearch(locationSearch)
+    const requestParams = this.#requestParamsOfLocationSearch(locationSearch)
 
     parsedUrl.pathVariables.forEach((variable, index) => {
       if (/\{([^{}\s.]+)}/gm.test(variable)) {
@@ -71,7 +71,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     return urlParams
   }
 
-  parsedUrlPattern(url) {
+  #parsedUrlPattern(url) {
     const split = url.split('?')
     const beforeQuery = split[0]
     const afterQuery = split[1]
@@ -86,7 +86,7 @@ export default class EPageWithUrl extends HTMLTemplateElement {
     }
   }
 
-  requestParamsOfLocationSearch(locationSearch) {
+  #requestParamsOfLocationSearch(locationSearch) {
     const params = {}
     const searchPart = locationSearch.split('?')[1]
     if (!searchPart) {

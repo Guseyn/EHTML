@@ -1,6 +1,6 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import setNodeScopedState from '#ehtml/setNodeScopedState.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=e54b7ee2'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=33eb829e'
 
 export default class EIfTemplate extends HTMLTemplateElement {
   constructor() {

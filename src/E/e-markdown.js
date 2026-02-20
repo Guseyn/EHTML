@@ -1,13 +1,13 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
-import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
-import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
-import scrollToHash from '#ehtml/actions/scrollToHash.js'
-import * as showdown from '#ehtml/third-party/showdown.min.js'
-import showdownHighlight from '#ehtml/third-party/showdown-highlight.js'
-import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
+import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js?v=ae379b8c'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=33eb829e'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=b4513dec'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
+import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
+import showdownHighlight from '#ehtml/third-party/showdown-highlight.js?v=41419cd4'
+import showdownKatex from '#ehtml/third-party/showdown-katex/showdown-katex.js?v=088647e7'
 
 export default class EMarkdown extends HTMLElement {
   constructor() {
