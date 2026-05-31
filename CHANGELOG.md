@@ -1,4 +1,4 @@
-# Release 3.0.9
+# Release 3.0.10
 
-9bf5220 update version in package.json to 3.0.9 (guseyn, Fri Feb 20 16:39:59 2026 +0400)
-a20f578 update cache and new features from instrux (guseyn, Fri Feb 20 16:39:45 2026 +0400)
+1ef9efa update version in package.json to 3.0.10 (guseyn, Sun May 31 11:08:39 2026 +0400)
+d102dcf attributes to ignore (guseyn, Sun May 31 11:08:34 2026 +0400)
