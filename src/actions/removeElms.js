@@ -1,4 +1,4 @@
-import elms from '#ehtml/elms.js'
+import elms from '#ehtml/elms.js?v=4758068d'
 
 export default function removeElms (...elmSelectors) {
   elmSelectors.forEach(elmSelector => {

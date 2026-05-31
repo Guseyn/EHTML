@@ -1,5 +1,5 @@
-import elm from '#ehtml/elm.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js?v=b4193065'
 
 export default function loadAndAddTxtInto (elmSelectorOrElm, url, headers) {
   responseFromAjaxRequest({

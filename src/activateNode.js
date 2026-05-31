@@ -1,8 +1,8 @@
-import isCustomElement from '#ehtml/isCustomElement.js'
-import processAttributes from '#ehtml/processAttributes.js'
-import shouldSkipNode from '#ehtml/shouldSkipNode.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import isCustomElement from '#ehtml/isCustomElement.js?v=2be70586'
+import processAttributes from '#ehtml/processAttributes.js?v=3bac0045'
+import shouldSkipNode from '#ehtml/shouldSkipNode.js?v=edc4a483'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=92fb4b22'
 
 export default function activateNode(node) {
 
@@ -33,7 +33,7 @@ export default function activateNode(node) {
   }
 
   // 3. Native <template> (NO "is") — attach template-trigger listener once
-  if (isTemplate(node) && !node.getAttribute('is')) {    
+  if (isTemplate(node) && !node.getAttribute('is')) { 
     if (!node.ehtmlTemplateTriggerEventListenerAttached) {
       node.ehtmlTemplateTriggerEventListenerAttached = true
       if (node.hasAttribute('data-release-on-load')) {

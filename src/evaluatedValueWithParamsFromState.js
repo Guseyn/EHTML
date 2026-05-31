@@ -1,4 +1,4 @@
-export default function evaluatedValueWithParamsFromState(expression, state, node) {
+export default function evaluatedValueWithParamsFromState(expression, state, node, clean = true) {
   if (!expression) {
     return null
   }
@@ -14,8 +14,11 @@ export default function evaluatedValueWithParamsFromState(expression, state, nod
   // Remove first '${' and last '}'
   const inner = expression.slice(2, -1).trim()
 
-  // Support newlines inside expression
-  const cleaned = inner.replace(/\n/g, ' ')
+  let cleaned = inner
+  if (clean) {
+    // Support newlines inside expression
+    cleaned = inner.replace(/\n/g, ' ')
+  }
 
   // Evaluate
   const func = new Function(
@@ -26,5 +29,9 @@ export default function evaluatedValueWithParamsFromState(expression, state, nod
       }
     `
   )
-  return func.apply(node, [state])
+  try {
+    return func.apply(node, [state])
+  } catch (error) {
+    throw new Error(`${expression} failed, ${error}`)
+  }
 }
