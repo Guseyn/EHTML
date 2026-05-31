@@ -8,7 +8,7 @@ export default function evaluateActionsOnResponse(string, resName, resObj, node,
   `
 
   // Use Function constructor for execution
-  // eslint-disable-next-line no-new-func
+   
   const func = new Function('resObj', 'state', dynamicFunctionBody)
 
   /*──────────────────────────────────────────────────────────────────────────────

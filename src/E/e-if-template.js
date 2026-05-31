@@ -28,7 +28,7 @@ export default class EIfTemplate extends HTMLTemplateElement {
   #run() {
     const expr = this.getAttribute('data-condition-to-display')
     if (!expr) {
-      throw new Error(`<template is="e-if"> must have data-condition-to-display`)
+      throw new Error('<template is="e-if"> must have data-condition-to-display')
     }
 
     const state = getNodeScopedState(this)

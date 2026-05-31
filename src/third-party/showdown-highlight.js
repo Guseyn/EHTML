@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 import he from '#ehtml/third-party/he.js'
 import * as showdown from '#ehtml/third-party/showdown.min.js'
@@ -44,9 +44,9 @@ const classAttr = 'class="'
 export default function showdownHighlight({ pre = false, auto_detection = true } = {}) {
   const filter = (text, converter, options) => {
     const params = {
-      left: "<pre><code\\b[^>]*>",
-      right: "</code></pre>",
-      flags: "g"
+      left: '<pre><code\\b[^>]*>',
+      right: '</code></pre>',
+      flags: 'g'
     }
 
     const replacement = (wholeMatch, match, left, right) => {
@@ -87,7 +87,7 @@ export default function showdownHighlight({ pre = false, auto_detection = true }
 
   return [
     {
-      type: "output",
+      type: 'output',
       filter
     }
   ]

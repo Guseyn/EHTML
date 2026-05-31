@@ -14,7 +14,7 @@ const VALIDATION_PATTERNS = {
   password: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/,
   tel: /[0-9]{0,14}$/,
   time: /\d\d:\d\d/,
-  // eslint-disable-next-line  no-useless-escape
+   
   url: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
 }
 
@@ -1181,7 +1181,7 @@ function retrievedDynamicValuesForRequestBodyAndQueryObject (dynamicValues, requ
       throw new Error('e-form-dynamic-value must have name, unless it is a direct child of e-form-array')
     }
     if (!dynamicValue.hasAttribute('data-bound-to')) {
-      throw new Error(`e-form-dynamic-value has no data-bound-to attribute`)
+      throw new Error('e-form-dynamic-value has no data-bound-to attribute')
     }
     const properyPath = []
     buildFullPathOfProperyForRequestBodyByFormElementPosition(

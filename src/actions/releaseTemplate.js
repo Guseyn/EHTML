@@ -20,7 +20,7 @@ export default function releaseTemplate(elmSelectorOrElm) {
 
   if (!templateIsNativeOrReusable) {
     throw new Error(
-      `releaseTemplate() works only on native <template> or <template is="e-reusable">.`
+      'releaseTemplate() works only on native <template> or <template is="e-reusable">.'
     )
   }
 

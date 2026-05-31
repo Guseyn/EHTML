@@ -10,7 +10,7 @@ export default function mapToTemplate(elmSelectorOrElm, obj) {
   }
 
   if (!isTemplate(templateElm)) {
-    throw new Error(`mapToTemplate(): target must be <template>.`)
+    throw new Error('mapToTemplate(): target must be <template>.')
   }
 
   // Allow:
@@ -24,13 +24,13 @@ export default function mapToTemplate(elmSelectorOrElm, obj) {
 
   if (!templateIsNativeOrReusable) {
     throw new Error(
-      `mapToTemplate() works only on native <template>, <template is="e-reusable"> or <template is="e-json-map">.`
+      'mapToTemplate() works only on native <template>, <template is="e-reusable"> or <template is="e-json-map">.'
     )
   }
 
   const objName = templateElm.getAttribute('data-object-name')
   if (!objName && obj) {
-    throw new Error(`Mapping template must have data-object-name="…".`)
+    throw new Error('Mapping template must have data-object-name="…".')
   }
 
   const statePatch = {}

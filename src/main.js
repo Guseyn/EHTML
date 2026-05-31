@@ -130,7 +130,7 @@ window.__EHTML_SCOPED_STATE__ = new WeakMap()
  * avoiding redundant WebSockets and enabling efficient real-time updates.
  *
  * ════════════════════════════════════════════════════════════════════════ */
-window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || [];
+window.__EHTML_WEB_SOCKETS__ = window.__EHTML_WEB_SOCKETS__ || []
 
 /* ════════════════════════════════════════════════════════════════════════
  *                    EHTML MARKDOWN EXTENSION REGISTRY
@@ -301,7 +301,7 @@ import '#ehtml/actions/exports.js'
  * ==================================================================== */
 function mutationHandler(mutations) {
   for (const mut of mutations) {
-    if (mut.type === "childList") {
+    if (mut.type === 'childList') {
       for (const node of mut.addedNodes) {
         activateNode(node)
       }
@@ -418,5 +418,5 @@ window.activateNode = activateNode
  *      - extremely performant during runtime
  *
  * ==================================================================== */
-queueMicrotask(() => activateNode(document.body))   // one-time full-tree activation
-turnEhtmlObserverOn()                               // incremental activation from now on
+queueMicrotask(() => activateNode(document.body)) // one-time full-tree activation
+turnEhtmlObserverOn() // incremental activation from now on
