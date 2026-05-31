@@ -9,7 +9,7 @@ export default function evaluatedStringWithParamsFromState(string, state, node) 
     const inlinedExpression = expression.replace(/\n/g, ' ')
     try {
       // Use Function constructor and pass state and this as arguments
-       
+      // eslint-disable-next-line no-new-func
       const func = new Function(
         'state',
         `
