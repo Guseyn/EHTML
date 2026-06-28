@@ -1,5 +1,4 @@
-# Release 3.0.11
+# Release 3.0.12
 
-1a7ebfc update version in package.json to 3.0.11 (guseyn, Sun May 31 11:59:24 2026 +0400)
-c0a815a update ehtml functions (guseyn, Sun May 31 11:59:17 2026 +0400)
-5efe669 update versions (guseyn, Sun May 31 11:09:25 2026 +0400)
+672732e update version in package.json to 3.0.12 (guseyn, Sun Jun 28 10:10:14 2026 +0400)
+8a4ed63 make attribute name for data-unchecked-value more consistent (guseyn, Sun Jun 28 10:10:10 2026 +0400)
