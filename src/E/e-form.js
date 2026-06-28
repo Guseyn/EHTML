@@ -1065,8 +1065,8 @@ function retrievedValuesFromInputsForRequestBodyAndQueryObject (inputs, requestB
       }
       if (input.checked) {
         requestBodyCheckboxPart.push(inputValue)
-      } else if (input.hasAttribute('unchecked-value')) {
-        requestBodyCheckboxPart.push(input.getAttribute('unchecked-value'))
+      } else if (input.hasAttribute('data-unchecked-value')) {
+        requestBodyCheckboxPart.push(input.getAttribute('data-unchecked-value'))
       }
     } else if (input.type.toLowerCase() === 'file') {
       assignAndReturnValueToRequestBody(
