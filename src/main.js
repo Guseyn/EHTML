@@ -418,5 +418,7 @@ window.activateNode = activateNode
  *      - extremely performant during runtime
  *
  * ==================================================================== */
-queueMicrotask(() => activateNode(document.body))   // one-time full-tree activation
-turnEhtmlObserverOn()                               // incremental activation from now on
+queueMicrotask(() => {
+  activateNode(document.body) // one-time full-tree activation
+  turnEhtmlObserverOn()       // incremental activation from now on
+})
