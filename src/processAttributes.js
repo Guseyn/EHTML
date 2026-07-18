@@ -140,9 +140,11 @@ export default function processAttributes(node) {
     }
 
     if (name === 'data-click-on-enter') {
-      node.addEventListener('keydown', () => {
-        event.preventDefault()
-        node.click()
+      node.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault()
+          node.click()
+        }
       })
     }
 
