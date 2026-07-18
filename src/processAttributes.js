@@ -142,7 +142,7 @@ export default function processAttributes(node) {
     if (name === 'data-enter-on-click') {
       node.addEventListener('keydown', () => {
         event.preventDefault()
-        this.node.click()
+        node.click()
       })
     }
 
