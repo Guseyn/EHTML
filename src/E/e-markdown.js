@@ -1,5 +1,5 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import ajax from '#ehtml/ajax.js'
 import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
@@ -95,7 +95,7 @@ export default class EMarkdown extends HTMLElement {
       this
     )
 
-    responseFromAjaxRequest(
+    ajax(
       {
         url: url,
         method: 'GET',

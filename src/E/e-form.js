@@ -1,4 +1,4 @@
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import ajax from '#ehtml/ajax.js'
 import getNodeScopedState from '#ehtml/getNodeScopedState.js'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
@@ -449,7 +449,7 @@ function submit (target, targetIsForm) {
       )
     }
 
-    responseFromAjaxRequest({
+    ajax({
       url: urlWithQueryParams(
         evaluatedStringWithParamsFromState(
           target.getAttribute('data-request-url'),

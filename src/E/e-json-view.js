@@ -1,6 +1,6 @@
 import getNodeScopedState from '#ehtml/getNodeScopedState.js'
 import unwrappedChildrenOfParent from '#ehtml/unwrappedChildrenOfParent.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import ajax from '#ehtml/ajax.js'
 import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
 import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
 import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
@@ -56,7 +56,7 @@ export default class EJsonView extends HTMLElement {
       this
     )
 
-    responseFromAjaxRequest(
+    ajax(
       {
         url: encodeURI(src),
         method: 'GET',

@@ -1,8 +1,8 @@
 import elm from '#ehtml/elm.js'
-import responseFromAjaxRequest from '#ehtml/responseFromAjaxRequest.js'
+import ajax from '#ehtml/ajax.js'
 
 export default function loadTextInto (elmSelectorOrElm, url, headers) {
-  responseFromAjaxRequest({
+  ajax({
     url: encodeURI(url),
     method: 'GET',
     headers: headers || {}
