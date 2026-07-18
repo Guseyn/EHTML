@@ -1,4 +1,4 @@
-# Release 3.0.17
+# Release 3.0.18
 
-d9327d0 update version in package.json to 3.0.17 (guseyn, Sat Jul 18 04:37:54 2026 +0400)
-0d47833 fix data-click-on-enter (guseyn, Sat Jul 18 04:37:40 2026 +0400)
+f3b823c update version in package.json to 3.0.18 (guseyn, Sat Jul 18 04:43:54 2026 +0400)
+5803314 fix data-click-on-enter (only on enter) (guseyn, Sat Jul 18 04:43:39 2026 +0400)
