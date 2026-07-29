@@ -1,9 +1,9 @@
-import ajax from '#ehtml/ajax.js'
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
-import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js'
-import evaluateActionsOnResponse from '#ehtml/evaluateActionsOnResponse.js'
+import ajax from '#ehtml/ajax.js?v=b4193065'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=064dce21'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
+import evaluateActionsOnProgress from '#ehtml/evaluateActionsOnProgress.js?v=b4513dec'
+import evaluateActionsOnResponse from '#ehtml/evaluateActionsOnResponse.js?v=3c716b4b'
 
 const VALIDATION_PATTERNS = {
   date: /\d\d\d\d-\d\d-\d\d/,
@@ -206,38 +206,72 @@ function tuneFileInput (fileInput) {
   fileInput.isTunedByEHTML = true
 }
 
+function dispatchFileReadEvent (fileInput, type, detail = {}) {
+  fileInput.dispatchEvent(new CustomEvent(type, {
+    bubbles: true,
+    detail
+  }))
+}
+
 function readFilesContentForRequestBody (fileInput, readProgressBar) {
+  if (!fileInput.files || fileInput.files.length === 0) {
+    fileInput.filesInfo = undefined
+    dispatchFileReadEvent(fileInput, 'ehtml:file-read-cleared')
+    return
+  }
+
   fileInput.filesInfo = []
   const filesRead = { count: 0 }
-  for (let index = 0; index < fileInput.files.length; index++) {
+  const filesLength = fileInput.files.length
+  for (let index = 0; index < filesLength; index++) {
     readFileContentForRequestBody(
       fileInput,
       readProgressBar,
       index,
       filesRead,
-      fileInput.files.length
+      filesLength
     )
   }
 }
 
 function readFileContentForRequestBody (fileInput, readProgressBar, index, filesRead, filesLength) {
   const file = fileInput.files[index]
+  const fileName = file.name
+  dispatchFileReadEvent(fileInput, 'ehtml:file-read-start', {
+    fileName,
+    index,
+    total: filesLength
+  })
+
   const reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = () => {
-    fileInput.filesInfo[index] = {
+    const fileInfo = {
       name: file.name,
       size: file.size,
       type: file.type,
       content: reader.result,
       lastModifiedDate: file.lastModifiedDate
     }
+    fileInput.filesInfo[index] = fileInfo
+    dispatchFileReadEvent(fileInput, 'ehtml:file-read-end', {
+      fileName,
+      index,
+      fileInfo
+    })
   }
   reader.onprogress = (event) => {
-    if (event.lengthComputable && readProgressBar) {
-      readProgressBar.style.display = ''
-      const percentComplete = parseInt((event.loaded / event.total) * 100)
-      readProgressBar.value = percentComplete
+    if (event.lengthComputable) {
+      const percentage = parseInt((event.loaded / event.total) * 100)
+      if (readProgressBar) {
+        readProgressBar.style.display = ''
+        readProgressBar.value = percentage
+      }
+      dispatchFileReadEvent(fileInput, 'ehtml:file-read-progress', {
+        fileName,
+        index,
+        percentage
+      })
     }
   }
   reader.onloadend = () => {
@@ -249,9 +283,18 @@ function readFileContentForRequestBody (fileInput, readProgressBar, index, files
         readProgressBar.value = 0
       }
     }
+    if (filesRead.count === filesLength) {
+      dispatchFileReadEvent(fileInput, 'ehtml:files-read-complete', {
+        total: filesLength
+      })
+    }
   }
   reader.onerror = function () {
-    throw new Error(`cound not read file ${file.name}`)
+    dispatchFileReadEvent(fileInput, 'ehtml:file-read-error', {
+      fileName,
+      index,
+      error: reader.error
+    })
   }
 }
 

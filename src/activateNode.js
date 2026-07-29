@@ -1,8 +1,8 @@
-import isCustomElement from '#ehtml/isCustomElement.js'
-import processAttributes from '#ehtml/processAttributes.js'
-import shouldSkipNode from '#ehtml/shouldSkipNode.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import isCustomElement from '#ehtml/isCustomElement.js?v=5ba03e12'
+import processAttributes from '#ehtml/processAttributes.js?v=3cb64fbd'
+import shouldSkipNode from '#ehtml/shouldSkipNode.js?v=409a53f8'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=92fb4b22'
 
 export default function activateNode(node) {
 
@@ -74,7 +74,11 @@ export default function activateNode(node) {
     }
   }
 
-  // 4. Activate children (only one level deep)
+  // 4. Activate children — never walk inert <template> contents
+  if (node.tagName === 'TEMPLATE') {
+    return
+  }
+
   if (node.childNodes) {
     for (const child of node.childNodes) {
       activateNode(child)

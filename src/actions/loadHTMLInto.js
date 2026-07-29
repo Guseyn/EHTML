@@ -1,5 +1,5 @@
-import elm from '#ehtml/elm.js'
-import ajax from '#ehtml/ajax.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import ajax from '#ehtml/ajax.js?v=b4193065'
 
 export default function loadHTMLInto (elmSelectorOrElm, url, headers) {
   ajax({

@@ -1,4 +1,4 @@
-import scrollToHash from '#ehtml/actions/scrollToHash.js'
+import scrollToHash from '#ehtml/actions/scrollToHash.js?v=e7d61ab5'
 
 export default class EPageWithUrl extends HTMLTemplateElement {
   constructor() {

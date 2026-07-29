@@ -1,5 +1,5 @@
-import setNodeScopedState from '#ehtml/setNodeScopedState.js'
-import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js'
+import setNodeScopedState from '#ehtml/setNodeScopedState.js?v=e54b7ee2'
+import evaluatedValueWithParamsFromState from '#ehtml/evaluatedValueWithParamsFromState.js?v=064dce21'
 
 export default function templateTriggerEventListener(template, state) {
   const contentNode = document.importNode(template.content, true)

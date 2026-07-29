@@ -1,4 +1,4 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
 
 export default function setNodeScopedState(node, state) {
   if (!node || typeof node !== 'object') {

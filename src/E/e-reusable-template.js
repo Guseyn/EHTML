@@ -1,4 +1,4 @@
-import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js'
+import templateTriggerEventListener from '#ehtml/templateTriggerEventListener.js?v=92fb4b22'
 
 export default class EReusableTemplate extends HTMLTemplateElement {
   constructor() {

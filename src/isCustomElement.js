@@ -30,15 +30,13 @@
  *      built-ins (notably iOS Safari).
  * ════════════════════════════════════════════════════════════════════════ */
 export default function isCustomElement(el) {
-  /*
-   * Skip all non-element nodes (text, comments, fragments, etc.)
+  /* * Skip all non-element nodes (text, comments, fragments, etc.)
    */
   if (!(el instanceof Element)) {
     return false
   }
 
-  /*
-   * Autonomous custom elements:
+  /* * Autonomous custom elements:
    * Their tag name is the registered custom element type.
    */
   const tagName = el.tagName.toLowerCase()
@@ -46,8 +44,7 @@ export default function isCustomElement(el) {
     return true
   }
 
-  /*
-   * Customized built-in elements:
+  /* * Customized built-in elements:
    * They declare their custom element type via the "is" attribute.
    *
    * Example:
@@ -64,8 +61,7 @@ export default function isCustomElement(el) {
     }
   }
 
-  /*
-   * No matching custom element definition was found.
+  /* * No matching custom element definition was found.
    */
   return false
 }

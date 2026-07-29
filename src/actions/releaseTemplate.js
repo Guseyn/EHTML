@@ -1,6 +1,6 @@
-import elm from '#ehtml/elm.js'
-import isTemplate from '#ehtml/isTemplate.js'
-import isTemplateWithType from '#ehtml/isTemplateWithType.js'
+import elm from '#ehtml/elm.js?v=41b9eaba'
+import isTemplate from '#ehtml/isTemplate.js?v=e3182ac2'
+import isTemplateWithType from '#ehtml/isTemplateWithType.js?v=32c9a935'
 
 export default function releaseTemplate(elmSelectorOrElm) {
   const element = elm(elmSelectorOrElm)
@@ -24,7 +24,7 @@ export default function releaseTemplate(elmSelectorOrElm) {
     )
   }
 
-  // ✔ New state model:
+  // New state model:
   //   releaseTemplate just triggers the template with an *empty state patch*
   //
   //   The template (via templateTriggerEventListener)
