@@ -1,4 +1,4 @@
-# Release 3.0.20
+# Release 3.0.21
 
-708e3cf update version in package.json to 3.0.20 (guseyn, Sun Jul 19 00:44:31 2026 +0400)
-c19bd49 remove old legacy unused actions (guseyn, Sun Jul 19 00:44:27 2026 +0400)
+b952ed5 update version in package.json to 3.0.21 (guseyn, Wed Jul 29 20:32:04 2026 +0400)
+8a4b080 some improvements, including for emitting read file events in e-form (guseyn, Wed Jul 29 20:31:59 2026 +0400)
