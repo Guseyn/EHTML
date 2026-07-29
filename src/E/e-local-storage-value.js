@@ -1,5 +1,5 @@
-import getNodeScopedState from '#ehtml/getNodeScopedState.js?v=41ab2bfa'
-import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js?v=6d32193e'
+import getNodeScopedState from '#ehtml/getNodeScopedState.js'
+import evaluatedStringWithParamsFromState from '#ehtml/evaluatedStringWithParamsFromState.js'
 
 export default class ELocalStorageValue extends HTMLElement {
   constructor() {

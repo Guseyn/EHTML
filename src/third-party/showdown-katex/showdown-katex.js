@@ -1,7 +1,7 @@
-import * as katex from '#ehtml/third-party/katex/katex.min.js?v=ea128365'
-import * as showdown from '#ehtml/third-party/showdown.min.js?v=8e1f0558'
-import asciimathToTex from '#ehtml/third-party/showdown-katex/asciimath-to-tex.min.js?v=c830a925'
-import renderMathInElement from '#ehtml/third-party/katex/auto-render.js?v=9a446a04'
+import * as katex from '#ehtml/third-party/katex/katex.min.js'
+import * as showdown from '#ehtml/third-party/showdown.min.js'
+import asciimathToTex from '#ehtml/third-party/showdown-katex/asciimath-to-tex.min.js'
+import renderMathInElement from '#ehtml/third-party/katex/auto-render.js'
 
 /**
  * @param {object} opts

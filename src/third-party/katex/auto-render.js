@@ -1,4 +1,4 @@
-import katex from '#ehtml/third-party/katex/katex.min.js?v=ea128365'
+import katex from '#ehtml/third-party/katex/katex.min.js'
 
 function findEndOfMath (delimiter, text, startIndex) {
   // Adapted from
